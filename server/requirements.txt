@@ -1,0 +1,13 @@
+# Direct dependencies of the humanplay helper server.
+# Installed into server/.venv with uv (see README for exact commands).
+#
+# torch is installed separately from the CPU-only wheel index to avoid the
+# multi-GB CUDA download:
+#     uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Maia-3 is pinned to the upstream commit reviewed for this project:
+maia3 @ git+https://github.com/CSSLab/maia3@1e13597c42d4858b7cfd7cfdae01e297263364b2
+fastapi
+uvicorn[standard]
+python-chess
+pytest
+httpx

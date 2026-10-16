@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local model / HF cache (if ever redirected into the repo)
+.hf-cache/
+*.pt
+
+# Node / extension build artifacts (Milestone 2+)
+node_modules/
+dist/
+build/
+*.zip
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Local scratch
+*.log
+/tmp/

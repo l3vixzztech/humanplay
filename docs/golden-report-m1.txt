@@ -1,0 +1,102 @@
+# Golden & observed outputs — Milestone 1 (Session 1)
+
+Generated with Maia3-5M @ self/oppo Elo 2400, temperature 0 (argmax), histories
+built with `--use-uci-history` semantics. Command: `cd server && .venv/bin/python tests/golden_report.py`.
+
+## Golden comparison: `maia_engine.predict()` vs real `maia3-uci` subprocess
+
+| case | UCI command | our predict() top-3 (uci:prob) | maia3-uci MultiPV top-3 (pv; cp; wdl win/draw/loss permille) | top-1 / top-3 match |
+|---|---|---|---|---|
+| startpos | `position startpos` | e2e4:0.4649, d2d4:0.3390, g1f3:0.0818 | e2e4 (cp 97; wdl 516/65/419), d2d4 (cp 106; wdl 519/68/413), g1f3 (cp 134; wdl 532/70/398) | yes |
+| castling | `position fen r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4` | e1g1:0.3310, d2d3:0.2603, c2c3:0.2490 | e1g1 (cp 58; wdl 495/68/437), d2d3 (cp 32; wdl 486/60/454), c2c3 (cp 91; wdl 517/57/426) | yes |
+| promotion | `position fen 6k1/1P6/8/8/8/8/8/6K1 w - - 0 1` | b7b8q:0.8955, b7b8r:0.0659, b7b8b:0.0130 | b7b8q (cp 793; wdl 797/199/4), b7b8r (cp 669; wdl 673/323/4), b7b8b (cp 93; wdl 105/883/12) | yes |
+| endgame | `position fen 8/8/8/8/8/2k5/6P1/4K3 w - - 0 1` | e1e2:0.7774, e1f2:0.1209, g2g4:0.0507 | e1e2 (cp 625; wdl 628/369/3), e1f2 (cp 466; wdl 472/522/6), g2g4 (cp 338; wdl 340/658/2) | yes |
+| middlegame | `position fen rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6` | c1g5:0.3429, c1e3:0.1455, f1c4:0.1225 | c1g5 (cp 111; wdl 524/63/413), c1e3 (cp 80; wdl 509/62/429), f1c4 (cp 125; wdl 531/63/406) | yes |
+| history: startpos + e2e4 e7e5 | `position startpos moves e2e4 e7e5` | g1f3:0.7835, b1c3:0.0826, f2f4:0.0504 | g1f3 (cp 83; wdl 507/69/424), b1c3 (cp 92; wdl 511/70/419), f2f4 (cp 93; wdl 520/53/427) | yes |
+
+Notes:
+- The CLI's per-candidate `wdl`/`cp` are for the position **after** each candidate move,
+  inverted back to the move-chooser's perspective (`maia3/uci.py: invert_wdl`); they are not
+  the same quantity as our `/analyze` `wdl` (current position, side-to-move perspective).
+- No mismatches were observed; move ordering matched exactly in all cases.
+
+## Observed `predict()` outputs (top-5, wdl) for the test positions
+
+```
+START  [~8-16 ms]
+  fen: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+  top5: e2e4:0.4649, d2d4:0.3390, g1f3:0.0818, c2c4:0.0604, b2b3:0.0138
+  wdl: win=0.4764 draw=0.0676 loss=0.4560
+
+CASTLING  (Italian, 1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5)
+  fen: r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4
+  top5: e1g1:0.3310, d2d3:0.2603, c2c3:0.2490, b1c3:0.0965, d2d4:0.0288
+  wdl: win=0.4558 draw=0.0625 loss=0.4817
+
+PROMOTION  (white pawn b7)
+  fen: 6k1/1P6/8/8/8/8/8/6K1 w - - 0 1
+  top5: b7b8q:0.8955, b7b8r:0.0659, b7b8b:0.0130, g1f2:0.0113, g1f1:0.0052
+  wdl: win=0.9945 draw=0.0055 loss=0.0000
+
+ENDGAME  (K+P vs K)
+  fen: 8/8/8/8/8/2k5/6P1/4K3 w - - 0 1
+  top5: e1e2:0.7774, e1f2:0.1209, g2g4:0.0507, g2g3:0.0283, e1d1:0.0197
+  wdl: win=0.8647 draw=0.1339 loss=0.0014
+
+MIDDLEGAME  (Sicilian Najdorf, 5...a6)
+  fen: rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6
+  top5: c1g5:0.3429, c1e3:0.1455, f1c4:0.1225, f1e2:0.0903, f2f3:0.0675
+  wdl: win=0.4630 draw=0.0591 loss=0.4779
+
+WINNING_BLACK_TO_MOVE  (black up a queen, black to move)
+  fen: 4k3/8/8/8/8/8/q7/4K3 b - - 0 1
+  top5: e8e7:0.3217, e8f7:0.1952, e8d7:0.1783, a2c2:0.0979, e8d8:0.0556
+  wdl: win=0.9807 draw=0.0191 loss=0.0003   <- win for the SIDE TO MOVE (black)
+
+WINNING_WHITE_TO_MOVE  (white up a queen, white to move)
+  fen: 4k3/8/8/8/8/8/Q7/4K3 w - - 0 1
+  top5: a2a7:0.6442, e1f2:0.0607, a2e6:0.0526, a2g8:0.0321, a2a8:0.0314
+  wdl: win=0.9795 draw=0.0204 loss=0.0001   <- win for the SIDE TO MOVE (white)
+```
+
+History planes actually matter (same resolved position, different inputs):
+
+```
+no-history  (fen after 1.e4 e5): g1f3:0.6081, b1c3:0.1477, f1c4:0.1362  wdl win .415/draw .094/loss .491
+with-history (startpos + e2e4 e7e5): g1f3:0.7835, b1c3:0.0826, f2f4:0.0504  wdl win .479/draw .070/loss .450
+```
+
+Terminal positions (rules, model not called): mate → `moves=[]`, `wdl loss=1.0`; stalemate → `moves=[]`, `wdl draw=1.0`.
+
+## API smoke test (live server, curl)
+
+```
+GET /health -> {"status":"ok","model":"maia3-5m"}
+
+POST /analyze {"fen":"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"}
+-> {"moves":[{"uci":"e2e4","san":"e4","prob":0.464864},
+             {"uci":"d2d4","san":"d4","prob":0.339048},
+             {"uci":"g1f3","san":"Nf3","prob":0.081763}],
+    "wdl":{"win":0.476414,"draw":0.067579,"loss":0.456007},
+    "model":"maia3-5m","elapsed_ms":13.8}
+
+POST /analyze {"fen":"...startpos...","moves":["e2e4","e7e5"],"top_k":3}
+-> {"moves":[{"uci":"g1f3","san":"Nf3","prob":0.783514},
+             {"uci":"b1c3","san":"Nc3","prob":0.082608},
+             {"uci":"f2f4","san":"f4","prob":0.050448}],
+    "wdl":{"win":0.479429,"draw":0.070189,"loss":0.450382},
+    "model":"maia3-5m","elapsed_ms":9.57}
+
+POST /analyze {"fen":"garbage"} -> HTTP 400 {"detail":"invalid FEN: 'garbage'"}
+```
+
+## Test suite
+
+```
+cd server && .venv/bin/python -m pytest tests -q
+52 passed in ~3 s
+```
+
+Includes the golden test module `tests/test_golden_uci.py`, which spawns the real
+`maia3-uci` as a subprocess (`--model maia3-5m --temperature 0 --elo 2400 --use-uci-history`)
+and asserts top-1 and top-3 ordering equality on all six cases above.
