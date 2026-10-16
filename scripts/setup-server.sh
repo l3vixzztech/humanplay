@@ -3,8 +3,9 @@
 #
 # Creates server/.venv with Python 3.12 (uv), installs the CPU-only PyTorch
 # wheel, the pinned Maia-3 package + the FastAPI stack, and pre-fetches the
-# Maia3-5M checkpoint (~20 MB) into the Hugging Face cache so the first server
-# start needs no network.
+# Maia-3 checkpoints into the Hugging Face cache so the first server start needs
+# no network: Maia3-5M (~20 MB, used by the test suite / fast option) and
+# Maia3-79M (~300 MB, the default runtime model — most accurate in the family).
 #
 # Safe to run again: uv reuses the existing venv and skips satisfied deps.
 #
@@ -49,8 +50,9 @@ uv pip install --python "$PYTHON_BIN" \
   "maia3 @ git+https://github.com/CSSLab/maia3@$MAIA3_COMMIT" \
   fastapi "uvicorn[standard]" python-chess pytest httpx
 
-echo "[4/4] pre-fetching the Maia3-5M checkpoint (Hugging Face cache)"
-"$VENV_DIR/bin/maia3-cache" --model maia3-5m
+echo "[4/4] pre-fetching the Maia3 checkpoints (Hugging Face cache)"
+"$VENV_DIR/bin/maia3-cache" --model maia3-5m   # test suite / fast option
+"$VENV_DIR/bin/maia3-cache" --model maia3-79m  # default runtime model (~300 MB)
 
 echo
 echo "setup complete. start the server with:"

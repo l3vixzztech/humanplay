@@ -1,5 +1,17 @@
 # humanplay — Release Notes
 
+## v1.0.4 — 2026-10-17 — Maia3-79M default + premove float-tolerance fix (server & scripts; extension unchanged at v1.0.3)
+
+- `scripts/run-server.sh` now runs the **79M** model by default — the most accurate in the
+  Maia-3 family (~300 MB; measured CPU numbers on this machine: `/analyze` 50–150 ms,
+  `/premove` 0.35–0.55 s, `/explain` 0.2–0.4 s, RSS ≈ 0.6 GB).
+  `HUMANPLAY_MODEL=maia3-5m scripts/run-server.sh` switches back; `setup-server.sh` pre-fetches
+  both checkpoints.
+- Fixes a premove selection bug the switch exposed: float noise (~1e-16) between two
+  *intended*-1.0 safeties let a guard-heavy candidate win over the real take-back
+  (`cxb5` → `cxd5`). Selection now compares at 6-decimal precision; the documented tie-break
+  order is unchanged. Regression-tested (`test_pick_best_is_float_tolerant`).
+
 ## v1.0.3 — 2026-10-17 — long games: automatic updates + true turn from the sliver list
 
 - **No more manual refreshing**: piece moves change element attributes (class/style) which the

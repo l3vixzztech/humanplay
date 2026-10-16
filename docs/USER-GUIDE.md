@@ -42,7 +42,7 @@ scripts/setup-server.sh
 
 This is a one-time setup; it needs [uv](https://docs.astral.sh/uv/) (a Python
 installer). It creates the environment, downloads the dependencies and the
-~20 MB model. Running it again later is safe.
+Maia-3 model checkpoints (5M + 79M). Running it again later is safe.
 
 ### 2.2 The extension
 
@@ -58,6 +58,19 @@ unzipped folder in step 4.)
 
 ---
 
+### 2.3 Choosing the model (optional)
+
+The server runs **Maia3-79M** by default — the most accurate model in the
+Maia-3 family (better human-move prediction than the smaller models; ~300 MB of
+disk; still fast: usually well under half a second per move on CPU). To use the
+smaller, faster model instead:
+
+```bash
+HUMANPLAY_MODEL=maia3-5m scripts/run-server.sh
+```
+
+The **Server chip** in the panel always shows which model is running.
+
 ## 3. First run
 
 1. **Start the server** (leave the terminal window open):
@@ -69,7 +82,7 @@ unzipped folder in step 4.)
 2. Open a game on chess.com (a **bot game** is the easiest way to try it).
 3. Click the **humanplay icon** in the Chrome toolbar (or the puzzle-piece icon
    → humanplay). The side panel opens on the right.
-4. The **Server** chip at the bottom should say *online · maia3-5m · v1.0.0*.
+4. The **Server** chip at the bottom should say *online · maia3-79m · v1.0.0*.
    The **chess.com game state** card should show your position, the move list
    and “you play white/black”.
 5. Leave the **Assistant** switch on (it is on by default).

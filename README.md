@@ -31,7 +31,11 @@ scripts/run-server.sh       # serves http://127.0.0.1:8765
 `setup-server.sh` needs [`uv`](https://docs.astral.sh/uv/) and Python 3.12
 (uv can fetch it). It creates `server/.venv`, installs the CPU-only PyTorch
 wheel, the pinned Maia-3 package and the server's dependencies, then
-pre-fetches the ~20 MB Maia3-5M checkpoint. Running it again is a no-op.
+pre-fetches the Maia-3 checkpoints (5M + 79M). Running it again is a no-op.
+
+**Model:** the server runs **Maia3-79M** by default — the most accurate model in
+the family (still comfortably fast on CPU: ~0.05–0.5 s per request). Switch with
+`HUMANPLAY_MODEL=maia3-5m scripts/run-server.sh` (smaller/faster).
 
 ### 2. Load the extension
 

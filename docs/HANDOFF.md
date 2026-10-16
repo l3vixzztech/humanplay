@@ -2,6 +2,26 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## v1.0.4 — M10: Maia3-79M default + premove tie-break float fix (server/scripts; extension unchanged)
+
+**Requested:** run the 79M model. Feasibility measured on this machine (CPU only): 79M loads
+fine, RSS ≈ 0.6 GB, `/analyze` 50–150 ms, `/premove` (top mode) 0.35–0.55 s, `/explain`
+0.2–0.4 s — well inside every client timeout (analyze 4 s / premove 5 s / explain 4 s), so **no
+extension change was needed** (extension stays v1.0.3). Checkpoint `UofTCSSLab/Maia3-79M`
+(~300 MB) cached.
+
+**Setup:** `scripts/run-server.sh` now defaults to `HUMANPLAY_MODEL=maia3-79m`
+(`HUMANPLAY_MODEL=maia3-5m scripts/run-server.sh` switches back); `scripts/setup-server.sh`
+pre-fetches 5M + 79M; README / USER-GUIDE (§2.3) / `server/README.md` (Model selection) document
+the choice and measured numbers; PROJECT.md locked decision updated.
+
+**Bug the switch exposed (fixed):** the premove selection compared raw floats — two *intended*
+1.0 safeties differing by ~1e-16 made the guard-heavy `cxb5` (fires 0.6 % of the time) beat the
+real take-back `cxd5` (fires 97.7 %). `_pick_best()` now compares at 6-decimal precision (the
+module's rounding), so near-equal safeties fall through to `safe_mass` per the documented order.
+Regression test `test_pick_best_is_float_tolerant`; **pytest 107 passed** (all 5M recorded
+expectations unchanged); live 79M re-check: `recommended=cxd5, safe_vs_all, safety 1.0` ✓.
+
 ## Hotfix v1.0.3 — M9.3: auto-refresh on attribute changes + absolute-ply turn (long games) 🚑
 
 **Reported live (after v1.0.2):** the panel only updated after pressing **Refresh state**, and a

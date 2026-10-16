@@ -57,9 +57,11 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 - **Full move history comes from chess.com's own move list.** This is a free
   upgrade over the pixel plan: the `/analyze` request can carry the exact UCI
   history, so Maia's history planes see the real game, not a reconstruction.
-- **Model**: Maia-3 5M params — repo <https://github.com/CSSLab/maia3>, weights
-  `UofTCSSLab/Maia3-5M` on Hugging Face. **AGPL-3.0**: it runs as a separate
-  local process/venv; its code is never copied into the extension.
+- **Model**: Maia-3 — repo <https://github.com/CSSLab/maia3>, weights on Hugging
+  Face (`UofTCSSLab/Maia3-5M` / `-23M` / `-79M`). The runtime default is
+  **maia3-79m** (most accurate; `HUMANPLAY_MODEL` overrides); the test suite
+  pins 5M. **AGPL-3.0**: it runs as a separate local process/venv; its code is
+  never copied into the extension.
 - **Server**: FastAPI on `127.0.0.1:8765`; the extension talks to it over HTTP.
 - **Default Elo**: self 2400, opponent 2400 ("strong human" preset), adjustable
   0–5000 (Maia-3's Elo range).

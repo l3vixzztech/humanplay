@@ -36,6 +36,7 @@ from premove_engine import (
     PREMOVE_DEFAULT_MIN_SAFETY,
     PREMOVE_DEFAULT_TOP_N,
     PREMOVE_MAX_TOP_N,
+    _pick_best,
     plan_premove,
 )
 
@@ -403,3 +404,28 @@ def test_premove_is_deterministic(engine):
     second = _plan(GUARD, top_n=5, min_safety=0.9, mode="top")
     for key in ("opponent", "recommended", "candidates", "excluded", "reason"):
         assert first[key] == second[key], key
+
+
+def test_pick_best_is_float_tolerant():
+    """Regression (79M switch, 2026-10-17): both safeties are *intended* to be
+    1.0 but differ by ~1e-16 in floats — the raw comparison picked the
+    guard-heavy candidate (safe mass 0.6%) over the useful take-back (97.7%).
+    Selection compares at 6-decimal precision, so near-equal safeties fall
+    through to the documented keys (safe_mass, min_prob, uci)."""
+    eligible = [
+        {
+            "safety": 0.9999999999999996,
+            "min_prob": 0.985,
+            "group": {"safe_mass": 0.9769, "uci": "c4d5", "san": "cxd5"},
+        },
+        {
+            "safety": 1.0,
+            "min_prob": 0.45,
+            "group": {"safe_mass": 0.0062, "uci": "c4b5", "san": "cxb5"},
+        },
+    ]
+    assert _pick_best(eligible)["group"]["uci"] == "c4d5", "float noise flipped the documented tie-break"
+
+    tie_a = {"safety": 1.0, "min_prob": 0.5, "group": {"safe_mass": 0.9, "uci": "a1a2", "san": "Ra2"}}
+    tie_b = {"safety": 1.0, "min_prob": 0.5, "group": {"safe_mass": 0.9, "uci": "b1b2", "san": "Rb2"}}
+    assert _pick_best([tie_b, tie_a])["group"]["uci"] == "b1b2", "final uci tie-break (max) must be deterministic"

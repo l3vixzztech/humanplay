@@ -1,7 +1,8 @@
 # humanplay — Maia-3 helper server
 
-Local FastAPI helper that wraps the **Maia-3 5M** human-move model (CSSLab, U of T)
-and answers the extension's requests over HTTP on `127.0.0.1:8765`:
+Local FastAPI helper that wraps the **Maia-3** human-move model (CSSLab, U of T —
+default **79M**, the most accurate in the family; 5M/23M available) and answers the
+extension's requests over HTTP on `127.0.0.1:8765`:
 `GET /health`, `POST /analyze` (top-k human moves + WDL), `POST /premove` (M7 —
 the premove planner: one safe queued reply, or an honest null) and `POST /explain`
 (M8 — the live-commentary facts for one played move: rules flags, material, the
@@ -36,8 +37,24 @@ uv pip install "maia3 @ git+https://github.com/CSSLab/maia3@1e13597c42d4858b7cfd
     fastapi "uvicorn[standard]" python-chess pytest httpx
 ```
 
-The Maia3-5M checkpoint (~20 MB) is downloaded from Hugging Face
-(`UofTCSSLab/Maia3-5M`) on the first model load and cached in `~/.cache/huggingface`.
+## Model selection
+
+`HUMANPLAY_MODEL` picks the model — default **maia3-79m**, the most accurate in
+the family (`maia3-5m` / `maia3-23m` are much smaller and faster):
+
+```bash
+scripts/run-server.sh                          # maia3-79m (default)
+HUMANPLAY_MODEL=maia3-5m scripts/run-server.sh # fast/small option
+```
+
+Checkpoints are downloaded from Hugging Face (`UofTCSSLab/Maia3-5M`,
+`…/Maia3-79M`) on first load and cached under `~/.cache/huggingface`.
+Measured on a Core Ultra 5 125H (CPU only): 79M ≈ 50–150 ms per `/analyze`,
+`/premove` (top mode) ≈ 0.35–0.55 s, `/explain` ≈ 0.2–0.4 s, RSS ≈ 0.6 GB.
+
+The test suite pins `maia3-5m` (conftest default + the `maia3-uci` golden
+comparison) so results stay fast and byte-stable, and every recorded expectation
+in `server/tests/` refers to 5M.
 Pre-fetch it without starting the server:
 
 ```bash

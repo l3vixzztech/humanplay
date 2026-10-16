@@ -216,6 +216,27 @@ def _recommended_detail(
     )
 
 
+def _pick_best(eligible: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Deterministic selection among eligible candidates at 6-decimal precision.
+
+    Regression (79M switch, 2026-10-17): the two safety sums of ``cxd5`` and
+    ``cxb5`` are both *intended* to be 1.0 but differ by ~1e-16 in floats — the
+    raw comparison then chose the guard-heavy ``cxb5`` (safe mass 0.6%) over the
+    useful take-back (safe mass 97.7%). Comparing rounded keys keeps the
+    documented tie-break (safety, safe_mass, min_response_prob, uci) intent
+    intact regardless of float noise.
+    """
+    return max(
+        eligible,
+        key=lambda item: (
+            _round6(item["safety"]),
+            _round6(item["group"]["safe_mass"]),
+            _round6(item["min_prob"]),
+            item["group"]["uci"],
+        ),
+    )
+
+
 def plan_premove(
     engine: MaiaEngine,
     fen: str,
@@ -395,16 +416,13 @@ def plan_premove(
             "min_prob": min(forced_group["_safe_probs"]),
         }
     elif eligible:
-        best = max(
-            eligible,
-            key=lambda item: (item["safety"], item["group"]["safe_mass"], item["min_prob"], item["group"]["uci"]),
-        )
+        best = _pick_best(eligible)
     else:
         best = None
 
     if best is not None:
         safety = best["safety"]
-        criterion = "forced" if forced else ("safe_vs_all" if safety >= 1.0 - _EPS else "robust")
+        criterion = "forced" if forced else ("safe_vs_all" if _round6(safety) >= 1.0 else "robust")
         best["entry"]["verdict"] = "recommended"
         if criterion == "forced":
             detail = (
@@ -440,8 +458,8 @@ def plan_premove(
         ranked = sorted(
             (
                 (
-                    group["safe_mass"] + group["guard_mass"],
-                    group["safe_mass"],
+                    _round6(group["safe_mass"] + group["guard_mass"]),
+                    _round6(group["safe_mass"]),
                     group["san"],
                     min(group["_safe_probs"]),
                 )
