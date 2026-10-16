@@ -1,6 +1,6 @@
 {
   "tool": "tts-proof.mjs",
-  "generatedAt": "2026-10-16T19:18:12.377Z",
+  "generatedAt": "2026-10-16T20:06:34.763Z",
   "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
   "extension": "/home/l3vixzz/Desktop/humanplay/extension",
   "launch": {
@@ -9,20 +9,21 @@
   },
   "checks": {
     "staticServer": {
-      "origin": "http://127.0.0.1:35943",
+      "origin": "http://127.0.0.1:36125",
       "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
     },
     "analysisServer": {
-      "mode": "stub (already running)",
+      "mode": "stub (spawned by the proof)",
       "health": {
         "status": "ok",
         "model": "fixture-static-server"
-      }
+      },
+      "pid": 850178
     },
     "manifest": {
       "path": "extension/manifest.json",
-      "sha256": "e45ab49c8c80c0a3a45efbde8c47bb35b23bd20b515bc7c611694111ebb54d0e",
-      "version": "0.5.0",
+      "sha256": "8993c87bec1cbda47202916ecd0d672610382db9664027e6210083f495976fde",
+      "version": "0.6.0",
       "permissions": [
         "activeTab",
         "storage",
@@ -44,28 +45,28 @@
       "hasAllUrls": false
     },
     "ttsFiles": {
-      "src/tts/move-speech.js": "990ecc3b657dc5392e18404c1d9b00f620ec6e1fcc1708e30d3e9395c6a38076",
-      "src/tts/tts-policy.js": "39832fdca603c2353ea0bf833346a7646a5907e3a1c589d228a623e90ddbc54f",
-      "src/tts/speaker.js": "7452d6839e3de01a794113b1452753f27572761aabf33cda693bb6b44ef7a473",
+      "src/tts/move-speech.js": "969aaca299f019f209d236a2afa2400e5968992e230e64bc671b91f236bd83cd",
+      "src/tts/tts-policy.js": "53ecd1ccece17ea3fb7f2ed7360a8dc98063609e06ad33aa2911e5bcee93369d",
+      "src/tts/speaker.js": "478301e1c0ccece9d3b2106fa29605edd495ed6fe5f5a63bea2d53efe293a547",
       "src/tts/tts-service.js": "9bf50990ca9fb7a114b4f00991b64afa528f7bbd722af548b639e54af2c92ca9",
-      "src/background/service-worker.js": "62755fb09bc236454cc2a6ebfbfd3da8b6f312fc418d73d8c09fc21aa4aefdd4",
-      "src/ui/sidepanel.js": "6401f7d8684deef007aecde118cd0e03060a5660449fcbe479d97de2c0f5e262",
-      "src/ui/sidepanel.html": "efea8fe29ce7c986ea01028cd8497e6fc78b221e885406fa4509c9f708c187f8"
+      "src/background/service-worker.js": "48088db4b9d4f594ae3bbd8ab6f98dc64a468f4363f0fead25cdc738afee7e80",
+      "src/ui/sidepanel.js": "5ee7b100738d61e4964479df3cca7b4e2abbf4017483f339e344888f2fa84928",
+      "src/ui/sidepanel.html": "12a787d52c15c9b7428cdcbfd077c396d0dc48e5a5ceffdd01289abd1145f0ae"
     },
     "manifestVariant": {
       "enabled": true,
-      "addedContentScriptMatch": "http://127.0.0.1:35943/*",
-      "addedWebAccessibleMatch": "http://127.0.0.1:35943/*",
-      "codeFilesCompared": 25,
+      "addedContentScriptMatch": "http://127.0.0.1:36125/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:36125/*",
+      "codeFilesCompared": 26,
       "codeFileMismatches": [],
       "codeIdentical": true
     },
-    "extensionId": "idofkddohdkpaoaipnkankcdndoodgol",
+    "extensionId": "lmiinkkfkmefkaabdelggmfdegfmdold",
     "browser": {
       "version": "Chrome/155.0.8059.84",
       "protocolVersion": "1.3"
     },
-    "serviceWorkerUrl": "chrome-extension://idofkddohdkpaoaipnkankcdndoodgol/src/background/service-worker.js",
+    "serviceWorkerUrl": "chrome-extension://lmiinkkfkmefkaabdelggmfdegfmdold/src/background/service-worker.js",
     "panelUi": {
       "elements": {
         "tts-enabled": true,
@@ -88,7 +89,7 @@
     "expectedNetworkErrors": [
       "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
-      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:35943/favicon.ico)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:36125/favicon.ico)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -220,7 +221,7 @@
         ],
         "note": null,
         "ok": true,
-        "at": "2026-10-16T19:18:25.113Z",
+        "at": "2026-10-16T20:07:02.776Z",
         "lastError": null
       },
       "note": "start/end events mean Chrome reached a speech backend; without one every utterance reports {type:\"error\"} and the record is still written (assertions do not depend on audio)."
@@ -228,24 +229,24 @@
     "finalTtsHook": {
       "engine": "chrome.tts",
       "scope": "service-worker",
-      "speakCount": 10,
-      "stopCount": 12,
+      "speakCount": 11,
+      "stopCount": 13,
       "speakFailCount": 0,
       "calls": [
         {
-          "at": "2026-10-16T19:18:13.049Z",
-          "atEpochMs": 1792178293049,
+          "at": "2026-10-16T20:06:50.590Z",
+          "atEpochMs": 1792181210590,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178293048
+          "stoppedAt": 1792181210590
         },
         {
-          "at": "2026-10-16T19:18:13.049Z",
-          "atEpochMs": 1792178293049,
+          "at": "2026-10-16T20:06:50.590Z",
+          "atEpochMs": 1792181210590,
           "kind": "speak",
           "text": "e-pawn to e4",
           "san": "e4",
@@ -262,19 +263,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:14.769Z",
-          "atEpochMs": 1792178294769,
+          "at": "2026-10-16T20:06:52.326Z",
+          "atEpochMs": 1792181212326,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178294769
+          "stoppedAt": 1792181212326
         },
         {
-          "at": "2026-10-16T19:18:14.769Z",
-          "atEpochMs": 1792178294769,
+          "at": "2026-10-16T20:06:52.326Z",
+          "atEpochMs": 1792181212326,
           "kind": "speak",
           "text": "Knight to c3",
           "san": "Nc3",
@@ -291,19 +292,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:15.743Z",
-          "atEpochMs": 1792178295743,
+          "at": "2026-10-16T20:06:53.274Z",
+          "atEpochMs": 1792181213274,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178295743
+          "stoppedAt": 1792181213274
         },
         {
-          "at": "2026-10-16T19:18:15.743Z",
-          "atEpochMs": 1792178295743,
+          "at": "2026-10-16T20:06:53.274Z",
+          "atEpochMs": 1792181213274,
           "kind": "speak",
           "text": "Knight to d5",
           "san": "Nd5",
@@ -320,30 +321,30 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:16.217Z",
-          "atEpochMs": 1792178296217,
+          "at": "2026-10-16T20:06:53.722Z",
+          "atEpochMs": 1792181213722,
           "kind": "stop",
           "reason": "toggle-off",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178296217
+          "stoppedAt": 1792181213722
         },
         {
-          "at": "2026-10-16T19:18:16.698Z",
-          "atEpochMs": 1792178296698,
+          "at": "2026-10-16T20:06:54.235Z",
+          "atEpochMs": 1792181214235,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178296698
+          "stoppedAt": 1792181214234
         },
         {
-          "at": "2026-10-16T19:18:16.699Z",
-          "atEpochMs": 1792178296699,
+          "at": "2026-10-16T20:06:54.235Z",
+          "atEpochMs": 1792181214235,
           "kind": "speak",
           "text": "Knight to d5",
           "san": "Nd5",
@@ -360,19 +361,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:17.511Z",
-          "atEpochMs": 1792178297511,
+          "at": "2026-10-16T20:06:55.047Z",
+          "atEpochMs": 1792181215047,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178297511
+          "stoppedAt": 1792181215047
         },
         {
-          "at": "2026-10-16T19:18:17.511Z",
-          "atEpochMs": 1792178297511,
+          "at": "2026-10-16T20:06:55.048Z",
+          "atEpochMs": 1792181215048,
           "kind": "speak",
           "text": "Knight to g5",
           "san": "Ng5",
@@ -389,19 +390,48 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:21.553Z",
-          "atEpochMs": 1792178301553,
+          "at": "2026-10-16T20:06:56.380Z",
+          "atEpochMs": 1792181216380,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178301553
+          "stoppedAt": 1792181216380
         },
         {
-          "at": "2026-10-16T19:18:21.553Z",
-          "atEpochMs": 1792178301553,
+          "at": "2026-10-16T20:06:56.381Z",
+          "atEpochMs": 1792181216381,
+          "kind": "speak",
+          "text": "premove c-pawn takes d4",
+          "san": "cxd4",
+          "uci": "c5d4",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top",
+          "reason": "premove",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T20:06:59.109Z",
+          "atEpochMs": 1792181219109,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792181219109
+        },
+        {
+          "at": "2026-10-16T20:06:59.109Z",
+          "atEpochMs": 1792181219109,
           "kind": "speak",
           "text": "a-rook to d1",
           "san": "Rad1",
@@ -418,19 +448,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:22.328Z",
-          "atEpochMs": 1792178302328,
+          "at": "2026-10-16T20:06:59.887Z",
+          "atEpochMs": 1792181219887,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178302328
+          "stoppedAt": 1792181219887
         },
         {
-          "at": "2026-10-16T19:18:22.328Z",
-          "atEpochMs": 1792178302328,
+          "at": "2026-10-16T20:06:59.887Z",
+          "atEpochMs": 1792181219887,
           "kind": "speak",
           "text": "Queen to d2",
           "san": "Qd2",
@@ -447,30 +477,30 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:23.471Z",
-          "atEpochMs": 1792178303471,
+          "at": "2026-10-16T20:07:01.134Z",
+          "atEpochMs": 1792181221134,
           "kind": "stop",
           "reason": "toggle-off",
           "source": "hotkey",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178303471
+          "stoppedAt": 1792181221134
         },
         {
-          "at": "2026-10-16T19:18:24.266Z",
-          "atEpochMs": 1792178304266,
+          "at": "2026-10-16T20:07:01.936Z",
+          "atEpochMs": 1792181221936,
           "kind": "stop",
           "reason": "before-speak",
           "source": "hotkey",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178304266
+          "stoppedAt": 1792181221936
         },
         {
-          "at": "2026-10-16T19:18:24.266Z",
-          "atEpochMs": 1792178304266,
+          "at": "2026-10-16T20:07:01.936Z",
+          "atEpochMs": 1792181221936,
           "kind": "speak",
           "text": "Queen to d2",
           "san": "Qd2",
@@ -487,19 +517,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:24.921Z",
-          "atEpochMs": 1792178304921,
+          "at": "2026-10-16T20:07:02.597Z",
+          "atEpochMs": 1792181222597,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel-test",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178304921
+          "stoppedAt": 1792181222597
         },
         {
-          "at": "2026-10-16T19:18:24.921Z",
-          "atEpochMs": 1792178304921,
+          "at": "2026-10-16T20:07:02.597Z",
+          "atEpochMs": 1792181222597,
           "kind": "speak",
           "text": "Knight to f3",
           "san": null,
@@ -516,19 +546,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T19:18:26.913Z",
-          "atEpochMs": 1792178306913,
+          "at": "2026-10-16T20:07:04.470Z",
+          "atEpochMs": 1792181224470,
           "kind": "stop",
           "reason": "before-speak",
           "source": "content-script",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792178306913
+          "stoppedAt": 1792181224470
         },
         {
-          "at": "2026-10-16T19:18:26.913Z",
-          "atEpochMs": 1792178306913,
+          "at": "2026-10-16T20:07:04.470Z",
+          "atEpochMs": 1792181224470,
           "kind": "speak",
           "text": "Knight to f3",
           "san": "Nf3",
@@ -561,7 +591,7 @@
         "decision": {
           "speak": false,
           "reason": "no-suggestion",
-          "at": 1792178292834,
+          "at": 1792181210307,
           "trigger": "toggle-on",
           "source": "panel",
           "force": true,
@@ -571,7 +601,7 @@
           {
             "speak": false,
             "reason": "no-suggestion",
-            "at": 1792178292834,
+            "at": 1792181210307,
             "trigger": "toggle-on",
             "source": "panel",
             "force": true,
@@ -607,8 +637,8 @@
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
       },
       "speak": {
-        "at": "2026-10-16T19:18:13.049Z",
-        "atEpochMs": 1792178293049,
+        "at": "2026-10-16T20:06:50.590Z",
+        "atEpochMs": 1792181210590,
         "kind": "speak",
         "text": "e-pawn to e4",
         "san": "e4",
@@ -631,7 +661,7 @@
           "speak": false,
           "reason": "duplicate",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-          "at": 1792178293049,
+          "at": 1792181210590,
           "trigger": "suggestion",
           "source": "panel",
           "force": false,
@@ -642,7 +672,7 @@
           {
             "speak": false,
             "reason": "no-suggestion",
-            "at": 1792178292834,
+            "at": 1792181210307,
             "trigger": "toggle-on",
             "source": "panel",
             "force": true,
@@ -652,7 +682,7 @@
             "speak": true,
             "reason": "speak",
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792178293047,
+            "at": 1792181210589,
             "trigger": "suggestion",
             "source": "panel",
             "force": false,
@@ -663,7 +693,7 @@
             "speak": true,
             "reason": "speak",
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792178293047,
+            "at": 1792181210589,
             "trigger": "suggestion",
             "source": "panel",
             "force": false,
@@ -674,7 +704,7 @@
             "speak": false,
             "reason": "duplicate",
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792178293047,
+            "at": 1792181210590,
             "trigger": "suggestion",
             "source": "panel",
             "force": false,
@@ -685,7 +715,7 @@
             "speak": false,
             "reason": "duplicate",
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792178293049,
+            "at": 1792181210590,
             "trigger": "suggestion",
             "source": "panel",
             "force": false,
@@ -705,11 +735,11 @@
             "ok": true,
             "engine": "chrome.tts",
             "text": "e-pawn to e4",
-            "issuedAt": "2026-10-16T19:18:13.049Z",
-            "issuedAtEpochMs": 1792178293049,
+            "issuedAt": "2026-10-16T20:06:50.590Z",
+            "issuedAtEpochMs": 1792181210590,
             "stopBefore": {
               "ok": true,
-              "stoppedAt": "2026-10-16T19:18:13.049Z",
+              "stoppedAt": "2026-10-16T20:06:50.590Z",
               "reason": "before-speak"
             },
             "error": null
@@ -741,7 +771,7 @@
           "historyUsed": 0,
           "model": "maia3-5m",
           "elapsed_ms": 15.36,
-          "roundTripMs": 4,
+          "roundTripMs": 2,
           "attempts": 1,
           "fromCache": true,
           "moves": [
@@ -888,25 +918,25 @@
         ],
         "note": null,
         "ok": true,
-        "at": "2026-10-16T19:18:13.045Z",
+        "at": "2026-10-16T20:06:50.586Z",
         "lastError": null
       },
       "stopBeforeSpeak": {
-        "at": "2026-10-16T19:18:13.049Z",
-        "atEpochMs": 1792178293049,
+        "at": "2026-10-16T20:06:50.590Z",
+        "atEpochMs": 1792181210590,
         "kind": "stop",
         "reason": "before-speak",
         "source": "panel",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792178293048
+        "stoppedAt": 1792181210590
       },
       "panelDecision": {
         "speak": false,
         "reason": "duplicate",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792178293049,
+        "at": 1792181210590,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -917,8 +947,8 @@
       "ttsEvents": [
         {
           "type": "start",
-          "at": "2026-10-16T19:18:13.092Z",
-          "atEpochMs": 1792178293092,
+          "at": "2026-10-16T20:06:50.631Z",
+          "atEpochMs": 1792181210631,
           "text": "e-pawn to e4",
           "errorMessage": null
         }
@@ -936,7 +966,7 @@
         "speak": false,
         "reason": "duplicate",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792178294453,
+        "at": 1792181212011,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -959,18 +989,18 @@
         "text": "Knight to d5",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3"
       },
-      "mutationToSpeakMs": 881,
+      "mutationToSpeakMs": 859,
       "delayMs": 700,
       "stopBeforeSpeak": {
-        "at": "2026-10-16T19:18:15.743Z",
-        "atEpochMs": 1792178295743,
+        "at": "2026-10-16T20:06:53.274Z",
+        "atEpochMs": 1792181213274,
         "kind": "stop",
         "reason": "before-speak",
         "source": "panel",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792178295743
+        "stoppedAt": 1792181213274
       },
       "speaksForNewKey": 1
     },
@@ -982,19 +1012,19 @@
         "test/fixtures/captures/tts/tts-middlegame-on-again.png"
       ],
       "toggleOffStop": {
-        "at": "2026-10-16T19:18:16.217Z",
-        "atEpochMs": 1792178296217,
+        "at": "2026-10-16T20:06:53.722Z",
+        "atEpochMs": 1792181213722,
         "kind": "stop",
         "reason": "toggle-off",
         "source": "panel",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792178296217
+        "stoppedAt": 1792181213722
       },
       "toggleOnSpeak": {
-        "at": "2026-10-16T19:18:16.699Z",
-        "atEpochMs": 1792178296699,
+        "at": "2026-10-16T20:06:54.235Z",
+        "atEpochMs": 1792181214235,
         "kind": "speak",
         "text": "Knight to d5",
         "san": "Nd5",
@@ -1015,7 +1045,7 @@
           "speak": true,
           "reason": "forced",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
-          "at": 1792178296698,
+          "at": 1792181214234,
           "trigger": "toggle-on",
           "source": "panel",
           "force": true,
@@ -1033,12 +1063,12 @@
       "screenshots": [],
       "staleKey": "e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
       "staleMutations": {
-        "p3At": 1792178297185,
-        "p4At": 1792178297354
+        "p3At": 1792181214721,
+        "p4At": 1792181214889
       },
       "fastSpeak": {
-        "at": "2026-10-16T19:18:17.511Z",
-        "atEpochMs": 1792178297511,
+        "at": "2026-10-16T20:06:55.048Z",
+        "atEpochMs": 1792181215048,
         "kind": "speak",
         "text": "Knight to g5",
         "san": "Ng5",
@@ -1059,8 +1089,8 @@
       "staleDiscardsAfter": 1,
       "speaksForFastKey": 1,
       "lastSpeak": {
-        "at": "2026-10-16T19:18:17.511Z",
-        "atEpochMs": 1792178297511,
+        "at": "2026-10-16T20:06:55.048Z",
+        "atEpochMs": 1792181215048,
         "kind": "speak",
         "text": "Knight to g5",
         "san": "Ng5",
@@ -1076,7 +1106,7 @@
         "ok": true,
         "error": null
       },
-      "fastLatencyMs": 157
+      "fastLatencyMs": 159
     },
     "tts-clear-cases": {
       "pass": true,
@@ -1095,7 +1125,7 @@
           "speak": false,
           "reason": "not-your-turn",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3",
-          "at": 1792178299602,
+          "at": 1792181217175,
           "trigger": "suggestion",
           "source": "panel",
           "force": false,
@@ -1144,7 +1174,7 @@
           "speak": false,
           "reason": "no-suggestion",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 f1c4 b8c6 d1h5 g8f6 h5f7|2400|2400|3",
-          "at": 1792178302452,
+          "at": 1792181220006,
           "trigger": "suggestion",
           "source": "panel",
           "force": false,
@@ -1227,8 +1257,8 @@
         },
         "badgeText": "TTS",
         "hotkeySpeak": {
-          "at": "2026-10-16T19:18:24.266Z",
-          "atEpochMs": 1792178304266,
+          "at": "2026-10-16T20:07:01.936Z",
+          "atEpochMs": 1792181221936,
           "kind": "speak",
           "text": "Queen to d2",
           "san": "Qd2",
@@ -1249,7 +1279,7 @@
         "text": "TTS",
         "backgroundColor": "#2f6f4f",
         "textColor": "#ffffff",
-        "updatedAt": "2026-10-16T19:18:24.265Z",
+        "updatedAt": "2026-10-16T20:07:01.935Z",
         "error": null
       }
     },
@@ -1378,7 +1408,7 @@
         ],
         "note": null,
         "ok": true,
-        "at": "2026-10-16T19:18:15.740Z",
+        "at": "2026-10-16T20:06:52.729Z",
         "lastError": null
       },
       "panelVoices": {
@@ -1387,8 +1417,8 @@
         "noteText": ""
       },
       "testSpeak": {
-        "at": "2026-10-16T19:18:24.921Z",
-        "atEpochMs": 1792178304921,
+        "at": "2026-10-16T20:07:02.597Z",
+        "atEpochMs": 1792181222597,
         "kind": "speak",
         "text": "Knight to f3",
         "san": null,
@@ -1418,7 +1448,7 @@
         },
         {
           "type": "TAB",
-          "url": "chrome-extension://idofkddohdkpaoaipnkankcdndoodgol/src/ui/sidepanel.html"
+          "url": "chrome-extension://lmiinkkfkmefkaabdelggmfdegfmdold/src/ui/sidepanel.html"
         }
       ],
       "contextsAfterClose": [
@@ -1431,9 +1461,9 @@
         "ok": true,
         "turn": "b",
         "moves": 1,
-        "tabId": 36742485,
-        "at": "2026-10-16T19:18:26.857Z",
-        "atEpochMs": 1792178306857
+        "tabId": 147231558,
+        "at": "2026-10-16T20:07:04.415Z",
+        "atEpochMs": 1792181224415
       },
       "speaksWhilePanelClosed": 0,
       "panelClosedSpeak": {
@@ -1441,18 +1471,18 @@
           "ok": true,
           "engine": "chrome.tts",
           "text": "Knight to f3",
-          "issuedAt": "2026-10-16T19:18:26.913Z",
-          "issuedAtEpochMs": 1792178306913,
+          "issuedAt": "2026-10-16T20:07:04.470Z",
+          "issuedAtEpochMs": 1792181224470,
           "stopBefore": {
             "ok": true,
-            "stoppedAt": "2026-10-16T19:18:26.913Z",
+            "stoppedAt": "2026-10-16T20:07:04.470Z",
             "reason": "before-speak"
           },
           "error": null
         },
         "call": {
-          "at": "2026-10-16T19:18:26.913Z",
-          "atEpochMs": 1792178306913,
+          "at": "2026-10-16T20:07:04.470Z",
+          "atEpochMs": 1792181224470,
           "kind": "speak",
           "text": "Knight to f3",
           "san": "Nf3",
@@ -1470,15 +1500,15 @@
         }
       },
       "stopAfterPanelClosed": {
-        "at": "2026-10-16T19:18:26.913Z",
-        "atEpochMs": 1792178306913,
+        "at": "2026-10-16T20:07:04.470Z",
+        "atEpochMs": 1792181224470,
         "kind": "stop",
         "reason": "before-speak",
         "source": "content-script",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792178306913
+        "stoppedAt": 1792181224470
       },
       "hotkeyWithPanelClosed": {
         "off": {
@@ -1508,12 +1538,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/startpos.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/startpos.html)"
       },
       {
         "bucket": "error",
@@ -1523,7 +1553,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:35943/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:36125/favicon.ico)"
       },
       {
         "bucket": "info",
@@ -1538,12 +1568,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
       },
       {
         "bucket": "info",
@@ -1553,7 +1578,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
       },
       {
         "bucket": "info",
@@ -1568,32 +1593,27 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=state"
       },
       {
         "bucket": "info",
@@ -1608,12 +1628,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -1628,7 +1643,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=state"
       },
       {
         "bucket": "info",
@@ -1643,12 +1663,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -1663,7 +1678,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=state"
       },
       {
         "bucket": "info",
@@ -1678,17 +1698,32 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "error",
@@ -1723,22 +1758,22 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
       },
       {
         "bucket": "info",
@@ -1763,7 +1798,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -1793,7 +1828,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -1803,12 +1838,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/flipped-black.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/flipped-black.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/flipped-black.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/flipped-black.html)"
       },
       {
         "bucket": "error",
@@ -1828,7 +1863,52 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top uci=c5d4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top uci=c5d4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top uci=c5d4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=suggestion-cleared:panel:analyzing"
       },
       {
         "bucket": "info",
@@ -1838,27 +1918,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=c5d4 arrows=2 flipped=true rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=board-resize"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay clear reason=panel:assistant-off"
       },
       {
         "bucket": "info",
@@ -1878,12 +1943,17 @@
       {
         "bucket": "info",
         "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
         "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6|2400|2400|3 moves=1 topN=1"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -1918,17 +1988,17 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "error",
@@ -1973,7 +2043,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=state"
       },
       {
         "bucket": "info",
@@ -1988,7 +2058,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -2003,32 +2073,17 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=state"
       },
       {
         "bucket": "info",
@@ -2043,12 +2098,27 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
       },
       {
         "bucket": "info",
@@ -2078,7 +2148,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:35943/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:36125/favicon.ico)"
       },
       {
         "bucket": "error",

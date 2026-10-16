@@ -10,7 +10,7 @@
     "h3",
     "c3"
   ],
-  "meta": "model maia3-5m · engine 10.6 ms · round-trip 1.0 ms · board only · no history · ui 33.7 ms",
+  "meta": "model maia3-5m · engine 10.6 ms · round-trip 2.0 ms · board only · no history · ui 33.8 ms",
   "mode": "board-only",
   "historyUsed": 0
 }

@@ -5,6 +5,9 @@ Endpoints
 GET  /health   -> {"status", "model"}
 POST /analyze  -> {"moves": [{"uci", "san", "prob"}], "wdl": {"win", "draw", "loss"},
                    "model", "elapsed_ms"}
+POST /premove  -> {"opponent": [...], "recommended": null | {...}, "candidates": [...],
+                   "excluded": [...], "reason", "params", "timings_ms", "model",
+                   "elapsed_ms"}   (M7 premove planner — see premove_engine.py)
 
 Binds 127.0.0.1:8765 by default (see README / run instructions). CORS is
 permissive for local dev only: localhost/127.0.0.1 origins and
@@ -20,7 +23,7 @@ from __future__ import annotations
 import logging
 import time
 from contextlib import asynccontextmanager
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,6 +38,15 @@ from maia_engine import (
     MAX_TOP_K,
     EngineInputError,
     get_engine,
+)
+from premove_engine import (
+    PREMOVE_DEFAULT_MIN_SAFETY,
+    PREMOVE_DEFAULT_MODE,
+    PREMOVE_DEFAULT_TOP_N,
+    PREMOVE_MAX_TOP_N,
+    PREMOVE_MIN_TOP_N,
+    PREMOVE_MODES,
+    plan_premove,
 )
 
 log = logging.getLogger("humanplay.server")
@@ -102,6 +114,120 @@ class HealthResponse(BaseModel):
     model: str
 
 
+# --------------------------------------------------------------- M7 /premove
+
+
+class PremoveRequest(BaseModel):
+    fen: str = Field(
+        ...,
+        min_length=1,
+        description=(
+            "Base position FEN. When 'moves' is given they are applied on top of it "
+            "(UCI 'position fen <fen> moves ...' semantics). The resolved position must "
+            "have the OPPONENT to move (the planner predicts their moves and our premove)."
+        ),
+        examples=["rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2"],
+    )
+    moves: Optional[List[str]] = Field(
+        None,
+        description="Optional UCI move history applied to 'fen' (same semantics as /analyze).",
+        examples=[["e2e4", "e7e5"]],
+    )
+    elo_self: int = Field(
+        DEFAULT_ELO_SELF,
+        description=(
+            "Elo of YOU (the premover) — used for the reply predictions after each candidate. "
+            "Clamped to 0..5000 (the model's trained range), not rejected."
+        ),
+    )
+    elo_oppo: int = Field(
+        DEFAULT_ELO_OPPO,
+        description=(
+            "Elo of the OPPONENT — used for the candidate distribution of their moves. "
+            "Clamped to 0..5000, not rejected."
+        ),
+    )
+    top_n: int = Field(
+        PREMOVE_DEFAULT_TOP_N,
+        description=(
+            f"mode='top': how many of the opponent's most likely moves are considered "
+            f"(clamped {PREMOVE_MIN_TOP_N}..{PREMOVE_MAX_TOP_N}). Default {PREMOVE_DEFAULT_TOP_N}. "
+            "mode='all' ignores it (every legal move is evaluated)."
+        ),
+    )
+    min_safety: float = Field(
+        PREMOVE_DEFAULT_MIN_SAFETY,
+        description=(
+            "Required fraction of the considered opponent probability mass that must be "
+            "safe (our planned reply is also Maia's argmax, or the premove cannot fire). "
+            "Clamped 0.5..1.0. Default 0.90."
+        ),
+    )
+    mode: Literal["top", "all"] = Field(
+        PREMOVE_DEFAULT_MODE,
+        description=(
+            "'top' (default) evaluates Maia(elo_oppo)'s top_n moves with probabilities "
+            "renormalised over them (fast, ≤300 ms); 'all' evaluates every legal opponent move "
+            "(full Maia sweep, ≤1.5 s on this machine)."
+        ),
+    )
+
+
+class PremoveMoveOut(BaseModel):
+    uci: str
+    san: str
+    prob: float
+
+
+class PremoveRecommendedOut(BaseModel):
+    uci: str
+    san: str
+    criterion: Literal["forced", "safe_vs_all", "robust"]
+    safety: float
+    min_response_prob: float
+    detail: str
+
+
+class PremoveCandidateOut(BaseModel):
+    uci: str
+    san: str
+    safe_mass: float
+    guard_mass: float
+    min_response_prob: float
+    verdict: Literal["recommended", "not_safe", "below_floor", "no_safe_mass"]
+    why: str
+
+
+class PremoveExcludedOut(BaseModel):
+    uci: str
+    san: str
+    prob: float
+    reason: str
+
+
+class PremoveParamsOut(BaseModel):
+    elo_self: int
+    elo_oppo: int
+    top_n: int
+    min_safety: float
+    min_response_prob: float
+    mode: str
+
+
+class PremoveResponse(BaseModel):
+    fen: str
+    side_to_move: str
+    opponent: List[PremoveMoveOut]
+    recommended: Optional[PremoveRecommendedOut]
+    candidates: List[PremoveCandidateOut]
+    excluded: List[PremoveExcludedOut]
+    reason: Optional[str]
+    params: PremoveParamsOut
+    timings_ms: dict
+    model: str
+    elapsed_ms: float
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     # Warm up the model so the first /analyze is fast. A failure here (e.g. no
@@ -166,6 +292,35 @@ def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
         model=result["model"],
         elapsed_ms=elapsed_ms,
     )
+
+
+@app.post("/premove", response_model=PremoveResponse)
+def premove(request: PremoveRequest) -> PremoveResponse:
+    """Premove planner (M7): one safe reply to premove, or an honest null.
+
+    Deterministic criteria engine in `premove_engine.py` (reuses the same Maia-3
+    engine as /analyze; /analyze itself is untouched). Numeric request knobs are
+    clamped, so a stray value can never break the opponent's turn.
+    """
+    engine = get_engine()
+    try:
+        result = plan_premove(
+            engine,
+            request.fen,
+            moves=request.moves,
+            elo_self=request.elo_self,
+            elo_oppo=request.elo_oppo,
+            top_n=request.top_n,
+            min_safety=request.min_safety,
+            mode=request.mode,
+        )
+    except EngineInputError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:  # model download/load/backend failure
+        log.exception("premove failed")
+        raise HTTPException(status_code=503, detail=f"engine unavailable: {exc}") from exc
+
+    return PremoveResponse(**result)
 
 
 if __name__ == "__main__":

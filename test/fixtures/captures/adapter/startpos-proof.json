@@ -1,6 +1,6 @@
 {
   "slug": "startpos",
-  "url": "http://127.0.0.1:41809/chesscom/startpos.html",
+  "url": "http://127.0.0.1:38101/chesscom/startpos.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -16,9 +16,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:41809/chesscom/startpos.html",
+    "gameUrl": "http://127.0.0.1:38101/chesscom/startpos.html",
     "gameId": null,
-    "ts": "2026-10-16T19:11:50.034Z",
+    "ts": "2026-10-16T20:10:03.021Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,

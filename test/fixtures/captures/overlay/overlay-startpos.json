@@ -1,7 +1,7 @@
 {
   "pass": true,
   "failures": [],
-  "url": "http://127.0.0.1:45995/chesscom/startpos.html",
+  "url": "http://127.0.0.1:37071/chesscom/startpos.html",
   "canvas": {
     "display": "block",
     "position": "fixed",
@@ -78,7 +78,7 @@
     "messageType": "humanplay:suggestion",
     "response": {
       "ok": true,
-      "tabId": 659008115,
+      "tabId": 365658137,
       "response": {
         "ok": true,
         "accepted": 1,
@@ -86,7 +86,7 @@
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
       }
     },
-    "expectedTabId": 659008115,
+    "expectedTabId": 365658137,
     "lastError": null
   },
   "screenshots": [
@@ -99,6 +99,7 @@
     "reason": "suggestion",
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
     "topN": 1,
+    "premove": null,
     "flipped": false,
     "dpr": 1,
     "rect": [
@@ -111,6 +112,8 @@
       {
         "uci": "e2e4",
         "rank": 0,
+        "style": "solid",
+        "premove": false,
         "from": [
           333,
           513
@@ -126,7 +129,7 @@
       }
     ],
     "renderCount": 1,
-    "clearCount": 1,
-    "atEpochMs": 1792178282469
+    "clearCount": 2,
+    "atEpochMs": 1792181388077
   }
 }

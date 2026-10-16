@@ -5,13 +5,18 @@ extension milestones.
 
 ```
 fixtures/       offline fixture corpus (pages/, chesscom/, pages-png/, captures/)
-                — see fixtures/README.md and fixtures/chesscom/README.md
+                — see fixtures/README.md and fixtures/chesscom/README.md;
+                chesscom/premove-takeback.html is the M7 take-back fixture
+                (Benoni: their exd5 -> our cxd5 premove)
 tools/          dev/test drivers
   fixture_server.py    serves test/fixtures/ on 127.0.0.1:8765: stub /health,
-                       the side panel's snapshot intake AND canned /analyze
-                       responses + /debug/* control routes (M4)
-  collect-canned.py    re-records those canned /analyze responses from the REAL
-                       server into fixture_server.py + captures/analyze/
+                       the side panel's snapshot intake, canned /analyze (M4) AND
+                       canned /premove (M7) responses + /debug/* control routes
+                       (mode/delay/premove-delay/canned/canned-premove/reset/stats)
+  collect-canned.py    re-records those canned /analyze + /premove responses from
+                       the REAL server into fixture_server.py +
+                       captures/analyze/canned-report.json +
+                       captures/premove/canned-premove-report.json
   adapter-unit.mjs     zero-dep unit tests for the M3 adapter's pure logic
   adapter-proof.mjs    CDP end-to-end proof of the M3 DOM adapter (manifest variant)
   analyze-unit.mjs     zero-dep unit tests for the M4 analysis client (injected fetch)
@@ -32,6 +37,13 @@ tools/          dev/test drivers
                        PANEL-CLOSED case (speaker lives in the service worker);
                        --no-speech-backend reruns it without
                        --enable-speech-dispatcher (the no-voice branch)
+  premove-unit.mjs     zero-dep unit tests for the M7 premove client (injected
+                       fetch: key/dedupe/stale/error mapping) + the premove speech
+                       policy/text (premoveSpeakDecision, premoveSpeech)
+  premove-proof.mjs    CDP end-to-end proof of the M7 premove planner:
+                       --stub (fixture_server.py canned plans + DOM mutations for
+                       the forced/robust/no-safe/stale cases) and --real (panel ==
+                       curl /premove on the new premove-takeback fixture)
   capture-proof.mjs    CDP proof of the M2 capture/recorder pipeline
 groundtruth/    (planned, M3+) per-fixture known FENs, test-only ground truth
 manual/         (planned, M6+) manual end-to-end scripts
@@ -46,7 +58,7 @@ manual/         (planned, M6+) manual end-to-end scripts
 - Nothing here may import or bundle Maia-3 code (AGPL boundary).
 - The `/debug/*` routes of `fixture_server.py` are **test-only**; the shipped
   extension never calls them (the panel only uses `/health`, `/analyze`,
-  `/snapshot`).
+  `/premove`, `/snapshot`).
 
 ## Quick start
 
@@ -62,6 +74,7 @@ node test/tools/adapter-unit.mjs                         # 22 passed
 node test/tools/analyze-unit.mjs                         # 20 passed (injected fetch)
 node test/tools/overlay-unit.mjs                         # 13 passed (pure geometry)
 node test/tools/tts-unit.mjs                             # 12 passed (formatter + policy)
+node test/tools/premove-unit.mjs                         # 12 passed (client + premove policy/text)
 node test/tools/adapter-proof.mjs --chrome "$CHROME"
 node test/tools/analyze-proof.mjs --chrome "$CHROME"     # stub mode (spawns the stub)
 node test/tools/analyze-proof.mjs --chrome "$CHROME" --real   # needs the Maia server on 8765
@@ -69,6 +82,8 @@ node test/tools/overlay-proof.mjs --chrome "$CHROME"     # stub mode (spawns the
 node test/tools/overlay-proof.mjs --chrome "$CHROME" --real-page   # + real chess.com bonus
 node test/tools/tts-proof.mjs --chrome "$CHROME"         # stub mode, speech backend flag on
 node test/tools/tts-proof.mjs --chrome "$CHROME" --no-speech-backend --out-dir test/fixtures/captures/tts/no-backend
+node test/tools/premove-proof.mjs --chrome "$CHROME"     # stub mode (spawns the stub)
+node test/tools/premove-proof.mjs --chrome "$CHROME" --real   # needs the Maia server on 8765
 ```
 
 The proofs never touch the shipped manifest: they load a temporary copy whose
@@ -86,6 +101,14 @@ fixtures/captures/analyze/    M4: unit results, stub/real proofs, per-case JSONs
 fixtures/captures/overlay/    M5: unit results, overlay-proof.json + per-case JSONs,
                               screenshots of every board WITH arrows (incl. the
                               real-chess.com bonus shot real-chesscom-arrows.png)
+fixtures/captures/premove/    M7: unit results, premove-proof-stub.json + per-case
+                              JSONs (card per criterion, arrow endpoints, speech,
+                              stale race), premove-proof-real.json +
+                              real-takeback-equals-curl.json (panel == curl),
+                              panel cards (stub-takeback-card.png, …) and the
+                              dashed-arrow board shots (stub-takeback-arrow.png,
+                              stub-flipped-arrow.png, real-takeback-arrow.png),
+                              canned-premove-report.json (how the stub data was recorded)
 fixtures/captures/tts/        M6: unit results, tts-proof.json + per-case JSONs,
                               panel screenshots (TTS card on/off, voices line,
                               opponent's turn, game over, panel-closed board) and

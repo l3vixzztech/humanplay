@@ -1,0 +1,100 @@
+{
+  "slug": "premove-takeback",
+  "url": "http://127.0.0.1:38101/chesscom/premove-takeback.html",
+  "pass": true,
+  "failures": [],
+  "state": {
+    "ok": true,
+    "fen": "rnbqkb1r/pp1p1ppp/4pn2/2pP4/2P5/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 4",
+    "movesUci": [
+      "d2d4",
+      "g8f6",
+      "c2c4",
+      "c7c5",
+      "d4d5",
+      "e7e6",
+      "b1c3"
+    ],
+    "userColor": "white",
+    "flipped": false,
+    "boardRect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "gameUrl": "http://127.0.0.1:38101/chesscom/premove-takeback.html",
+    "gameId": null,
+    "ts": "2026-10-16T20:10:01.013Z",
+    "boardId": "board-single",
+    "boardTag": "wc-chess-board",
+    "boardInViewport": true,
+    "turn": "b",
+    "moveCount": 7,
+    "moveListCount": 7,
+    "positionSource": "piece-square-class",
+    "historySource": "move-list",
+    "historyStatus": "replayed",
+    "flippedSource": "board-class",
+    "userColorSource": "player-bottom-clock",
+    "sideToMoveSource": "default",
+    "boardStateAgrees": null,
+    "warnings": [],
+    "strategyLog": [
+      {
+        "strategy": "piece-square-class",
+        "ok": true,
+        "pieces": 32
+      }
+    ],
+    "sessionSeq": 0,
+    "resetDetected": false,
+    "adapterVersion": "m3.1"
+  },
+  "groundTruth": {
+    "fen": "rnbqkb1r/pp1p1ppp/4pn2/2pP4/2P5/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 4",
+    "movesUci": [
+      "d2d4",
+      "g8f6",
+      "c2c4",
+      "c7c5",
+      "d4d5",
+      "e7e6",
+      "b1c3"
+    ],
+    "userColor": "white",
+    "flipped": false,
+    "boardId": "board-single",
+    "rect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "viewport": {
+      "w": 1440,
+      "h": 757
+    },
+    "boardsOnPage": 3
+  },
+  "panel": {
+    "chip": "listening",
+    "chipClass": "chip chip-online",
+    "board": "#board-single · wc-chess-board",
+    "fen": "rnbqkb1r/pp1p1ppp/4pn2/2pP4/2P5/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 4",
+    "moves": "7 moves · replayed",
+    "turn": "black to move",
+    "color": "white (player-bottom-clock)",
+    "mismatchHidden": true
+  },
+  "rectErrors": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0
+  },
+  "trapBoards": 2,
+  "panelScreenshot": "test/fixtures/captures/adapter/premove-takeback-panel.png"
+}

@@ -123,7 +123,7 @@
     ],
     "note": null,
     "ok": true,
-    "at": "2026-10-16T19:18:15.740Z",
+    "at": "2026-10-16T20:06:52.729Z",
     "lastError": null
   },
   "panelVoices": {
@@ -132,8 +132,8 @@
     "noteText": ""
   },
   "testSpeak": {
-    "at": "2026-10-16T19:18:24.921Z",
-    "atEpochMs": 1792178304921,
+    "at": "2026-10-16T20:07:02.597Z",
+    "atEpochMs": 1792181222597,
     "kind": "speak",
     "text": "Knight to f3",
     "san": null,

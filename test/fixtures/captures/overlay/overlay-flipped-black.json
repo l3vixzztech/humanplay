@@ -3,10 +3,17 @@
   "failures": [],
   "waiting": {
     "gate": "waiting",
-    "overlayState": "cleared",
-    "reason": "panel:opponent-turn",
+    "overlayState": "shown",
+    "reason": "board-resize",
     "panelClearReason": "opponent-turn",
-    "arrows": 0
+    "arrows": 0,
+    "allArrows": [
+      {
+        "uci": "c5d4",
+        "style": "dashed",
+        "premove": true
+      }
+    ]
   },
   "geometry": {
     "truth": {
@@ -58,6 +65,18 @@
     "panelKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3",
     "overlayKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3"
   },
+  "suggestionArrows": [
+    {
+      "uci": "d2d4",
+      "style": "solid"
+    }
+  ],
+  "premoveCoexistence": [
+    {
+      "uci": "c5d4",
+      "style": "dashed"
+    }
+  ],
   "pixel": [
     244,
     168,

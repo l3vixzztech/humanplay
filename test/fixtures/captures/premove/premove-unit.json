@@ -1,0 +1,94 @@
+{
+  "tool": "premove-unit.mjs",
+  "generatedAt": "2026-10-16T20:13:12.011Z",
+  "node": "v22.22.0",
+  "modules": [
+    "extension/src/analysis/premove-client.js",
+    "extension/src/tts/move-speech.js (premoveSpeech)",
+    "extension/src/tts/tts-policy.js (premoveSpeakDecision)"
+  ],
+  "passed": 12,
+  "failed": 0,
+  "total": 12,
+  "cases": [
+    {
+      "name": "premove: success -> {ok, status, data, roundTripMs} (1 attempt, exact payload)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "premove: exactly one retry on a network failure (never on 4xx/5xx, never on timeout)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "premove: error classes (422 invalid, 503 engine, 500 http, 2xx bad body)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "seen": [
+          "invalid_input",
+          "engine_unavailable",
+          "http",
+          "bad_response"
+        ]
+      }
+    },
+    {
+      "name": "clamps + mode normalization (server clamps again)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "premovePositionKey: fen|moves|elos|top_n|min_safety|mode (every input matters)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "buildPremoveRequest: replayed history -> startpos + moves; mismatch -> board only + warning",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "premoveGate: auto only on the opponent's turn with everything known",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "client: cache hit, in-flight dedupe, failures never cached, force bypasses the cache",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "client: stale guard — a newer position always wins over an older, slower plan",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "criterionLabel + premoveCaveat: the panel's chip/caveat wording",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "premoveSpeech: 'premove ' + the M6 phrasing (lowercased first letter)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "premoveSpeakDecision: the never-speak matrix + dedupe",
+      "pass": true,
+      "message": null,
+      "details": null
+    }
+  ]
+}

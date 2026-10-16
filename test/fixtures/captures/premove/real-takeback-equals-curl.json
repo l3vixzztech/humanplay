@@ -1,0 +1,245 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "status": "premove ready",
+    "san": "cxd5",
+    "criterion": "safe vs all replies",
+    "safety": "100.0%",
+    "minProb": "98.4%",
+    "rows": [
+      {
+        "san": "exd5",
+        "uci": "e6d5",
+        "prob": 0.963475551535253,
+        "terminal": null,
+        "probText": "96.3%",
+        "barWidth": "96.3476%"
+      },
+      {
+        "san": "d6",
+        "uci": "d7d6",
+        "prob": 0.021383989145183174,
+        "terminal": null,
+        "probText": "2.1%",
+        "barWidth": "2.1384%"
+      },
+      {
+        "san": "b5",
+        "uci": "b7b5",
+        "prob": 0.008509975375647018,
+        "terminal": null,
+        "probText": "0.9%",
+        "barWidth": "0.850998%"
+      }
+    ],
+    "caveat": "safe only over their top-5; a premove still fires whenever it is legal",
+    "meta": "model maia3-5m · engine 87.4 ms · round-trip 91.0 ms · 5 considered of 5 likely replies · ui 0.1 ms · cached",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top",
+    "plan": {
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top",
+      "status": "ready",
+      "mode": "top",
+      "top_n": 5,
+      "min_safety": 0.9,
+      "min_response_prob": 0.15,
+      "side_to_move": "black",
+      "opponent": [
+        {
+          "uci": "e6d5",
+          "san": "exd5",
+          "prob": 0.963475551535253
+        },
+        {
+          "uci": "d7d6",
+          "san": "d6",
+          "prob": 0.021383989145183174
+        },
+        {
+          "uci": "b7b5",
+          "san": "b5",
+          "prob": 0.008509975375647018
+        },
+        {
+          "uci": "g7g6",
+          "san": "g6",
+          "prob": 0.0040534700236192775
+        },
+        {
+          "uci": "a7a6",
+          "san": "a6",
+          "prob": 0.0025770139202975022
+        }
+      ],
+      "recommended": {
+        "uci": "c4d5",
+        "san": "cxd5",
+        "criterion": "safe_vs_all",
+        "safety": 1,
+        "min_response_prob": 0.983822,
+        "detail": "1/5 considered replies are met by cxd5 (safe mass 96%); 4% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 98%"
+      },
+      "candidates": [
+        {
+          "uci": "c4d5",
+          "san": "cxd5",
+          "safe_mass": 0.963476,
+          "guard_mass": 0.036524,
+          "min_response_prob": 0.983822,
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 96%, guard mass 4%; min response prob 98% >= 15%"
+        },
+        {
+          "uci": "c4b5",
+          "san": "cxb5",
+          "safe_mass": 0.00851,
+          "guard_mass": 0.99149,
+          "min_response_prob": 0.369842,
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 1%, guard mass 99%; min response prob 37% >= 15%"
+        },
+        {
+          "uci": "e2e4",
+          "san": "e4",
+          "safe_mass": 0.025437,
+          "guard_mass": 0,
+          "min_response_prob": 0.727735,
+          "verdict": "not_safe",
+          "why": "safety 3% < required 90% (safe 3% + guard 0%) — a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "uci": "a2a4",
+          "san": "a4",
+          "safe_mass": 0.002577,
+          "guard_mass": 0,
+          "min_response_prob": 0.57489,
+          "verdict": "not_safe",
+          "why": "safety 0% < required 90% (safe 0% + guard 0%) — a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "excluded": [],
+      "reason": null,
+      "model": "maia3-5m",
+      "engineMs": 87.353605,
+      "roundTripMs": 91,
+      "fromCache": true,
+      "renderMs": 0.10000000149011612,
+      "atEpochMs": 1792181189417
+    }
+  },
+  "curl": {
+    "wallMs": 82,
+    "ok": true,
+    "body": {
+      "fen": "rnbqkb1r/pp1p1ppp/4pn2/2pP4/2P5/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 4",
+      "side_to_move": "black",
+      "opponent": [
+        {
+          "uci": "e6d5",
+          "san": "exd5",
+          "prob": 0.963475551535253
+        },
+        {
+          "uci": "d7d6",
+          "san": "d6",
+          "prob": 0.021383989145183174
+        },
+        {
+          "uci": "b7b5",
+          "san": "b5",
+          "prob": 0.008509975375647018
+        },
+        {
+          "uci": "g7g6",
+          "san": "g6",
+          "prob": 0.0040534700236192775
+        },
+        {
+          "uci": "a7a6",
+          "san": "a6",
+          "prob": 0.0025770139202975022
+        }
+      ],
+      "recommended": {
+        "uci": "c4d5",
+        "san": "cxd5",
+        "criterion": "safe_vs_all",
+        "safety": 1,
+        "min_response_prob": 0.983822,
+        "detail": "1/5 considered replies are met by cxd5 (safe mass 96%); 4% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 98%"
+      },
+      "candidates": [
+        {
+          "uci": "c4d5",
+          "san": "cxd5",
+          "safe_mass": 0.963476,
+          "guard_mass": 0.036524,
+          "min_response_prob": 0.983822,
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 96%, guard mass 4%; min response prob 98% >= 15%"
+        },
+        {
+          "uci": "c4b5",
+          "san": "cxb5",
+          "safe_mass": 0.00851,
+          "guard_mass": 0.99149,
+          "min_response_prob": 0.369842,
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 1%, guard mass 99%; min response prob 37% >= 15%"
+        },
+        {
+          "uci": "e2e4",
+          "san": "e4",
+          "safe_mass": 0.025437,
+          "guard_mass": 0,
+          "min_response_prob": 0.727735,
+          "verdict": "not_safe",
+          "why": "safety 3% < required 90% (safe 3% + guard 0%) — a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "uci": "a2a4",
+          "san": "a4",
+          "safe_mass": 0.002577,
+          "guard_mass": 0,
+          "min_response_prob": 0.57489,
+          "verdict": "not_safe",
+          "why": "safety 0% < required 90% (safe 0% + guard 0%) — a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "excluded": [],
+      "reason": null,
+      "params": {
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_n": 5,
+        "min_safety": 0.9,
+        "min_response_prob": 0.15,
+        "mode": "top"
+      },
+      "timings_ms": {
+        "root": 11.468464,
+        "responses": 58.946073,
+        "total": 71.636865
+      },
+      "model": "maia3-5m",
+      "elapsed_ms": 71.636865
+    }
+  },
+  "latency": {
+    "engineMs": 87.353605,
+    "roundTripMs": 91,
+    "renderMs": 0.10000000149011612,
+    "stateToRenderMs": 260,
+    "curlWallMs": 82
+  },
+  "screenshots": [
+    "test/fixtures/captures/premove/real-takeback-card.png",
+    "test/fixtures/captures/premove/real-takeback-arrow.png"
+  ],
+  "endpoints": {
+    "uci": "c4d5",
+    "style": "dashed",
+    "fromErrorPx": 0,
+    "tipErrorPx": 0
+  }
+}

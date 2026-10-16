@@ -55,12 +55,12 @@
     "test/fixtures/captures/overlay/middlegame-arrows.png",
     "test/fixtures/captures/overlay/middlegame-arrows-after-move.png"
   ],
-  "clearedAfterMutationMs": 189,
+  "clearedAfterMutationMs": 191,
   "delayMs": 700,
   "clearedDataset": {
     "state": "cleared",
     "reason": "panel:analyzing",
     "key": null
   },
-  "mutationToArrowsMs": 873
+  "mutationToArrowsMs": 869
 }

@@ -31,11 +31,13 @@
  *     path works) and worse, and it would additionally require the "offscreen"
  *     permission, which M6 forbids. Not shipped — recorded as evidence.
  *   - Linux audio detail: Chrome for Testing needs `--enable-speech-dispatcher`
- *     to actually synthesize (without it every utterance fires
- *     `{type:"error", errorMessage:""}`); `chrome.tts.getVoices()` returns
- *     **0 voices either way** on this platform even though speech-dispatcher +
- *     espeak-ng are installed. The panel surfaces exactly that as an actionable
- *     note (see `VOICES_NOTE`).
+ *     to actually synthesize. With the flag, `chrome.tts.getVoices()` is **0
+ *     right after a cold start** and then enumerates the espeak-ng voices
+ *     (14805 on this machine) once the backend loads — the panel retries once
+ *     (see `VOICES_NOTE` / the panel's voices line). Without the flag it stays
+ *     0 and every utterance fires `{type:"error", errorMessage:""}` — the speak
+ *     path still executes and is recorded (evidence:
+ *     test/fixtures/captures/tts/no-backend/).
  */
 
 import { clampRate } from "./tts-policy.js";

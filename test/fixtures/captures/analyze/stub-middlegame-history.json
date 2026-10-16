@@ -27,7 +27,7 @@
       "top": false
     }
   ],
-  "meta": "model maia3-5m · engine 10.6 ms · round-trip 2.0 ms · 14 moves · replayed · ui 2.2 ms",
+  "meta": "model maia3-5m · engine 10.6 ms · round-trip 2.0 ms · 14 moves · replayed · ui 2.4 ms",
   "screenshot": "test/fixtures/captures/analyze/stub-middlegame-suggestion.png",
   "wdl": {
     "win": "win 38.6%",
@@ -35,7 +35,7 @@
     "loss": "loss 54.0%"
   },
   "latency": {
-    "stateToRenderMs": 2.2000000029802322,
+    "stateToRenderMs": 2.399999998509884,
     "roundTripMs": 2,
     "engineMs": 10.63
   },

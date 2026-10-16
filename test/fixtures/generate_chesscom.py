@@ -150,6 +150,22 @@ def reference_positions() -> list[dict]:
             "bottom_player": "humanplay-session-user",
             "moves_san": ("e4", "e5", "Bc4", "Nc6", "Qh5", "Nf6", "Qxf7#"),
         },
+        {
+            # M7: the premove demo. It is BLACK to move (the user plays white);
+            # black's obvious continuation 4...exd5 is the capture and the
+            # natural take-back 5.cxd5 is the recommended premove (verified
+            # against the real /premove — see test/fixtures/captures/premove/).
+            "slug": "premove-takeback",
+            "title": "chess.com fixture — Benoni: their exd5, our take-back cxd5 (premove demo)",
+            "board_id": "board-single",
+            "user_color": "white",
+            "flipped": False,
+            "top_color": "black",
+            "bottom_color": "white",
+            "top_player": "MaiaBot-2400",
+            "bottom_player": "humanplay-session-user",
+            "moves_san": ("d4", "Nf6", "c4", "c5", "d5", "e6", "Nc3"),
+        },
     ]
 
 

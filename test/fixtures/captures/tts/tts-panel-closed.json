@@ -11,7 +11,7 @@
     },
     {
       "type": "TAB",
-      "url": "chrome-extension://idofkddohdkpaoaipnkankcdndoodgol/src/ui/sidepanel.html"
+      "url": "chrome-extension://lmiinkkfkmefkaabdelggmfdegfmdold/src/ui/sidepanel.html"
     }
   ],
   "contextsAfterClose": [
@@ -24,9 +24,9 @@
     "ok": true,
     "turn": "b",
     "moves": 1,
-    "tabId": 36742485,
-    "at": "2026-10-16T19:18:26.857Z",
-    "atEpochMs": 1792178306857
+    "tabId": 147231558,
+    "at": "2026-10-16T20:07:04.415Z",
+    "atEpochMs": 1792181224415
   },
   "speaksWhilePanelClosed": 0,
   "panelClosedSpeak": {
@@ -34,18 +34,18 @@
       "ok": true,
       "engine": "chrome.tts",
       "text": "Knight to f3",
-      "issuedAt": "2026-10-16T19:18:26.913Z",
-      "issuedAtEpochMs": 1792178306913,
+      "issuedAt": "2026-10-16T20:07:04.470Z",
+      "issuedAtEpochMs": 1792181224470,
       "stopBefore": {
         "ok": true,
-        "stoppedAt": "2026-10-16T19:18:26.913Z",
+        "stoppedAt": "2026-10-16T20:07:04.470Z",
         "reason": "before-speak"
       },
       "error": null
     },
     "call": {
-      "at": "2026-10-16T19:18:26.913Z",
-      "atEpochMs": 1792178306913,
+      "at": "2026-10-16T20:07:04.470Z",
+      "atEpochMs": 1792181224470,
       "kind": "speak",
       "text": "Knight to f3",
       "san": "Nf3",
@@ -63,15 +63,15 @@
     }
   },
   "stopAfterPanelClosed": {
-    "at": "2026-10-16T19:18:26.913Z",
-    "atEpochMs": 1792178306913,
+    "at": "2026-10-16T20:07:04.470Z",
+    "atEpochMs": 1792181224470,
     "kind": "stop",
     "reason": "before-speak",
     "source": "content-script",
     "engine": "chrome.tts",
     "ok": true,
     "error": null,
-    "stoppedAt": 1792178306913
+    "stoppedAt": 1792181224470
   },
   "hotkeyWithPanelClosed": {
     "off": {

@@ -239,6 +239,52 @@ class MaiaEngine:
 
         return out, wdl_from_value_logits(logits_value[0])
 
+    # -- M7 premove support (new methods; `predict` above is untouched) -----
+
+    def resolve_position(self, fen: str, moves: Optional[Sequence[str]] = None) -> chess.Board:
+        """The position ``predict`` would analyse (same validation, same errors).
+
+        M7's planner needs the exact board (legal-move enumeration, terminal
+        checks) *and* the same input errors as ``predict`` (invalid FEN /
+        illegal history move -> :class:`EngineInputError` -> HTTP 400).
+        """
+        self.ensure_loaded()
+        board, _history = self._build_position(fen, moves)
+        return board
+
+    def move_probabilities(
+        self,
+        fen: str,
+        moves: Optional[Sequence[str]] = None,
+        elo_self: int = DEFAULT_ELO_SELF,
+        elo_oppo: int = DEFAULT_ELO_OPPO,
+    ) -> Dict[str, Any]:
+        """The FULL softmax distribution over ALL legal moves (no MultiPV cap).
+
+        Identical semantics to ``predict`` (base FEN + UCI history planes,
+        side-to-move perspective, legal-masked temperature-1 softmax, rounded to
+        6 decimals) except that **every** legal move is returned instead of the
+        top-``top_k``. Added for the M7 premove planner, where the opponent's
+        full move distribution is the prior over their candidate moves.
+
+        Returns ``{"fen", "moves", "wdl", "model"}``; ``moves`` is sorted by
+        probability (descending, ties broken by UCI inside the planner).
+        """
+        self.ensure_loaded()
+        elo_self = _check_elo("elo_self", elo_self)
+        elo_oppo = _check_elo("elo_oppo", elo_oppo)
+        board, history = self._build_position(fen, moves)
+        legal_count = board.legal_moves.count()
+        with self._lock:
+            moves_out, wdl = self._evaluate(board, history, elo_self, elo_oppo, top_k=legal_count)
+
+        return {
+            "fen": board.fen(),
+            "moves": moves_out,
+            "wdl": wdl,
+            "model": self.model_alias,
+        }
+
     def predict(
         self,
         fen: str,

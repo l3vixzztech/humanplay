@@ -72,8 +72,8 @@
     },
     "badgeText": "TTS",
     "hotkeySpeak": {
-      "at": "2026-10-16T19:18:24.266Z",
-      "atEpochMs": 1792178304266,
+      "at": "2026-10-16T20:07:01.936Z",
+      "atEpochMs": 1792181221936,
       "kind": "speak",
       "text": "Queen to d2",
       "san": "Qd2",
@@ -94,7 +94,7 @@
     "text": "TTS",
     "backgroundColor": "#2f6f4f",
     "textColor": "#ffffff",
-    "updatedAt": "2026-10-16T19:18:24.265Z",
+    "updatedAt": "2026-10-16T20:07:01.935Z",
     "error": null
   }
 }

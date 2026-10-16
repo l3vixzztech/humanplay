@@ -870,23 +870,33 @@ async function main() {
     const samplePixel = (session, point) =>
       evaluateInPage(session, `globalThis.__humanplayProof.samplePixel(${point.x}, ${point.y})`);
 
-    /** Wait until the overlay has drawn `expected` arrows (optionally for a UCI). */
+    /**
+     * M7 note: while the opponent thinks the canvas may ALSO carry the dashed
+     * PREMOVE arrow (`arrow.premove === true`, drawn by the M7 planner — proven
+     * in test/tools/premove-proof.mjs). The M5 assertions below are about the
+     * *suggestion* arrows, so every count/iteration filters the premove out.
+     */
+    const suggestionArrows = (dataset) => (dataset?.arrows ?? []).filter((arrow) => arrow.premove !== true);
+
+    /** Wait until the overlay has drawn `expected` suggestion arrows (optionally for a UCI). */
     const waitForArrows = (session, boardId, { uci = null, count = 1, description = "arrows", timeoutMs = args.timeoutMs } = {}) =>
       waitFor(description, async () => {
         const overlay = await readOverlay(session, boardId);
         const dataset = overlay.dataset;
         if (!dataset || dataset.state !== "shown" || !Array.isArray(dataset.arrows)) return null;
-        if (dataset.arrows.length !== count) return null;
-        if (uci && dataset.arrows[0]?.uci !== uci) return null;
+        const arrows = suggestionArrows(dataset);
+        if (arrows.length !== count) return null;
+        if (uci && arrows[0]?.uci !== uci) return null;
         return overlay;
       }, { timeoutMs, intervalMs: 60 });
 
+    /** Wait until no SUGGESTION arrow is drawn (a premove arrow may remain). */
     const waitForCleared = (session, boardId, { description = "cleared overlay", timeoutMs = args.timeoutMs } = {}) =>
       waitFor(description, async () => {
         const overlay = await readOverlay(session, boardId);
         // No canvas yet (never drawn/cleared) is the clearest "no arrows" state.
         if (!overlay.dataset) return overlay;
-        return overlay.dataset.state !== "shown" && (overlay.dataset.arrows ?? []).length === 0 ? overlay : null;
+        return suggestionArrows(overlay.dataset).length === 0 ? overlay : null;
       }, { timeoutMs, intervalMs: 60 });
 
     /**
@@ -895,8 +905,9 @@ async function main() {
      */
     const assertArrows = async (session, boardId, overlay, record) => {
       const dataset = overlay.dataset;
+      const arrows = suggestionArrows(dataset);
       const squares = new Set();
-      for (const arrow of dataset.arrows) {
+      for (const arrow of arrows) {
         const { from, to } = uciSquares(arrow.uci);
         squares.add(from);
         squares.add(to);
@@ -934,7 +945,7 @@ async function main() {
       checks.maxRectErrorPx = Number(rectErr.toFixed(3));
       assert(rectErr <= RECT_TOLERANCE_PX, `overlay boardRect differs from the live DOM rect by ${rectErr} px`);
 
-      for (const arrow of dataset.arrows) {
+      for (const arrow of arrows) {
         const { from, to } = uciSquares(arrow.uci);
         const fromErr = maxPointError(arrow.from, truth.centres[from]);
         const tipErr = maxPointError(arrow.tip, truth.centres[to]);
@@ -1241,13 +1252,15 @@ async function main() {
       const flippedFen = "rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3";
       await refreshPanelState(flipped.targetId, flippedFen, "flipped-black");
       const waiting = await waitForSuggestion((s) => s.gate === "waiting", "the waiting state (opponent's turn)");
-      const cleared = await waitForCleared(flipped.session, "board-single", { description: "no arrows on the opponent's turn" });
+      const cleared = await waitForCleared(flipped.session, "board-single", { description: "no suggestion arrows on the opponent's turn" });
       o6.waiting = {
         gate: waiting.gate,
         overlayState: cleared.dataset.state,
         reason: cleared.dataset.reason,
         panelClearReason: waiting.overlayPolicy.lastClearReason,
-        arrows: (cleared.dataset.arrows ?? []).length,
+        arrows: suggestionArrows(cleared.dataset).length,
+        // M7: the dashed premove arrow may legitimately be on the board here.
+        allArrows: (cleared.dataset.arrows ?? []).map((arrow) => ({ uci: arrow.uci, style: arrow.style ?? "solid", premove: Boolean(arrow.premove) })),
       };
       const assert = (condition, message) => {
         if (!condition) {
@@ -1255,18 +1268,23 @@ async function main() {
           o6.failures.push(message);
         }
       };
-      assert(o6.waiting.arrows === 0, `opponent's turn still has ${o6.waiting.arrows} arrows`);
+      assert(o6.waiting.arrows === 0, `opponent's turn still has ${o6.waiting.arrows} suggestion arrows`);
       assert(o6.waiting.panelClearReason === "opponent-turn", `panel clear reason ${o6.waiting.panelClearReason}`);
       o6.screenshots.push(await pageScreenshot(flipped.session, "flipped-black-no-arrows.png"));
 
       // Manual analysis on the opponent's turn -> arrows for d4, drawn flipped.
+      // (M7 note: the premove arrow may share the canvas — the geometry checks
+      // iterate the suggestion arrows only; the coexistence is recorded.)
       await evaluateInPanel('document.getElementById("mx-analyze").click(), true');
       const suggestion = await waitForSuggestion((s) => s.rows.length === 3 && s.rows[0]?.san === "d4", "the manual d4 suggestion");
       const overlay = await waitForArrows(flipped.session, "board-single", { uci: "d2d4", count: 1, description: "the flipped d2d4 arrow" });
       o6.keys = { panelKey: suggestion.lastRenderKey, overlayKey: overlay.dataset.key };
+      o6.suggestionArrows = suggestionArrows(overlay.dataset).map((arrow) => ({ uci: arrow.uci, style: arrow.style ?? "solid" }));
+      o6.premoveCoexistence = (overlay.dataset.arrows ?? []).filter((arrow) => arrow.premove).map((arrow) => ({ uci: arrow.uci, style: arrow.style }));
       assert(overlay.dataset.flipped === true, `overlay dataset flipped ${overlay.dataset.flipped}`);
       o6.geometry = await assertArrows(flipped.session, "board-single", overlay, o6);
-      const mid = { x: (overlay.dataset.arrows[0].from[0] + overlay.dataset.arrows[0].tip[0]) / 2, y: (overlay.dataset.arrows[0].from[1] + overlay.dataset.arrows[0].tip[1]) / 2 };
+      const suggestionArrow = suggestionArrows(overlay.dataset)[0];
+      const mid = { x: (suggestionArrow.from[0] + suggestionArrow.tip[0]) / 2, y: (suggestionArrow.from[1] + suggestionArrow.tip[1]) / 2 };
       o6.pixel = await samplePixel(flipped.session, mid);
       assert(o6.pixel && o6.pixel[3] > 0, `no painted pixels on the flipped board: ${JSON.stringify(o6.pixel)}`);
       o6.screenshots.push(await pageScreenshot(flipped.session, "flipped-black-arrows.png"));

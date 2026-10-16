@@ -1,22 +1,29 @@
 /**
- * humanplay — board arrow overlay (Milestone 5)
- * =============================================
+ * humanplay — board arrow overlay (Milestone 5, extended in M7)
+ * =============================================================
  *
  * Content script that paints the suggested move ON the real chess.com board:
  * one full-viewport, click-transparent `<canvas>` added to `document.body`,
  * holding solid arrows for the top-1 suggestion and (when the panel enables
  * them) thinner alternatives.
  *
- * Pipeline (M5, locked):
+ * M7 adds a second, independent arrow set: the **premove** — the reply the
+ * planner decided is safe to queue while the opponent thinks — drawn as a
+ * **dashed** arrow in the premove blue via the very same geometry
+ * (`overlay-geometry.js`) and canvas.
+ *
+ * Pipeline (M5/M7, locked):
  *
  *   panel  --runtime.sendMessage-->  service worker  --tabs.sendMessage-->
  *        this content script:  {type:"humanplay:suggestion", moves, topN, key}
  *                              {type:"humanplay:clear-suggestion", reason, key}
+ *                              {type:"humanplay:premove", move, key}
+ *                              {type:"humanplay:clear-premove", reason, key}
  *
- * The panel owns the policy (assistant toggle, gating, stale guard, the two
- * overlay settings); this script is a **dumb renderer**: it draws exactly the
- * moves it is told to draw, or clears. It never analyses, never talks to the
- * server and never reads `chrome.storage`.
+ * The panel owns the policy (assistant toggle, gating, stale guard, the overlay
+ * settings); this script is a **dumb renderer**: it draws exactly the arrows it
+ * is told to draw, or clears. It never analyses, never talks to the server and
+ * never reads `chrome.storage`.
  *
  * Anchoring: geometry is recomputed from the LIVE board element
  * (`board-locate.js` — the very same board-picking code the M3 adapter uses,
@@ -51,9 +58,11 @@
 // therefore lives in an IIFE — the only shared globals are the intentional
 // `__humanplayOverlay` / `__humanplayContentHook` hooks.
 (() => {
-  const OVERLAY_VERSION = "m5.0";
+  const OVERLAY_VERSION = "m7.0";
   const MSG_SUGGESTION = "humanplay:suggestion";
   const MSG_CLEAR_SUGGESTION = "humanplay:clear-suggestion";
+  const MSG_PREMOVE = "humanplay:premove";
+  const MSG_CLEAR_PREMOVE = "humanplay:clear-premove";
   const CANVAS_ID = "humanplay-overlay-canvas";
   const RENDER_DEBOUNCE_MS = 80;
   const REDRAW_RETRY_MS = 700;
@@ -70,9 +79,14 @@
   const COLORS = Object.freeze({
     primary: { fill: "rgba(255, 176, 32, 0.95)", border: "rgba(26, 20, 8, 0.88)" },
     alternative: { fill: "rgba(76, 160, 255, 0.60)", border: "rgba(8, 18, 34, 0.55)" },
+    /** M7 premove: a distinct blue, drawn with a dashed shaft. */
+    premove: { fill: "rgba(64, 150, 255, 0.95)", border: "rgba(6, 16, 34, 0.85)" },
     highlightFill: "rgba(255, 176, 32, 0.14)",
     highlightStroke: "rgba(255, 176, 32, 0.32)",
   });
+
+  /** Dash pattern for the premove shaft (CSS px, scaled by nothing — intentional). */
+  const PREMOVE_DASH = [10, 7];
 
   const moduleUrls = {
     geometry: chrome.runtime.getURL("src/content/overlay-geometry.js"),
@@ -91,7 +105,9 @@
       moves: [],
       topN: 0,
       key: null,
-      /** GameState signature at the time the suggestion was accepted */
+      /** the accepted premove (M7): {uci, san, key} or null */
+      premove: null,
+      /** GameState signature at the time a suggestion/premove was accepted */
       shownSignature: null,
       /** latest GameState signature seen (from the adapter hook) */
       lastStateSignature: null,
@@ -123,6 +139,7 @@
       key: null,
       topN: 0,
       moves: [],
+      premove: null,
       arrows: [],
       boardRect: null,
       flipped: false,
@@ -164,7 +181,28 @@
         return undefined;
       }
       if (message?.type === MSG_CLEAR_SUGGESTION) {
-        clear(`panel:${message.reason ?? "clear"}`);
+        clearSuggestion(`panel:${message.reason ?? "clear"}`);
+        if (typeof sendResponse === "function") sendResponse({ ok: true, cleared: true });
+        return undefined;
+      }
+      if (message?.type === MSG_PREMOVE) {
+        const move = message.move && typeof message.move.uci === "string" ? message.move : null;
+        if (!move) {
+          clearPremove("panel:premove-without-move");
+          if (typeof sendResponse === "function") sendResponse({ ok: true, accepted: 0 });
+          return undefined;
+        }
+        showPremove({
+          move: { uci: move.uci, san: typeof move.san === "string" ? move.san : null },
+          key: typeof message.key === "string" ? message.key : null,
+        });
+        if (typeof sendResponse === "function") {
+          sendResponse({ ok: true, accepted: 1, uci: state.premove?.uci ?? null, key: state.premove?.key ?? null });
+        }
+        return undefined;
+      }
+      if (message?.type === MSG_CLEAR_PREMOVE) {
+        clearPremove(`panel:${message.reason ?? "clear"}`);
         if (typeof sendResponse === "function") sendResponse({ ok: true, cleared: true });
         return undefined;
       }
@@ -179,15 +217,43 @@
       // this suggestion (the hook fires before the panel, so this is that state).
       state.shownSignature = state.lastStateSignature;
       state.retryCount = 0;
-      state.pendingRedraw = moves.length > 0;
+      state.pendingRedraw = moves.length > 0 || state.premove !== null;
       log(`suggestion key=${key ?? "-"} moves=${moves.length} topN=${state.topN}`);
       render("suggestion");
     }
 
-    function clear(reason) {
+    function showPremove({ move, key }) {
+      state.premove = { uci: move.uci, san: move.san ?? null, key };
+      state.shownSignature = state.lastStateSignature;
+      state.retryCount = 0;
+      state.pendingRedraw = true;
+      log(`premove key=${key ?? "-"} uci=${move.uci}`);
+      render("premove");
+    }
+
+    function anyPending() {
+      return state.moves.length > 0 || state.premove !== null;
+    }
+
+    function clearSuggestion(reason) {
       state.moves = [];
       state.topN = 0;
       state.key = null;
+      if (state.premove === null) clearAll(reason);
+      else render(`suggestion-cleared:${reason}`);
+    }
+
+    function clearPremove(reason) {
+      state.premove = null;
+      if (state.moves.length === 0) clearAll(reason);
+      else render(`premove-cleared:${reason}`);
+    }
+
+    function clearAll(reason) {
+      state.moves = [];
+      state.topN = 0;
+      state.key = null;
+      state.premove = null;
       state.shownSignature = null;
       state.pendingRedraw = false;
       state.lastArrows = [];
@@ -208,10 +274,10 @@
       if (!gameState) return;
       if (!gameState.ok) {
         // No credible board/position (SPA navigation, board gone): hide, but
-        // keep the suggestion so a returning board can be re-anchored.
+        // keep suggestion/premove so a returning board can be re-anchored.
         state.lastStateSignature = null;
         state.lastArrows = [];
-        state.pendingRedraw = state.moves.length > 0;
+        state.pendingRedraw = anyPending();
         state.clearCount += 1;
         state.lastClearReason = "no-state";
         hideCanvas("no-state");
@@ -220,15 +286,15 @@
         return;
       }
       const signature = stateSignatureOf(gameState);
-      if (state.lastStateSignature !== null && signature !== state.lastStateSignature && state.shownSignature !== null) {
+      if (state.lastStateSignature !== null && signature !== state.lastStateSignature && anyPending()) {
         // The position moved on: those arrows belong to the previous position.
-        // (The panel re-sends the new suggestion when its analysis is current.)
+        // (The panel re-sends the new suggestion/premove when its analysis is current.)
         state.lastStateSignature = signature;
-        clear("position-changed");
+        clearAll("position-changed");
         return;
       }
       state.lastStateSignature = signature;
-      if (state.moves.length > 0) render("state");
+      if (anyPending()) render("state");
     }
 
     /** Same fields the adapter uses for change detection + session/board/orientation. */
@@ -259,7 +325,7 @@
 
     /** Bounded re-check while arrows are pending and the board is missing. */
     function scheduleRetry() {
-      if (state.moves.length === 0 || state.retryTimer !== null) return;
+      if (!anyPending() || state.retryTimer !== null) return;
       if (state.retryCount >= REDRAW_RETRY_LIMIT) return;
       state.retryCount += 1;
       state.retryTimer = setTimeout(() => {
@@ -301,7 +367,7 @@
         scheduleRetry();
         return;
       }
-      if (state.moves.length === 0) {
+      if (!anyPending()) {
         state.lastArrows = [];
         hideCanvas("idle");
         publish("idle", reason);
@@ -322,13 +388,27 @@
       // signals the adapter uses: `flipped` class, then board.state.isFlipped).
       const flipped = locate.isBoardFlipped(board.el);
       const viewport = viewportSize();
-      const arrows = geometry.computeArrows({
-        moves: state.moves,
-        rect,
-        flipped,
-        topN: state.topN,
-        viewport,
-      });
+      const suggestionArrows = state.moves.length
+        ? geometry.computeArrows({
+            moves: state.moves,
+            rect,
+            flipped,
+            topN: state.topN,
+            viewport,
+          })
+        : [];
+      // M7: the premove uses the very same geometry; `premove: true` marks it
+      // for the dashed blue rendering.
+      const premoveArrows = state.premove
+        ? geometry.computeArrows({
+            moves: [{ uci: state.premove.uci, san: state.premove.san }],
+            rect,
+            flipped,
+            topN: 1,
+            viewport,
+          }).map((arrow) => ({ ...arrow, premove: true }))
+        : [];
+      const arrows = [...suggestionArrows, ...premoveArrows];
       const drawable = arrows.filter((arrow) => arrow.drawable && arrow.intersectsViewport !== false);
       if (drawable.length === 0) {
         hideCanvas("nothing-to-draw");
@@ -348,7 +428,10 @@
       state.lastRenderAtEpochMs = Date.now();
       state.retryCount = 0;
       publish("shown", reason);
-      log(`draw key=${state.key ?? "-"} arrows=${drawable.length} flipped=${flipped} rect=${fmtRect(rect)} reason=${reason}`);
+      log(
+        `draw suggestion=${state.moves.length} premove=${state.premove?.uci ?? "-"} ` +
+          `arrows=${drawable.length} flipped=${flipped} rect=${fmtRect(rect)} reason=${reason}`,
+      );
     }
 
     function viewportSize() {
@@ -406,17 +489,25 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, viewport.w, viewport.h);
 
-      // Alternatives first, top-1 last (the suggestion is never obscured).
-      const ordered = [...arrows].sort((a, b) => b.rank - a.rank);
+      // Alternatives first, top-1 last, premove on top of everything (the
+      // dashed blue arrow is the newest, most actionable information).
+      const ordered = [...arrows].sort((a, b) => {
+        if (Boolean(a.premove) !== Boolean(b.premove)) return a.premove ? 1 : -1;
+        return b.rank - a.rank;
+      });
       for (const arrow of ordered) {
         if (!arrow.drawable) continue;
-        const palette = arrow.rank === 0 ? COLORS.primary : COLORS.alternative;
-        if (arrow.rank === 0) {
+        const palette = arrow.premove
+          ? COLORS.premove
+          : arrow.rank === 0
+            ? COLORS.primary
+            : COLORS.alternative;
+        if (!arrow.premove && arrow.rank === 0) {
           // subtle from/to square highlight (centre ± half a square)
           drawSquareHighlight(ctx, arrow.fromPt, arrow.squareSize);
           drawSquareHighlight(ctx, arrow.tip, arrow.squareSize);
         }
-        drawArrow(ctx, arrow, palette);
+        drawArrow(ctx, arrow, palette, { dashed: Boolean(arrow.premove) });
       }
       canvas.style.display = "block";
     }
@@ -433,9 +524,10 @@
       ctx.strokeRect(x, y, side, side);
     }
 
-    function drawArrow(ctx, arrow, palette) {
+    function drawArrow(ctx, arrow, palette, { dashed = false } = {}) {
       const border = Math.max(1, arrow.thickness * 0.16);
-      // head polygon: outline first, then fill
+      // head polygon: outline first, then fill (always solid — the dash marks
+      // the shaft, and a dashed outline would look broken)
       ctx.beginPath();
       ctx.moveTo(arrow.head[0].x, arrow.head[0].y);
       for (let index = 1; index < arrow.head.length; index += 1) ctx.lineTo(arrow.head[index].x, arrow.head[index].y);
@@ -447,8 +539,10 @@
       ctx.fillStyle = palette.fill;
       ctx.fill();
 
-      // shaft: dark outline under the coloured line
+      // shaft: dark outline under the coloured line; the premove's shaft is
+      // dashed so it reads as "queued, not played" at a glance.
       ctx.lineCap = "butt";
+      ctx.setLineDash(dashed ? PREMOVE_DASH : []);
       ctx.beginPath();
       ctx.moveTo(arrow.shaft.from.x, arrow.shaft.from.y);
       ctx.lineTo(arrow.shaft.to.x, arrow.shaft.to.y);
@@ -458,6 +552,7 @@
       ctx.lineWidth = arrow.thickness;
       ctx.strokeStyle = palette.fill;
       ctx.stroke();
+      ctx.setLineDash([]);
     }
 
     function hideCanvas(reason) {
@@ -493,7 +588,7 @@
       const dpr = window.devicePixelRatio || 1;
       const shown = kind === "shown";
       debug.state = kind;
-      debug.active = shown && state.moves.length > 0;
+      debug.active = shown && anyPending();
       debug.reason = reason ?? null;
       debug.clearReason = shown ? null : (reason ?? null);
       debug.key = state.key;
@@ -504,9 +599,14 @@
         prob: Number.isFinite(move.prob) ? move.prob : null,
         rank: index,
       }));
+      debug.premove = state.premove
+        ? { uci: state.premove.uci, san: state.premove.san, key: state.premove.key }
+        : null;
       debug.arrows = state.lastArrows.map((arrow) => ({
         uci: arrow.uci,
         rank: arrow.rank,
+        style: arrow.premove ? "dashed" : "solid",
+        premove: Boolean(arrow.premove),
         from: [round3(arrow.fromPt.x), round3(arrow.fromPt.y)],
         tip: [round3(arrow.tip.x), round3(arrow.tip.y)],
         thickness: round3(arrow.thickness),
@@ -541,6 +641,7 @@
           reason: reason ?? null,
           key: state.key,
           topN: state.topN,
+          premove: debug.premove,
           flipped: state.lastFlipped,
           dpr,
           rect: state.lastBoardRect ? [round3(state.lastBoardRect.x), round3(state.lastBoardRect.y), round3(state.lastBoardRect.w), round3(state.lastBoardRect.h)] : null,

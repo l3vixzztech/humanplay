@@ -118,3 +118,63 @@ export function normalizeTtsSettings(settings) {
     rate: clampRate(settings?.ttsRate, DEFAULT_TTS_RATE),
   };
 }
+
+/* ------------------------------------------------------------ M7 premoves */
+
+/**
+ * M7: the spoken premove uses its own dedupe keys — a position can produce both
+ * a suggestion (on our turn) and a premove (on theirs); they must not silence
+ * each other. `recommendedUci` guards against a different plan for the same
+ * key (impossible today — the planner is deterministic — but cheap to encode).
+ */
+export function premoveSpokenKey(positionKey, recommendedUci) {
+  if (positionKey == null) return null;
+  return `premove:${positionKey}:${recommendedUci ?? "?"}`;
+}
+
+/**
+ * The premove speak decision. Speak iff, all of:
+ *   1. TTS is enabled in settings (default OFF);
+ *   2. "Speak premoves" is enabled (default ON, `settings.speakPremoves`);
+ *   3. the assistant is on;
+ *   4. the adapter state is ok and the user's color is known;
+ *   5. it is the OPPONENT's turn (a premove only ever exists there);
+ *   6. the plan holds a recommendation (a null plan — no safe premove, terminal,
+ *      error — is never spoken);
+ *   7. the plan's key is the *current* premove key (the M7 stale guard: if the
+ *      opponent moved while the planner was computing, nothing is spoken);
+ *   8. that (key, premove) pair was not spoken before (new-position dedupe).
+ *
+ * `ignoreDuplicate` is for explicit user intent only (TTS or "Speak premoves"
+ * just switched on): the other gates still apply.
+ *
+ * @returns {{speak: boolean, reason: string, key: string|null}}
+ */
+export function premoveSpeakDecision({
+  ttsEnabled = false,
+  speakPremoves = true,
+  assistantEnabled = true,
+  state = null,
+  plan = null,
+  currentKey = null,
+  spokenKeys = null,
+  ignoreDuplicate = false,
+} = {}) {
+  const key = plan?.key ?? null;
+  const recommended = plan?.recommended ?? null;
+  const no = (reason) => ({ speak: false, reason, key });
+
+  if (!ttsEnabled) return no("tts-off");
+  if (!speakPremoves) return no("premove-speech-off");
+  if (!assistantEnabled) return no("assistant-off");
+  if (!state?.ok) return no("no-state");
+  if (state.userColor !== "white" && state.userColor !== "black") return no("no-color");
+  const turnColor = state.turn === "b" || state.turn === "black" ? "black" : "white";
+  if (turnColor === state.userColor) return no("your-turn");
+  if (!recommended || typeof recommended.uci !== "string" || !recommended.uci) return no("no-premove");
+  if (!key) return no("no-key");
+  if (currentKey !== null && key !== currentKey) return no("stale");
+  const spokenKey = premoveSpokenKey(key, recommended.uci);
+  if (!ignoreDuplicate && spokenKeys && spokenKeys.has(spokenKey)) return no("duplicate");
+  return { speak: true, reason: ignoreDuplicate ? "forced" : "speak", key, spokenKey };
+}

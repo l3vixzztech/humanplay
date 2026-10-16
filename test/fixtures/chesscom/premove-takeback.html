@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="humanplay-fixture" content="chesscom-premove-takeback" />
+    <title>chess.com fixture — Benoni: their exd5, our take-back cxd5 (premove demo)</title>
+    <style>
+      /* Deterministic, chess.com-ish, no external resources. Piece visuals are
+         fixture-only (chess.com paints them from its own stylesheet); the
+         adapter reads classes, never pixels or styles. */
+      html, body { margin: 0; background: #312e2b; color: #e8e6e3;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+      #board-layout-main { display: flex; gap: 20px; padding: 18px; align-items: flex-start; }
+      .board-column { display: flex; flex-direction: column; gap: 8px; }
+      .player-component { display: flex; align-items: center; gap: 10px; padding: 4px 2px; }
+      .cc-user-username-component { font-weight: 600; }
+      .clock-time-monospace { font-variant-numeric: tabular-nums; font-size: 18px; }
+      wc-chess-board.board {
+        display: block; position: relative; width: 560px; height: 560px;
+        background: repeating-conic-gradient(#ebecd0 0% 25%, #779556 0% 50%);
+        background-size: 25% 25%;
+        border-radius: 4px;
+      }
+      wc-chess-board.board-preview {
+        width: 160px; height: 160px; margin: 6px 0 14px;
+      }
+      wc-chess-board .coordinates { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+      wc-chess-board .coordinates text { font-size: 2.8px; font-weight: 700; }
+      .coordinate-light { fill: #ebecd0; } .coordinate-dark { fill: #779556; }
+      .piece { position: absolute; width: 12.5%; height: 12.5%; display: flex;
+        align-items: center; justify-content: center; border-radius: 50%;
+        background: #f7f7f7; box-shadow: inset 0 0 0 2px rgba(0,0,0,0.45); }
+      .piece.bp, .piece.bn, .piece.bb, .piece.br, .piece.bq, .piece.bk { background: #262421; }
+      .piece::after { font: 700 26px/1 system-ui, sans-serif; }
+      .piece.wp::after { content: "P"; color: #57534e; } .piece.bp::after { content: "P"; color: #c8c6c4; }
+      .piece.wn::after { content: "N"; color: #57534e; } .piece.bn::after { content: "N"; color: #c8c6c4; }
+      .piece.wb::after { content: "B"; color: #57534e; } .piece.bb::after { content: "B"; color: #c8c6c4; }
+      .piece.wr::after { content: "R"; color: #57534e; } .piece.br::after { content: "R"; color: #c8c6c4; }
+      .piece.wq::after { content: "Q"; color: #57534e; } .piece.bq::after { content: "Q"; color: #c8c6c4; }
+      .piece.wk::after { content: "K"; color: #57534e; } .piece.bk::after { content: "K"; color: #c8c6c4; }
+      .highlight { position: absolute; width: 12.5%; height: 12.5%; }
+      #board-layout-sidebar { width: 260px; background: #262421; border-radius: 6px; padding: 10px 12px; }
+      #board-layout-sidebar h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #a8a6a4; margin: 0 0 6px; }
+      wc-simple-move-list .move-list-row { display: grid; grid-template-columns: 28px 1fr 1fr; gap: 2px 8px; font-size: 14px; padding: 1px 4px; }
+      wc-simple-move-list .move-list-row.dark-row { background: rgba(255,255,255,0.04); }
+      wc-simple-move-list .node { font-weight: 500; }
+      wc-simple-move-list [data-move-list-el="timestamp"] { display: none; }
+      .fixture-note { padding: 0 18px 24px; color: #a8a6a4; font-size: 12px; max-width: 900px; }
+    </style>
+  </head>
+  <body>
+    <div id="board-layout-main">
+      <div class="board-column">
+        <div id="board-layout-player-top" class="board-layout-player board-layout-top">
+          <div class="player-component player-top">
+            <div class="player-avatar"><img class="cc-avatar-img" alt="Avatar" src="about:blank" width="40" height="40" /></div>
+            <div class="player-tagline">
+              <div class="cc-user-block-component cc-user-block-white cc-user-block-small">
+                <div role="button" tabindex="0" class="cc-text-medium-bold cc-user-username-component cc-user-username-white" data-test-element="user-tagline-username">MaiaBot-2400</div>
+              </div>
+            </div>
+            <div class="clock-component clock-top clock-black"><span class="clock-time-monospace" role="timer">10:00</span></div>
+          </div>
+        </div>
+      <div id="board" class="board" data-coordinates="1" style="position: absolute; left: 0; top: 0; width: 560px; height: 560px; pointer-events: none"></div>
+      <wc-chess-board class="board" id="board-single">
+        <svg viewBox="0 0 100 100" class="coordinates" aria-hidden="true"><text x="0.75" y="3.5" font-size="2.8" class="coordinate-light">8</text><text x="0.75" y="16" font-size="2.8" class="coordinate-dark">7</text><text x="0.75" y="28.5" font-size="2.8" class="coordinate-light">6</text><text x="0.75" y="41" font-size="2.8" class="coordinate-dark">5</text><text x="0.75" y="53.5" font-size="2.8" class="coordinate-light">4</text><text x="0.75" y="66" font-size="2.8" class="coordinate-dark">3</text><text x="0.75" y="78.5" font-size="2.8" class="coordinate-light">2</text><text x="0.75" y="91" font-size="2.8" class="coordinate-dark">1</text><text x="10" y="99" font-size="2.8" class="coordinate-dark">a</text><text x="22.5" y="99" font-size="2.8" class="coordinate-light">b</text><text x="35" y="99" font-size="2.8" class="coordinate-dark">c</text><text x="47.5" y="99" font-size="2.8" class="coordinate-light">d</text><text x="60" y="99" font-size="2.8" class="coordinate-dark">e</text><text x="72.5" y="99" font-size="2.8" class="coordinate-light">f</text><text x="85" y="99" font-size="2.8" class="coordinate-dark">g</text><text x="97.5" y="99" font-size="2.8" class="coordinate-light">h</text></svg>
+        <div class="element-pool"></div>
+        <div class="element-pool"></div>
+        <div class="element-pool"></div>
+        <div class="highlight square-21" style="background-color: rgb(255, 255, 51); opacity: 0.5;" data-test-element="highlight" data-test-type="highlight"></div>
+        <div class="highlight square-33" style="background-color: rgb(255, 255, 51); opacity: 0.5;" data-test-element="highlight" data-test-type="highlight"></div>
+        <!--/Pieces-->
+        <div class="piece wr square-11" style="left:0%;top:87.5%"></div>
+        <div class="piece square-31 wb" style="left:25%;top:87.5%"></div>
+        <div class="piece wq square-41" style="left:37.5%;top:87.5%"></div>
+        <div class="piece square-51 wk" style="left:50%;top:87.5%"></div>
+        <div class="piece wb square-61" style="left:62.5%;top:87.5%"></div>
+        <div class="piece square-71 wn" style="left:75%;top:87.5%"></div>
+        <div class="piece wr square-81" style="left:87.5%;top:87.5%"></div>
+        <div class="piece square-12 wp" style="left:0%;top:75%"></div>
+        <div class="piece wp square-22" style="left:12.5%;top:75%"></div>
+        <div class="piece square-52 wp" style="left:50%;top:75%"></div>
+        <div class="piece wp square-62" style="left:62.5%;top:75%"></div>
+        <div class="piece square-72 wp" style="left:75%;top:75%"></div>
+        <div class="piece wp square-82" style="left:87.5%;top:75%"></div>
+        <div class="piece square-33 wn" style="left:25%;top:62.5%"></div>
+        <div class="piece wp square-34" style="left:25%;top:50%"></div>
+        <div class="piece square-35 bp" style="left:25%;top:37.5%"></div>
+        <div class="piece wp square-45" style="left:37.5%;top:37.5%"></div>
+        <div class="piece square-56 bp" style="left:50%;top:25%"></div>
+        <div class="piece bn square-66" style="left:62.5%;top:25%"></div>
+        <div class="piece square-17 bp" style="left:0%;top:12.5%"></div>
+        <div class="piece bp square-27" style="left:12.5%;top:12.5%"></div>
+        <div class="piece square-47 bp" style="left:37.5%;top:12.5%"></div>
+        <div class="piece bp square-67" style="left:62.5%;top:12.5%"></div>
+        <div class="piece square-77 bp" style="left:75%;top:12.5%"></div>
+        <div class="piece bp square-87" style="left:87.5%;top:12.5%"></div>
+        <div class="piece square-18 br" style="left:0%;top:0%"></div>
+        <div class="piece bn square-28" style="left:12.5%;top:0%"></div>
+        <div class="piece square-38 bb" style="left:25%;top:0%"></div>
+        <div class="piece bq square-48" style="left:37.5%;top:0%"></div>
+        <div class="piece square-58 bk" style="left:50%;top:0%"></div>
+        <div class="piece bb square-68" style="left:62.5%;top:0%"></div>
+        <div class="piece square-88 br" style="left:87.5%;top:0%"></div>
+      </wc-chess-board>
+        <div id="board-layout-player-bottom" class="board-layout-player board-layout-bottom">
+          <div class="player-component player-bottom">
+            <div class="player-avatar"><img class="cc-avatar-img" alt="Avatar" src="about:blank" width="40" height="40" /></div>
+            <div class="player-tagline">
+              <div class="cc-user-block-component cc-user-block-white cc-user-block-small">
+                <div role="button" tabindex="0" class="cc-text-medium-bold cc-user-username-component cc-user-username-white" data-test-element="user-tagline-username">humanplay-session-user</div>
+              </div>
+            </div>
+            <div class="clock-component clock-bottom clock-white"><span class="clock-time-monospace" role="timer">10:00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <aside id="board-layout-sidebar" class="board-layout-sidebar">
+        <h2>Next game</h2>
+        <!-- Trap: a smaller, fully valid chess.com-style board. -->
+        <wc-chess-board class="board board-preview" id="board-preview">
+          <div class="piece wk square-51" style="left:12.5%;top:87.5%"></div>
+          <div class="piece bk square-58" style="left:37.5%;top:0%"></div>
+        </wc-chess-board>
+        <h2>Moves</h2>
+      <wc-simple-move-list class="move-list chessboard-pkg-move-list-component" board-id="board-single">
+        <div class="timestamps-with-base-time">
+        <div class="main-line-row move-list-row light-row" data-whole-move-number="1">1.  <div data-node="0-0" class="node white-move main-line-ply"> <span class="node-highlight-content offset-for-annotation-icon">d4 </span></div>  <div data-node="0-1" class="node black-move main-line-ply"> <span class="node-highlight-content offset-for-annotation-icon">Nf6 </span></div>  <div data-move-list-el="timestamp" data-ply="1" class="time-white">0.4s</div><div data-move-list-el="timestamp" data-ply="2" class="time-black">0.9s</div></div>
+        <div class="main-line-row move-list-row dark-row" data-whole-move-number="2">2.  <div data-node="0-2" class="node white-move main-line-ply"> <span class="node-highlight-content offset-for-annotation-icon">c4 </span></div>  <div data-node="0-3" class="node black-move main-line-ply"> <span class="node-highlight-content offset-for-annotation-icon">c5 </span></div>  <div data-move-list-el="timestamp" data-ply="3" class="time-white">0.3s</div><div data-move-list-el="timestamp" data-ply="4" class="time-black">1.2s</div></div>
+        <div class="main-line-row move-list-row light-row" data-whole-move-number="3">3.  <div data-node="0-4" class="node white-move main-line-ply"> <span class="node-highlight-content offset-for-annotation-icon">d5 </span></div>  <div data-node="0-5" class="node black-move main-line-ply"> <span class="node-highlight-content offset-for-annotation-icon">e6 </span></div>  <div data-move-list-el="timestamp" data-ply="5" class="time-white">0.6s</div><div data-move-list-el="timestamp" data-ply="6" class="time-black">2.1s</div></div>
+        <div class="main-line-row move-list-row dark-row" data-whole-move-number="4">4.  <div data-node="0-6" class="node white-move main-line-ply"> <span class="node-highlight-content offset-for-annotation-icon">Nc3 </span></div>  <div data-move-list-el="timestamp" data-ply="7" class="time-white">0.2s</div></div>
+        </div>
+      </wc-simple-move-list>
+      </aside>
+    </div>
+
+    <!-- Trap: a hidden board must never be selected. -->
+    <div hidden>
+      <wc-chess-board class="board" id="board-hidden">
+        <div class="piece wk square-11"></div>
+        <div class="piece bk square-88"></div>
+      </wc-chess-board>
+    </div>
+
+    <p class="fixture-note">
+      Offline fixture replicating the chess.com game-page DOM (verified 2026-10).
+      Ground truth below is for tests only; the runtime adapter must read the
+      visible DOM the same way it does on the real site.
+    </p>
+
+    <!-- Test ground truth only. -->
+    <div
+      id="fen"
+      data-fen="rnbqkb1r/pp1p1ppp/4pn2/2pP4/2P5/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 4"
+      data-moves="d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3"
+      data-name="chesscom-premove-takeback"
+      data-user-color="white"
+      data-flipped="false"
+      data-board-id="board-single"
+      hidden
+    ></div>
+  </body>
+</html>

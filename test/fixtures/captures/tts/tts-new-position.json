@@ -12,18 +12,18 @@
     "text": "Knight to d5",
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3"
   },
-  "mutationToSpeakMs": 881,
+  "mutationToSpeakMs": 859,
   "delayMs": 700,
   "stopBeforeSpeak": {
-    "at": "2026-10-16T19:18:15.743Z",
-    "atEpochMs": 1792178295743,
+    "at": "2026-10-16T20:06:53.274Z",
+    "atEpochMs": 1792181213274,
     "kind": "stop",
     "reason": "before-speak",
     "source": "panel",
     "engine": "chrome.tts",
     "ok": true,
     "error": null,
-    "stoppedAt": 1792178295743
+    "stoppedAt": 1792181213274
   },
   "speaksForNewKey": 1
 }

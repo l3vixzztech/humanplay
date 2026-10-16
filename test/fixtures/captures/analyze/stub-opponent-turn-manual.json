@@ -4,7 +4,7 @@
   "screenshot": "test/fixtures/captures/analyze/stub-opponent-turn-manual.png",
   "waiting": {
     "gate": "waiting",
-    "message": "their turn (white to move) — waiting. Opponent prediction arrives in M7; Analyze now still works.",
+    "message": "their turn (white to move) — waiting. See the Premove card for their likely replies; Analyze now still works.",
     "rowsHidden": true,
     "wdlHidden": true
   },
@@ -29,6 +29,6 @@
       "draw 6.3%",
       "loss 49.1%"
     ],
-    "meta": "model maia3-5m · engine 10.1 ms · round-trip 3.0 ms · 4 moves · replayed · ui 44.4 ms"
+    "meta": "model maia3-5m · engine 10.1 ms · round-trip 2.0 ms · 4 moves · replayed · ui 100.9 ms"
   }
 }

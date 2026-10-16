@@ -11,7 +11,7 @@
     "decision": {
       "speak": false,
       "reason": "no-suggestion",
-      "at": 1792178292834,
+      "at": 1792181210307,
       "trigger": "toggle-on",
       "source": "panel",
       "force": true,
@@ -21,7 +21,7 @@
       {
         "speak": false,
         "reason": "no-suggestion",
-        "at": 1792178292834,
+        "at": 1792181210307,
         "trigger": "toggle-on",
         "source": "panel",
         "force": true,
@@ -57,8 +57,8 @@
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
   },
   "speak": {
-    "at": "2026-10-16T19:18:13.049Z",
-    "atEpochMs": 1792178293049,
+    "at": "2026-10-16T20:06:50.590Z",
+    "atEpochMs": 1792181210590,
     "kind": "speak",
     "text": "e-pawn to e4",
     "san": "e4",
@@ -81,7 +81,7 @@
       "speak": false,
       "reason": "duplicate",
       "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-      "at": 1792178293049,
+      "at": 1792181210590,
       "trigger": "suggestion",
       "source": "panel",
       "force": false,
@@ -92,7 +92,7 @@
       {
         "speak": false,
         "reason": "no-suggestion",
-        "at": 1792178292834,
+        "at": 1792181210307,
         "trigger": "toggle-on",
         "source": "panel",
         "force": true,
@@ -102,7 +102,7 @@
         "speak": true,
         "reason": "speak",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792178293047,
+        "at": 1792181210589,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -113,7 +113,7 @@
         "speak": true,
         "reason": "speak",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792178293047,
+        "at": 1792181210589,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -124,7 +124,7 @@
         "speak": false,
         "reason": "duplicate",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792178293047,
+        "at": 1792181210590,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -135,7 +135,7 @@
         "speak": false,
         "reason": "duplicate",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792178293049,
+        "at": 1792181210590,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -155,11 +155,11 @@
         "ok": true,
         "engine": "chrome.tts",
         "text": "e-pawn to e4",
-        "issuedAt": "2026-10-16T19:18:13.049Z",
-        "issuedAtEpochMs": 1792178293049,
+        "issuedAt": "2026-10-16T20:06:50.590Z",
+        "issuedAtEpochMs": 1792181210590,
         "stopBefore": {
           "ok": true,
-          "stoppedAt": "2026-10-16T19:18:13.049Z",
+          "stoppedAt": "2026-10-16T20:06:50.590Z",
           "reason": "before-speak"
         },
         "error": null
@@ -191,7 +191,7 @@
       "historyUsed": 0,
       "model": "maia3-5m",
       "elapsed_ms": 15.36,
-      "roundTripMs": 4,
+      "roundTripMs": 2,
       "attempts": 1,
       "fromCache": true,
       "moves": [
@@ -338,25 +338,25 @@
     ],
     "note": null,
     "ok": true,
-    "at": "2026-10-16T19:18:13.045Z",
+    "at": "2026-10-16T20:06:50.586Z",
     "lastError": null
   },
   "stopBeforeSpeak": {
-    "at": "2026-10-16T19:18:13.049Z",
-    "atEpochMs": 1792178293049,
+    "at": "2026-10-16T20:06:50.590Z",
+    "atEpochMs": 1792181210590,
     "kind": "stop",
     "reason": "before-speak",
     "source": "panel",
     "engine": "chrome.tts",
     "ok": true,
     "error": null,
-    "stoppedAt": 1792178293048
+    "stoppedAt": 1792181210590
   },
   "panelDecision": {
     "speak": false,
     "reason": "duplicate",
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-    "at": 1792178293049,
+    "at": 1792181210590,
     "trigger": "suggestion",
     "source": "panel",
     "force": false,
@@ -367,8 +367,8 @@
   "ttsEvents": [
     {
       "type": "start",
-      "at": "2026-10-16T19:18:13.092Z",
-      "atEpochMs": 1792178293092,
+      "at": "2026-10-16T20:06:50.631Z",
+      "atEpochMs": 1792181210631,
       "text": "e-pawn to e4",
       "errorMessage": null
     }

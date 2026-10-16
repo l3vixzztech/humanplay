@@ -2,6 +2,177 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Session 7 — Milestone 7: premove planner (server criteria engine + panel + dashed arrow + speech) ✅
+
+**What works**
+- `extension/` **0.6.0** (overlay m7.0). **No new permissions** (checked by the
+  proof), manifest still chess.com-only, one host permission, one `tts`.
+- **Server (Task 0 of the milestone): `POST /premove`** — `server/premove_engine.py`
+  (criteria engine, formulas documented in the module + PROJECT.md) +
+  `maia_engine.move_probabilities()` (full legal-move softmax; **`predict` was
+  not modified** and `/analyze` is byte-identical — the 55 old tests still
+  pass). Request `{fen, moves?, elo_self, elo_oppo, top_n=5 (clamp 1..12),
+  min_safety=0.90 (clamp 0.5..1.0), mode="top"|"all"}`; the response carries
+  `opponent`, `recommended|null`, `candidates` (safe/guard masses + verdict +
+  why), `excluded` (terminal replies), `reason`, `params`, `timings_ms`.
+  Criteria: `safety = safe_mass + guard_mass` (guard = the premove is illegal
+  after their move → safe by inaction); recommend iff `safety ≥ min_safety` ∧
+  `safe_mass > 0` ∧ `min_response_prob ≥ 0.15` (server constant, not a request
+  field); criterion `forced` / `safe_vs_all` / `robust`; the opponent's
+  candidates come from Maia(elo_oppo), our replies from Maia(elo_self) — the Elo
+  pair is swapped because Maia conditions on the side to move. **Timings: top
+  mode ≈ 90 ms engine (target ≤300 ms), all mode 0.45–0.8 s for 20–31 legal
+  moves (target ≤1.5 s), single forward pass ~14 ms.**
+- **`src/analysis/premove-client.js` (new, pure)**: the analyze-client patterns
+  — position key `fen|moves|elos|top_n|min_safety|mode`, LRU(24), in-flight
+  dedupe, stale guard, 5 s timeout, exactly one retry on a network failure,
+  injectable fetch, same error classes; `buildPremoveRequest` reuses the M4
+  mapping (replayed history → startpos+moves; mismatch → board FEN);
+  `premoveGate` = assistant on + state ok + color known + **their** turn;
+  `criterionLabel`/`premoveCaveat` for the panel wording.
+- **Panel "Premove" card (M7)**: active on the opponent's turn — recommendation +
+  criterion chip (`forced` / `robust vs 94%` / `safe vs all replies`), safety %,
+  min response prob, the `detail` line, their top-3 likely moves with % (mating
+  ones marked), `planning…`, the honest `no safe premove` + reason state, the
+  mandated mode-"top" caveat, meta line; **"waiting for your move"** on our turn;
+  settings **Show premove arrow** (default ON, effective only under "Show
+  arrows") + **Speak premoves** (default ON), both persisted.
+- **Overlay**: the premove is a **dashed blue arrow** (`rgba(64,150,255,0.95)`,
+  solid head) drawn through the existing canvas + geometry
+  (`humanplay:premove` / `:clear-premove` via the SW); independent from the
+  suggestion set (a manual analysis on their turn shows both — recorded);
+  a stale result never touches what the newer position published.
+- **TTS**: "premove knight takes d5" — `premoveSpeech()` (M6 formatter) +
+  `premoveSpeakDecision()` (Voice on + Speak premoves on + assistant on +
+  **their** turn + recommendation + current key + dedupe key
+  `premove:<key>:<uci>`), executed by the M6 service-worker speaker
+  (stop-before-speak, `enqueue:false`, rate). Toggling Voice / "Speak premoves"
+  on speaks the current premove once (forced = dedupe bypass only).
+- **Trigger**: after our move lands; ready ≤ ~600 ms. **Stale race**: if the
+  opponent moves while the plan is in flight, `stale` discards everything (no
+  render, no arrow, no speech).
+- Task 0: the stale `speaker.js` comment about `getVoices()` was corrected
+  (0 at cold start → enumerates 14805 with `--enable-speech-dispatcher`; 0 with
+  utterances erroring without it).
+
+**Results (evidence: `test/fixtures/captures/premove/`)**
+- `server` **`79 passed`** (55 old + 24 new `tests/test_premove.py`): forced
+  recapture (`8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b` → only Rxd2, premove Qxd2+
+  31.1%); guard recapture (Benoni 4...exd5 76.6% → 5.cxd5 recapture, quiet moves
+  leave our pawn on d5 so cxd5 is illegal → guard 23.4%, safe_vs_all); strict
+  null (Italian, Nf6 67% / Bc5 23% → `d3` covers only 67% < 90%); safe_vs_all
+  endgame (4 legal king replies all met by **b8=Q+**, min 97%); mate exclusion
+  (after 1.f3 e5 2.g4, Qh4# 33.4% excluded + `reason`, strict → null, bar 0.5 →
+  gxh5 recommended *and still excluded*); the response floor; clamps; contract;
+  mode "all" = every legal move; determinism; perf recorded.
+- `premove-unit.mjs` **12/12** (client key/dedupe/stale/errors + request builder
+  + gate + criterion label/caveat + `premoveSpeech` matrix + the
+  `premoveSpeakDecision` never-speak matrix).
+- `premove-proof.mjs **stub` — ALL 9 CASES PASSED**: take-back card (cxd5,
+  safe_vs_all, safety 100%, min-prob 98.4%, exd5 96.3% top row, caveat) + dashed
+  arrow **0.00 px** vs DOM ground truth; exactly one speak `"premove c-pawn
+  takes d5"` (stop-before-speak, 4 ms after the toggle) and a re-emit deduped;
+  the robust mutation (9 plies) → `robust vs 99%` + `"premove e-pawn to e4"`,
+  mutation→render **157 ms**; the forced mismatch mutation → criterion `forced`
+  from the board-only key + `"premove queen takes d2, check"`; the no-safe state
+  (startpos + 1.e4) → 0 arrows, 0 speaks; the stale race (900 ms delayed plan
+  superseded) → `staleDiscards 1`, the newer plan kept, no stale arrow/speech;
+  gating (our turn 0 requests, assistant off 0 requests, TTS off 0 speaks);
+  flipped board cxd4 dashed **0.00 px**. Console clean, `codeIdentical` 26/26.
+- `premove-proof.mjs **real` — ALL PASSED: the panel for
+  `chesscom/premove-takeback.html` **equals `curl /premove`** (cxd5,
+  safe_vs_all, safety 1, min_response_prob 0.983822, their exd5 96.3476%),
+  engine **87 ms**, round-trip **91 ms**, state→render **113–260 ms**
+  (`real-takeback-equals-curl.json`).
+- Regressions all green: `tts-proof` ALL PASSED (14805 voices, hotkey/badge,
+  panel-closed), `overlay-proof` ALL PASSED, `adapter-proof` ALL PASSED (now
+  also covering the new `premove-takeback.html` fixture: FEN/7 moves/white),
+  `analyze-proof --stub` 10/10, server **`79 passed`**.
+- Screenshots: `stub-takeback-card.png`, `stub-takeback-arrow.png` (dashed blue
+  c4→d5 on the real board), `stub-robust.png`, `stub-forced.png`,
+  `stub-no-safe.png`, `stub-gating-assistant-off.png`, `stub-stale-race.png`,
+  `stub-flipped.png`/`stub-flipped-arrow.png`, `real-takeback-card.png`,
+  `real-takeback-arrow.png`.
+
+**Exact commands**
+```bash
+CHROME="$HOME/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome"
+node test/tools/premove-unit.mjs                          # 12 passed
+node test/tools/premove-proof.mjs --chrome "$CHROME"      # 9 cases, ALL PASSED (spawns the stub)
+cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765
+node test/tools/premove-proof.mjs --chrome "$CHROME" --real          # panel == curl, ALL PASSED
+node test/tools/tts-proof.mjs --chrome "$CHROME"          # M6 regression
+node test/tools/overlay-proof.mjs --chrome "$CHROME"      # M5 regression
+node test/tools/adapter-proof.mjs --chrome "$CHROME"      # M3 regression
+node test/tools/analyze-proof.mjs --chrome "$CHROME"      # M4 stub regression
+cd server && .venv/bin/python -m pytest tests -q          # 79 passed
+# re-record the stub's canned /premove data (real server must be running):
+server/.venv/bin/python test/fixtures/generate_chesscom.py
+python3 test/tools/collect-canned.py
+```
+
+**Automatic vs manual**
+- Delivered by tests: the criteria engine (hand-verified expectations), the
+  `/premove` contract + clamps, the client key/dedupe/stale/error mapping, the
+  card per criterion + no-safe state, dashed-arrow endpoints on normal/flipped
+  fixtures (0.00 px), the "premove …" text/policy/dedupe, gating (our turn /
+  assistant off / TTS off), the master-switch interaction, the stale race, and
+  the real-mode panel==curl equality.
+- **Only a human can verify**: the live chess.com flow (the premove actually
+  firing on the site after they move), audible voice quality (espeak is
+  robotic), the toolbar badge by eye, and the safety claim over a real game —
+  never losing material to a mispredicted premove.
+
+**MANUAL CHECKLIST (what only a human can verify — the point of M7)**
+1. **Real game with uvicorn + Chrome loaded**: after YOUR move the Premove card
+   must fill within ~1 s — their likely moves + one recommendation (or "no safe
+   premove"). On an **obvious take-back** (e.g. they can capture a piece and your
+   recapture is natural) a **dashed blue arrow** must appear on the board and,
+   with Voice on, you must hear **"premove …"**.
+2. **It must stay silent when unsafe**: positions where their two likely moves
+   need different answers must show "no safe premove" — no arrow, no speech.
+3. **Legality guard**: make the premove, let them play an unexpected move — the
+   premove either fires (it was legal) or simply does not; you must **never
+   lose material to a mispredicted premove** in your testing (that is the whole
+   criteria point; report any counterexample with the FEN + their move).
+4. Settings: **Show premove arrow** off/on (effective only while "Show arrows"
+   is on) and **Speak premoves** off/on; both persist across reloads.
+5. On your turn the card must say **"waiting for your move"**; with the
+   assistant off it must say "assistant off" (and plan nothing).
+
+**Deviations / notes**
+- The take-back fixture is a position on the **opponent's** turn where their
+  capture (`4...exd5`, 96.3%) is the obvious continuation and our **take-back**
+  (`5.cxd5`) is the premove — i.e. "the opponent has just captured" is realised
+  as "their capture is the trigger and our recapture is queued" (ply parity:
+  the fixture must end on our move for it to be their turn).
+- Verified tuning observation: in `mode="all"` a premove whose mass is almost
+  all **guard** (e.g. the en-passant-only `exd5` after 1.e4 e5 2.Nf3 Nc6 3.Bc4:
+  safe_mass 0.006%) can pass the documented criteria — harmless (it can never
+  backfire) but useless. The panel ships `mode="top"` where safe_mass is the
+  dominant case; a "minimum useful safe mass" knob is the obvious future tweak.
+- A **stale** result no longer clears the overlay (a newer position's policy
+  may already have published its arrow); documented in `runPremove`.
+- `overlay-proof.mjs` now filters **premove** arrows out of its M5 count/geometry
+  assertions and records the coexistence (`o6.waiting.allArrows`,
+  `o6.premoveCoexistence`) — a manual analysis on their turn legitimately shows
+  both sets.
+- The fixture server grew `/premove` canned responses (recorded from the real
+  server; `collect-canned.py` re-records them) + `/debug/premove-delay` and
+  `/debug/canned-premove`; the M7 proof's "forced" and "stale-race" cases use
+  the **mismatch mutation** (replace the board, keep the move list) so they stay
+  position-provable through the production adapter path.
+- `premove-proof.mjs` writes `premove-proof-real.json` (summary) and
+  `real-takeback-equals-curl.json` (case) in real mode; `--stub` writes
+  `premove-proof-stub.json` + one JSON per case.
+- `TTS` remains **default OFF**; "Speak premoves" is default ON but can only
+  speak when Voice is on (documented in the card).
+
+**Next — Milestone 8**: live commentary / explain mode (short natural-language
+"why this move" from the model's probabilities).
+
+---
+
 ## Session 6 — Milestone 6: TTS move announcements (chrome.tts, toggle + hotkey + dedupe) ✅
 
 **What works**

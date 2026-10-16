@@ -76,12 +76,24 @@ import {
   clampElo,
   createAnalyzeClient,
 } from "../analysis/analyze-client.js";
-import { moveToSpeech } from "../tts/move-speech.js";
+import {
+  PREMOVE_DEFAULT_MIN_SAFETY,
+  PREMOVE_DEFAULT_MODE,
+  PREMOVE_DEFAULT_TOP_N,
+  buildPremoveRequest,
+  createPremoveClient,
+  criterionLabel,
+  premoveCaveat,
+  premoveGate,
+} from "../analysis/premove-client.js";
+import { moveToSpeech, premoveSpeech } from "../tts/move-speech.js";
 import {
   DEFAULT_TTS_RATE,
   TTS_RATES,
   clampRate,
   createSpokenKeyStore,
+  premoveSpeakDecision,
+  premoveSpokenKey,
   speakDecision,
 } from "../tts/tts-policy.js";
 
@@ -100,9 +112,20 @@ const MSG_CLEAR_SUGGESTION = "humanplay:clear-suggestion";
 const MSG_TTS_SPEAK = "humanplay:tts-speak";
 const MSG_TTS_STOP = "humanplay:tts-stop";
 const MSG_TTS_VOICES = "humanplay:tts-voices";
+/** M7: the premove arrow / speech — routed like the M5 suggestion. */
+const MSG_PREMOVE = "humanplay:premove";
+const MSG_CLEAR_PREMOVE = "humanplay:clear-premove";
 /** The "Speak test" button text — the M6 canonical example phrasing. */
 const TTS_TEST_TEXT = "Knight to f3";
 const OVERLAY_ALTERNATIVES_MAX = 3;
+/** M7 planning knobs the panel always sends (server clamps again). */
+const PREMOVE_OPTS = Object.freeze({
+  topN: PREMOVE_DEFAULT_TOP_N,
+  minSafety: PREMOVE_DEFAULT_MIN_SAFETY,
+  mode: PREMOVE_DEFAULT_MODE,
+});
+/** How many of their likely moves the premove card lists. */
+const PREMOVE_OPPO_MAX = 3;
 /** The "listening" chip drops back to idle after this long without a state. */
 const LISTENING_STALE_MS = 6000;
 const SERVER_START_COMMAND = "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765";
@@ -154,6 +177,21 @@ const els = {
   ttsVoices: document.getElementById("tts-voices"),
   ttsNote: document.getElementById("tts-note"),
   ttsStatus: document.getElementById("tts-status"),
+  pmStatus: document.getElementById("pm-status"),
+  pmMessage: document.getElementById("pm-message"),
+  pmRec: document.getElementById("pm-rec"),
+  pmSan: document.getElementById("pm-san"),
+  pmCriterion: document.getElementById("pm-criterion"),
+  pmSafety: document.getElementById("pm-safety"),
+  pmMinProb: document.getElementById("pm-minprob"),
+  pmDetail: document.getElementById("pm-detail"),
+  pmOppoBox: document.getElementById("pm-oppo-box"),
+  pmOppoTitle: document.getElementById("pm-oppo-title"),
+  pmOppo: document.getElementById("pm-oppo"),
+  pmCaveat: document.getElementById("pm-caveat"),
+  pmArrow: document.getElementById("pm-arrow"),
+  pmSpeak: document.getElementById("pm-speak"),
+  pmMeta: document.getElementById("pm-meta"),
 };
 
 /** Last frame, in memory only (never persisted — see header comment). */
@@ -202,6 +240,32 @@ const TTS_DECISION_HISTORY = 40;
 const spokenKeys = createSpokenKeyStore();
 
 /**
+ * M7 premove state: settings, policy decisions, the last plan, and the overlay
+ * bookkeeping for the dashed premove arrow (kept separate from the M5
+ * suggestion so clearing one never clears the other).
+ */
+const premove = {
+  showArrow: true, // settings.showPremoveArrow (effective only with showArrows)
+  speak: true, // settings.speakPremoves (default ON; requires TTS on)
+  gate: "idle",
+  status: "idle",
+  planCount: 0,
+  planStaleDiscards: 0,
+  lastPlan: null, // diagnostics for the proof (key/plan/status/timings)
+  decision: null,
+  decisions: [],
+  lastRequest: null,
+  lastStop: null,
+  sentMode: "idle", // "idle" | "premove" | "cleared"
+  sentKey: null,
+  lastClearReason: null,
+  messageCount: 0,
+  lastMessage: null,
+  lastResponse: null,
+  lastError: null,
+};
+
+/**
  * Read-only diagnostics for test/tools/analyze-proof.mjs and
  * test/tools/tts-proof.mjs (see header). Never read back by the panel itself.
  */
@@ -224,11 +288,16 @@ const analysisDebug = {
   overlay,
   /** M6: live view of the TTS policy (read-only for the proof). */
   tts,
+  /** M7: live view of the premove policy/plan (read-only for the proof). */
+  premove,
+  premoveClient: null,
 };
 globalThis.__humanplayAnalysis = analysisDebug;
 
 const analyzeClient = createAnalyzeClient();
 analysisDebug.client = analyzeClient;
+const premoveClient = createPremoveClient();
+analysisDebug.premoveClient = premoveClient;
 
 init();
 
@@ -247,6 +316,8 @@ async function init() {
   els.eloReset.addEventListener("click", onEloReset);
   els.ovArrows.addEventListener("change", onOverlaySettingChanged);
   els.ovAlternatives.addEventListener("change", onOverlaySettingChanged);
+  els.pmArrow.addEventListener("change", onPremoveSettingChanged);
+  els.pmSpeak.addEventListener("change", onPremoveSettingChanged);
   els.ttsEnabled.addEventListener("change", () => onTtsEnabledChanged({ source: "panel" }));
   els.ttsRate.addEventListener("change", onTtsRateChanged);
   els.ttsTest.addEventListener("click", onTtsTestClicked);
@@ -273,6 +344,11 @@ async function init() {
   els.ttsEnabled.checked = settings.ttsEnabled;
   els.ttsRate.value = String(tts.rate);
   renderTtsStatus();
+  premove.showArrow = settings.showPremoveArrow;
+  premove.speak = settings.speakPremoves;
+  els.pmArrow.checked = settings.showPremoveArrow;
+  els.pmSpeak.checked = settings.speakPremoves;
+  renderPremoveIdle("open a chess.com game — the premove plan appears while the opponent thinks.", "no-state");
 
   await refreshHealth();
   refreshTtsVoices(); // async, never blocks the panel
@@ -296,6 +372,8 @@ async function loadSettings() {
       showAlternatives: settings.showAlternatives === true, // default OFF
       ttsEnabled: settings.ttsEnabled === true, // default OFF (M6)
       ttsRate: clampRate(settings.ttsRate, DEFAULT_TTS_RATE),
+      showPremoveArrow: settings.showPremoveArrow !== false, // default ON (M7)
+      speakPremoves: settings.speakPremoves !== false, // default ON (M7)
     };
   } catch {
     return {
@@ -307,6 +385,8 @@ async function loadSettings() {
       showAlternatives: false,
       ttsEnabled: false,
       ttsRate: DEFAULT_TTS_RATE,
+      showPremoveArrow: true,
+      speakPremoves: true,
     };
   }
 }
@@ -375,6 +455,7 @@ async function onOverlaySettingChanged() {
 
   if (!overlay.showArrows) {
     clearOverlay("arrows-off");
+    clearPremoveOverlay("arrows-off");
     return;
   }
   // Show arrows again / change the alternatives flag for what is on the card —
@@ -382,6 +463,34 @@ async function onOverlaySettingChanged() {
   const last = analysisDebug.lastResult;
   if (last && Array.isArray(last.moves) && last.moves.length > 0 && analyzeClient.isCurrent(last.key)) {
     publishOverlaySuggestion({ key: last.key }, last.moves);
+  }
+  // Same for the premove: only a plan whose key is still current may be redrawn.
+  const plan = premove.lastPlan;
+  if (plan?.recommended && plan.key && premoveClient.isCurrent(plan.key)) {
+    publishPremoveOverlay({ key: plan.key }, plan.recommended);
+  }
+}
+
+/** M7: "Show premove arrow" / "Speak premoves" (persisted; immediate effect). */
+async function onPremoveSettingChanged() {
+  clearError();
+  const arrowWas = premove.showArrow;
+  const speakWas = premove.speak;
+  premove.showArrow = els.pmArrow.checked;
+  premove.speak = els.pmSpeak.checked;
+  await saveSettings({ showPremoveArrow: premove.showArrow, speakPremoves: premove.speak });
+
+  if (!premove.showArrow) {
+    clearPremoveOverlay("premove-arrow-off");
+  } else if (!arrowWas) {
+    const plan = premove.lastPlan;
+    if (overlay.showArrows && plan?.recommended && plan.key && premoveClient.isCurrent(plan.key)) {
+      publishPremoveOverlay({ key: plan.key }, plan.recommended);
+    }
+  }
+  if (premove.speak && !speakWas) {
+    // Explicit user intent: speak the premove that is already on the card once.
+    await speakCurrentPremove({ force: true, reason: "speak-premoves-on", source: "panel" });
   }
 }
 
@@ -454,7 +563,6 @@ function overlaySend(message) {
 }
 
 /* -------------------------------------------------------------- voice (M6) */
-
 function renderTtsStatus() {
   els.ttsStatus.textContent = tts.enabled ? "on" : "off";
   els.ttsStatus.className = `chip ${tts.enabled ? "chip-online" : "chip-idle"}`;
@@ -508,6 +616,8 @@ async function onTtsEnabledChanged({ source = "panel", persist = true } = {}) {
   // still the current position and it is your turn) — otherwise nothing is
   // spoken until the next suggestion arrives.
   await speakCurrentSuggestion({ force: true, reason: "toggle-on", source });
+  // M7: on their turn the card may hold a premove instead — same explicit intent.
+  await speakCurrentPremove({ force: true, reason: "toggle-on", source });
 }
 
 async function onTtsRateChanged() {
@@ -645,6 +755,419 @@ async function speakCurrentSuggestion({ force = false, reason = "manual", source
   return speakSuggestion({ state: lastChesscomState, key: last.key, moves: last.moves, force, trigger: reason, source });
 }
 
+/* -------------------------------------------------------------- premove (M7) */
+
+/**
+ * The premove policy for one GameState, run next to the M4 analysis policy.
+ * Trigger: after our move lands (the opponent's turn begins) — every state
+ * render re-evaluates it, and the client's cache/dedupe/stale logic makes
+ * repeated calls free. On our own turn the card says "waiting for your move".
+ */
+async function onPremovePolicy(state) {
+  if (state?.ok) {
+    // New game? Same rule as M4: the cached plans are void.
+    premoveClient.noteSessionSeq(state.sessionSeq ?? 0);
+  }
+
+  const gate = premoveGate(state, { assistantEnabled: els.toggle.checked });
+  premove.gate = gate.mode;
+
+  if (!state?.ok) {
+    renderPremoveIdle(
+      state?.reason
+        ? `no premove plan: ${state.reason}`
+        : "open a chess.com game — the premove plan appears while the opponent thinks.",
+      "no-state",
+    );
+    return;
+  }
+
+  const request = buildPremoveRequest(state, { eloSelf: elo.self, eloOppo: elo.oppo, ...PREMOVE_OPTS });
+  // Declare the position even when we do not request a plan: an in-flight plan
+  // for the previous position then resolves as stale (never rendered/spoken).
+  premoveClient.expectKey(request.key);
+  premove.currentKey = request.key;
+
+  if (gate.mode === "off") {
+    renderPremoveIdle("assistant off — premove planning is part of the assistant.", "assistant-off");
+    return;
+  }
+  if (gate.mode === "no-color") {
+    renderPremoveIdle("your color is unknown — set the fallback color in the game-state card.", "no-color");
+    return;
+  }
+  if (gate.mode === "waiting") {
+    renderPremoveWaiting();
+    return;
+  }
+  await runPremove({ state, request });
+}
+
+async function runPremove({ state, request }) {
+  const startedAt = performance.now();
+  premove.planCount += 1;
+  premove.status = "planning";
+  setPmStatus("planning…", "chip-checking");
+  els.pmMessage.hidden = false;
+  els.pmMessage.className = "mx-message";
+  els.pmMessage.textContent = `predicting their moves — ${describePremoveRequest(state, request)}…`;
+  hidePremoveRecommendation();
+  hidePremoveOpponent();
+  hidePremoveCaveat();
+  els.pmMeta.hidden = true;
+  clearPremoveOverlay("planning"); // never keep the previous position's arrow
+
+  const result = await premoveClient.plan(request, { force: false });
+  premove.lastRoundTripMs = result.roundTripMs;
+
+  if (result.stale) {
+    // The position moved on while the planner was computing: discard silently —
+    // no render, no speech. The overlay is NOT touched here: the newer
+    // position's policy has already published its own arrow (or cleared it), and
+    // a stale result must never overwrite that.
+    premove.planStaleDiscards += 1;
+    premove.lastStaleDiscard = { key: result.key, at: Date.now() };
+    return;
+  }
+  if (!result.ok) {
+    renderPremoveError(result);
+    return;
+  }
+  renderPremovePlan(result, request, state, performance.now() - startedAt);
+}
+
+function describePremoveRequest(state, request) {
+  if (request?.positionMode === "history") {
+    return `${request.historyUsed} move${request.historyUsed === 1 ? "" : "s"} of history`;
+  }
+  return `board position${state?.mismatch ? " (no history: mismatch)" : ""}`;
+}
+
+function renderPremovePlan(result, request, state, latencyMs) {
+  const data = result.data;
+  const recommended = data.recommended ?? null;
+  const opponent = Array.isArray(data.opponent) ? data.opponent : [];
+  const excluded = Array.isArray(data.excluded) ? data.excluded : [];
+
+  premove.lastPlan = {
+    key: result.key,
+    status: recommended ? "ready" : "no-safe-premove",
+    mode: data.params?.mode ?? null,
+    top_n: data.params?.top_n ?? null,
+    min_safety: data.params?.min_safety ?? null,
+    min_response_prob: data.params?.min_response_prob ?? null,
+    side_to_move: data.side_to_move ?? null,
+    opponent: opponent.map((move) => ({ uci: move.uci, san: move.san, prob: move.prob })),
+    recommended: recommended
+      ? {
+          uci: recommended.uci,
+          san: recommended.san,
+          criterion: recommended.criterion,
+          safety: recommended.safety,
+          min_response_prob: recommended.min_response_prob,
+          detail: recommended.detail,
+        }
+      : null,
+    candidates: Array.isArray(data.candidates) ? data.candidates : [],
+    excluded,
+    reason: data.reason ?? null,
+    model: data.model ?? null,
+    engineMs: data.elapsed_ms ?? null,
+    roundTripMs: result.roundTripMs,
+    fromCache: Boolean(result.fromCache),
+    renderMs: latencyMs,
+    atEpochMs: Date.now(),
+  };
+  premove.status = premove.lastPlan.status;
+
+  renderPremoveOpponent(opponent, excluded);
+  renderPremoveCaveat(data.params?.mode, data.params?.top_n);
+
+  if (recommended) {
+    setPmStatus("premove ready", "chip-online");
+    els.pmMessage.hidden = true;
+    els.pmRec.hidden = false;
+    els.pmSan.textContent = recommended.san ?? recommended.uci ?? "—";
+    els.pmCriterion.textContent = criterionLabel(recommended) ?? "—";
+    els.pmCriterion.title = recommended.detail ?? "";
+    els.pmSafety.textContent = formatPercent(recommended.safety);
+    els.pmMinProb.textContent = formatPercent(recommended.min_response_prob);
+    els.pmDetail.textContent = recommended.detail ?? "";
+    publishPremoveOverlay(result, recommended);
+  } else {
+    setPmStatus("no safe premove", "chip-idle");
+    els.pmMessage.hidden = false;
+    els.pmMessage.className = "mx-message is-warn";
+    els.pmMessage.textContent = data.reason ?? "no safe premove — play manually.";
+    hidePremoveRecommendation();
+    clearPremoveOverlay("no-premove");
+  }
+
+  // M7 speech: "premove knight takes d5" — the M6 formatter + policy, the M7
+  // dedupe key, the shared service-worker speaker. A null plan never speaks.
+  speakPremove({
+    state,
+    key: result.key,
+    recommended,
+    trigger: "plan",
+    source: "panel",
+  }).catch((error) => showError(`TTS: ${error?.message ?? error}`));
+
+  const parts = [
+    `model ${data.model ?? "?"}`,
+    `engine ${formatMs(data.elapsed_ms)} ms`,
+    `round-trip ${formatMs(result.roundTripMs)} ms`,
+    `${opponent.length - excluded.length} considered of ${opponent.length} likely ${opponent.length === 1 ? "reply" : "replies"}`,
+    `ui ${formatMs(latencyMs)} ms`,
+  ];
+  if (excluded.length > 0) parts.push(`${excluded.length} terminal (excluded)`);
+  if (result.fromCache) parts.push("cached");
+  els.pmMeta.hidden = false;
+  els.pmMeta.textContent = parts.join(" · ");
+  els.pmMeta.title = `position key: ${result.key}`;
+}
+
+/** Their likely moves, top-3 with %, terminal ones marked (never counted safe). */
+function renderPremoveOpponent(opponent, excluded) {
+  if (opponent.length === 0) {
+    hidePremoveOpponent();
+    return;
+  }
+  const terminal = new Map(excluded.map((move) => [move.uci, move.reason]));
+  els.pmOppo.innerHTML = "";
+  opponent.slice(0, PREMOVE_OPPO_MAX).forEach((move) => {
+    const percent = Number.isFinite(move.prob) ? move.prob * 100 : 0;
+    const item = document.createElement("li");
+    item.className = "pm-oppo-row";
+    const reason = terminal.get(move.uci) ?? null;
+    if (reason) item.classList.add("pm-oppo-terminal");
+    item.dataset.uci = move.uci ?? "";
+    item.dataset.san = move.san ?? "";
+    item.dataset.prob = Number.isFinite(move.prob) ? String(move.prob) : "";
+    item.dataset.terminal = reason ?? "";
+
+    const san = document.createElement("span");
+    san.className = "pm-oppo-san";
+    san.textContent = move.san ?? move.uci ?? "?";
+
+    const bar = document.createElement("span");
+    bar.className = "pm-oppo-bar";
+    const fill = document.createElement("span");
+    fill.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+    bar.append(fill);
+
+    const prob = document.createElement("span");
+    prob.className = "pm-oppo-prob";
+    prob.textContent = formatPercent(move.prob);
+
+    const mark = document.createElement("span");
+    mark.className = "pm-oppo-mark";
+    mark.textContent = reason ? `(${reason} — excluded)` : "";
+
+    item.append(san, bar, prob, mark);
+    els.pmOppo.append(item);
+  });
+  els.pmOppoBox.hidden = false;
+}
+
+/** The honest caveat (mandated for mode "top", see docs/PROJECT.md). */
+function renderPremoveCaveat(mode, topN) {
+  els.pmCaveat.hidden = false;
+  els.pmCaveat.textContent = premoveCaveat(mode ?? PREMOVE_OPTS.mode, topN ?? PREMOVE_OPTS.topN);
+}
+
+function renderPremoveWaiting() {
+  setPmStatus("waiting", "chip-idle");
+  els.pmMessage.hidden = false;
+  els.pmMessage.className = "mx-message";
+  els.pmMessage.textContent = "waiting for your move — the premove plan appears while they think.";
+  hidePremoveRecommendation();
+  hidePremoveOpponent();
+  hidePremoveCaveat();
+  els.pmMeta.hidden = true;
+  clearPremoveOverlay("your-turn");
+}
+
+function renderPremoveIdle(message, clearReason = "idle") {
+  setPmStatus("idle", "chip-idle");
+  els.pmMessage.hidden = false;
+  els.pmMessage.className = "mx-message";
+  els.pmMessage.textContent = message;
+  hidePremoveRecommendation();
+  hidePremoveOpponent();
+  hidePremoveCaveat();
+  els.pmMeta.hidden = true;
+  premove.status = clearReason;
+  clearPremoveOverlay(clearReason);
+}
+
+function renderPremoveError(result) {
+  const error = result.error ?? {};
+  const attempts = result.attempts > 1 ? ` (retried once, ${result.attempts} attempts)` : "";
+  setPmStatus(
+    result.errorClass === "offline" ? "server offline" : result.errorClass === "timeout" ? "timeout" : "error",
+    "chip-offline",
+  );
+  els.pmMessage.hidden = false;
+  els.pmMessage.className = "mx-message is-error";
+  els.pmMessage.textContent =
+    result.errorClass === "offline"
+      ? `premove planner offline — could not reach ${premoveClient.url}${attempts}. Start it: ${SERVER_START_COMMAND}`
+      : result.errorClass === "invalid_input"
+        ? `invalid input (HTTP ${result.status}): ${error.detail ?? "the server rejected this position"}${attempts}`
+        : `premove planning failed: ${error.message ?? result.errorClass}${error.detail ? ` — ${error.detail}` : ""}${attempts}`;
+  premove.status = `error:${result.errorClass}`;
+  premove.lastPlan = null;
+  hidePremoveRecommendation();
+  hidePremoveOpponent();
+  hidePremoveCaveat();
+  els.pmMeta.hidden = true;
+  clearPremoveOverlay(`error:${result.errorClass}`);
+}
+
+function hidePremoveRecommendation() {
+  els.pmRec.hidden = true;
+  els.pmSan.textContent = "—";
+  els.pmCriterion.textContent = "—";
+  els.pmSafety.textContent = "—";
+  els.pmMinProb.textContent = "—";
+  els.pmDetail.textContent = "";
+}
+
+function hidePremoveOpponent() {
+  els.pmOppoBox.hidden = true;
+  els.pmOppo.innerHTML = "";
+}
+
+function hidePremoveCaveat() {
+  els.pmCaveat.hidden = true;
+  els.pmCaveat.textContent = "";
+}
+
+function setPmStatus(text, className) {
+  els.pmStatus.textContent = text;
+  els.pmStatus.className = `chip ${className}`;
+}
+
+/* ---------------------------------------- premove overlay + speech plumbing */
+
+function publishPremoveOverlay(result, recommended) {
+  // The M7 setting is only effective while the M5 master switch is on.
+  if (!overlay.showArrows || !premove.showArrow) {
+    clearPremoveOverlay("premove-arrow-off");
+    return;
+  }
+  if (!recommended?.uci) {
+    clearPremoveOverlay("no-premove");
+    return;
+  }
+  premove.sentMode = "premove";
+  premove.sentKey = result.key ?? null;
+  premove.lastClearReason = null;
+  premoveOverlaySend({
+    type: MSG_PREMOVE,
+    move: { uci: recommended.uci, san: recommended.san ?? null },
+    key: result.key ?? null,
+  });
+}
+
+function clearPremoveOverlay(reason) {
+  const key = premoveClient.getCurrentKey();
+  if (premove.sentMode === "cleared" && premove.lastClearReason === reason) return;
+  premove.sentMode = "cleared";
+  premove.sentKey = null;
+  premove.lastClearReason = reason;
+  premoveOverlaySend({ type: MSG_CLEAR_PREMOVE, reason, key });
+}
+
+function premoveOverlaySend(message) {
+  premove.messageCount += 1;
+  premove.lastMessage = { ...message, at: new Date().toISOString() };
+  premove.lastResponse = null;
+  premove.lastError = null;
+  try {
+    Promise.resolve(chrome.runtime.sendMessage(message)).then(
+      (response) => {
+        premove.lastResponse = response ?? null;
+      },
+      (error) => {
+        premove.lastError = error?.message ?? String(error);
+      },
+    );
+  } catch (error) {
+    premove.lastError = error?.message ?? String(error);
+  }
+}
+
+function recordPremoveDecision(decision) {
+  premove.decision = decision;
+  premove.decisions.push(decision);
+  while (premove.decisions.length > TTS_DECISION_HISTORY) premove.decisions.shift();
+  return decision;
+}
+
+/**
+ * The single place that decides + sends a spoken premove. Same shape as the M6
+ * `speakSuggestion`; the decision comes from `premoveSpeakDecision` (TTS on +
+ * "Speak premoves" on + assistant on + THEIR turn + non-stale plan + dedupe).
+ */
+async function speakPremove({ state, key, recommended, force = false, trigger = "plan", source = "panel" }) {
+  const decision = premoveSpeakDecision({
+    ttsEnabled: tts.enabled,
+    speakPremoves: premove.speak,
+    assistantEnabled: els.toggle.checked,
+    state,
+    plan: { key, recommended },
+    currentKey: premoveClient.getCurrentKey(),
+    spokenKeys,
+    ignoreDuplicate: force,
+  });
+  recordPremoveDecision({
+    ...decision,
+    at: Date.now(),
+    trigger,
+    source,
+    force: Boolean(force),
+    key: key ?? null,
+    move: recommended?.san ?? recommended?.uci ?? null,
+    text: null,
+  });
+  if (!decision.speak) return { spoke: false, ...decision };
+
+  const text = premoveSpeech(recommended); // "premove knight takes d5"
+  if (!text) {
+    recordPremoveDecision({ ...premove.decision, speak: false, reason: "unparseable" });
+    return { spoke: false, reason: "unparseable" };
+  }
+  spokenKeys.mark(decision.spokenKey ?? premoveSpokenKey(key, recommended?.uci));
+  recordPremoveDecision({ ...premove.decision, text });
+  await ttsSend({
+    type: MSG_TTS_SPEAK,
+    text,
+    key,
+    san: recommended?.san ?? null,
+    uci: recommended?.uci ?? null,
+    reason: "premove",
+    source,
+    options: { rate: tts.rate },
+  });
+  return { spoke: true, text, key, reason: decision.reason };
+}
+
+/** Speak the premove the card currently shows (only when it is still current). */
+async function speakCurrentPremove({ force = false, reason = "manual", source = "panel" } = {}) {
+  const plan = premove.lastPlan;
+  if (!plan?.key || !plan.recommended) {
+    recordPremoveDecision({ speak: false, reason: "no-premove", at: Date.now(), trigger: reason, source, force: Boolean(force), key: plan?.key ?? null });
+    return { spoke: false, reason: "no-premove" };
+  }
+  if (!premoveClient.isCurrent(plan.key)) {
+    recordPremoveDecision({ speak: false, reason: "stale", at: Date.now(), trigger: reason, source, force: Boolean(force), key: plan.key });
+    return { spoke: false, reason: "stale" };
+  }
+  return speakPremove({ state: lastChesscomState, key: plan.key, recommended: plan.recommended, force, trigger: reason, source });
+}
+
 /* ------------------------------------------------ chess.com game state card */
 
 function onRuntimeMessage(message, sender) {
@@ -762,11 +1285,20 @@ function setCcChip(text, className) {
 /* --------------------------------------------------------- Maia suggestion */
 
 /**
- * The analysis policy for one GameState: gate -> request -> render.
- * Called for every state render (message or Refresh state) — the client's
+ * The policy for one GameState: the M4 analysis loop and the M7 premove
+ * planner, each with its own client, cache and stale guard. Run concurrently —
+ * they share no state beyond the settings they both read.
+ * Called for every state render (message or Refresh state) — the clients'
  * cache/dedupe/stale logic makes repeated calls free.
  */
 async function onGameState(state) {
+  await Promise.all([onGameStateAnalysis(state), onPremovePolicy(state)]);
+}
+
+/**
+ * The M4 analysis policy for one GameState: gate -> request -> render.
+ */
+async function onGameStateAnalysis(state) {
   analysisState = { stateReceivedAt: performance.now() };
 
   if (state?.ok) {
@@ -823,7 +1355,7 @@ function renderSuggestionWaiting(state) {
   els.mxMessage.className = "mx-message";
   els.mxMessage.textContent =
     `their turn (${state.turn === "b" ? "black" : "white"} to move) — waiting. ` +
-    "Opponent prediction arrives in M7; Analyze now still works.";
+    "See the Premove card for their likely replies; Analyze now still works.";
   hideRows();
   hideWdl();
   clearOverlay("opponent-turn");

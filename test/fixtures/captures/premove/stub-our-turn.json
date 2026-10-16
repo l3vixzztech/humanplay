@@ -1,0 +1,12 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "gate": "waiting",
+    "status": "waiting",
+    "message": "waiting for your move — the premove plan appears while they think.",
+    "recHidden": true
+  },
+  "ourTurnKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|5|0.9|top",
+  "requested": 0
+}

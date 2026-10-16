@@ -1,12 +1,12 @@
 {
   "tool": "analyze-proof.mjs",
   "mode": "stub",
-  "generatedAt": "2026-10-16T19:11:52.885Z",
+  "generatedAt": "2026-10-16T20:10:08.018Z",
   "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
   "extension": "/home/l3vixzz/Desktop/humanplay/extension",
   "checks": {
     "staticServer": {
-      "origin": "http://127.0.0.1:45581",
+      "origin": "http://127.0.0.1:40597",
       "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
     },
     "analysisServer": {
@@ -15,7 +15,7 @@
         "status": "ok",
         "model": "fixture-static-server"
       },
-      "pid": 620225
+      "pid": 853276
     },
     "canned": {
       "source": "test/tools/fixture_server.py CANNED — responses recorded from the real Maia server (schema-identical)",
@@ -23,8 +23,8 @@
     },
     "manifest": {
       "path": "extension/manifest.json",
-      "sha256": "e45ab49c8c80c0a3a45efbde8c47bb35b23bd20b515bc7c611694111ebb54d0e",
-      "version": "0.5.0",
+      "sha256": "8993c87bec1cbda47202916ecd0d672610382db9664027e6210083f495976fde",
+      "version": "0.6.0",
       "host_permissions": [
         "http://127.0.0.1:8765/*"
       ],
@@ -45,24 +45,24 @@
     },
     "analysisFiles": {
       "src/analysis/analyze-client.js": "7c65d2299cfbedb8694b75112da19b145749020c0257f2451898e956a8e6655e",
-      "src/ui/sidepanel.js": "6401f7d8684deef007aecde118cd0e03060a5660449fcbe479d97de2c0f5e262",
-      "src/ui/sidepanel.html": "efea8fe29ce7c986ea01028cd8497e6fc78b221e885406fa4509c9f708c187f8"
+      "src/ui/sidepanel.js": "5ee7b100738d61e4964479df3cca7b4e2abbf4017483f339e344888f2fa84928",
+      "src/ui/sidepanel.html": "12a787d52c15c9b7428cdcbfd077c396d0dc48e5a5ceffdd01289abd1145f0ae"
     },
     "manifestVariant": {
       "enabled": true,
-      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:45581 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
-      "addedContentScriptMatch": "http://127.0.0.1:45581/*",
-      "addedWebAccessibleMatch": "http://127.0.0.1:45581/*",
-      "codeFilesCompared": 25,
+      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:40597 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
+      "addedContentScriptMatch": "http://127.0.0.1:40597/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:40597/*",
+      "codeFilesCompared": 26,
       "codeFileMismatches": [],
       "codeIdentical": true
     },
-    "extensionId": "emhcnllghkldglbokdggecdhcmjknnja",
+    "extensionId": "mgodhklamejlfjifhomciadoiahadccl",
     "browser": {
       "version": "Chrome/155.0.8059.84",
       "protocolVersion": "1.3"
     },
-    "serviceWorkerUrl": "chrome-extension://emhcnllghkldglbokdggecdhcmjknnja/src/background/service-worker.js",
+    "serviceWorkerUrl": "chrome-extension://mgodhklamejlfjifhomciadoiahadccl/src/background/service-worker.js",
     "panelUi": {
       "present": {
         "assistant-toggle": true,
@@ -97,7 +97,7 @@
       "eloOppo": "2400",
       "toggleOn": true
     },
-    "adapterDebugLines": 91,
+    "adapterDebugLines": 101,
     "extensionConsoleClean": true,
     "expectedOfflineNetworkErrors": 2
   },
@@ -105,7 +105,7 @@
     "stub-startpos-auto": {
       "pass": true,
       "failures": [],
-      "url": "http://127.0.0.1:45581/chesscom/startpos.html",
+      "url": "http://127.0.0.1:40597/chesscom/startpos.html",
       "top3": [
         {
           "rank": "1",
@@ -139,11 +139,11 @@
         "label": "human outcome prediction (you)",
         "tooltip": "Maia-3's human-model value head: the result distribution Maia predicts for your side in this position, conditioned on human games at Elo 2400 (you) / 2400 (opponent). It is NOT an engine evaluation."
       },
-      "meta": "model maia3-5m · engine 15.4 ms · round-trip 2.0 ms · board only · no history · ui 3.1 ms",
+      "meta": "model maia3-5m · engine 15.4 ms · round-trip 4.0 ms · board only · no history · ui 5.3 ms",
       "screenshot": "test/fixtures/captures/analyze/stub-startpos-suggestion.png",
       "latency": {
-        "stateToRenderMs": 3.0999999940395355,
-        "roundTripMs": 2,
+        "stateToRenderMs": 5.300000004470348,
+        "roundTripMs": 4,
         "engineMs": 15.36
       },
       "requests": {
@@ -162,7 +162,7 @@
           "historyUsed": 0,
           "model": "maia3-5m",
           "elapsed_ms": 15.36,
-          "roundTripMs": 2,
+          "roundTripMs": 4,
           "attempts": 1,
           "fromCache": false,
           "moves": [
@@ -221,7 +221,7 @@
           "top": false
         }
       ],
-      "meta": "model maia3-5m · engine 10.6 ms · round-trip 2.0 ms · 14 moves · replayed · ui 2.2 ms",
+      "meta": "model maia3-5m · engine 10.6 ms · round-trip 2.0 ms · 14 moves · replayed · ui 2.4 ms",
       "screenshot": "test/fixtures/captures/analyze/stub-middlegame-suggestion.png",
       "wdl": {
         "win": "win 38.6%",
@@ -229,7 +229,7 @@
         "loss": "loss 54.0%"
       },
       "latency": {
-        "stateToRenderMs": 2.2000000029802322,
+        "stateToRenderMs": 2.399999998509884,
         "roundTripMs": 2,
         "engineMs": 10.63
       },
@@ -252,7 +252,7 @@
           "9.5%",
           "5.8%"
         ],
-        "meta": "model maia3-5m · engine 15.1 ms · round-trip 3.0 ms · 18 moves · replayed · ui 2.6 ms"
+        "meta": "model maia3-5m · engine 15.1 ms · round-trip 5.0 ms · 18 moves · replayed · ui 4.7 ms"
       },
       "afterSlow": {
         "rows": [
@@ -265,9 +265,9 @@
         "status": "suggestion ready"
       },
       "latency": {
-        "mutationToRenderMs": 156,
-        "slowMutationTriggeredMsBefore": 169,
-        "stateToRenderMs": 2.5999999940395355
+        "mutationToRenderMs": 158,
+        "slowMutationTriggeredMsBefore": 167,
+        "stateToRenderMs": 4.699999995529652
       },
       "requests": {
         "delta": 2,
@@ -322,7 +322,7 @@
       "screenshot": "test/fixtures/captures/analyze/stub-opponent-turn-manual.png",
       "waiting": {
         "gate": "waiting",
-        "message": "their turn (white to move) — waiting. Opponent prediction arrives in M7; Analyze now still works.",
+        "message": "their turn (white to move) — waiting. See the Premove card for their likely replies; Analyze now still works.",
         "rowsHidden": true,
         "wdlHidden": true
       },
@@ -347,7 +347,7 @@
           "draw 6.3%",
           "loss 49.1%"
         ],
-        "meta": "model maia3-5m · engine 10.1 ms · round-trip 3.0 ms · 4 moves · replayed · ui 44.4 ms"
+        "meta": "model maia3-5m · engine 10.1 ms · round-trip 2.0 ms · 4 moves · replayed · ui 100.9 ms"
       }
     },
     "stub-game-over": {
@@ -361,7 +361,7 @@
         "draw 0.0%",
         "loss 100.0%"
       ],
-      "meta": "model maia3-5m · engine 1.0 ms · round-trip 2.0 ms · 7 moves · replayed · ui 0.1 ms · cached",
+      "meta": "model maia3-5m · engine 1.0 ms · round-trip 2.0 ms · 7 moves · replayed · ui 2.4 ms",
       "rowsHidden": true
     },
     "stub-elo-change": {
@@ -435,17 +435,17 @@
         "h3",
         "c3"
       ],
-      "meta": "model maia3-5m · engine 10.6 ms · round-trip 1.0 ms · board only · no history · ui 33.7 ms",
+      "meta": "model maia3-5m · engine 10.6 ms · round-trip 2.0 ms · board only · no history · ui 33.8 ms",
       "mode": "board-only",
       "historyUsed": 0
     }
   },
   "latencies": {
     "stub": {
-      "stateToRender_startpos_ms": 3.0999999940395355,
-      "stateToRender_middlegame_ms": 2.2000000029802322,
-      "mutationToRender_newPosition_ms": 156,
-      "roundTrip_startpos_ms": 2,
+      "stateToRender_startpos_ms": 5.300000004470348,
+      "stateToRender_middlegame_ms": 2.399999998509884,
+      "mutationToRender_newPosition_ms": 158,
+      "roundTrip_startpos_ms": 4,
       "roundTrip_middlegame_ms": 2,
       "target_ms": 1500
     }
@@ -478,12 +478,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45581/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:40597/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:45581/chesscom/startpos.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:40597/chesscom/startpos.html)"
       },
       {
         "bucket": "error",
@@ -493,7 +493,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45581/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:40597/favicon.ico)"
       },
       {
         "bucket": "info",
@@ -508,22 +508,27 @@
       {
         "bucket": "info",
         "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
         "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=state"
       },
       {
         "bucket": "info",
@@ -538,7 +543,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -553,27 +558,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=state"
       },
       {
         "bucket": "info",
@@ -588,17 +578,32 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45581/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:45581/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:40597/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:40597/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "error",
@@ -623,12 +628,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
       },
       {
         "bucket": "info",
@@ -658,12 +663,17 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
         "text": "[humanplay] overlay clear reason=panel:stale"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:assistant-off"
       },
       {
         "bucket": "info",
@@ -679,6 +689,11 @@
         "bucket": "info",
         "source": "console",
         "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
       },
       {
         "bucket": "info",
@@ -708,17 +723,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45581/chesscom/flipped-black.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:40597/chesscom/flipped-black.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:45581/chesscom/flipped-black.html)"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:40597/chesscom/flipped-black.html)"
       },
       {
         "bucket": "error",
@@ -728,12 +738,57 @@
       {
         "bucket": "info",
         "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
         "text": "[humanplay] overlay clear reason=panel:opponent-turn"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top uci=c5d4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top uci=c5d4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top uci=c5d4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c5d4 arrows=1 flipped=true rect=[18,58,560,560] reason=suggestion-cleared:panel:analyzing"
       },
       {
         "bucket": "info",
@@ -743,22 +798,17 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=c5d4 arrows=2 flipped=true rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=resize"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:40597/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45581/chesscom/gameover-checkmate.html)"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:45581/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:40597/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "error",
@@ -778,6 +828,11 @@
       {
         "bucket": "info",
         "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
         "text": "[humanplay] overlay clear reason=panel:game-over"
       },
       {
@@ -793,12 +848,22 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45581/chesscom/ruy-lopez.html)"
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:45581/chesscom/ruy-lopez.html)"
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:40597/chesscom/ruy-lopez.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:40597/chesscom/ruy-lopez.html)"
       },
       {
         "bucket": "error",
@@ -823,42 +888,22 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
         "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 moves=1 topN=1"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
       },
       {
         "bucket": "info",
@@ -873,7 +918,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|1200|1200|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -888,7 +933,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2600|2600|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -903,17 +948,17 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45581/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:40597/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:45581/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:40597/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "error",
@@ -938,7 +983,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:assistant-off"
       },
       {
         "bucket": "info",
@@ -963,7 +1013,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw key=r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R2Q1RK1 w - - 0 8||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       }
     ],
     "panelErrors": [],
@@ -998,7 +1048,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45581/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:40597/favicon.ico)"
       },
       {
         "bucket": "error",

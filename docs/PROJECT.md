@@ -19,7 +19,8 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 │ side panel: suggestion card   │        │   └─ Maia3-5M (torch, CPU)           │
 │  (M4: top-3 + WDL + Elo)      │        │        AGPL-3.0, separate venv       │
 │ arrow overlay (M5)            │        │                                      │
-│ voice "just the move" (M6)    │        │                                      │
+│ voice "just the move" (M6)    │        │  POST /premove {fen, moves?, …}      │
+│ premove planner (M7)          │ ─────► │   └─ criteria engine (same Maia)     │
 │ debug: capture + PNG recorder │        │                                      │
 └───────────────────────────────┘        └──────────────────────────────────────┘
      DOM only (chess.com only)                 separate process / venv boundary
@@ -56,10 +57,13 @@ any top engine — the point is to play like (and be predicted by) a strong huma
   0–5000 (Maia-3's Elo range).
 - **Permissions stay narrow**: no `<all_urls>` anywhere in the shipped manifest.
   `content_scripts`/`web_accessible_resources` match only chess.com; the only
-  host permission is `http://127.0.0.1:8765/*` (`/health`, later `/analyze`);
-  tab capture stays on `activeTab` (the toolbar click is what grants it —
+  host permission is `http://127.0.0.1:8765/*` (`/health`, `/analyze`,
+  `/premove`, …); tab capture stays on
+  `activeTab` (the toolbar click is what grants it —
   Chromium `CanCaptureVisiblePage`, `kActiveTabOrAllUrls`). M6 added exactly
   two things: the `tts` permission and the `toggle-tts` command (Ctrl+Shift+Y).
+  **M7 added none** (the premove planner reuses the existing host permission and
+  the M6 speaker).
 - **Vendored chess.js** (BSD-2-Clause, pinned **1.4.0**,
   `extension/vendor/chess.js`) — the only third-party runtime dependency, used
   for SAN → UCI/Castling/En-passant replay. See `extension/vendor/README.md`.
@@ -67,7 +71,9 @@ any top engine — the point is to play like (and be predicted by) a strong huma
   alternatives optional, thinner) next to the side panel's top-3 moves and
   probabilities; the suggested move is **spoken** ("just the move", M6) through
   `chrome.tts` from the **service worker** (Piper-ready speaker interface) — see
-  "The voice announcements (M6)".
+  "The voice announcements (M6)". On the opponent's turn the **premove planner**
+  (M7) checks whether ONE of our replies is safe to queue, draws it as a
+  **dashed blue arrow** and speaks "premove …" — see "The premove planner (M7)".
 - **Fair play**: the user accepts the ban risk for live play. We do **not**
   build any anti-detection features.
 - **No Stockfish / top engines anywhere** in this project.
@@ -82,7 +88,7 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 | 4 | End-to-end analysis loop | `src/analysis/analyze-client.js` (timeout, single network retry, position-key LRU cache + dedupe, stale guard, request builder, gating), panel "Maia suggestion" card (top-3 + bar + % + WDL + perspective + meta) and "Elo" card, canned `/analyze` in the fixture server, unit tests + stub/real CDP proofs | ✅ done |
 | 5 | Arrow overlay on the real board | `src/content/board-overlay.js` (one fixed, click-transparent, DPR-crisp canvas) + `overlay-geometry.js` (pure: square centres normal/flipped, shaft + arrowhead, thickness scaling) + the shared `board-locate.js`; panel→SW→content routing (`humanplay:suggestion`/`clear-suggestion`) keyed by the M4 position key; "Show arrows" / "Show alternatives" settings; unit tests + CDP proof incl. a real chess.com page | ✅ done |
 | 6 | TTS | `chrome.tts` announcements (Piper-ready interface), "just the move" — service-worker speaker, dedupe + stale guard, toggle/hotkey/rate/badge, actionable no-voice note, CDP proof incl. the panel-closed case | ✅ done |
-| 7 | Premove planner | precompute replies for the opponent's likely moves (from Maia's distribution) while they think | ⬜ |
+| 7 | Premove planner | `POST /premove` criteria engine (opponent candidates from Maia, our reply must be safe or illegal), "Premove" panel card, dashed blue arrow, "premove …" speech, unit + stub/real CDP proofs | ✅ done |
 | 8 | Live commentary / explain mode | short natural-language "why this move" from the model's probabilities | ⬜ |
 | 9 | Continuous mode + robustness + polish + packaging | state-driven auto-analysis loop, failure recovery (page variants), UX, store-ready packaging | ⬜ |
 
@@ -303,6 +309,106 @@ server-error/game-over silence, hotkey + badge, voices note, and the
 panel-closed case (the SW tracks the new position and still performs + records a
 speak with no panel document). Evidence: `test/fixtures/captures/tts/`.
 
+## The premove planner (M7)
+
+While the opponent thinks, the assistant may **premove** (chess.com plays the
+queued move automatically as soon as it is legal). A premove only helps when
+the opponent plays into it, and it hurts when it fires in a position we did not
+foresee — so the planner's honest value is **refusing mispredicted premoves**.
+It is same-Maia end to end (no second model, no Stockfish): the opponent's
+candidates come from Maia(elo_oppo) at the current position and our replies from
+Maia(elo_self) after each candidate (the Elo pair is swapped for the opponent
+query because Maia conditions the policy on the **side to move**).
+
+**Server** (`server/premove_engine.py` + `POST /premove`; `/analyze` is
+untouched — `maia_engine.predict` was not modified, a new
+`move_probabilities()` returns the full legal-move softmax). Request
+`{fen, moves?, elo_self, elo_oppo, top_n=5, min_safety=0.90, mode="top"|"all"}`;
+numeric knobs are **clamped** (`top_n` 1..12, `min_safety` 0.5..1.0, Elo
+0..5000) rather than rejected. Response `{fen, side_to_move, opponent[…],
+recommended|null, candidates[…], excluded[…], reason, params, timings_ms,
+model, elapsed_ms}`.
+
+The criteria (deterministic, thresholds documented):
+
+- `C` — the considered opponent candidates. `mode="top"`: Maia(elo_oppo)'s
+  top-`top_n` moves with probabilities **renormalised over them** (fast path).
+  `mode="all"`: every legal move with its raw legal-masked softmax probability.
+- For each `c ∈ C`: `r_c` = argmax of Maia(elo_self)'s reply distribution after
+  `c`, `q_c` its probability (temperature-0 argmax, the same path `/analyze`
+  uses).
+- Candidates whose after-position is terminal (they mate us, stalemate, …) have
+  no reply: **excluded** from every sum and reported in `excluded[]` with the
+  reason — a premove cannot matter in a finished game, and a mate is never
+  counted as "safe".
+- `safe_mass(R)  = Σ p_c  over c with r_c == R`
+- `guard_mass(R) = Σ p_c  over c where R is ILLEGAL after c` — "safe by
+  inaction": the premove never fires there, so it cannot backfire.
+- `safety(R) = safe_mass(R) + guard_mass(R)` — the share of the considered
+  opponent mass after which queuing `R` cannot mispredict. The residual
+  `1 − safety` is exactly where the premove WOULD fire although Maia's best
+  reply differs.
+- `min_response_prob(R)` = the smallest `q_c` among the c's with `r_c == R`
+  (guard-only candidates are not counted — the reply is not used there).
+- Recommend the best `R` iff `safety ≥ min_safety` **and** `safe_mass > 0`
+  **and** `min_response_prob ≥ floor` (default 0.15, a module constant — the
+  endpoint does not expose it — protecting against a "safety" that only holds
+  because Maia barely prefers our move). Best = highest `(safety, safe_mass,
+  min_response_prob, uci)`; deterministic.
+- `criterion`: `forced` (exactly one legal opponent move → our argmax, the floor
+  is waived — there is nothing to mispredict), `safe_vs_all` (`safety == 1.0`:
+  every considered reply is either met by R or cannot fire it) or `robust`.
+- Every candidate carries `verdict` (`recommended` / `not_safe` /
+  `below_floor`) and a `why` string so the panel can say *why not*; a null plan
+  carries a `reason` ("no safe premove: the best reply d3 covers only 67% …").
+
+**Panel**: the "Premove" card is active on the opponent's turn (assistant on):
+computed move + criterion chip (`forced` / `robust vs 94%` / `safe vs all
+replies`), safety %, min response prob, their top-3 likely moves with %, a
+`computing…` state, the honest "no safe premove" state with the reason, and —
+for `mode="top"` — the mandated caveat line *"safe only over their top-N; a
+premove still fires whenever it is legal"*. On our turn: "waiting for your
+move". Excluded (mating) candidates are marked in the list.
+
+**Client** (`src/analysis/premove-client.js`): the M4 analyze-client patterns —
+position key `fen|moves|elo_self|elo_oppo|top_n|min_safety|mode`, LRU(24) +
+in-flight dedupe, stale guard (`expectKey`/`stale`, the new position always
+wins), 4–5 s timeout, exactly one retry on a network failure, injectable
+`fetch`, the same error classes; the request mapping (replayed history →
+startpos + UCI, mismatch → board FEN) is shared with `/analyze`.
+
+**Trigger**: after our move lands (the opponent's turn begins) the panel plans;
+a plan is ready ≤ ~600 ms (real mode: engine 87 ms, round-trip 91 ms,
+state→render 113–260 ms; stub: mutation→render ~157 ms). If the opponent moves
+while the plan is in flight the result is discarded silently — no render, no
+arrow, no speech (the *newer* position's policy has already published; a stale
+result never touches it).
+
+**Overlay**: the premove is drawn through the existing canvas + geometry as a
+**dashed** arrow in premove blue (`rgba(64,150,255,0.95)`, solid head, no square
+highlight), on top of the suggestion arrows; the suggestion and premove sets are
+independent (a manual analysis on their turn may show both). New setting
+**"Show premove arrow"** (default ON, effective only while "Show arrows" is on).
+No new DOM element, no click interception, still one canvas.
+
+**Speech**: when Voice is on and **"Speak premoves"** (default ON) is on, the
+recommendation is spoken as **"premove knight takes d5"** (M6 formatter with a
+`premove ` prefix, `src/tts/move-speech.js` `premoveSpeech`) through the M6
+service-worker speaker (stop-before-speak, `enqueue:false`, rate), with the M7
+policy (`tts-policy.js` `premoveSpeakDecision`: TTS on + speak-premoves on +
+assistant on + state ok + color known + **their** turn + a recommendation + the
+plan's key still current + a new-position dedupe key `premove:<key>:<uci>`).
+
+**Proving it**: `server/tests/test_premove.py` (24 tests: forced recapture,
+guard recapture, strict null, safe-vs-all endgame, mate exclusion, the floor,
+floats/clamps/contracts, determinism, perf), `test/tools/premove-unit.mjs`
+(12 zero-dep tests: client key/dedupe/stale/errors + speech policy/text) and
+`test/tools/premove-proof.mjs` (CDP, stub + real): the card renders every
+criterion and the no-safe state, dashed arrow endpoints ≤ 2 px vs DOM ground
+truth (normal **and** flipped), exactly one "premove …" speak per position
+(deduped), gating (our turn / assistant off / TTS off), and the stale race.
+Evidence: `test/fixtures/captures/premove/`.
+
 ## Repository layout
 
 ```
@@ -321,13 +427,22 @@ parked/     stopped work kept for revival (parked/image-recognition/)
   `wdl` is from the **side-to-move** perspective of the analyzed position.
   `moves` is the exact UCI history (what M3's move-list replay provides).
   A finished game answers `moves: []` + a rules-decided WDL.
+- `POST http://127.0.0.1:8765/premove` (M7)
+  body `{fen, moves?, elo_self?, elo_oppo?, top_n?, min_safety?, mode?}` →
+  `{fen, side_to_move, opponent: [{uci, san, prob}], recommended: null |
+  {uci, san, criterion, safety, min_response_prob, detail}, candidates: [{uci,
+  san, safe_mass, guard_mass, min_response_prob, verdict, why}], excluded:
+  [{uci, san, prob, reason}], reason, params, timings_ms, model, elapsed_ms}`.
+  The criteria engine is documented in "The premove planner (M7)" above and in
+  `server/premove_engine.py`. Numeric knobs clamp; invalid FEN/history is 400.
 - `GET /health` → `{status, model}`.
 
-Details, semantics (history planes, temperature, WDL perspective) and exact
-commands: `server/README.md`. Extension-side details (adapter architecture, the
-analysis client, the snapshot recorder, the proofs): `extension/README.md`.
-Test tooling (fixture server with canned `/analyze` + `/debug/*` test routes,
-proof harnesses): `test/README.md`.
+Details, semantics (history planes, temperature, WDL perspective, the premove
+criteria) and exact commands: `server/README.md`. Extension-side details
+(adapter architecture, the analysis/premove clients, the snapshot recorder, the
+proofs): `extension/README.md`. Test tooling (fixture server with canned
+`/analyze` + `/premove` + `/debug/*` test routes, proof harnesses):
+`test/README.md`.
 
 ## Licensing / boundaries
 

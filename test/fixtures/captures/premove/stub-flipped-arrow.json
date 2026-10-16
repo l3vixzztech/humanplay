@@ -1,0 +1,21 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "san": "cxd4",
+    "criterion": "safe vs all replies",
+    "safety": "100.0%",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top"
+  },
+  "endpoints": {
+    "uci": "c5d4",
+    "style": "dashed",
+    "flipped": true,
+    "fromErrorPx": 0,
+    "tipErrorPx": 0
+  },
+  "screenshot": "test/fixtures/captures/premove/stub-flipped.png",
+  "speak": {
+    "text": "premove c-pawn takes d4"
+  }
+}

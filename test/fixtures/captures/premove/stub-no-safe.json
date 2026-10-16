@@ -1,0 +1,54 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "status": "no safe premove",
+    "message": "no safe premove: the best reply Nf3 covers only 64% of their considered moves (safe 64%, required 90%)",
+    "rows": [
+      {
+        "san": "c5",
+        "uci": "c7c5",
+        "prob": 0.438967,
+        "terminal": null,
+        "probText": "43.9%",
+        "barWidth": "43.8967%"
+      },
+      {
+        "san": "e5",
+        "uci": "e7e5",
+        "prob": 0.200652,
+        "terminal": null,
+        "probText": "20.1%",
+        "barWidth": "20.0652%"
+      },
+      {
+        "san": "c6",
+        "uci": "c7c6",
+        "prob": 0.150582,
+        "terminal": null,
+        "probText": "15.1%",
+        "barWidth": "15.0582%"
+      }
+    ],
+    "caveat": "safe only over their top-5; a premove still fires whenever it is legal",
+    "recHidden": true,
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400|5|0.9|top",
+    "reason": "no safe premove: the best reply Nf3 covers only 64% of their considered moves (safe 64%, required 90%)",
+    "decision": {
+      "speak": false,
+      "reason": "no-premove",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400|5|0.9|top",
+      "at": 1792181640668,
+      "trigger": "plan",
+      "source": "panel",
+      "force": false,
+      "move": null,
+      "text": null
+    }
+  },
+  "overlay": {
+    "display": "none",
+    "arrows": []
+  },
+  "screenshot": "test/fixtures/captures/premove/stub-no-safe.png"
+}

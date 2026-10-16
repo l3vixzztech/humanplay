@@ -1,0 +1,84 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "status": "premove ready",
+    "san": "Qxd2+",
+    "criterion": "forced",
+    "staleDiscards": 1,
+    "staleBefore": 0,
+    "lastPlanKey": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 5||2400|2400|5|0.9|top",
+    "key": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 5||2400|2400|5|0.9|top",
+    "decisions": [
+      {
+        "speak": false,
+        "reason": "no-premove",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400|5|0.9|top",
+        "at": 1792181640668,
+        "trigger": "plan",
+        "source": "panel",
+        "force": false,
+        "move": null,
+        "text": null
+      },
+      {
+        "speak": false,
+        "reason": "duplicate",
+        "key": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 5||2400|2400|5|0.9|top",
+        "at": 1792181641067,
+        "trigger": "plan",
+        "source": "panel",
+        "force": false,
+        "move": "Qxd2+",
+        "text": null
+      },
+      {
+        "speak": false,
+        "reason": "duplicate",
+        "key": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 5||2400|2400|5|0.9|top",
+        "at": 1792181641069,
+        "trigger": "plan",
+        "source": "panel",
+        "force": false,
+        "move": "Qxd2+",
+        "text": null
+      },
+      {
+        "speak": false,
+        "reason": "duplicate",
+        "key": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 5||2400|2400|5|0.9|top",
+        "at": 1792181641578,
+        "trigger": "plan",
+        "source": "panel",
+        "force": false,
+        "move": "Qxd2+",
+        "text": null
+      }
+    ],
+    "delayedKey": "8/1P6/8/p7/k7/7K/8/8 b - - 0 5||2400|2400|5|0.9|top"
+  },
+  "overlay": {
+    "display": "block",
+    "arrows": [
+      {
+        "uci": "g2d2",
+        "rank": 0,
+        "style": "dashed",
+        "premove": true,
+        "from": [
+          473,
+          513
+        ],
+        "tip": [
+          263,
+          513
+        ],
+        "thickness": 11.2,
+        "headLength": 31.36,
+        "squareSize": 70,
+        "drawable": true
+      }
+    ]
+  },
+  "screenshot": "test/fixtures/captures/premove/stub-stale-race.png"
+}

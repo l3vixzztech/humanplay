@@ -1,7 +1,9 @@
 # humanplay — Maia-3 helper server
 
 Local FastAPI helper that wraps the **Maia-3 5M** human-move model (CSSLab, U of T)
-and answers the extension's move requests over HTTP on `127.0.0.1:8765`.
+and answers the extension's move requests over HTTP on `127.0.0.1:8765`:
+`GET /health`, `POST /analyze` (top-k human moves + WDL) and — added in M7 —
+`POST /premove` (the premove planner: one safe queued reply, or an honest null).
 
 Maia-3 predicts what a strong human (~2400 Elo) would play — this is **not**
 Stockfish and not a top engine. AGPL-3.0: Maia-3 lives in this separate
@@ -100,6 +102,67 @@ curl -s http://127.0.0.1:8765/analyze \
 Errors: `400` for invalid FEN / illegal history move, `422` for out-of-range
 parameters, `503` if the model cannot be loaded.
 
+### `POST /premove` (M7)
+
+The premove planner: while the **opponent** is to move, does exactly ONE of our
+replies hold up as a premove? It is same-Maia end to end and its honest value is
+*refusing mispredicted premoves* — full criteria formulas and semantics:
+`premove_engine.py` (documented in the module docstring) and docs/PROJECT.md.
+
+Request body (numeric knobs are **clamped**, not rejected):
+
+| field | type | default | notes |
+|---|---|---|---|
+| `fen` | string | required | base position FEN (opponent to move) |
+| `moves` | string[] | `null` | optional UCI history applied to `fen` (same as `/analyze`) |
+| `elo_self` | int | `2400` | **you** — used for the reply predictions; clamped 0–5000 |
+| `elo_oppo` | int | `2400` | the **opponent** — used for their candidate distribution; clamped 0–5000 |
+| `top_n` | int | `5` | `mode="top"`: their most likely moves considered; clamped 1–12 |
+| `min_safety` | float | `0.90` | required safe share of their considered mass; clamped 0.5–1.0 |
+| `mode` | `"top"`/`"all"` | `"top"` | `"all"` sweeps every legal opponent move (slower) |
+
+The `min_response_prob` floor (default 0.15) is a **server constant**, not a
+request field, so a client cannot lower it; tests call `plan_premove()` directly
+to override it.
+
+Response:
+
+```jsonc
+{
+  "fen": "rnbqkb1r/pp1p1ppp/4pn2/2pP4/2P5/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 4",
+  "side_to_move": "black",                       // the opponent
+  "opponent": [{"uci": "e6d5", "san": "exd5", "prob": 0.963476}, …],
+  "recommended": {                               // null when nothing is safe
+    "uci": "c4d5", "san": "cxd5",
+    "criterion": "safe_vs_all",                  // forced | safe_vs_all | robust
+    "safety": 1.0, "min_response_prob": 0.983822,
+    "detail": "1/5 considered replies are met by cxd5 (safe mass 96%); …"
+  },
+  "candidates": [{"uci": "c4d5", "san": "cxd5", "safe_mass": 0.963476,
+                  "guard_mass": 0.036524, "min_response_prob": 0.983822,
+                  "verdict": "recommended", "why": "safety 100% >= 90%; …"}],
+  "excluded": [],                                // terminal replies (mate/stalemate)
+  "reason": null,                                // why there is no recommendation
+  "params": {"elo_self": 2400, "elo_oppo": 2400, "top_n": 5, "min_safety": 0.9,
+             "min_response_prob": 0.15, "mode": "top"},
+  "timings_ms": {"root": 15.05, "responses": 50.99, "total": 69.14},
+  "model": "maia3-5m", "elapsed_ms": 69.14
+}
+```
+
+```bash
+curl -s http://127.0.0.1:8765/premove -H 'Content-Type: application/json' \
+  -d '{"fen":"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+       "moves":["d2d4","g8f6","c2c4","c7c5","d4d5","e7e6","b1c3"]}'
+# -> recommended cxd5 (safe_vs_all): their exd5 (96.3%) is our take-back,
+#    every other considered move cannot fire the premove (guard)
+```
+
+Timings on this machine (CPU, mode defaults): `mode="top"` ≈ 90 ms engine
+(target ≤ 300 ms); `mode="all"` 0.45–0.8 s for 20–31 legal moves (target ≤ 1.5 s).
+`/analyze` is **untouched** by M7 (the planner adds `move_probabilities()` and
+reuses `predict`).
+
 ## Semantics (mirrors `maia3-uci`, the upstream reference)
 
 - **`fen` is the base position.** `moves` are applied to it, exactly like UCI's
@@ -128,7 +191,7 @@ parameters, `503` if the model cannot be loaded.
 
 ```bash
 cd server
-.venv/bin/python -m pytest tests -q            # full suite (~3 s on this machine)
+.venv/bin/python -m pytest tests -q            # full suite (~5 s on this machine, 79 tests)
 .venv/bin/python tests/golden_report.py        # Markdown table: predict() vs real maia3-uci
 ```
 
@@ -136,6 +199,10 @@ cd server
   probability invariants (legal-only softmax, sums ≈ 1), history reconstruction,
   WDL perspective, error handling.
 - `tests/test_api.py` — `/health`, `/analyze` contract, validation errors, CORS.
+- `tests/test_premove.py` (M7) — the criteria engine with hand-verified
+  expectations (forced recapture, guard recapture, strict null, safe-vs-all
+  endgame, opponent-mate exclusion, the response floor) + the `/premove`
+  contract (clamps, 400/422, shape, mode "all", determinism, perf targets).
 - `tests/test_golden_uci.py` — runs the real **`maia3-uci` CLI as a subprocess**
   (temperature 0, Elo 2400, `--use-uci-history`) on the same positions and
   asserts the top-1 and top-3 ordering match our in-process `predict()`.
@@ -152,8 +219,10 @@ cd server
 
 ```
 server/
-  app.py              FastAPI layer (HTTP contract)
+  app.py              FastAPI layer (HTTP contract: /health, /analyze, /premove)
   maia_engine.py      Maia-3 wrapper: load once, predict(fen, moves, elo_self, elo_oppo, top_k)
+                      + move_probabilities() (full legal-move softmax, M7)
+  premove_engine.py   M7 criteria engine: plan_premove() (documented formulas)
   requirements.txt    direct dependencies (torch via CPU index, see above)
   tests/              pytest suite + maia3-uci golden harness
 ```

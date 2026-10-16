@@ -44,6 +44,9 @@ import { createTtsService, MSG_TTS_SPEAK, MSG_TTS_STOP, MSG_TTS_VOICES, TTS_COMM
 const MSG_STATE = "humanplay:chesscom-state";
 const MSG_SUGGESTION = "humanplay:suggestion";
 const MSG_CLEAR_SUGGESTION = "humanplay:clear-suggestion";
+/** M7: the premove arrow (dashed blue) — same routing as the suggestion. */
+const MSG_PREMOVE = "humanplay:premove";
+const MSG_CLEAR_PREMOVE = "humanplay:clear-premove";
 const SESSION_KEY = "humanplay.lastStateTabId";
 
 /**
@@ -88,7 +91,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     );
     return true; // async response
   }
-  if (message?.type === MSG_SUGGESTION || message?.type === MSG_CLEAR_SUGGESTION) {
+  if (
+    message?.type === MSG_SUGGESTION ||
+    message?.type === MSG_CLEAR_SUGGESTION ||
+    message?.type === MSG_PREMOVE ||
+    message?.type === MSG_CLEAR_PREMOVE
+  ) {
     forwardToStateTab(message).then(sendResponse);
     return true; // async response
   }

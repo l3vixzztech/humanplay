@@ -228,3 +228,16 @@ export function moveToSpeech(move, options = {}) {
   if (fromSan && options.preferUci !== true) return fromSan;
   return uciToSpeech(uciValue) ?? fromSan;
 }
+
+/**
+ * M7: the premove phrasing — the M6 formatter with a "premove" prefix and a
+ * lowercase verb: `Nxd5` -> "premove knight takes d5", `Nf3` -> "premove
+ * knight to f3". `null` when nothing parses (the caller stays silent).
+ *
+ * @param {string|{san?: string, uci?: string}|null} move
+ */
+export function premoveSpeech(move, options = {}) {
+  const text = moveToSpeech(move, options);
+  if (!text) return null;
+  return `premove ${text.charAt(0).toLowerCase()}${text.slice(1)}`;
+}

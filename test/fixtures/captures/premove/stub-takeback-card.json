@@ -1,0 +1,99 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "status": "premove ready",
+    "san": "cxd5",
+    "criterion": "safe vs all replies",
+    "safety": "100.0%",
+    "minProb": "98.4%",
+    "detail": "1/5 considered replies are met by cxd5 (safe mass 96%); 4% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 98%",
+    "rows": [
+      {
+        "san": "exd5",
+        "uci": "e6d5",
+        "prob": 0.963476,
+        "terminal": null,
+        "probText": "96.3%",
+        "barWidth": "96.3476%"
+      },
+      {
+        "san": "d6",
+        "uci": "d7d6",
+        "prob": 0.021384,
+        "terminal": null,
+        "probText": "2.1%",
+        "barWidth": "2.1384%"
+      },
+      {
+        "san": "b5",
+        "uci": "b7b5",
+        "prob": 0.00851,
+        "terminal": null,
+        "probText": "0.9%",
+        "barWidth": "0.851%"
+      }
+    ],
+    "caveat": "safe only over their top-5; a premove still fires whenever it is legal",
+    "meta": "model maia3-5m · engine 69.1 ms · round-trip 3.0 ms · 5 considered of 5 likely replies · ui 0.1 ms · cached",
+    "gate": "auto",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top",
+    "renderMs": 0.09999999403953552,
+    "engineMs": 69.14,
+    "roundTripMs": 3,
+    "stateToRenderMs": 18
+  },
+  "overlay": {
+    "display": "block",
+    "pointerEvents": "none",
+    "state": "shown",
+    "arrows": [
+      {
+        "uci": "c4d5",
+        "rank": 0,
+        "style": "dashed",
+        "premove": true,
+        "from": [
+          193,
+          373
+        ],
+        "tip": [
+          263,
+          303
+        ],
+        "thickness": 11.2,
+        "headLength": 31.36,
+        "squareSize": 70,
+        "drawable": true
+      }
+    ],
+    "premove": {
+      "uci": "c4d5",
+      "san": "cxd5",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top"
+    }
+  },
+  "endpoints": {
+    "uci": "c4d5",
+    "style": "dashed",
+    "fromErrorPx": 0,
+    "tipErrorPx": 0,
+    "groundTruth": {
+      "c4": {
+        "x": 193,
+        "y": 373
+      },
+      "d5": {
+        "x": 263,
+        "y": 303
+      }
+    }
+  },
+  "screenshot": "test/fixtures/captures/premove/stub-takeback-card.png",
+  "requests": {
+    "totalAfterFixtures": 1,
+    "totalNow": 2,
+    "byKey": 1,
+    "allKeys": 2
+  }
+}

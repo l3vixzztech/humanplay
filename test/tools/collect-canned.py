@@ -1,21 +1,26 @@
 #!/usr/bin/env python3
-"""Record the CANNED /analyze responses for test/tools/fixture_server.py.
+"""Record the CANNED /analyze + /premove responses for test/tools/fixture_server.py.
 
-The M4 proof (test/tools/analyze-proof.mjs) runs in two modes: STUB (against
-test/tools/fixture_server.py) and REAL (against the actual Maia server). The stub
-answers with responses **recorded from the real server**, so the stub schema is
-identical by construction and the two modes can be compared value-by-value.
+The M4/M7 proofs (test/tools/analyze-proof.mjs, test/tools/premove-proof.mjs) run
+in two modes: STUB (against test/tools/fixture_server.py) and REAL (against the
+actual Maia server). The stub answers with responses **recorded from the real
+server**, so the stub schema is identical by construction and the two modes can
+be compared value-by-value.
 
 This script re-records those responses. Run it whenever the fixtures change (a
-new position, a new Elo case) — the real server must be running:
+new position, a new Elo case, a new premove case) — the real server must be
+running:
 
     cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765
     python3 test/tools/collect-canned.py
 
-It prints the `CANNED = {...}` block for test/tools/fixture_server.py (replace
-the dict body) and writes the full record (requests + responses + wall times) to
-test/fixtures/captures/analyze/canned-report.json. Keys are
-`<fen>|<uci moves>|<elo_self>|<elo_oppo>|<top_k>` — exactly what the panel sends.
+It prints the `CANNED = {...}` and `CANNED_PREMOVE = {...}` blocks for
+test/tools/fixture_server.py (replace the dict bodies) and writes the full
+records (requests + responses + wall times) to
+test/fixtures/captures/analyze/canned-report.json (analyze) and
+test/fixtures/captures/premove/canned-premove-report.json (premove).
+/analyze keys are `<fen>|<uci moves>|<elo_self>|<elo_oppo>|<top_k>`;
+/premove keys append `<top_n>|<min_safety>|<mode>` — exactly what the panel sends.
 """
 
 from __future__ import annotations
@@ -27,8 +32,10 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 REPORT = REPO_ROOT / "test/fixtures/captures/analyze/canned-report.json"
+PREMOVE_REPORT = REPO_ROOT / "test/fixtures/captures/premove/canned-premove-report.json"
 
 URL = "http://127.0.0.1:8765/analyze"
+PREMOVE_URL = "http://127.0.0.1:8765/premove"
 START = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 # Fixture move lists (UCI, the adapter's replay output — see
@@ -39,6 +46,11 @@ MG18 = MG16 + ["h2h3", "f8e8"]
 FLIPPED_INITIAL = ["e2e4", "c7c5", "g1f3", "d7d6"]
 RUY = ["e2e4", "e7e5", "g1f3", "b8c6", "f1b5", "a7a6", "b5a4", "g8f6", "e1g1", "f8e7", "f1e1", "b7b5", "a4b3", "d7d6", "c2c3", "e8g8"]
 GAMEOVER = ["e2e4", "e7e5", "f1c4", "b8c6", "d1h5", "g8f6", "h5f7"]
+# M7 premove-takeback.html: Benoni, 7 plies, black to move (the user plays white).
+PREMOVE_TAKEBACK = ["d2d4", "g8f6", "c2c4", "c7c5", "d4d5", "e7e6", "b1c3"]
+# The forced-recapture position of the M7 tests (board-only request; the panel
+# reaches it through the mismatch mutation of the take-back fixture page).
+PREMOVE_FORCED_FEN = "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 1"
 
 # (comment, fen, moves, elo_self, elo_oppo, top_k)
 CASES = [
@@ -51,7 +63,29 @@ CASES = [
     ("ruy-lopez @ 1200/1200 — top-1 d4 (the Elo proof)", START, RUY, 1200, 1200, 3),
     ("ruy-lopez @ 2600/2600 — top-1 h3 with different probabilities", START, RUY, 2600, 2600, 3),
     ("gameover-checkmate.html — scholar's mate: moves[] + rules-decided WDL", START, GAMEOVER, 2400, 2400, 3),
+    # M7: positions the premove proof mutates into (the Maia card must not 400).
+    ("M7 forced-recapture position (mismatch mutation; user to move)", PREMOVE_FORCED_FEN, [], 2400, 2400, 3),
+    ("M7 take-back fixture + 4...exd5 (stale-race mutation; user to move)", START, PREMOVE_TAKEBACK + ["e6d5"], 2400, 2400, 3),
 ]
+
+# (comment, fen, moves, top_n, min_safety, mode) — the panel always sends
+# top_n=5, min_safety=0.9, mode="top".
+PREMOVE_CASES = [
+    ("premove-takeback.html — Benoni, black to move: their exd5 -> our take-back cxd5 (safe_vs_all)", START, PREMOVE_TAKEBACK, 5, 0.9, "top"),
+    ("flipped-black.html — white to move (user black): their d4 -> our take-back cxd4 (safe_vs_all, flipped)", START, FLIPPED_INITIAL, 5, 0.9, "top"),
+    ("startpos + 1.e4 — c5/e5/c6/e6 need different answers -> no safe premove", START, ["e2e4"], 5, 0.9, "top"),
+    ("take-back fixture + 4...exd5 5.cxd5 (9 plies, black to move) — robust", START, PREMOVE_TAKEBACK + ["e6d5", "c4d5"], 5, 0.9, "top"),
+    ("forced-recapture position (board-only; the mismatch mutation) — forced", PREMOVE_FORCED_FEN, [], 5, 0.9, "top"),
+]
+
+
+def post(url: str, payload: dict) -> tuple[dict, float]:
+    body = json.dumps(payload).encode()
+    request = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
+    started = time.perf_counter()
+    with urllib.request.urlopen(request) as response:
+        data = json.loads(response.read())
+    return data, round((time.perf_counter() - started) * 1000, 1)
 
 
 def main() -> None:
@@ -86,6 +120,47 @@ def main() -> None:
     print(f"\nreport: {REPORT.relative_to(REPO_ROOT)}")
     print("\n# ---- paste into test/tools/fixture_server.py (CANNED) ----")
     for entry in entries:
+        print(f"    # {entry['name']}")
+        print(f"    {json.dumps(entry['key'])}:")
+        print(f"    {json.dumps(entry['response'], sort_keys=True)},")
+
+    premove_entries = []
+    print("\n# ---- M7 premove cases ----")
+    for name, fen, moves, top_n, min_safety, mode in PREMOVE_CASES:
+        payload = {
+            "fen": fen,
+            "moves": moves,
+            "elo_self": 2400,
+            "elo_oppo": 2400,
+            "top_n": top_n,
+            "min_safety": min_safety,
+            "mode": mode,
+        }
+        data, wall_ms = post(PREMOVE_URL, payload)
+        key = f"{fen}|{' '.join(moves)}|2400|2400|{top_n}|{min_safety}|{mode}"
+        recommended = data["recommended"]
+        summary = "(none)" if recommended is None else f"{recommended['san']}:{recommended['criterion']}:{recommended['safety']}"
+        print(f"{name:100s} {summary} ({data['elapsed_ms']:.0f} ms engine, {wall_ms:.0f} ms wall)")
+        premove_entries.append({"name": name, "key": key, "request": payload, "wall_ms": wall_ms, "response": data})
+
+    PREMOVE_REPORT.parent.mkdir(parents=True, exist_ok=True)
+    PREMOVE_REPORT.write_text(
+        json.dumps(
+            {
+                "generatedWith": "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765",
+                "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "generator": "test/tools/collect-canned.py",
+                "consumedBy": "test/tools/fixture_server.py CANNED_PREMOVE + test/tools/premove-proof.mjs (stub mode)",
+                "entries": premove_entries,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    print(f"\nreport: {PREMOVE_REPORT.relative_to(REPO_ROOT)}")
+    print("\n# ---- paste into test/tools/fixture_server.py (CANNED_PREMOVE) ----")
+    for entry in premove_entries:
         print(f"    # {entry['name']}")
         print(f"    {json.dumps(entry['key'])}:")
         print(f"    {json.dumps(entry['response'], sort_keys=True)},")

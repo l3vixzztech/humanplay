@@ -1,0 +1,42 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "san": "e4",
+    "criterion": "robust vs 99%",
+    "safety": "99.3%",
+    "minProb": "58.0%",
+    "rows": [
+      {
+        "san": "d6",
+        "uci": "d7d6",
+        "prob": 0.920385,
+        "terminal": null,
+        "probText": "92.0%",
+        "barWidth": "92.0385%"
+      },
+      {
+        "san": "Bd6",
+        "uci": "f8d6",
+        "prob": 0.044669,
+        "terminal": null,
+        "probText": "4.5%",
+        "barWidth": "4.4669%"
+      }
+    ],
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3 e6d5 c4d5|2400|2400|5|0.9|top",
+    "renderMs": 3.2000000029802322,
+    "mutationToRenderMs": 158
+  },
+  "endpoints": {
+    "uci": "e2e4",
+    "style": "dashed",
+    "fromErrorPx": 0,
+    "tipErrorPx": 0
+  },
+  "speak": {
+    "text": "premove e-pawn to e4",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3 e6d5 c4d5|2400|2400|5|0.9|top"
+  },
+  "screenshot": "test/fixtures/captures/premove/stub-robust.png"
+}

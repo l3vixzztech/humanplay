@@ -1,0 +1,32 @@
+{
+  "pass": true,
+  "failures": [],
+  "card": {
+    "san": "Qxd2+",
+    "criterion": "forced",
+    "safety": "100.0%",
+    "minProb": "31.1%",
+    "rows": [
+      {
+        "san": "Rxd2",
+        "uci": "e2d2",
+        "prob": 1,
+        "terminal": null,
+        "probText": "100.0%",
+        "barWidth": "100%"
+      }
+    ],
+    "key": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 5||2400|2400|5|0.9|top",
+    "analyzeStatus": "ready"
+  },
+  "endpoints": {
+    "uci": "g2d2",
+    "style": "dashed",
+    "fromErrorPx": 0,
+    "tipErrorPx": 0
+  },
+  "speak": {
+    "text": "premove queen takes d2, check"
+  },
+  "screenshot": "test/fixtures/captures/premove/stub-forced.png"
+}
