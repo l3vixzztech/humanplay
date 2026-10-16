@@ -166,6 +166,47 @@ def reference_positions() -> list[dict]:
             "bottom_player": "humanplay-session-user",
             "moves_san": ("d4", "Nf6", "c4", "c5", "d5", "e6", "Nc3"),
         },
+        {
+            # M9.1 trap: a DECOY move list (a different, fully legal game) is
+            # rendered BEFORE the real one. "First list wins" used to read the
+            # decoy, fail reconciliation and drop the history; the board-
+            # reconciled candidate selection must pick the real list.
+            "slug": "multi-list",
+            "title": "chess.com fixture — decoy move list before the real one (M9.1 trap)",
+            "board_id": "board-single",
+            "user_color": "white",
+            "flipped": False,
+            "top_color": "black",
+            "bottom_color": "white",
+            "top_player": "MaiaBot-2400",
+            "bottom_player": "humanplay-session-user",
+            "moves_san": (
+                "e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "O-O", "Nf6",
+                "d3", "d6", "Bg5", "O-O", "Bxf6", "Qxf6",
+            ),
+            # Legal from the start position, but a different game (QGD setup).
+            "decoy_moves_san": ("d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Be7"),
+        },
+        {
+            # M9.1 trap: the real list contains a duplicated SAN-shaped node
+            # ("Bc5" again) which is ILLEGAL at replay time. The resilient
+            # repair must skip it, verify the position against the board and
+            # keep the exact 14-move history.
+            "slug": "artifact-token",
+            "title": "chess.com fixture — duplicated SAN-shaped node in the move list (M9.1 trap)",
+            "board_id": "board-single",
+            "user_color": "white",
+            "flipped": False,
+            "top_color": "black",
+            "bottom_color": "white",
+            "top_player": "MaiaBot-2400",
+            "bottom_player": "humanplay-session-user",
+            "moves_san": (
+                "e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "O-O", "Nf6",
+                "d3", "d6", "Bg5", "O-O", "Bxf6", "Qxf6",
+            ),
+            "stray_moves_san": ((5, "Bc5"),),
+        },
     ]
 
 
@@ -231,7 +272,26 @@ def coordinates_svg(flipped: bool) -> str:
     return f'<svg viewBox="0 0 100 100" class="coordinates" aria-hidden="true">{"".join(parts)}</svg>'
 
 
-def move_list_markup(moves_san: tuple[str, ...], board_id: str) -> str:
+def move_list_markup(
+    moves_san: tuple[str, ...],
+    board_id: str,
+    stray_moves: tuple[tuple[int, str], ...] = (),
+    decoy_lists: tuple[tuple[str, ...], ...] = (),
+    decoy: bool = False,
+) -> str:
+    """The real 2026 move-list markup, plus two deliberate M9.1 traps:
+
+    * ``stray_moves`` — ``(after_index, san)`` pairs insert an EXTRA node whose
+      token is SAN-shaped but illegal at replay time (a duplicated node). The
+      resilient repair must skip it and still reconcile with the board.
+    * ``decoy_lists`` — extra *complete* move lists rendered BEFORE the real
+      one (a different but fully legal game). "First list wins" used to pick the
+      decoy; reconciliation against the board must pick the real list.
+    """
+    strays_by_index: dict[int, list[str]] = {}
+    for after_index, san in stray_moves:
+        strays_by_index.setdefault(int(after_index), []).append(san)
+
     rows = []
     for ply in range(0, len(moves_san), 2):
         whole_move = ply // 2 + 1
@@ -247,6 +307,11 @@ def move_list_markup(moves_san: tuple[str, ...], board_id: str) -> str:
                 f'<div data-node="0-{index}" class="node {player} main-line-ply">'
                 f' <span class="node-highlight-content offset-for-annotation-icon">{san} </span></div>'
             )
+            for stray in strays_by_index.get(index, []):
+                nodes.append(
+                    f'<div data-node="0-{index}" class="node {player} main-line-ply">'
+                    f' <span class="node-highlight-content offset-for-annotation-icon">{html.escape(stray)} </span></div>'
+                )
             stamp = TIMESTAMP_PATTERN[index % len(TIMESTAMP_PATTERN)]
             time_class = "time-white" if offset == 0 else "time-black"
             timestamps.append(
@@ -258,11 +323,18 @@ def move_list_markup(moves_san: tuple[str, ...], board_id: str) -> str:
             f'{whole_move}.  {"  ".join(nodes)}  {"".join(timestamps)}</div>'
         )
     body = "\n        ".join(rows)
-    return f"""      <wc-simple-move-list class="move-list chessboard-pkg-move-list-component" board-id="{board_id}">
+    extra_class = " move-list-decoy" if decoy else ""
+    markup = f"""      <wc-simple-move-list class="move-list{extra_class} chessboard-pkg-move-list-component" board-id="{board_id}">
         <div class="timestamps-with-base-time">
         {body}
         </div>
       </wc-simple-move-list>"""
+    if decoy_lists:
+        decoys = "\n".join(
+            move_list_markup(tuple(decoy_sans), board_id, decoy=True) for decoy_sans in decoy_lists
+        )
+        return f"{decoys}\n{markup}"
+    return markup
 
 
 def player_strip(side: str, color: str, username: str) -> str:
@@ -425,7 +497,12 @@ def render_page(spec: dict, board: chess.Board, uci: list[str], last_move: chess
         bottom_player=player_strip("bottom", spec["bottom_color"], spec["bottom_player"]),
         legacy_board=LEGACY_BOARD_TRAP,
         board=board_markup(board, spec["board_id"], spec["flipped"], last_move),
-        move_list=move_list_markup(spec["moves_san"], spec["board_id"]),
+        move_list=move_list_markup(
+            spec["moves_san"],
+            spec["board_id"],
+            stray_moves=spec.get("stray_moves_san", ()),
+            decoy_lists=(spec["decoy_moves_san"],) if spec.get("decoy_moves_san") else (),
+        ),
         fen=board.fen(),
         moves=" ".join(uci),
         user_color=spec["user_color"],

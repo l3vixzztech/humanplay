@@ -73,7 +73,7 @@
 // arrow overlay uses the same module, so both scripts always agree which board
 // (and which rect) is live.
 
-const ADAPTER_VERSION = "m3.1";
+const ADAPTER_VERSION = "m3.2";
 const MSG_STATE = "humanplay:chesscom-state";
 const MSG_GET_STATE = "humanplay:get-state";
 const MSG_RECORD_SNAPSHOT = "humanplay:record-snapshot";
@@ -261,7 +261,7 @@ function start() {
     const boardRect = modules.boardLocate.rectOf(board.el);
     const boardState = readBoardState(board.el, modules);
     const position = readPosition(board.el, modules, boardState);
-    const history = readHistory(modules, boardState);
+    const historyCandidates = readHistoryCandidates(modules, boardState);
 
     const warnings = [];
     const mismatch = { value: null };
@@ -278,6 +278,76 @@ function start() {
         );
       }
     }
+
+    // Reconciliation (M9.1): every move-list candidate is replayed — exactly
+    // first, then with the continue-on-error repair (stray/duplicated DOM
+    // tokens) — and a candidate is accepted only when its END POSITION MATCHES
+    // THE BOARD. That disambiguates pages with several lists (game previews,
+    // analysis panels, stale SPA content) deterministically: the list that
+    // belongs to the board wins. Disagreement/unreliable mismatches are only
+    // reported after every candidate failed to reconcile.
+    let chosen = null; // { candidate, replay, repaired }
+    let bestDisagreement = null; // { candidate, replay } — replayed, board differs
+    let firstFailure = null; // { candidate, replay } — replay itself failed
+    let historyOnly = false; // board placement unreadable: history-only mode
+    if (positionField) {
+      for (const candidate of historyCandidates) {
+        if (!Array.isArray(candidate.sans)) continue;
+        const replay = modules.history.replaySanList(candidate.sans);
+        if (!replay.ok) {
+          if (!firstFailure) firstFailure = { candidate, replay };
+          continue;
+        }
+        if (modules.history.fenBoardField(replay.fen) === positionField) {
+          chosen = { candidate, replay, repaired: null };
+          break;
+        }
+        if (!bestDisagreement || candidate.sans.length > bestDisagreement.candidate.sans.length) {
+          bestDisagreement = { candidate, replay };
+        }
+      }
+      if (!chosen) {
+        for (const candidate of historyCandidates) {
+          if (!Array.isArray(candidate.sans)) continue;
+          const repaired = modules.history.replaySanListResilient(candidate.sans);
+          if (
+            repaired.ok &&
+            repaired.skipped.length > 0 &&
+            modules.history.fenBoardField(repaired.fen) === positionField
+          ) {
+            chosen = { candidate, replay: repaired, repaired };
+            break;
+          }
+        }
+      }
+    } else {
+      for (const candidate of historyCandidates) {
+        if (!Array.isArray(candidate.sans)) continue;
+        const replay = modules.history.replaySanList(candidate.sans);
+        if (replay.ok) {
+          chosen = { candidate, replay, repaired: null };
+          break;
+        }
+        const repaired = modules.history.replaySanListResilient(candidate.sans);
+        if (repaired.ok && repaired.skipped.length > 0) {
+          chosen = { candidate, replay: repaired, repaired };
+          break;
+        }
+        if (!firstFailure) firstFailure = { candidate, replay };
+      }
+      if (chosen) historyOnly = true;
+    }
+
+    // Fallback list for the degraded paths (side-to-move parity, fullmove):
+    // the chosen list, else the most complete replay we saw, else the first
+    // readable list, else "absent".
+    const history =
+      chosen?.candidate ??
+      bestDisagreement?.candidate ??
+      firstFailure?.candidate ??
+      historyCandidates.find((candidate) => Array.isArray(candidate.sans)) ??
+      historyCandidates[0] ??
+      { source: "absent", sans: null, container: null, nodeCount: null };
 
     // Degraded metadata: when only the DOM placement is known, side-to-move has
     // to come from elsewhere (clock indicator / history parity) and castling /
@@ -309,49 +379,63 @@ function start() {
     let fen = null;
     let movesUci = [];
     let historyStatus;
-    let positionSource = position.strategy;
+    let positionSource = historyOnly ? "move-list-replay" : position.strategy;
 
-    if (positionField && history.sans) {
-      const replay = modules.history.replaySanList(history.sans);
-      if (!replay.ok) {
-        mismatch.value = {
-          kind: "history-unreliable",
-          reason: replay.error,
-          failedAt: replay.failedAt,
-          sanCount: history.sans.length,
-          note: "board is the source of truth; the move-list history was dropped for this update",
-        };
-        fen = degradedFen();
-        historyStatus = "unreliable";
-      } else if (modules.history.fenBoardField(replay.fen) !== positionField) {
-        mismatch.value = {
-          kind: "board-history-disagreement",
-          boardField: positionField,
-          replayField: modules.history.fenBoardField(replay.fen),
-          boardFen: position.fen ?? null,
-          replayFen: replay.fen,
-          sanCount: history.sans.length,
-          note: "board is the source of truth; the move-list history was dropped for this update",
-        };
-        fen = degradedFen();
-        historyStatus = "dropped";
-      } else {
-        fen = replay.fen;
-        movesUci = replay.movesUci;
-        historyStatus = history.sans.length > 0 ? "replayed" : "startpos";
+    if (chosen) {
+      if (historyOnly) {
+        warnings.push("board position could not be read from the DOM — using the move-list replay (history) only");
       }
-    } else if (history.sans && !positionField) {
-      warnings.push("board position could not be read from the DOM — using the move-list replay (history) only");
-      positionSource = "move-list-replay";
-      const replay = modules.history.replaySanList(history.sans);
-      if (replay.ok) {
-        fen = replay.fen;
-        movesUci = replay.movesUci;
-        historyStatus = history.sans.length > 0 ? "replayed" : "startpos";
-      } else {
-        mismatch.value = { kind: "history-unreliable", reason: replay.error, failedAt: replay.failedAt };
-        historyStatus = "unreliable";
+      if (chosen.repaired && chosen.repaired.skipped.length > 0) {
+        const shown = chosen.repaired.skipped
+          .map((entry) => `"${entry.san}" (position ${Number(entry.index) + 1})`)
+          .join(", ");
+        warnings.push(
+          `move list contained ${chosen.repaired.skipped.length} unreadable token(s) — skipped ${shown}; ` +
+            "the position was verified against the board",
+        );
       }
+      fen = chosen.replay.fen;
+      movesUci = chosen.replay.movesUci;
+      historyStatus = chosen.replay.sans.length > 0 ? "replayed" : "startpos";
+    } else if (positionField && bestDisagreement) {
+      mismatch.value = {
+        kind: "board-history-disagreement",
+        boardField: positionField,
+        replayField: modules.history.fenBoardField(bestDisagreement.replay.fen),
+        boardFen: position.fen ?? null,
+        replayFen: bestDisagreement.replay.fen,
+        sanCount: bestDisagreement.candidate.sans.length,
+        container: bestDisagreement.candidate.container,
+        note: "board is the source of truth; the move-list history was dropped for this update",
+      };
+      fen = degradedFen();
+      historyStatus = "dropped";
+    } else if (positionField && firstFailure) {
+      const failedAt = firstFailure.replay.failedAt;
+      const failedToken =
+        Array.isArray(firstFailure.candidate.sans) && Number.isInteger(failedAt) && failedAt > 0
+          ? firstFailure.candidate.sans[failedAt - 1] ?? null
+          : null;
+      mismatch.value = {
+        kind: "history-unreliable",
+        reason: firstFailure.replay.error,
+        failedAt: failedAt ?? null,
+        failedToken,
+        sanCount: firstFailure.candidate.sans.length,
+        container: firstFailure.candidate.container,
+        note: "board is the source of truth; the move-list history was dropped for this update",
+      };
+      fen = degradedFen();
+      historyStatus = "unreliable";
+    } else if (firstFailure) {
+      mismatch.value = {
+        kind: "history-unreliable",
+        reason: firstFailure.replay.error,
+        failedAt: firstFailure.replay.failedAt ?? null,
+        sanCount: firstFailure.candidate.sans?.length ?? null,
+        container: firstFailure.candidate.container,
+      };
+      historyStatus = "unreliable";
     } else if (positionField) {
       fen = degradedFen();
       historyStatus = "absent";
@@ -582,29 +666,51 @@ function start() {
 
   /* --------------------------------------------------------- history reading */
 
-  function readHistory(modules, boardState) {
-    const moveList = findMoveList();
-    if (moveList) {
-      if (moveList.nodes.length > 0) {
-        const texts = moveList.nodes.map(
-          (node) => node.querySelector?.(".node-highlight-content")?.textContent ?? node.textContent ?? "",
-        );
-        const sans = modules.history.sanTokensFromNodeTexts(texts.length ? texts : [moveList.el.textContent ?? ""]);
-        if (sans.length > 0) {
-          return { source: "move-list", sans, container: moveList.selector, nodeCount: moveList.nodes.length };
+  /**
+   * Every readable history candidate on the page, in DOM order: all move-list
+   * containers (verified 2026 structure first, older variants after; duplicate
+   * elements matched by several selectors are de-duplicated), then
+   * chess.com's own board-exposed SAN history as the last resort. The
+   * reconciliation in computeState picks the candidate that MATCHES THE BOARD —
+   * the only reliable disambiguation when several lists are mounted (game
+   * previews, analysis panels, stale SPA content, M9.1).
+   */
+  function readHistoryCandidates(modules, boardState) {
+    const candidates = [];
+    const seen = new Set();
+    for (const selector of MOVE_LIST_SELECTORS) {
+      for (const el of document.querySelectorAll(selector)) {
+        if (seen.has(el)) continue;
+        seen.add(el);
+        const nodes = moveListNodes(el);
+        const texts = nodes.length
+          ? nodes.map(
+              (node) => node.querySelector?.(".node-highlight-content")?.textContent ?? node.textContent ?? "",
+            )
+          : [el.textContent ?? ""];
+        const sans = modules.history.sanTokensFromNodeTexts(texts);
+        if (nodes.length > 0 || sans.length > 0) {
+          candidates.push({ source: "move-list", sans, container: selector, nodeCount: nodes.length });
         }
       }
-      // Container exists but has no readable moves: zero moves played (or the
-      // list has not rendered yet). Replaying "no moves" from the initial
-      // position is the startpos — and the board reconciliation catches it if
-      // the game did not actually start from there.
-      return { source: "move-list-empty", sans: [], container: moveList.selector, nodeCount: 0 };
     }
     if (boardState.sanHistory) {
       const sans = modules.history.sanTokensFromNodeTexts(boardState.sanHistory);
-      return { source: "board-state", sans, container: null, nodeCount: sans.length };
+      if (sans.length > 0) {
+        candidates.push({ source: "board-state", sans, container: null, nodeCount: sans.length });
+      }
     }
-    return { source: "absent", sans: null, container: null, nodeCount: null };
+    if (candidates.length === 0) {
+      // Containers exist but nothing readable: zero moves played (or the list
+      // has not rendered yet). Replaying "no moves" from the initial position
+      // is the startpos — and the board reconciliation catches it if the game
+      // did not actually start from there.
+      const moveList = findMoveList();
+      if (moveList) {
+        candidates.push({ source: "move-list-empty", sans: [], container: moveList.selector, nodeCount: 0 });
+      }
+    }
+    return candidates;
   }
 
   function findMoveList() {

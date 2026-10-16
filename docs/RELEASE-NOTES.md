@@ -1,5 +1,18 @@
 # humanplay — Release Notes
 
+## v1.0.1 — 2026-10-17 — live-game move-list fix
+
+- **Fixes** a live-game failure where the adapter could latch onto the wrong move list (pages with
+  several lists — previews, analysis panels, stale SPA content) or choke on a stray/duplicated
+  move-list node, dropping the history and degrading side-to-move on every update. The adapter now
+  reconciles **all** move-list candidates against the board (exact replay first, then a
+  continue-on-error repair that must still match the board) and keeps the exact FEN + history.
+- The panel's mismatch message now includes the failing token, ply and list selector — any future
+  breakage is self-diagnosing (plus the one-click snapshot protocol).
+- Evidence: `test/fixtures/captures/adapter/` (new `multi-list` + `artifact-token` traps, 8 fixtures,
+  `ALL ADAPTER CASES PASSED`), `test/tools/adapter-unit.mjs` (27 tests), acceptance re-run
+  (all cases passed). Extension reload required; the server does **not** need a restart.
+
 ## v1.0.0 (personal build) — 2026-10-17
 
 The first complete build: a Chrome MV3 extension for chess.com plus a local

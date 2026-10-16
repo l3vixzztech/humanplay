@@ -1833,11 +1833,19 @@ function renderChesscomState(state, tabId) {
       : `unknown (${state.userColorSource ?? "?"})`;
 
     if (state.mismatch) {
+      const mismatch = state.mismatch;
+      let text = `mismatch: ${mismatch.kind}`;
+      if (mismatch.note) text += ` — ${mismatch.note}`;
+      if (mismatch.reason && mismatch.reason !== mismatch.note) text += ` — ${mismatch.reason}`;
+      if (mismatch.failedAt) {
+        text += ` (failed at ply ${mismatch.failedAt}`;
+        if (mismatch.failedToken) text += `: "${mismatch.failedToken}"`;
+        text += ")";
+      }
+      if (mismatch.sanCount !== undefined) text += ` (move list had ${mismatch.sanCount} moves)`;
+      if (mismatch.container) text += ` [list: ${mismatch.container}]`;
       els.ccMismatch.hidden = false;
-      els.ccMismatch.textContent =
-        `mismatch: ${state.mismatch.kind} — ${state.mismatch.note ?? state.mismatch.reason ?? ""}` +
-        (state.mismatch.sanCount !== undefined ? ` (move list had ${state.mismatch.sanCount} moves)` : "") +
-        ". Board kept as the source of truth; history dropped for this update.";
+      els.ccMismatch.textContent = `${text}. Board kept as the source of truth; history dropped for this update.`;
     } else {
       els.ccMismatch.hidden = true;
     }

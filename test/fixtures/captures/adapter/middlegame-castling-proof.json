@@ -1,6 +1,6 @@
 {
   "slug": "middlegame-castling",
-  "url": "http://127.0.0.1:37651/chesscom/middlegame-castling.html",
+  "url": "http://127.0.0.1:45581/chesscom/middlegame-castling.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -31,9 +31,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:37651/chesscom/middlegame-castling.html",
+    "gameUrl": "http://127.0.0.1:45581/chesscom/middlegame-castling.html",
     "gameId": null,
-    "ts": "2026-10-16T21:36:36.015Z",
+    "ts": "2026-10-16T22:01:15.027Z",
     "boardId": "board-play-computer",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,
@@ -57,7 +57,7 @@
     ],
     "sessionSeq": 0,
     "resetDetected": false,
-    "adapterVersion": "m3.1"
+    "adapterVersion": "m3.2"
   },
   "groundTruth": {
     "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",

@@ -22,6 +22,7 @@ import {
   normalizeSanToken,
   sanTokensFromNodeTexts,
   replaySanList,
+  replaySanListResilient,
   fenFields,
   fenBoardField,
   sideToMoveFromPly,
@@ -290,6 +291,50 @@ test("normalizeColor", () => {
   eq(normalizeColor("b"), "black");
   eq(normalizeColor("red"), null);
   eq(normalizeColor(undefined), null);
+});
+
+/* ------------------------------------- M9.1: resilient replay (DOM repair) */
+
+test("replaySanListResilient: skips a duplicated SAN token, keeps the rest exact", () => {
+  const result = replaySanListResilient(["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "Bc5"]);
+  eq(result.ok, true, "ok");
+  eq(result.movesUci, ["e2e4", "e7e5", "g1f3", "b8c6", "f1c4", "f8c5"], "movesUci");
+  eq(result.skipped.map((entry) => entry.san), ["Bc5"], "skipped tokens");
+  eq(result.skipped[0].index, 6, "skipped index");
+  // The repaired end position must equal the clean 6-move replay exactly.
+  const clean = replaySanList(["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5"]);
+  eq(result.fen, clean.fen, "repaired fen equals the clean replay");
+});
+
+test("replaySanListResilient: a clean list equals replaySanList exactly", () => {
+  const list = ["e4", "e5", "Nf3", "Nc6"];
+  const resilient = replaySanListResilient(list);
+  const exact = replaySanList(list);
+  eq(resilient.ok, true, "ok");
+  eq(resilient.skipped, [], "no skips");
+  eq(resilient.movesUci, exact.movesUci, "movesUci");
+  eq(resilient.fen, exact.fen, "fen");
+});
+
+test("replaySanListResilient: a mid-list artifact keeps the tail playable", () => {
+  const result = replaySanListResilient(["e4", "e5", "Nf9", "Nf3", "Nc6"]);
+  eq(result.ok, true, "ok");
+  eq(result.skipped.map((entry) => entry.san), ["Nf9"], "skipped tokens");
+  eq(result.movesUci, ["e2e4", "e7e5", "g1f3", "b8c6"], "tail kept after the artifact");
+});
+
+test("replaySanListResilient: all tokens unreadable -> not ok", () => {
+  const result = replaySanListResilient(["Nf9", "Qz9"]);
+  eq(result.ok, false, "ok");
+  eq(result.movesUci, [], "no moves");
+  eq(result.skipped.length, 2, "both skipped");
+  ok(result.error, "error present");
+});
+
+test("replaySanListResilient: an empty list is a valid startpos", () => {
+  const result = replaySanListResilient([]);
+  eq(result.ok, true, "ok");
+  eq(result.fen, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "startpos fen");
 });
 
 /* ------------------------------------------------------------------ done */

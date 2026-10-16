@@ -706,7 +706,9 @@ async function main() {
       host_permissions: sourceManifest.host_permissions,
       hasAllUrls: JSON.stringify(sourceManifest).includes("<all_urls>"),
     };
-    if (sourceManifest.version !== "1.0.0") fail(`the shipped manifest must be 1.0.0 (found ${sourceManifest.version})`, "release");
+    if (!/^\d+\.\d+\.\d+$/.test(String(sourceManifest.version))) {
+      fail(`the shipped manifest version is not a semver release version (found ${sourceManifest.version})`, "release");
+    }
 
     variantDir = await mkdtemp(path.join(tmpdir(), "humanplay-acceptance-variant-"));
     await cp(sourceExtensionDir, variantDir, { recursive: true });

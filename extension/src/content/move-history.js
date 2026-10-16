@@ -121,6 +121,65 @@ export function replaySanList(sanList, { startFen = INITIAL_FEN } = {}) {
   return { ok: true, movesUci, sans, fen: chess.fen(), failedAt: null };
 }
 
+/**
+ * Continue-on-error variant of `replaySanList` for DOM corruption (M9.1):
+ * stray or duplicated nodes in the move list, annotation glyphs, future markup
+ * drift. Illegal/unparsable tokens are SKIPPED (recorded in `skipped`), the
+ * rest of the list keeps playing. The caller must verify the end position
+ * against the board before trusting the result — a skipped token that really
+ * was a move would diverge (and then the board check fails and the caller
+ * reports a mismatch instead of guessing).
+ *
+ * @param {string[]} sanList
+ * @param {{startFen?: string}} [options]
+ * @returns {{ok:boolean, movesUci:string[], sans:string[],
+ *            skipped:Array<{index:number, san:string}>, fen:string,
+ *            failedAt:number|null, error?:string}}
+ */
+export function replaySanListResilient(sanList, { startFen = INITIAL_FEN } = {}) {
+  const startCheck = validateFen(startFen);
+  if (!startCheck.ok) {
+    return {
+      ok: false,
+      error: `invalid start FEN: ${startCheck.error}`,
+      movesUci: [],
+      sans: [],
+      skipped: [],
+      fen: startFen,
+      failedAt: null,
+    };
+  }
+  const chess = new Chess(startFen);
+  const movesUci = [];
+  const sans = [];
+  const skipped = [];
+  for (let index = 0; index < (sanList?.length ?? 0); index += 1) {
+    const san = sanList[index];
+    let move = null;
+    try {
+      move = chess.move(san); // throws (or returns null) on illegal/unparsable SAN
+    } catch {
+      move = null;
+    }
+    if (!move) {
+      skipped.push({ index, san });
+      continue;
+    }
+    movesUci.push(`${move.from}${move.to}${move.promotion ?? ""}`);
+    sans.push(move.san);
+  }
+  const ok = movesUci.length > 0 || (sanList?.length ?? 0) === 0;
+  return {
+    ok,
+    movesUci,
+    sans,
+    skipped,
+    fen: chess.fen(),
+    failedAt: skipped.length > 0 ? skipped[0].index + 1 : null,
+    ...(ok ? {} : { error: `no token could be replayed (${skipped.length} skipped)` }),
+  };
+}
+
 /** Split a FEN into its six fields (missing trailing fields stay undefined). */
 export function fenFields(fen) {
   const [board = "", turn = "", castling = "", enPassant = "", halfmove = "", fullmove = ""] =

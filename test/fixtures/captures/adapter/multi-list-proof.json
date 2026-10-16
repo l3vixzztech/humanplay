@@ -1,0 +1,114 @@
+{
+  "slug": "multi-list",
+  "url": "http://127.0.0.1:45581/chesscom/multi-list.html",
+  "pass": true,
+  "failures": [],
+  "state": {
+    "ok": true,
+    "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+    "movesUci": [
+      "e2e4",
+      "e7e5",
+      "g1f3",
+      "b8c6",
+      "f1c4",
+      "f8c5",
+      "e1g1",
+      "g8f6",
+      "d2d3",
+      "d7d6",
+      "c1g5",
+      "e8g8",
+      "g5f6",
+      "d8f6"
+    ],
+    "userColor": "white",
+    "flipped": false,
+    "boardRect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "gameUrl": "http://127.0.0.1:45581/chesscom/multi-list.html",
+    "gameId": null,
+    "ts": "2026-10-16T22:01:16.015Z",
+    "boardId": "board-single",
+    "boardTag": "wc-chess-board",
+    "boardInViewport": true,
+    "turn": "w",
+    "moveCount": 14,
+    "moveListCount": 14,
+    "positionSource": "piece-square-class",
+    "historySource": "move-list",
+    "historyStatus": "replayed",
+    "flippedSource": "board-class",
+    "userColorSource": "player-bottom-clock",
+    "sideToMoveSource": "default",
+    "boardStateAgrees": null,
+    "warnings": [],
+    "strategyLog": [
+      {
+        "strategy": "piece-square-class",
+        "ok": true,
+        "pieces": 30
+      }
+    ],
+    "sessionSeq": 0,
+    "resetDetected": false,
+    "adapterVersion": "m3.2"
+  },
+  "groundTruth": {
+    "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+    "movesUci": [
+      "e2e4",
+      "e7e5",
+      "g1f3",
+      "b8c6",
+      "f1c4",
+      "f8c5",
+      "e1g1",
+      "g8f6",
+      "d2d3",
+      "d7d6",
+      "c1g5",
+      "e8g8",
+      "g5f6",
+      "d8f6"
+    ],
+    "userColor": "white",
+    "flipped": false,
+    "boardId": "board-single",
+    "rect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "viewport": {
+      "w": 1440,
+      "h": 757
+    },
+    "boardsOnPage": 3
+  },
+  "panel": {
+    "chip": "listening",
+    "chipClass": "chip chip-online",
+    "board": "#board-single · wc-chess-board",
+    "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+    "moves": "14 moves · replayed",
+    "turn": "white to move",
+    "color": "white (player-bottom-clock)",
+    "mismatchHidden": true
+  },
+  "rectErrors": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0
+  },
+  "trapBoards": 2,
+  "panelScreenshot": "test/fixtures/captures/adapter/multi-list-panel.png"
+}

@@ -2,6 +2,30 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Hotfix v1.0.1 — M9.1: move-list reconciliation + resilient replay (live-game mismatch) 🚑
+
+**Reported in live play:** the panel repeatedly showed `mismatch: history-unreliable … (move list
+had N moves)` plus `side to move inferred from history-parity` — history dropped on every update,
+side-to-move possibly wrong. Root-cause class: `findMoveList()` accepted the **first** list element
+with nodes; on a page with several move lists (previews, analysis panels, stale SPA content) or with
+a stray/duplicated SAN-shaped node, the single replay failed forever → board-only fallback.
+
+**Fix (extension only — server untouched):**
+- `readHistoryCandidates()` collects **every** readable history candidate (all move-list containers,
+  de-duplicated, verified structure first; then chess.com's own SAN history as a last resort).
+- `computeState` reconciles EVERY candidate against the board — exact replay first, then the new
+  `replaySanListResilient()` (continue-on-error) for stray/duplicated DOM tokens — and accepts only
+  the candidate whose **end position matches the board**. The list that belongs to the board wins.
+- `history-unreliable` mismatches now carry `reason` + `failedAt` + `failedToken` (previously the
+  panel showed only the generic note) — the next occurrence is self-diagnosing.
+- Regression traps: fixtures `multi-list` (decoy list first) and `artifact-token` (duplicated
+  SAN-shaped node); adapter-unit +5 resilient-replay tests; acceptance tool version pin made
+  semver-generic.
+
+**Verified:** adapter-unit **27/27**; adapter-proof **ALL PASSED** (8 fixtures incl. both traps);
+acceptance `--real` against the live server **ALL PASSED** (rematch + 104-ply soak included).
+**Extension reload required** (`chrome://extensions` → Reload); the server does not need a restart.
+
 ## Post-release audit — 2026-10-17 (reviewing session, outside the session loop)
 
 - Full regression rerun on `a8460bf` (+ the README screenshot commit): **package-verify,
