@@ -29,6 +29,6 @@
       "draw 6.3%",
       "loss 49.1%"
     ],
-    "meta": "model maia3-5m · engine 10.1 ms · round-trip 2.0 ms · 4 moves · replayed · ui 104.5 ms"
+    "meta": "model maia3-5m · engine 10.1 ms · round-trip 2.0 ms · 4 moves · replayed · ui 2.0 ms"
   }
 }

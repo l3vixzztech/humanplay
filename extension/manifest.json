@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "humanplay",
-  "version": "0.3.0",
-  "description": "Human-like chess move assistant for chess.com: reads the game state from the DOM and asks a local Maia-3 helper server.",
+  "version": "0.4.0",
+  "description": "Human-like chess move assistant for chess.com: reads the game state from the DOM, asks a local Maia-3 helper server and draws the suggested move on the board.",
   "minimum_chrome_version": "116",
   "icons": {
     "16": "icons/icon16.png",
@@ -31,7 +31,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.chess.com/*", "https://chess.com/*"],
-      "js": ["src/content/chesscom-adapter.js"],
+      "js": ["src/content/chesscom-adapter.js", "src/content/board-overlay.js"],
       "run_at": "document_idle"
     }
   ],
@@ -40,6 +40,8 @@
       "resources": [
         "src/content/board-dom.js",
         "src/content/move-history.js",
+        "src/content/board-locate.js",
+        "src/content/overlay-geometry.js",
         "vendor/chess.js"
       ],
       "matches": ["https://www.chess.com/*", "https://chess.com/*"]

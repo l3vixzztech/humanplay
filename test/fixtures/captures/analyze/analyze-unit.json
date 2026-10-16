@@ -1,6 +1,6 @@
 {
   "tool": "analyze-unit.mjs",
-  "generatedAt": "2026-10-16T18:20:37.729Z",
+  "generatedAt": "2026-10-16T18:50:19.583Z",
   "node": "v22.22.0",
   "module": "extension/src/analysis/analyze-client.js",
   "passed": 20,
@@ -12,7 +12,7 @@
       "pass": true,
       "message": null,
       "details": {
-        "roundTripMs": 0,
+        "roundTripMs": 1,
         "attempts": 1
       }
     },

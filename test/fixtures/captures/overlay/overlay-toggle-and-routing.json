@@ -1,0 +1,23 @@
+{
+  "pass": true,
+  "failures": [],
+  "toggle": {
+    "beforeCount": 1,
+    "offState": "cleared",
+    "offReason": "panel:arrows-off",
+    "showArrows": false,
+    "backState": "shown",
+    "showArrowsAfterOn": true
+  },
+  "tabs": {
+    "aUci": "e2e4",
+    "aRenderCount": 1,
+    "bUci": "h2h3",
+    "bKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3",
+    "aAfterBUci": "e2e4",
+    "aRenderCountAfterB": 1
+  },
+  "screenshots": [
+    "test/fixtures/captures/overlay/ruy-lopez-arrows.png"
+  ]
+}

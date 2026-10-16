@@ -4,8 +4,9 @@
  *
  * Reads the live game state of a chess.com board from the page DOM and emits it
  * as a `GameState` message on every change. It performs **no analysis**: no
- * /analyze calls, no engine, no overlay. The side panel (and later M4/M5) consume
- * the state.
+ * /analyze calls, no engine. The arrow overlay (M5) lives in its own content
+ * script (`board-overlay.js`) and re-anchors on every state published here. The
+ * side panel consumes the state.
  *
  * Message protocol (all via `chrome.runtime`):
  *
@@ -62,13 +63,17 @@
  */
 
 // NOTE: this file is a CLASSIC script (MV3 content scripts cannot be modules),
-// so it has no static imports. board-dom.js / move-history.js / chess.js are
-// loaded with dynamic import() from the content script's isolated world; the
-// entry files are listed in `web_accessible_resources` (manifest.json), and
-// every helper is reached through `modules.*` so the exact same files run in
-// Node (test/tools/adapter-unit.mjs).
+// so it has no static imports. board-dom.js / move-history.js / board-locate.js
+// / chess.js are loaded with dynamic import() from the content script's isolated
+// world; the entry files are listed in `web_accessible_resources` (manifest.json),
+// and every helper is reached through `modules.*` so the exact same files run in
+// Node (test/tools/adapter-unit.mjs, test/tools/overlay-unit.mjs).
+//
+// The board ELEMENT itself is picked by the shared `board-locate.js` (M5) — the
+// arrow overlay uses the same module, so both scripts always agree which board
+// (and which rect) is live.
 
-const ADAPTER_VERSION = "m3.0";
+const ADAPTER_VERSION = "m3.1";
 const MSG_STATE = "humanplay:chesscom-state";
 const MSG_GET_STATE = "humanplay:get-state";
 const MSG_RECORD_SNAPSHOT = "humanplay:record-snapshot";
@@ -78,17 +83,11 @@ const STORAGE_KEY = "settings";
 const moduleUrls = {
   boardDom: chrome.runtime.getURL("src/content/board-dom.js"),
   history: chrome.runtime.getURL("src/content/move-history.js"),
+  boardLocate: chrome.runtime.getURL("src/content/board-locate.js"),
 };
 
-/** Board candidates: verified ids first, then the generic class/ids. */
-const BOARD_SELECTORS = [
-  "wc-chess-board",
-  "#board-single",
-  "#board-play-computer",
-  "#board-analysis-board",
-  ".board",
-];
-
+/** Board candidates live in the shared `board-locate.js` module (M5) — the
+ *  same picker the arrow overlay anchors to. Move-list candidates below. */
 /** Move-list candidates: verified 2026 structure first, older variants after. */
 const MOVE_LIST_SELECTORS = [
   "wc-simple-move-list",
@@ -153,8 +152,12 @@ function start() {
     if (runtime.modules) return runtime.modules;
     if (runtime.modulesError) throw runtime.modulesError;
     try {
-      const [boardDom, history] = await Promise.all([import(moduleUrls.boardDom), import(moduleUrls.history)]);
-      runtime.modules = { boardDom, history };
+      const [boardDom, history, boardLocate] = await Promise.all([
+        import(moduleUrls.boardDom),
+        import(moduleUrls.history),
+        import(moduleUrls.boardLocate),
+      ]);
+      runtime.modules = { boardDom, history, boardLocate };
       return runtime.modules;
     } catch (error) {
       runtime.modulesError = new Error(
@@ -223,6 +226,16 @@ function start() {
 
     runtime.lastSignature = signature;
     runtime.lastState = state;
+    // Publish the state to other content scripts of this extension in the same
+    // isolated world (M5: the arrow overlay re-anchors on every new state).
+    // Order matters: the overlay records the position signature BEFORE the
+    // panel (which may immediately ask for an analysis) sees the state.
+    try {
+      globalThis.__humanplayAdapterState = state;
+      globalThis.__humanplayContentHook?.(state);
+    } catch {
+      // A misbehaving local consumer must never break the adapter.
+    }
     try {
       await chrome.runtime.sendMessage({ type: MSG_STATE, state });
     } catch {
@@ -240,12 +253,12 @@ function start() {
       return { ok: false, reason: describeError(error), ...base };
     }
 
-    const board = findBoardElement();
+    const board = modules.boardLocate.findBoardElement();
     if (!board) {
       return { ok: false, reason: "no visible chess.com board found on this page", ...base };
     }
 
-    const boardRect = rectOf(board.el);
+    const boardRect = modules.boardLocate.rectOf(board.el);
     const boardState = readBoardState(board.el, modules);
     const position = readPosition(board.el, modules, boardState);
     const history = readHistory(modules, boardState);
@@ -402,51 +415,6 @@ function start() {
       resetDetected,
       adapterVersion: ADAPTER_VERSION,
     };
-  }
-
-  /* ------------------------------------------------------- board location */
-
-  function isDisplayed(element) {
-    const style = getComputedStyle(element);
-    if (style.display === "none" || style.visibility === "hidden" || Number(style.opacity) === 0) return false;
-    const rect = element.getBoundingClientRect();
-    return rect.width >= 64 && rect.height >= 64;
-  }
-
-  /** Largest displayed board among the candidates (chess.com shows one big board). */
-  function findBoardElement() {
-    // Two tiers: the interactive board (`wc-chess-board`) always beats the
-    // legacy/pre-JS skeleton `<div id="board" class="board">` (a CSS-sprite
-    // board without `.piece` children, seen on real pages during load) even
-    // when both are displayed with the same size.
-    const seen = new Set();
-    const tiers = [[], []];
-    for (const selector of BOARD_SELECTORS) {
-      for (const el of document.querySelectorAll(selector)) {
-        if (seen.has(el)) continue;
-        seen.add(el);
-        if (!isDisplayed(el)) continue;
-        const rect = el.getBoundingClientRect();
-        tiers[el.tagName.toLowerCase() === "wc-chess-board" ? 0 : 1].push({ el, rect, area: rect.width * rect.height });
-      }
-    }
-    const candidates = tiers[0].length > 0 ? tiers[0] : tiers[1];
-    if (candidates.length === 0) return null;
-    candidates.sort((a, b) => b.area - a.area);
-    const [best] = candidates;
-    const fullyVisible =
-      best.rect.left >= 0 &&
-      best.rect.top >= 0 &&
-      best.rect.right <= window.innerWidth &&
-      best.rect.bottom <= window.innerHeight;
-    const mostlyVisible =
-      best.rect.right > 0 && best.rect.bottom > 0 && best.rect.left < window.innerWidth && best.rect.top < window.innerHeight;
-    return { el: best.el, rect: best.rect, inViewport: fullyVisible, partlyVisible: mostlyVisible };
-  }
-
-  function rectOf(element) {
-    const rect = element.getBoundingClientRect();
-    return { x: rect.left, y: rect.top, w: rect.width, h: rect.height };
   }
 
   /* ----------------------------------------------------- position reading */
@@ -752,7 +720,8 @@ function start() {
   /* -------------------------------------------------------------- snapshot */
 
   function buildSnapshot(state) {
-    const board = findBoardElement();
+    const locate = runtime.modules?.boardLocate ?? null;
+    const board = locate ? locate.findBoardElement() : null;
     const moveList = findMoveList();
     const players = {
       top: { color: colorFromPlayerArea("top") },
@@ -776,7 +745,7 @@ function start() {
       pageUrl: location.href,
       pageTitle: document.title,
       board: board
-        ? { id: board.el.id || null, tag: board.el.tagName.toLowerCase(), rect: rectOf(board.el) }
+        ? { id: board.el.id || null, tag: board.el.tagName.toLowerCase(), rect: locate.rectOf(board.el) }
         : null,
       devicePixelRatio: window.devicePixelRatio,
       state,

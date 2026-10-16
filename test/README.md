@@ -17,6 +17,12 @@ tools/          dev/test drivers
   analyze-unit.mjs     zero-dep unit tests for the M4 analysis client (injected fetch)
   analyze-proof.mjs    CDP end-to-end proof of the M4 analysis loop:
                        --stub (against fixture_server.py) and --real (real Maia server)
+  overlay-unit.mjs     zero-dep unit tests for the M5 overlay geometry (square
+                       centres, flipped mapping, offscreen rects, DPR, arrowheads)
+  overlay-proof.mjs    CDP end-to-end proof of the M5 board overlay: canvas hygiene,
+                       endpoints vs DOM ground truth (normal/flipped/scroll/resize),
+                       clear cases, alternatives, multi-tab routing; optional
+                       --real-page bonus on a real chess.com page
   capture-proof.mjs    CDP proof of the M2 capture/recorder pipeline
 groundtruth/    (planned, M3+) per-fixture known FENs, test-only ground truth
 manual/         (planned, M6+) manual end-to-end scripts
@@ -45,9 +51,12 @@ test/fixtures/render_pages.sh "$CHROME"                  # rasterize pages -> PN
 
 node test/tools/adapter-unit.mjs                         # 22 passed
 node test/tools/analyze-unit.mjs                         # 20 passed (injected fetch)
+node test/tools/overlay-unit.mjs                         # 13 passed (pure geometry)
 node test/tools/adapter-proof.mjs --chrome "$CHROME"
 node test/tools/analyze-proof.mjs --chrome "$CHROME"     # stub mode (spawns the stub)
 node test/tools/analyze-proof.mjs --chrome "$CHROME" --real   # needs the Maia server on 8765
+node test/tools/overlay-proof.mjs --chrome "$CHROME"     # stub mode (spawns the stub)
+node test/tools/overlay-proof.mjs --chrome "$CHROME" --real-page   # + real chess.com bonus
 ```
 
 The proofs never touch the shipped manifest: they load a temporary copy whose
@@ -62,4 +71,7 @@ fixtures/captures/adapter/    M3: per-fixture proof JSONs + panel screenshots
 fixtures/captures/analyze/    M4: unit results, stub/real proofs, per-case JSONs,
                               panel screenshots, canned-report.json (how the stub's
                               canned /analyze data was recorded from the real server)
+fixtures/captures/overlay/    M5: unit results, overlay-proof.json + per-case JSONs,
+                              screenshots of every board WITH arrows (incl. the
+                              real-chess.com bonus shot real-chesscom-arrows.png)
 ```

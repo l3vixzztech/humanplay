@@ -1,6 +1,6 @@
 {
   "slug": "flipped-black",
-  "url": "http://127.0.0.1:39005/chesscom/flipped-black.html",
+  "url": "http://127.0.0.1:42871/chesscom/flipped-black.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -21,9 +21,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:39005/chesscom/flipped-black.html",
+    "gameUrl": "http://127.0.0.1:42871/chesscom/flipped-black.html",
     "gameId": null,
-    "ts": "2026-10-16T18:20:38.248Z",
+    "ts": "2026-10-16T18:45:49.232Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,
@@ -47,7 +47,7 @@
     ],
     "sessionSeq": 0,
     "resetDetected": false,
-    "adapterVersion": "m3.0"
+    "adapterVersion": "m3.1"
   },
   "groundTruth": {
     "fen": "rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",

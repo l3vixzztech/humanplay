@@ -1,0 +1,86 @@
+{
+  "pass": true,
+  "failures": [],
+  "status": "passed",
+  "url": "https://www.chess.com/game/live/186394589423",
+  "attempts": [
+    {
+      "attempt": 1,
+      "ok": true,
+      "error": null,
+      "state": {
+        "fen": "2r5/8/8/7k/8/5N2/6P1/5nK1 w - - 0 1",
+        "senderTabId": 26086551,
+        "senderUrl": "https://www.chess.com/game/live/186394589423"
+      },
+      "routed": {
+        "ok": true,
+        "response": {
+          "ok": true,
+          "accepted": 1,
+          "topN": 1,
+          "key": "real-page-proof-e2e4"
+        }
+      }
+    }
+  ],
+  "screenshot": "test/fixtures/captures/overlay/real-chesscom-arrows.png",
+  "geometry": {
+    "truth": {
+      "flipped": false,
+      "rect": {
+        "x": 223,
+        "y": 66,
+        "w": 624,
+        "h": 624
+      },
+      "boardStackingZ": 0,
+      "sqX": 78,
+      "sqY": 78,
+      "sqFromRect": 78,
+      "piecesUsed": 6,
+      "centres": {
+        "e2": {
+          "x": 574,
+          "y": 573
+        },
+        "e4": {
+          "x": 574,
+          "y": 417
+        }
+      }
+    },
+    "datassetFlipped": false,
+    "truthFlipped": false,
+    "sqX": 78,
+    "sqFromRect": 78,
+    "arrows": [
+      {
+        "uci": "e2e4",
+        "rank": 0,
+        "fromErr": 0,
+        "tipErr": 0,
+        "thickness": 12.48
+      }
+    ],
+    "maxEndpointErrorPx": 0,
+    "maxRectErrorPx": 0,
+    "samples": {}
+  },
+  "dataset": {
+    "key": "real-page-proof-e2e4",
+    "flipped": false,
+    "rect": [
+      223,
+      66,
+      624,
+      624
+    ]
+  },
+  "canvas": {
+    "position": "fixed",
+    "pointerEvents": "none",
+    "zIndex": 40,
+    "dpr": 1
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "pass": true,
+  "failures": [],
+  "url": "http://127.0.0.1:38811/chesscom/startpos.html",
+  "canvas": {
+    "display": "block",
+    "position": "fixed",
+    "pointerEvents": "none",
+    "visibility": "visible",
+    "zIndex": 40,
+    "parentIsBody": true,
+    "ariaHidden": "true",
+    "attached": true,
+    "bitmapWidth": 1425,
+    "bitmapHeight": 757,
+    "cssWidth": 1425,
+    "cssHeight": 757,
+    "dpr": 1,
+    "canvasCount": 1,
+    "inlineZ": 40
+  },
+  "geometry": {
+    "truth": {
+      "flipped": false,
+      "rect": {
+        "x": 18,
+        "y": 58,
+        "w": 560,
+        "h": 560
+      },
+      "boardStackingZ": 0,
+      "sqX": 70,
+      "sqY": 70,
+      "sqFromRect": 70,
+      "piecesUsed": 32,
+      "centres": {
+        "e2": {
+          "x": 333,
+          "y": 513
+        },
+        "e4": {
+          "x": 333,
+          "y": 373
+        }
+      }
+    },
+    "datassetFlipped": false,
+    "truthFlipped": false,
+    "sqX": 70,
+    "sqFromRect": 70,
+    "arrows": [
+      {
+        "uci": "e2e4",
+        "rank": 0,
+        "fromErr": 0,
+        "tipErr": 0,
+        "thickness": 11.2
+      }
+    ],
+    "maxEndpointErrorPx": 0,
+    "maxRectErrorPx": 0,
+    "samples": {}
+  },
+  "pixel": {
+    "at": {
+      "x": 333,
+      "y": 443
+    },
+    "rgba": [
+      244,
+      168,
+      30,
+      254
+    ]
+  },
+  "routing": {
+    "sentMode": "suggestion",
+    "messageType": "humanplay:suggestion",
+    "response": {
+      "ok": true,
+      "tabId": 26086539,
+      "response": {
+        "ok": true,
+        "accepted": 1,
+        "topN": 1,
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
+      }
+    },
+    "expectedTabId": 26086539,
+    "lastError": null
+  },
+  "screenshots": [
+    "test/fixtures/captures/overlay/startpos-arrows.png",
+    "test/fixtures/captures/overlay/startpos-panel-arrows.png"
+  ],
+  "suggestionKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+  "dataset": {
+    "state": "shown",
+    "reason": "suggestion",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+    "topN": 1,
+    "flipped": false,
+    "dpr": 1,
+    "rect": [
+      18,
+      58,
+      560,
+      560
+    ],
+    "arrows": [
+      {
+        "uci": "e2e4",
+        "rank": 0,
+        "from": [
+          333,
+          513
+        ],
+        "tip": [
+          333,
+          373
+        ],
+        "thickness": 11.2,
+        "headLength": 31.36,
+        "squareSize": 70,
+        "drawable": true
+      }
+    ],
+    "renderCount": 1,
+    "clearCount": 1,
+    "atEpochMs": 1792176471135
+  }
+}

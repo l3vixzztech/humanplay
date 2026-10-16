@@ -1,17 +1,17 @@
 {
   "tool": "adapter-proof.mjs",
-  "generatedAt": "2026-10-16T18:20:37.813Z",
+  "generatedAt": "2026-10-16T18:45:48.793Z",
   "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
   "extension": "/home/l3vixzz/Desktop/humanplay/extension",
   "checks": {
     "staticServer": {
-      "origin": "http://127.0.0.1:39005",
+      "origin": "http://127.0.0.1:42871",
       "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
     },
     "manifest": {
       "path": "extension/manifest.json",
-      "sha256": "387d28762fe2764955ee67bddadf6e0c49d92a0b7285275f9ddaf2be49f9a9c9",
-      "version": "0.3.0",
+      "sha256": "d2bdb46460bff3416834b0ef1ef0c987f6f346cc9271786a16e3672dbd1621f7",
+      "version": "0.4.0",
       "permissions": [
         "activeTab",
         "storage",
@@ -28,7 +28,8 @@
             "https://chess.com/*"
           ],
           "js": [
-            "src/content/chesscom-adapter.js"
+            "src/content/chesscom-adapter.js",
+            "src/content/board-overlay.js"
           ],
           "run_at": "document_idle"
         }
@@ -38,6 +39,8 @@
           "resources": [
             "src/content/board-dom.js",
             "src/content/move-history.js",
+            "src/content/board-locate.js",
+            "src/content/overlay-geometry.js",
             "vendor/chess.js"
           ],
           "matches": [
@@ -49,36 +52,36 @@
       "hasAllUrls": false
     },
     "adapterFiles": {
-      "src/content/chesscom-adapter.js": "a4226a948dd2c652b330eea7168eadc057cba6d2a1ce0b4173c726ec9557da29",
+      "src/content/chesscom-adapter.js": "ca53e9e2d76acf50fd137e559cf826a3eccabca0c996807d25f3b0eac271419f",
       "src/content/board-dom.js": "30c755766d2670bd82fb06baac1ddbc35ede1ba9f84e982aab447092d2c7e3a3",
       "src/content/move-history.js": "deebeb095d4c3f2c5c4a46099eafa2a25a1525cff7fb712ab8ea6d0b96db91a7",
       "vendor/chess.js": "0fd3d85b712fd650987416ebdc9e85a97406dbc69cb759a2179e96cc7770f16d"
     },
     "manifestVariant": {
       "enabled": true,
-      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:39005 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
-      "addedContentScriptMatch": "http://127.0.0.1:39005/*",
-      "addedWebAccessibleMatch": "http://127.0.0.1:39005/*",
+      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:42871 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
+      "addedContentScriptMatch": "http://127.0.0.1:42871/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:42871/*",
       "contentScriptMatches": [
         "https://www.chess.com/*",
         "https://chess.com/*",
-        "http://127.0.0.1:39005/*"
+        "http://127.0.0.1:42871/*"
       ],
       "webAccessibleMatches": [
         "https://www.chess.com/*",
         "https://chess.com/*",
-        "http://127.0.0.1:39005/*"
+        "http://127.0.0.1:42871/*"
       ],
-      "codeFilesCompared": 18,
+      "codeFilesCompared": 21,
       "codeFileMismatches": [],
       "codeIdentical": true
     },
-    "extensionId": "lgahgpoboelhkdaponfgleonhfbiejah",
+    "extensionId": "fogagepfahaflealgkojlnmocnjielcl",
     "browser": {
       "version": "Chrome/155.0.8059.84",
       "protocolVersion": "1.3"
     },
-    "serviceWorkerUrl": "chrome-extension://lgahgpoboelhkdaponfgleonhfbiejah/src/background/service-worker.js",
+    "serviceWorkerUrl": "chrome-extension://fogagepfahaflealgkojlnmocnjielcl/src/background/service-worker.js",
     "panelCollector": true,
     "panelUi": {
       "present": {
@@ -105,12 +108,12 @@
       "dir": "test/fixtures/chesscom-snapshots",
       "files": []
     },
-    "adapterDebugLines": 17,
+    "adapterDebugLines": 57,
     "extensionConsoleClean": true
   },
   "cases": {
     "flipped-black": {
-      "url": "http://127.0.0.1:39005/chesscom/flipped-black.html",
+      "url": "http://127.0.0.1:42871/chesscom/flipped-black.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -131,9 +134,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:39005/chesscom/flipped-black.html",
+        "gameUrl": "http://127.0.0.1:42871/chesscom/flipped-black.html",
         "gameId": null,
-        "ts": "2026-10-16T18:20:38.248Z",
+        "ts": "2026-10-16T18:45:49.232Z",
         "boardId": "board-single",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -157,7 +160,7 @@
         ],
         "sessionSeq": 0,
         "resetDetected": false,
-        "adapterVersion": "m3.0"
+        "adapterVersion": "m3.1"
       },
       "groundTruth": {
         "fen": "rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
@@ -203,7 +206,7 @@
       "panelScreenshot": "test/fixtures/captures/adapter/flipped-black-panel.png"
     },
     "gameover-checkmate": {
-      "url": "http://127.0.0.1:39005/chesscom/gameover-checkmate.html",
+      "url": "http://127.0.0.1:42871/chesscom/gameover-checkmate.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -227,9 +230,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:39005/chesscom/gameover-checkmate.html",
+        "gameUrl": "http://127.0.0.1:42871/chesscom/gameover-checkmate.html",
         "gameId": null,
-        "ts": "2026-10-16T18:20:40.017Z",
+        "ts": "2026-10-16T18:45:51.018Z",
         "boardId": "board-single",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -253,7 +256,7 @@
         ],
         "sessionSeq": 0,
         "resetDetected": false,
-        "adapterVersion": "m3.0"
+        "adapterVersion": "m3.1"
       },
       "groundTruth": {
         "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
@@ -302,7 +305,7 @@
       "panelScreenshot": "test/fixtures/captures/adapter/gameover-checkmate-panel.png"
     },
     "middlegame-castling": {
-      "url": "http://127.0.0.1:39005/chesscom/middlegame-castling.html",
+      "url": "http://127.0.0.1:42871/chesscom/middlegame-castling.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -333,9 +336,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:39005/chesscom/middlegame-castling.html",
+        "gameUrl": "http://127.0.0.1:42871/chesscom/middlegame-castling.html",
         "gameId": null,
-        "ts": "2026-10-16T18:20:41.007Z",
+        "ts": "2026-10-16T18:45:52.010Z",
         "boardId": "board-play-computer",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -359,7 +362,7 @@
         ],
         "sessionSeq": 0,
         "resetDetected": false,
-        "adapterVersion": "m3.0"
+        "adapterVersion": "m3.1"
       },
       "groundTruth": {
         "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
@@ -415,7 +418,7 @@
       "panelScreenshot": "test/fixtures/captures/adapter/middlegame-castling-panel.png"
     },
     "ruy-lopez": {
-      "url": "http://127.0.0.1:39005/chesscom/ruy-lopez.html",
+      "url": "http://127.0.0.1:42871/chesscom/ruy-lopez.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -448,9 +451,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:39005/chesscom/ruy-lopez.html",
+        "gameUrl": "http://127.0.0.1:42871/chesscom/ruy-lopez.html",
         "gameId": null,
-        "ts": "2026-10-16T18:20:42.014Z",
+        "ts": "2026-10-16T18:45:53.022Z",
         "boardId": "board-single",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -474,7 +477,7 @@
         ],
         "sessionSeq": 0,
         "resetDetected": false,
-        "adapterVersion": "m3.0"
+        "adapterVersion": "m3.1"
       },
       "groundTruth": {
         "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",
@@ -532,7 +535,7 @@
       "panelScreenshot": "test/fixtures/captures/adapter/ruy-lopez-panel.png"
     },
     "startpos": {
-      "url": "http://127.0.0.1:39005/chesscom/startpos.html",
+      "url": "http://127.0.0.1:42871/chesscom/startpos.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -548,9 +551,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:39005/chesscom/startpos.html",
+        "gameUrl": "http://127.0.0.1:42871/chesscom/startpos.html",
         "gameId": null,
-        "ts": "2026-10-16T18:20:43.010Z",
+        "ts": "2026-10-16T18:45:54.014Z",
         "boardId": "board-single",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -574,7 +577,7 @@
         ],
         "sessionSeq": 0,
         "resetDetected": false,
-        "adapterVersion": "m3.0"
+        "adapterVersion": "m3.1"
       },
       "groundTruth": {
         "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
@@ -629,7 +632,7 @@
     "snapshot-recorder": {
       "pass": true,
       "failures": [],
-      "file": "13afe703-b2e9-46dd-bfae-821de13aa6b8.json",
+      "file": "6d83f56b-6987-40ac-b9c3-74ddc4a7569d.json",
       "sanitized": {
         "containsTopUsername": false,
         "containsBottomUsername": false,
@@ -659,7 +662,7 @@
         "flipped": false
       },
       "evidence": "test/fixtures/captures/adapter/snapshot-recorder.json",
-      "requestedName": "chesscom-snapshot-20261016-235044.json"
+      "requestedName": "chesscom-snapshot-20261017-001555.json"
     }
   },
   "snapshotReplays": {
@@ -832,6 +835,36 @@
       {
         "bucket": "error",
         "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
         "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/snapshot)"
       },
       {
@@ -860,12 +893,17 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/flipped-black.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/flipped-black.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/flipped-black.html)"
       },
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:39005/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:42871/favicon.ico)"
       },
       {
         "bucket": "info",
@@ -873,6 +911,11 @@
         "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
       },
       {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
         "bucket": "error",
         "source": "network",
         "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -885,7 +928,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/gameover-checkmate.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "info",
@@ -893,6 +941,36 @@
         "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=7"
       },
       {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
         "bucket": "error",
         "source": "network",
         "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -905,7 +983,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "info",
@@ -913,6 +996,26 @@
         "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=14"
       },
       {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
         "bucket": "error",
         "source": "network",
         "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -925,7 +1028,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/ruy-lopez.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/ruy-lopez.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/ruy-lopez.html)"
       },
       {
         "bucket": "info",
@@ -933,6 +1041,36 @@
         "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=16"
       },
       {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
         "bucket": "error",
         "source": "network",
         "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -945,7 +1083,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
@@ -953,6 +1096,36 @@
         "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
       },
       {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
         "bucket": "error",
         "source": "network",
         "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -965,12 +1138,27 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
         "source": "console",
         "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
       },
       {
         "bucket": "info",
@@ -978,6 +1166,11 @@
         "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=1"
       },
       {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
         "bucket": "error",
         "source": "network",
         "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -990,7 +1183,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "info",
@@ -1000,7 +1198,32 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/replay.html?url=%2Fcaptures%2Fadapter%2Fsnapshot-recorder.json)"
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:42871/chesscom/replay.html?url=%2Fcaptures%2Fadapter%2Fsnapshot-recorder.json)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:42871/chesscom/replay.html?url=%2Fcaptures%2Fadapter%2Fsnapshot-recorder.json)"
       },
       {
         "bucket": "error",
@@ -1011,6 +1234,16 @@
         "bucket": "info",
         "source": "console",
         "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=14"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:offline"
       }
     ],
     "panelErrors": [],
@@ -1135,6 +1368,36 @@
       {
         "bucket": "error",
         "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
         "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/snapshot)"
       },
       {
@@ -1160,7 +1423,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:39005/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:42871/favicon.ico)"
       },
       {
         "bucket": "error",

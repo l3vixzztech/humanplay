@@ -1,0 +1,1519 @@
+{
+  "tool": "overlay-proof.mjs",
+  "generatedAt": "2026-10-16T18:47:35.508Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "extension": "/home/l3vixzz/Desktop/humanplay/extension",
+  "checks": {
+    "staticServer": {
+      "origin": "http://127.0.0.1:38811",
+      "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
+    },
+    "analysisServer": {
+      "mode": "stub (spawned by the proof)",
+      "health": {
+        "status": "ok",
+        "model": "fixture-static-server"
+      },
+      "pid": 604260
+    },
+    "manifest": {
+      "path": "extension/manifest.json",
+      "sha256": "d2bdb46460bff3416834b0ef1ef0c987f6f346cc9271786a16e3672dbd1621f7",
+      "version": "0.4.0",
+      "permissions": [
+        "activeTab",
+        "storage",
+        "sidePanel",
+        "downloads"
+      ],
+      "host_permissions": [
+        "http://127.0.0.1:8765/*"
+      ],
+      "content_scripts": [
+        {
+          "matches": [
+            "https://www.chess.com/*",
+            "https://chess.com/*"
+          ],
+          "js": [
+            "src/content/chesscom-adapter.js",
+            "src/content/board-overlay.js"
+          ],
+          "run_at": "document_idle"
+        }
+      ],
+      "hasAllUrls": false
+    },
+    "overlayFiles": {
+      "src/content/board-overlay.js": "bf79fe7425ac0a4377325f6a104622000d6247b5dd4a88ea5c657fd0caec1d0f",
+      "src/content/overlay-geometry.js": "473d7ab5633c3cb4d67821cb515706aee626487fce34610a2ab6127193604c76",
+      "src/content/board-locate.js": "59d4deeff2e3aee2b6a0fdb05e0a72d03a73de76cc7016603bb4b89837259b7f",
+      "src/content/chesscom-adapter.js": "ca53e9e2d76acf50fd137e559cf826a3eccabca0c996807d25f3b0eac271419f",
+      "src/ui/sidepanel.js": "1e1b2ef603baf9ada7e02faf7ea0fc504458531bf2b1d282d94a3304c358a354",
+      "src/background/service-worker.js": "654964a12511c972d280660b0ca1100027a6ebcd2fca0e434c247057b9af108d"
+    },
+    "manifestVariant": {
+      "enabled": true,
+      "addedContentScriptMatch": "http://127.0.0.1:38811/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:38811/*",
+      "contentScriptFiles": [
+        "src/content/chesscom-adapter.js",
+        "src/content/board-overlay.js"
+      ],
+      "codeFilesCompared": 21,
+      "codeFileMismatches": [],
+      "codeIdentical": true
+    },
+    "extensionId": "eialjbeoloohalijlfhljhlefmohdgba",
+    "browser": {
+      "version": "Chrome/155.0.8059.84",
+      "protocolVersion": "1.3"
+    },
+    "serviceWorkerUrl": "chrome-extension://eialjbeoloohalijlfhljhlefmohdgba/src/background/service-worker.js",
+    "panelUi": {
+      "arrowsPresent": true,
+      "alternativesPresent": true,
+      "arrowsDefaultChecked": true,
+      "alternativesDefaultChecked": false,
+      "inlineScripts": 0
+    },
+    "settingsDefaults": null,
+    "overlayDebugLines": 91,
+    "extensionConsoleClean": true,
+    "expectedNetworkErrors": [
+      "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
+      "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
+      "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
+      "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:38811/favicon.ico)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: the server responded with a status of 451 () (https://api.rlcdn.com/api/identity/envelope?pid=14262)"
+    ],
+    "realPageNetworkErrors": [
+      "Failed to load resource: the server responded with a status of 451 () (https://api.rlcdn.com/api/identity/envelope?pid=14262)"
+    ]
+  },
+  "cases": {
+    "overlay-startpos": {
+      "pass": true,
+      "failures": [],
+      "url": "http://127.0.0.1:38811/chesscom/startpos.html",
+      "canvas": {
+        "display": "block",
+        "position": "fixed",
+        "pointerEvents": "none",
+        "visibility": "visible",
+        "zIndex": 40,
+        "parentIsBody": true,
+        "ariaHidden": "true",
+        "attached": true,
+        "bitmapWidth": 1425,
+        "bitmapHeight": 757,
+        "cssWidth": 1425,
+        "cssHeight": 757,
+        "dpr": 1,
+        "canvasCount": 1,
+        "inlineZ": 40
+      },
+      "geometry": {
+        "truth": {
+          "flipped": false,
+          "rect": {
+            "x": 18,
+            "y": 58,
+            "w": 560,
+            "h": 560
+          },
+          "boardStackingZ": 0,
+          "sqX": 70,
+          "sqY": 70,
+          "sqFromRect": 70,
+          "piecesUsed": 32,
+          "centres": {
+            "e2": {
+              "x": 333,
+              "y": 513
+            },
+            "e4": {
+              "x": 333,
+              "y": 373
+            }
+          }
+        },
+        "datassetFlipped": false,
+        "truthFlipped": false,
+        "sqX": 70,
+        "sqFromRect": 70,
+        "arrows": [
+          {
+            "uci": "e2e4",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 11.2
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "pixel": {
+        "at": {
+          "x": 333,
+          "y": 443
+        },
+        "rgba": [
+          244,
+          168,
+          30,
+          254
+        ]
+      },
+      "routing": {
+        "sentMode": "suggestion",
+        "messageType": "humanplay:suggestion",
+        "response": {
+          "ok": true,
+          "tabId": 26086539,
+          "response": {
+            "ok": true,
+            "accepted": 1,
+            "topN": 1,
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
+          }
+        },
+        "expectedTabId": 26086539,
+        "lastError": null
+      },
+      "screenshots": [
+        "test/fixtures/captures/overlay/startpos-arrows.png",
+        "test/fixtures/captures/overlay/startpos-panel-arrows.png"
+      ],
+      "suggestionKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+      "dataset": {
+        "state": "shown",
+        "reason": "suggestion",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+        "topN": 1,
+        "flipped": false,
+        "dpr": 1,
+        "rect": [
+          18,
+          58,
+          560,
+          560
+        ],
+        "arrows": [
+          {
+            "uci": "e2e4",
+            "rank": 0,
+            "from": [
+              333,
+              513
+            ],
+            "tip": [
+              333,
+              373
+            ],
+            "thickness": 11.2,
+            "headLength": 31.36,
+            "squareSize": 70,
+            "drawable": true
+          }
+        ],
+        "renderCount": 1,
+        "clearCount": 1,
+        "atEpochMs": 1792176471135
+      }
+    },
+    "overlay-scroll": {
+      "pass": true,
+      "failures": [],
+      "before": {
+        "boardY": 58,
+        "renderCount": 3
+      },
+      "after": {
+        "boardY": -162,
+        "renderCount": 4,
+        "scrollY": 220
+      },
+      "geometry": {
+        "truth": {
+          "flipped": false,
+          "rect": {
+            "x": 18,
+            "y": -162,
+            "w": 560,
+            "h": 560
+          },
+          "boardStackingZ": 0,
+          "sqX": 70,
+          "sqY": 70,
+          "sqFromRect": 70,
+          "piecesUsed": 32,
+          "centres": {
+            "e2": {
+              "x": 333,
+              "y": 293
+            },
+            "e4": {
+              "x": 333,
+              "y": 153
+            }
+          }
+        },
+        "datassetFlipped": false,
+        "truthFlipped": false,
+        "sqX": 70,
+        "sqFromRect": 70,
+        "arrows": [
+          {
+            "uci": "e2e4",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 11.2
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "screenshot": "test/fixtures/captures/overlay/startpos-arrows-scrolled.png"
+    },
+    "overlay-resize": {
+      "pass": true,
+      "failures": [],
+      "before": {
+        "viewport": {
+          "w": 1425,
+          "h": 757
+        },
+        "renderCount": 7
+      },
+      "after": {
+        "viewport": {
+          "w": 900,
+          "h": 760
+        },
+        "renderCount": 8,
+        "bitmap": {
+          "w": 900,
+          "h": 760
+        }
+      },
+      "geometry": {
+        "truth": {
+          "flipped": false,
+          "rect": {
+            "x": 18,
+            "y": 58,
+            "w": 560,
+            "h": 560
+          },
+          "boardStackingZ": 0,
+          "sqX": 70,
+          "sqY": 70,
+          "sqFromRect": 70,
+          "piecesUsed": 32,
+          "centres": {
+            "e2": {
+              "x": 333,
+              "y": 513
+            },
+            "e4": {
+              "x": 333,
+              "y": 373
+            }
+          }
+        },
+        "datassetFlipped": false,
+        "truthFlipped": false,
+        "sqX": 70,
+        "sqFromRect": 70,
+        "arrows": [
+          {
+            "uci": "e2e4",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 11.2
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "screenshot": "test/fixtures/captures/overlay/startpos-arrows-resized.png"
+    },
+    "overlay-follows-position": {
+      "pass": true,
+      "failures": [],
+      "initial": {
+        "uci": "b1c3",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3"
+      },
+      "afterMove": {
+        "uci": "c3d5",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3"
+      },
+      "geometry": {
+        "truth": {
+          "flipped": false,
+          "rect": {
+            "x": 18,
+            "y": 58,
+            "w": 560,
+            "h": 560
+          },
+          "boardStackingZ": 0,
+          "sqX": 70,
+          "sqY": 70,
+          "sqFromRect": 70,
+          "piecesUsed": 30,
+          "centres": {
+            "c3": {
+              "x": 193,
+              "y": 443
+            },
+            "d5": {
+              "x": 263,
+              "y": 303
+            }
+          }
+        },
+        "datassetFlipped": false,
+        "truthFlipped": false,
+        "sqX": 70,
+        "sqFromRect": 70,
+        "arrows": [
+          {
+            "uci": "c3d5",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 11.2
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "screenshots": [
+        "test/fixtures/captures/overlay/middlegame-arrows.png",
+        "test/fixtures/captures/overlay/middlegame-arrows-after-move.png"
+      ],
+      "clearedAfterMutationMs": 188,
+      "delayMs": 700,
+      "clearedDataset": {
+        "state": "cleared",
+        "reason": "panel:analyzing",
+        "key": null
+      },
+      "mutationToArrowsMs": 869
+    },
+    "overlay-alternatives": {
+      "pass": true,
+      "failures": [],
+      "threeArrows": [
+        {
+          "uci": "c3d5",
+          "rank": 0,
+          "thickness": 11.2
+        },
+        {
+          "uci": "h2h3",
+          "rank": 1,
+          "thickness": 6.65
+        },
+        {
+          "uci": "a2a3",
+          "rank": 2,
+          "thickness": 6.65
+        }
+      ],
+      "backToOne": [
+        "c3d5"
+      ],
+      "settingsAfterOn": {
+        "showAlternatives": true,
+        "showArrows": true
+      },
+      "settingsAfterOff": {
+        "showAlternatives": false,
+        "showArrows": true
+      },
+      "geometry": {
+        "truth": {
+          "flipped": false,
+          "rect": {
+            "x": 18,
+            "y": 58,
+            "w": 560,
+            "h": 560
+          },
+          "boardStackingZ": 0,
+          "sqX": 70,
+          "sqY": 70,
+          "sqFromRect": 70,
+          "piecesUsed": 30,
+          "centres": {
+            "c3": {
+              "x": 193,
+              "y": 443
+            },
+            "d5": {
+              "x": 263,
+              "y": 303
+            },
+            "h2": {
+              "x": 543,
+              "y": 513
+            },
+            "h3": {
+              "x": 543,
+              "y": 443
+            },
+            "a2": {
+              "x": 53,
+              "y": 513
+            },
+            "a3": {
+              "x": 53,
+              "y": 443
+            }
+          }
+        },
+        "datassetFlipped": false,
+        "truthFlipped": false,
+        "sqX": 70,
+        "sqFromRect": 70,
+        "arrows": [
+          {
+            "uci": "c3d5",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 11.2
+          },
+          {
+            "uci": "h2h3",
+            "rank": 1,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 6.65
+          },
+          {
+            "uci": "a2a3",
+            "rank": 2,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 6.65
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "screenshots": [
+        "test/fixtures/captures/overlay/middlegame-alternatives.png",
+        "test/fixtures/captures/overlay/middlegame-panel-alternatives.png"
+      ]
+    },
+    "overlay-flipped-black": {
+      "pass": true,
+      "failures": [],
+      "waiting": {
+        "gate": "waiting",
+        "overlayState": "cleared",
+        "reason": "panel:opponent-turn",
+        "panelClearReason": "opponent-turn",
+        "arrows": 0
+      },
+      "geometry": {
+        "truth": {
+          "flipped": true,
+          "rect": {
+            "x": 18,
+            "y": 58,
+            "w": 560,
+            "h": 560
+          },
+          "boardStackingZ": 0,
+          "sqX": 70,
+          "sqY": 70,
+          "sqFromRect": 70,
+          "piecesUsed": 32,
+          "centres": {
+            "d2": {
+              "x": 333,
+              "y": 163
+            },
+            "d4": {
+              "x": 333,
+              "y": 303
+            }
+          }
+        },
+        "datassetFlipped": true,
+        "truthFlipped": true,
+        "sqX": 70,
+        "sqFromRect": 70,
+        "arrows": [
+          {
+            "uci": "d2d4",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 11.2
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "screenshots": [
+        "test/fixtures/captures/overlay/flipped-black-no-arrows.png",
+        "test/fixtures/captures/overlay/flipped-black-arrows.png"
+      ],
+      "keys": {
+        "panelKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3",
+        "overlayKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3"
+      },
+      "pixel": [
+        244,
+        168,
+        30,
+        254
+      ]
+    },
+    "overlay-clear-cases": {
+      "pass": true,
+      "failures": [],
+      "assistantOff": {
+        "overlayState": "cleared",
+        "reason": "panel:assistant-off",
+        "panelGate": "off",
+        "clearReason": "assistant-off"
+      },
+      "gameOver": {
+        "cardStatus": "game over",
+        "message": "game over — checkmate — black is mated. Rules-decided outcome (you): win 0.0% · draw 0.0% · loss 100.0%",
+        "overlayState": "idle",
+        "reason": "resize",
+        "arrows": 0,
+        "clearReason": "game-over"
+      },
+      "serverError": {
+        "cardMessage": "invalid input (HTTP 400): fixture server (test mode): simulated invalid input — the FEN was rejected",
+        "overlayState": "cleared",
+        "reason": "panel:error:invalid_input",
+        "arrows": 0,
+        "clearReason": "error:invalid_input",
+        "arrowsBefore": 1
+      },
+      "screenshots": [
+        "test/fixtures/captures/overlay/gameover-no-arrows.png"
+      ]
+    },
+    "overlay-toggle-and-routing": {
+      "pass": true,
+      "failures": [],
+      "toggle": {
+        "beforeCount": 1,
+        "offState": "cleared",
+        "offReason": "panel:arrows-off",
+        "showArrows": false,
+        "backState": "shown",
+        "showArrowsAfterOn": true
+      },
+      "tabs": {
+        "aUci": "e2e4",
+        "aRenderCount": 1,
+        "bUci": "h2h3",
+        "bKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3",
+        "aAfterBUci": "e2e4",
+        "aRenderCountAfterB": 1
+      },
+      "screenshots": [
+        "test/fixtures/captures/overlay/ruy-lopez-arrows.png"
+      ]
+    },
+    "overlay-board-reappears": {
+      "pass": true,
+      "failures": [],
+      "removed": {
+        "state": "hidden",
+        "reason": "board-too-small",
+        "boardExists": false
+      },
+      "returned": {
+        "state": "shown",
+        "uci": "h2h3",
+        "renderCount": 5
+      },
+      "geometry": {
+        "truth": {
+          "flipped": false,
+          "rect": {
+            "x": 18,
+            "y": 98,
+            "w": 560,
+            "h": 560
+          },
+          "boardStackingZ": 0,
+          "sqX": 70,
+          "sqY": 70,
+          "sqFromRect": 70,
+          "piecesUsed": 32,
+          "centres": {
+            "h2": {
+              "x": 543,
+              "y": 553
+            },
+            "h3": {
+              "x": 543,
+              "y": 483
+            }
+          }
+        },
+        "datassetFlipped": false,
+        "truthFlipped": false,
+        "sqX": 70,
+        "sqFromRect": 70,
+        "arrows": [
+          {
+            "uci": "h2h3",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 11.2
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "screenshots": [
+        "test/fixtures/captures/overlay/ruy-lopez-board-gone.png",
+        "test/fixtures/captures/overlay/ruy-lopez-arrows-again.png"
+      ]
+    },
+    "overlay-real-page": {
+      "pass": true,
+      "failures": [],
+      "status": "passed",
+      "url": "https://www.chess.com/game/live/186394589423",
+      "attempts": [
+        {
+          "attempt": 1,
+          "ok": true,
+          "error": null,
+          "state": {
+            "fen": "2r5/8/8/7k/8/5N2/6P1/5nK1 w - - 0 1",
+            "senderTabId": 26086551,
+            "senderUrl": "https://www.chess.com/game/live/186394589423"
+          },
+          "routed": {
+            "ok": true,
+            "response": {
+              "ok": true,
+              "accepted": 1,
+              "topN": 1,
+              "key": "real-page-proof-e2e4"
+            }
+          }
+        }
+      ],
+      "screenshot": "test/fixtures/captures/overlay/real-chesscom-arrows.png",
+      "geometry": {
+        "truth": {
+          "flipped": false,
+          "rect": {
+            "x": 223,
+            "y": 66,
+            "w": 624,
+            "h": 624
+          },
+          "boardStackingZ": 0,
+          "sqX": 78,
+          "sqY": 78,
+          "sqFromRect": 78,
+          "piecesUsed": 6,
+          "centres": {
+            "e2": {
+              "x": 574,
+              "y": 573
+            },
+            "e4": {
+              "x": 574,
+              "y": 417
+            }
+          }
+        },
+        "datassetFlipped": false,
+        "truthFlipped": false,
+        "sqX": 78,
+        "sqFromRect": 78,
+        "arrows": [
+          {
+            "uci": "e2e4",
+            "rank": 0,
+            "fromErr": 0,
+            "tipErr": 0,
+            "thickness": 12.48
+          }
+        ],
+        "maxEndpointErrorPx": 0,
+        "maxRectErrorPx": 0,
+        "samples": {}
+      },
+      "dataset": {
+        "key": "real-page-proof-e2e4",
+        "flipped": false,
+        "rect": [
+          223,
+          66,
+          624,
+          624
+        ]
+      },
+      "canvas": {
+        "position": "fixed",
+        "pointerEvents": "none",
+        "zIndex": 40,
+        "dpr": 1
+      }
+    }
+  },
+  "failures": [],
+  "console": {
+    "panel": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      }
+    ],
+    "serviceWorker": [],
+    "pages": [
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:38811/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:38811/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:38811/favicon.ico)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,-162,560,560] reason=scroll"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,57,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,57,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,57,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:38811/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:38811/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=14"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=16"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=3 topN=3"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=3 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:38811/chesscom/flipped-black.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:38811/chesscom/flipped-black.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:assistant-off"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:38811/chesscom/gameover-checkmate.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:38811/chesscom/gameover-checkmate.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=7"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:arrows-off"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:38811/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:38811/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:38811/chesscom/ruy-lopez.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:38811/chesscom/ruy-lopez.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=16"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (dropped) board=#board-preview moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=16"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 arrows=1 flipped=false rect=[18,98,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "Version: 2026.10.5 / 1.189.0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "%craven%c Raven v1.25.2-sydwjj background-color:#000;margin-left:1px;padding:1px 3px;font-size:0.75em;color:#ffffff; font-size:0.9em;"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (https://www.chess.com/game/live/186394589423)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (https://www.chess.com/game/live/186394589423)"
+      },
+      {
+        "bucket": "warning",
+        "source": "other",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio (https://www.chess.com/r2/client-packages/play/2026.10.5/shared.1b389bca.uG5BkIek_W.chunk.js)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] no state: board found but neither its position nor a move list could be read"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-state"
+      },
+      {
+        "bucket": "warning",
+        "source": "other",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio (https://www.chess.com/r2/client-packages/play/2026.10.5/shared.eager.CqqVNRrouq.chunk.js)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "CHESSBOARD VERSION: 1.189.0"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 451 () (https://api.rlcdn.com/api/identity/envelope?pid=14262)"
+      },
+      {
+        "bucket": "warning",
+        "source": "console",
+        "text": "[GPT] Slot.updateTargetingFromMap is deprecated, use Slot.setConfig({targeting: ...}) instead.\nhttps://goo.gle/gpt-message#171"
+      },
+      {
+        "bucket": "warning",
+        "source": "other",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio (https://www.chess.com/bundles/app/vite/client.492a313c.CL_RVy8Wra.chunk.js)"
+      },
+      {
+        "bucket": "warning",
+        "source": "console",
+        "text": "canModifyExistingMovesOnMainLine is not an editable option in this mode."
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=absent (absent) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=real-page-proof-e2e4 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=real-page-proof-e2e4 arrows=1 flipped=false rect=[223,66,624,624] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=real-page-proof-e2e4 arrows=1 flipped=false rect=[223,66,624,624] reason=scroll"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=142"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      }
+    ],
+    "panelErrors": [],
+    "serviceWorkerErrors": [],
+    "pageErrors": [],
+    "networkErrors": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:38811/favicon.ico)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 451 () (https://api.rlcdn.com/api/identity/envelope?pid=14262)"
+      }
+    ]
+  },
+  "ok": true
+}

@@ -1,5 +1,6 @@
 /**
- * humanplay side panel (M4): game state card + Maia suggestion + Elo.
+ * humanplay side panel (M4 + M5): game state card + Maia suggestion + Elo +
+ * board overlay controls.
  *
  * What it does:
  * - listens for `humanplay:chesscom-state` messages broadcast by the content
@@ -12,6 +13,16 @@
  *   and the top-3 moves + Maia's human outcome prediction (WDL) are rendered.
  *   "Analyze now" always works when a state is known; the opponent's turn shows
  *   "their turn — waiting" (opponent prediction is M7);
+ * - **M5: the board overlay.** The panel owns the overlay policy: whenever the
+ *   suggestion card shows a *current* (non-stale) suggestion, the move is sent
+ *   to the service worker (`humanplay:suggestion` {moves, topN, key} — forwarded
+ *   to the tab that most recently reported a GameState) and rendered as arrows
+ *   on the real board. Whenever the card clears (new position analyzing, their
+ *   turn, assistant off, error, game over, stale result) the panel sends
+ *   `humanplay:clear-suggestion`. "Show arrows on board" (default ON) and
+ *   "Show alternatives" (default OFF) persist in settings and re-render/clear
+ *   immediately. The panel also waits for the content script's acknowledgement
+ *   only asynchronously — the UI never blocks on it;
  * - keeps the M2 debug features: one-frame capture through the locked
  *   capture-source abstraction and PNG fixture recording (pixel recognition is
  *   parked — see docs/PROJECT.md).
@@ -61,6 +72,10 @@ const STORAGE_KEY = "settings";
 const MSG_CHESSCOM_STATE = "humanplay:chesscom-state";
 const MSG_GET_STATE = "humanplay:get-state";
 const MSG_RECORD_SNAPSHOT = "humanplay:record-snapshot";
+/** M5: routed to the content script through the service worker. */
+const MSG_SUGGESTION = "humanplay:suggestion";
+const MSG_CLEAR_SUGGESTION = "humanplay:clear-suggestion";
+const OVERLAY_ALTERNATIVES_MAX = 3;
 /** The "listening" chip drops back to idle after this long without a state. */
 const LISTENING_STALE_MS = 6000;
 const SERVER_START_COMMAND = "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765";
@@ -104,6 +119,8 @@ const els = {
   eloSelf: document.getElementById("elo-self"),
   eloOppo: document.getElementById("elo-oppo"),
   eloReset: document.getElementById("elo-reset"),
+  ovArrows: document.getElementById("ov-arrows"),
+  ovAlternatives: document.getElementById("ov-alternatives"),
 };
 
 /** Last frame, in memory only (never persisted — see header comment). */
@@ -115,6 +132,22 @@ let lastChesscomAt = 0;
 let elo = { self: DEFAULT_ELO, oppo: DEFAULT_ELO };
 /** Newest state the suggestion card was rendered for (UI bookkeeping). */
 let analysisState = { stateReceivedAt: 0 };
+
+/**
+ * M5 overlay policy + bookkeeping. The panel is the only source of overlay
+ * messages; `sentMode`/`sentKey`/`lastClearReason` keep them idempotent.
+ */
+const overlay = {
+  showArrows: true,
+  showAlternatives: false,
+  sentMode: "idle", // "idle" | "suggestion" | "cleared"
+  sentKey: null,
+  lastClearReason: null,
+  messageCount: 0,
+  lastMessage: null,
+  lastResponse: null,
+  lastError: null,
+};
 
 /**
  * Read-only diagnostics for test/tools/analyze-proof.mjs (see header).
@@ -135,6 +168,8 @@ const analysisDebug = {
   lastRenderAtEpochMs: null,
   lastError: null,
   client: null,
+  /** M5: live view of the overlay policy/messages (read-only for the proof). */
+  overlay,
 };
 globalThis.__humanplayAnalysis = analysisDebug;
 
@@ -156,6 +191,8 @@ async function init() {
   els.eloSelf.addEventListener("change", onEloChanged);
   els.eloOppo.addEventListener("change", onEloChanged);
   els.eloReset.addEventListener("click", onEloReset);
+  els.ovArrows.addEventListener("change", onOverlaySettingChanged);
+  els.ovAlternatives.addEventListener("change", onOverlaySettingChanged);
 
   chrome.runtime.onMessage.addListener(onRuntimeMessage);
   setInterval(renderChesscomChip, 2000);
@@ -167,6 +204,10 @@ async function init() {
   elo = { self: settings.eloSelf, oppo: settings.eloOppo };
   els.eloSelf.value = String(elo.self);
   els.eloOppo.value = String(elo.oppo);
+  overlay.showArrows = settings.showArrows;
+  overlay.showAlternatives = settings.showAlternatives;
+  els.ovArrows.checked = settings.showArrows;
+  els.ovAlternatives.checked = settings.showAlternatives;
 
   await refreshHealth();
   // The content script emits on load; panel-initiated refresh covers the case
@@ -185,9 +226,18 @@ async function loadSettings() {
       userColor: settings.userColor === "white" || settings.userColor === "black" ? settings.userColor : null,
       eloSelf: clampElo(settings.eloSelf, DEFAULT_ELO),
       eloOppo: clampElo(settings.eloOppo, DEFAULT_ELO),
+      showArrows: settings.showArrows !== false, // default ON
+      showAlternatives: settings.showAlternatives === true, // default OFF
     };
   } catch {
-    return { assistantEnabled: true, userColor: null, eloSelf: DEFAULT_ELO, eloOppo: DEFAULT_ELO };
+    return {
+      assistantEnabled: true,
+      userColor: null,
+      eloSelf: DEFAULT_ELO,
+      eloOppo: DEFAULT_ELO,
+      showArrows: true,
+      showAlternatives: false,
+    };
   }
 }
 
@@ -238,6 +288,99 @@ async function saveSettings(patch) {
 
 function renderToggle(enabled) {
   els.toggleState.textContent = enabled ? "on" : "off";
+}
+
+/* ------------------------------------------------------- board overlay (M5) */
+
+/**
+ * The two overlay settings. Persisted in settings; toggling takes effect
+ * immediately: arrows off -> clear; alternatives switched -> re-send the
+ * currently displayed (still current) suggestion with the new move count.
+ */
+async function onOverlaySettingChanged() {
+  clearError();
+  overlay.showArrows = els.ovArrows.checked;
+  overlay.showAlternatives = els.ovAlternatives.checked;
+  await saveSettings({ showArrows: overlay.showArrows, showAlternatives: overlay.showAlternatives });
+
+  if (!overlay.showArrows) {
+    clearOverlay("arrows-off");
+    return;
+  }
+  // Show arrows again / change the alternatives flag for what is on the card —
+  // only if that suggestion is still the current position (never stale).
+  const last = analysisDebug.lastResult;
+  if (last && Array.isArray(last.moves) && last.moves.length > 0 && analyzeClient.isCurrent(last.key)) {
+    publishOverlaySuggestion({ key: last.key }, last.moves);
+  }
+}
+
+/** The moves actually drawn: top-1 always, alternatives when enabled. */
+function overlayVisibleMoves(moves) {
+  const list = Array.isArray(moves) ? moves.filter((move) => move?.uci) : [];
+  if (!overlay.showAlternatives) return list.slice(0, 1);
+  return list.slice(0, OVERLAY_ALTERNATIVES_MAX);
+}
+
+/**
+ * Send the current suggestion to the overlay (via the service worker, which
+ * forwards to the tab that most recently reported a GameState). Only ever
+ * called for a result whose position key is current — the stale guard runs
+ * before this in `runAnalysis`.
+ */
+function publishOverlaySuggestion(result, moves) {
+  if (!overlay.showArrows) return;
+  const visible = overlayVisibleMoves(moves);
+  if (visible.length === 0) {
+    clearOverlay("no-moves");
+    return;
+  }
+  overlay.sentMode = "suggestion";
+  overlay.sentKey = result.key ?? null;
+  overlay.lastClearReason = null;
+  overlaySend({
+    type: MSG_SUGGESTION,
+    moves: visible.map((move) => ({
+      uci: move.uci,
+      san: move.san ?? null,
+      prob: Number.isFinite(move.prob) ? move.prob : null,
+    })),
+    topN: visible.length,
+    key: result.key ?? null,
+  });
+}
+
+/**
+ * Clear the arrows. Called for every state where the card does not show a
+ * current suggestion: a new position is analyzing, their turn, assistant off,
+ * game over, any analysis error, a stale result arrived. Idempotent.
+ */
+function clearOverlay(reason) {
+  const key = analysisDebug.currentKey ?? null;
+  if (overlay.sentMode === "cleared" && overlay.lastClearReason === reason) return;
+  overlay.sentMode = "cleared";
+  overlay.sentKey = null;
+  overlay.lastClearReason = reason;
+  overlaySend({ type: MSG_CLEAR_SUGGESTION, reason, key });
+}
+
+function overlaySend(message) {
+  overlay.messageCount += 1;
+  overlay.lastMessage = { ...message, at: new Date().toISOString() };
+  overlay.lastResponse = null;
+  overlay.lastError = null;
+  try {
+    Promise.resolve(chrome.runtime.sendMessage(message)).then(
+      (response) => {
+        overlay.lastResponse = response ?? null;
+      },
+      (error) => {
+        overlay.lastError = error?.message ?? String(error);
+      },
+    );
+  } catch (error) {
+    overlay.lastError = error?.message ?? String(error);
+  }
 }
 
 /* ------------------------------------------------ chess.com game state card */
@@ -385,19 +528,20 @@ async function onGameState(state) {
   analysisDebug.gate = gate.mode;
 
   if (!state?.ok) {
-    renderSuggestionIdle(state?.reason ? `no game state: ${state.reason}` : "no chess.com game detected");
+    renderSuggestionIdle(state?.reason ? `no game state: ${state.reason}` : "no chess.com game detected", "no-state");
     return;
   }
 
   renderAnalysisWarning(request?.warning ?? null);
 
   if (gate.mode === "off") {
-    renderSuggestionIdle("assistant off — press Analyze now to analyze the current position");
+    renderSuggestionIdle("assistant off — press Analyze now to analyze the current position", "assistant-off");
     return;
   }
   if (gate.mode === "no-color") {
     renderSuggestionIdle(
       "your color is unknown — set the fallback color in the game-state card (or press Analyze now)",
+      "no-color",
     );
     return;
   }
@@ -418,9 +562,10 @@ function renderSuggestionWaiting(state) {
     "Opponent prediction arrives in M7; Analyze now still works.";
   hideRows();
   hideWdl();
+  clearOverlay("opponent-turn");
 }
 
-function renderSuggestionIdle(message) {
+function renderSuggestionIdle(message, clearReason = "idle") {
   setMxStatus("idle", "chip-idle");
   els.mxMessage.hidden = false;
   els.mxMessage.className = "mx-message";
@@ -428,6 +573,7 @@ function renderSuggestionIdle(message) {
   hideRows();
   hideWdl();
   els.mxMeta.hidden = true;
+  clearOverlay(clearReason);
 }
 
 async function runAnalysis({ state, request, auto }) {
@@ -440,6 +586,7 @@ async function runAnalysis({ state, request, auto }) {
   els.mxMessage.textContent = `analyzing${auto ? "" : " (manual)"} — ${describeRequest(state, request)}…`;
   hideRows(); // a new position always wins: never show the previous suggestion
   hideWdl();
+  clearOverlay("analyzing"); // and never keep the previous position's arrows
 
   const result = await analyzeClient.analyze(request, { force: !auto });
   analysisDebug.lastRoundTripMs = result.roundTripMs;
@@ -448,6 +595,7 @@ async function runAnalysis({ state, request, auto }) {
     // Silently discard: the position changed while this request was in flight.
     analysisDebug.staleDiscardCount += 1;
     analysisDebug.status = "stale-discarded";
+    clearOverlay("stale");
     return;
   }
 
@@ -503,9 +651,13 @@ function renderSuggestion(result, request, state, latencyMs) {
   if (moves.length === 0) {
     // Game over: the server answers moves:[] + a rules-decided WDL.
     renderGameOver(data, state, turnColor, opponentPerspective);
+    clearOverlay("game-over");
   } else {
     renderMoveRows(moves);
     renderWdl(data.wdl, { turnColor, opponentPerspective });
+    // M5: draw the current suggestion on the real board (top-1 always,
+    // alternatives only when enabled).
+    publishOverlaySuggestion(result, moves);
   }
 
   const parts = [
@@ -691,6 +843,7 @@ function renderAnalysisError(result, request) {
   hideRows();
   hideWdl();
   els.mxMeta.hidden = true;
+  clearOverlay(`error:${result.errorClass}`);
   void request;
 }
 

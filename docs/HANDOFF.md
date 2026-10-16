@@ -2,6 +2,141 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Session 5 — Milestone 5: board arrow overlay (top-1 suggestion on the real board) ✅
+
+**What works**
+- `extension/` **0.4.0**; adapter **m3.1**; overlay **m5.0**. No new permissions.
+- **`src/content/board-locate.js` (new, shared)**: board selectors, display
+  test, `<wc-chess-board>` tier rule, largest-displayed-board pick, `rectOf`,
+  `isBoardFlipped`, `stackingZIndex` — extracted from the M3 adapter so the
+  adapter and the overlay **cannot disagree** about the live board. Pure parts
+  are Node-testable.
+- **`src/content/overlay-geometry.js` (new, pure)**: `uciToSquares`,
+  `squareToViewport` (normal `col=file,row=7-rank`; flipped `col=7-file,row=rank`),
+  `computeArrow`/`computeArrows` (square-centre endpoints, shaft, 3-point
+  arrowhead polygon, thickness 16 % of a square / 9.5 % for alternatives clamped
+  to [2,42] px and ≤ ½ square, head never longer than 80 % of the move/diagonal),
+  `deviceCanvasSize`, `intersectsViewport`, `overlayZIndex`. Zero-dep, exactly
+  the file the content script imports.
+- **`src/content/board-overlay.js` (new content script)**: one `<canvas
+  id="humanplay-overlay-canvas">` appended to `body` — fixed, full-viewport,
+  `pointer-events:none`, `aria-hidden`, `display:none` while idle, DPR-crisp
+  (bitmap = clientSize × dpr, drawn under `ctx.setTransform(dpr,0,0,dpr,0,0)`),
+  `z-index = max(40, boardStackingZ+1)` (40 on every page tested). Orange
+  outlined top-1 + subtle from/to square highlight, thin translucent blue
+  alternatives; **no rAF loop**. Dumb renderer: `humanplay:suggestion`
+  `{moves,topN,key}` / `humanplay:clear-suggestion`. Re-anchors on every
+  suggestion/clear, every new GameState (via `__humanplayContentHook` set by the
+  adapter in the same isolated world), `resize`, `scroll` (passive), board
+  `ResizeObserver`, and a bounded retry when the board element disappears. Its
+  own stale guard: clears when the live GameState signature (fen · history ·
+  board · flipped · session) no longer matches the accepted suggestion.
+  Refuses to draw when the board is smaller than 24 px per square (preview
+  thumbnails).
+- **Router**: `service-worker.js` remembers the tab of the most recent
+  `humanplay:chesscom-state` (memory + `storage.session` mirror for MV3 worker
+  restarts) and forwards panel suggestions/clears there. Multi-tab: **last game
+  tab wins**; a suggestion published in the instant a second tab becomes the
+  sender can land on it briefly — the next clear/suggestion replaces it.
+- **Panel**: "Show arrows on board" (default **ON**) + "Show alternatives"
+  (default **OFF**, top-3) persisted in `settings`; toggling clears/re-renders
+  immediately from the still-current suggestion. The panel publishes only
+  non-stale results (M4 guard) and clears on: new position analyzing, their
+  turn, assistant off, no color, no state, game over, error, stale result,
+  arrows off. Read-only test hook: `__humanplayAnalysis.overlay`.
+
+**Results (evidence: `test/fixtures/captures/overlay/`, 26 files)**
+- `overlay-unit.mjs`: **13/13 passed** — 8-direction arrowheads, flipped
+  mapping, offscreen rects, DPR, thickness scaling, clamps, degenerate inputs.
+- `overlay-proof.mjs` (CDP, stub driving canned suggestions; manifest variant
+  `codeIdentical: true`, 21 files): **ALL OVERLAY CASES PASSED** — canvas
+  exists/`pointer-events:none`/fixed/DPR rect/z 40; **endpoint errors vs
+  DOM-derived ground truth 0.00 px in every case** (startpos, scroll, resize,
+  middlegame, flipped, after a move, real page); painted-orange pixel sampling;
+  move → previous arrows cleared in **188 ms** and new arrows in 868 ms (the
+  first request was artificially delayed 700 ms by the stub — real engine path
+  156–173 ms in M4); alternatives 3 arrows (top-1 thicker, persisted);
+  opponent's turn/assistant-off/game-over/400-error → 0 arrows (clear reasons
+  `opponent-turn` / `assistant-off` / `game-over` / `error:invalid_input`);
+  toggle off/on clears/redraws; multi-tab last-wins; board removed → hidden,
+  re-inserted → re-anchored.
+- **BONUS real chess.com page** (`--real-page`, finished public game
+  `https://www.chess.com/game/live/186394589423`, headless Chrome for Testing):
+  adapter read the real position (`2r5/8/8/7k/8/5N2/6P1/5nK1 w - - 0 1`), the SW
+  routed a suggestion to the real tab through the real message path, canvas
+  `fixed/none/z40`, **endpoints 0.00 px vs the real board's painted pieces** →
+  `real-chesscom-arrows.png`. Third-party tracker noise (rlcdn 451) recorded,
+  not our failure.
+- Regressions all green: `adapter-proof` ALL PASSED (adapter refactor kept),
+  `analyze-proof` STUB ALL PASSED (10 cases), `adapter-unit` 22, server
+  **`55 passed`**.
+- Screenshots (the money shots, `captures/overlay/`): `startpos-arrows.png`,
+  `middlegame-arrows.png`, `middlegame-alternatives.png`,
+  `middlegame-arrows-after-move.png`, `flipped-black-arrows.png`,
+  `ruy-lopez-arrows.png`, `startpos-arrows-scrolled/resized.png`,
+  `real-chesscom-arrows.png`, plus no-arrow clear-case shots and panel shots.
+
+**Exact commands**
+```bash
+CHROME="$HOME/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome"
+node test/tools/overlay-unit.mjs                          # 13 passed
+node test/tools/overlay-proof.mjs --chrome "$CHROME"      # 9 cases (spawns the stub)
+node test/tools/overlay-proof.mjs --chrome "$CHROME" --real-page   # + real chess.com bonus
+node test/tools/adapter-proof.mjs --chrome "$CHROME"      # M3 regression
+node test/tools/analyze-proof.mjs --chrome "$CHROME"      # M4 stub regression
+cd server && .venv/bin/python -m pytest tests -q          # 55 passed (server untouched)
+```
+
+**Tuning values (change these, not behaviour)**
+- `board-overlay.js`: `RENDER_DEBOUNCE_MS 80`, retry 5×700 ms, white-listed
+  board min **24 px/square**; `COLORS.primary rgba(255,176,32,0.95)` + border
+  `rgba(26,20,8,0.88)`, `COLORS.alternative rgba(76,160,255,0.60)`, highlight
+  fill/stroke 0.14/0.32; z-index formula `max(40, boardZ+1)`.
+- `overlay-geometry.js` `DEFAULTS`: thickness 0.16/0.095, clamp [2,42],
+  head ×2.8/×3.0 of thickness, min square 4 px.
+
+**Automatic vs manual**
+- Delivered by tests: geometry maths; canvas hygiene; endpoint alignment on
+  fixtures + one real page; clear/redraw transitions; settings persistence;
+  routing path incl. the SW.
+- **A human must verify (not automatable here)**:
+  1. **Real game (your turn)**: load unpacked 0.4.0, start the server, open a
+     chess.com bot game, click the toolbar icon → the orange arrow must appear on
+     the board with the suggestion (≤ ~1.5 s after the board updates) and change
+     after every move.
+  2. **As black** (flipped board) → arrow still on the right squares
+     (automated on the fixture; confirm on the live board).
+  3. **Premove/pre-move move**: arrows must clear the moment a move lands.
+  4. **Window resize** while arrows are visible → alignment kept.
+  5. **"Show arrows" off/on** and **"Show alternatives"** → immediate hide/show
+     (1 ↔ 3 arrows).
+  6. **Dialogs**: open a chess.com modal (e.g. Game Review / settings) → the
+     arrow must stay BELOW it (z-index 40 was below every site layer seen in the
+     real-page shot; confirm against dialogs, tune the formula if needed).
+  7. Two game tabs: the last one that changed receives the arrows (documented).
+
+**Deviations / notes**
+- Content scripts from one manifest entry share the isolated-world global scope:
+  a top-level `const` name collision (`moduleUrls` in both files) is a fatal
+  SyntaxError that the proof's console check caught → `board-overlay.js` is
+  wrapped in an IIFE; keep new content-script globals inside it.
+- The overlay uses the adapter's local hook instead of a second document
+  MutationObserver; its own observers are only resize/scroll/ResizeObserver +
+  a bounded re-attach retry.
+- Preview-thumbnail trap: with the main board removed the fixture's 160 px
+  preview becomes the "largest board" — the overlay's 24 px/square floor keeps
+  arrows off it (this is also why the O9 case shows `hidden/board-too-small`).
+- z-index is computed from the board's stacking context (`max(40, z+1)`), so it
+  follows weird page variants; dialogs on chess.com sit higher.
+- The real-page case is best-effort (`--real-page [url]`): it retries once and
+  records `blocked` instead of failing when the page cannot be driven (network/
+  Cloudflare); it ran successfully this session.
+
+**Next — Milestone 6**: TTS via `chrome.tts` announcing just the move
+(Piper-ready interface). M7: premove planner off Maia's distribution.
+
+---
+
 ## Session 4 — Milestone 4: end-to-end analysis loop (game state → Maia → panel) ✅
 
 **What works**

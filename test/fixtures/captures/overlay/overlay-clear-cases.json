@@ -1,0 +1,29 @@
+{
+  "pass": true,
+  "failures": [],
+  "assistantOff": {
+    "overlayState": "cleared",
+    "reason": "panel:assistant-off",
+    "panelGate": "off",
+    "clearReason": "assistant-off"
+  },
+  "gameOver": {
+    "cardStatus": "game over",
+    "message": "game over — checkmate — black is mated. Rules-decided outcome (you): win 0.0% · draw 0.0% · loss 100.0%",
+    "overlayState": "idle",
+    "reason": "resize",
+    "arrows": 0,
+    "clearReason": "game-over"
+  },
+  "serverError": {
+    "cardMessage": "invalid input (HTTP 400): fixture server (test mode): simulated invalid input — the FEN was rejected",
+    "overlayState": "cleared",
+    "reason": "panel:error:invalid_input",
+    "arrows": 0,
+    "clearReason": "error:invalid_input",
+    "arrowsBefore": 1
+  },
+  "screenshots": [
+    "test/fixtures/captures/overlay/gameover-no-arrows.png"
+  ]
+}

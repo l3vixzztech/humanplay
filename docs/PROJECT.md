@@ -61,9 +61,10 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 - **Vendored chess.js** (BSD-2-Clause, pinned **1.4.0**,
   `extension/vendor/chess.js`) — the only third-party runtime dependency, used
   for SAN → UCI/Castling/En-passant replay. See `extension/vendor/README.md`.
-- **UI** (roadmap): arrow overlay drawn on the real board (M5) + side panel with
-  top-3 moves and probabilities; TTS via `chrome.tts` (Piper-ready interface)
-  announcing "just the move" (M6).
+- **UI**: the top-1 move is drawn as an **arrow on the real board** (M5; top-3
+  alternatives optional, thinner) next to the side panel's top-3 moves and
+  probabilities; TTS via `chrome.tts` (Piper-ready interface) announcing "just
+  the move" (M6, roadmap).
 - **Fair play**: the user accepts the ban risk for live play. We do **not**
   build any anti-detection features.
 - **No Stockfish / top engines anywhere** in this project.
@@ -76,7 +77,7 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 | 2 | Extension skeleton + tab capture + offline fixtures | MV3 manifest, capture-source interface (locked), side panel (toggle/capture/recorder/chip), offline fixture pages + captured PNG evidence | ✅ done |
 | 3 | chess.com DOM adapter + state protocol + fixtures | content script (board detection, multi-strategy position reading, move-list SAN → UCI replay, flip/color detection, mismatch policy), GameState protocol, panel state card, snapshot recorder, adapter proof harness + unit tests | ✅ done |
 | 4 | End-to-end analysis loop | `src/analysis/analyze-client.js` (timeout, single network retry, position-key LRU cache + dedupe, stale guard, request builder, gating), panel "Maia suggestion" card (top-3 + bar + % + WDL + perspective + meta) and "Elo" card, canned `/analyze` in the fixture server, unit tests + stub/real CDP proofs | ✅ done |
-| 5 | Arrow overlay on the real board | draw the best move on the chess.com board using `boardRect` + devicePixelRatio (overlay lives in the content script or as an extension overlay page) | ⬜ |
+| 5 | Arrow overlay on the real board | `src/content/board-overlay.js` (one fixed, click-transparent, DPR-crisp canvas) + `overlay-geometry.js` (pure: square centres normal/flipped, shaft + arrowhead, thickness scaling) + the shared `board-locate.js`; panel→SW→content routing (`humanplay:suggestion`/`clear-suggestion`) keyed by the M4 position key; "Show arrows" / "Show alternatives" settings; unit tests + CDP proof incl. a real chess.com page | ✅ done |
 | 6 | TTS | `chrome.tts` announcements (Piper-ready interface), "just the move" | ⬜ |
 | 7 | Premove planner | precompute replies for the opponent's likely moves (from Maia's distribution) while they think | ⬜ |
 | 8 | Live commentary / explain mode | short natural-language "why this move" from the model's probabilities | ⬜ |
@@ -92,6 +93,11 @@ The content script computes the state and broadcasts it on every change
 | content → extension | `humanplay:chesscom-state` | `{ type, state: GameState }` (broadcast; `sender.tab` tells which tab) |
 | panel → content | `humanplay:get-state` | `{ ok, state }` |
 | panel → content | `humanplay:record-snapshot` | `{ ok, name, snapshot }` (sanitized JSON for the fixture corpus) |
+
+The overlay adds a second pair (M5) that never touches the page directly: the
+panel sends `humanplay:suggestion` `{moves, topN, key}` / `humanplay:clear-suggestion`
+`{reason, key}` and the **service worker forwards them** to the tab that most
+recently sent a GameState (see "The board overlay (M5)").
 
 ```js
 GameState = {
@@ -184,6 +190,47 @@ responses recorded from the real server — `test/tools/collect-canned.py`) and
 REAL mode against the running Maia server, where the panel's top-3 must equal a
 direct `curl /analyze` for the same FEN + history. Evidence:
 `test/fixtures/captures/analyze/`.
+
+## The board overlay (M5)
+
+The suggested move is drawn **on the real board** by a second content script
+(`extension/src/content/board-overlay.js`), which adds exactly one element to the
+page: a `position: fixed`, full-viewport, `pointer-events: none` canvas above the
+board (`z-index = max(40, board stack z + 1)`) and below chess.com's modals.
+Bitmap = viewport × `devicePixelRatio` (drawn under `ctx.scale(dpr, dpr)`, so all
+geometry is viewport CSS pixels); no rAF loop — rendering is on demand.
+
+- **Routing**: panel → service worker → content script
+  (`humanplay:suggestion` `{moves, topN, key}` / `humanplay:clear-suggestion`).
+  The worker forwards to the tab that most recently reported a GameState
+  (mirrored to `chrome.storage.session` so MV3 restarts do not lose it);
+  multi-tab rule: **last game tab wins** — documented behaviour.
+- **Never stale**: the panel publishes only results whose M4 position key is
+  still current and clears on every state without a current suggestion (new
+  position analyzing, their turn, assistant off, no color, game over, error,
+  stale result, "Show arrows" off). The overlay independently clears when a
+  *different* GameState signature (fen · history · board · flipped · session)
+  arrives, so an old arrow cannot survive a move.
+- **Geometry** (pure, zero-dep, unit-tested): `squareSize = min(w,h)/8`;
+  normal `col=file, row=7-rank`, flipped `col=7-file, row=rank`; endpoints are
+  the square centres; arrowhead = tip + two base corners perpendicular to the
+  direction; thickness = 16 % of a square (alternatives 9.5 %) clamped to
+  [2, 42] px and ≤ half a square; tiny boards (< 4 px squares) and preview
+  thumbnails (< 24 px squares) are not drawn. Partially offscreen rects stay
+  exact (the canvas is clipped by the viewport); DPR never changes geometry.
+- **Anchor sources**: `GameState.boardRect` is a convenience, but the overlay
+  always re-reads the **live** `getBoundingClientRect()` of the board element the
+  adapter picked (the shared `extension/src/content/board-locate.js` — same
+  selectors, display test, tier rule and largest-board choice) on every new
+  state, resize, scroll (passive), board `ResizeObserver`, and a bounded
+  re-attach window after SPA navigation; no site DOM is modified otherwise.
+- **Tests**: `test/tools/overlay-unit.mjs` (13 zero-dep geometry tests) and
+  `test/tools/overlay-proof.mjs` (CDP, manifest variant): canvas hygiene,
+  endpoints ≤ 2 px vs DOM-derived square centres on normal/flipped/scroll/resize
+  boards, painted-pixel sampling, position-following, alternatives on/off,
+  clear cases, multi-tab routing, board disappears/returns — plus the
+  best-effort `--real-page` case on a real chess.com game. Evidence:
+  `test/fixtures/captures/overlay/`.
 
 ## Repository layout
 

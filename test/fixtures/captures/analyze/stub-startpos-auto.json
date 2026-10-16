@@ -1,7 +1,7 @@
 {
   "pass": true,
   "failures": [],
-  "url": "http://127.0.0.1:40709/chesscom/startpos.html",
+  "url": "http://127.0.0.1:44545/chesscom/startpos.html",
   "top3": [
     {
       "rank": "1",
@@ -38,7 +38,7 @@
   "meta": "model maia3-5m · engine 15.4 ms · round-trip 3.0 ms · board only · no history · ui 4.1 ms",
   "screenshot": "test/fixtures/captures/analyze/stub-startpos-suggestion.png",
   "latency": {
-    "stateToRenderMs": 4.100000001490116,
+    "stateToRenderMs": 4.0999999940395355,
     "roundTripMs": 3,
     "engineMs": 15.36
   },

@@ -1,0 +1,233 @@
+{
+  "tool": "overlay-unit.mjs",
+  "generatedAt": "2026-10-16T18:32:59.416Z",
+  "module": "extension/src/content/overlay-geometry.js",
+  "passed": 13,
+  "failed": 0,
+  "total": 13,
+  "results": [
+    {
+      "name": "uci: parses normal, castling and promotion moves; rejects garbage",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "squares: size + centred grid for square and non-square rects",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "normal board: endpoints are the exact square centres (e2e4)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "fromPt": {
+          "x": 415,
+          "y": 555
+        },
+        "tip": {
+          "x": 415,
+          "y": 415
+        },
+        "thickness": 11.200000000000001,
+        "headLength": 31.36,
+        "headWidth": 33.6
+      }
+    },
+    {
+      "name": "flipped board: screen mapping mirrors file and rank (e2e4)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "fromPt": {
+          "x": 345,
+          "y": 205
+        },
+        "tip": {
+          "x": 345,
+          "y": 345
+        }
+      }
+    },
+    {
+      "name": "flipped: knight move b1c3 maps to the mirrored columns",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "arrowhead points along the move for all 8 directions",
+      "pass": true,
+      "message": null,
+      "details": [
+        {
+          "uci": "e4e5",
+          "unit": {
+            "x": 0,
+            "y": -1
+          },
+          "tip": {
+            "x": 415,
+            "y": 345
+          },
+          "headLength": 31.36
+        },
+        {
+          "uci": "e4f5",
+          "unit": {
+            "x": 0.7071067811865475,
+            "y": -0.7071067811865475
+          },
+          "tip": {
+            "x": 485,
+            "y": 345
+          },
+          "headLength": 31.36
+        },
+        {
+          "uci": "e4f4",
+          "unit": {
+            "x": 1,
+            "y": 0
+          },
+          "tip": {
+            "x": 485,
+            "y": 415
+          },
+          "headLength": 31.36
+        },
+        {
+          "uci": "e4f3",
+          "unit": {
+            "x": 0.7071067811865475,
+            "y": 0.7071067811865475
+          },
+          "tip": {
+            "x": 485,
+            "y": 485
+          },
+          "headLength": 31.36
+        },
+        {
+          "uci": "e4e3",
+          "unit": {
+            "x": 0,
+            "y": 1
+          },
+          "tip": {
+            "x": 415,
+            "y": 485
+          },
+          "headLength": 31.36
+        },
+        {
+          "uci": "e4d3",
+          "unit": {
+            "x": -0.7071067811865475,
+            "y": 0.7071067811865475
+          },
+          "tip": {
+            "x": 345,
+            "y": 485
+          },
+          "headLength": 31.36
+        },
+        {
+          "uci": "e4d4",
+          "unit": {
+            "x": -1,
+            "y": 0
+          },
+          "tip": {
+            "x": 345,
+            "y": 415
+          },
+          "headLength": 31.36
+        },
+        {
+          "uci": "e4d5",
+          "unit": {
+            "x": -0.7071067811865475,
+            "y": -0.7071067811865475
+          },
+          "tip": {
+            "x": 345,
+            "y": 345
+          },
+          "headLength": 31.36
+        }
+      ]
+    },
+    {
+      "name": "partially offscreen rects: endpoints stay exact, viewport flag is computed",
+      "pass": true,
+      "message": null,
+      "details": {
+        "overlapping": {
+          "x": 165,
+          "y": 375
+        },
+        "offscreenIntersects": false
+      }
+    },
+    {
+      "name": "DPR: canvas bitmap scales, geometry stays in CSS pixels",
+      "pass": true,
+      "message": null,
+      "details": {
+        "device": {
+          "width": 2560,
+          "height": 1600,
+          "dpr": 2
+        }
+      }
+    },
+    {
+      "name": "thickness scales with the square size and is clamped for tiny/huge boards",
+      "pass": true,
+      "message": null,
+      "details": {
+        "thicknesses": {
+          "normal": 11.200000000000001,
+          "half": 5.6000000000000005,
+          "mini": 3.2,
+          "huge": 42,
+          "tiny": 2
+        }
+      }
+    },
+    {
+      "name": "alternatives are thinner than the top-1 arrow",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "computeArrows: topN limits the list, ranks are ordered, bad entries skipped",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "degenerate inputs return null instead of NaN geometry",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "bounds + z-index helpers",
+      "pass": true,
+      "message": null,
+      "details": {
+        "bounds": {
+          "minX": 392.59999999999997,
+          "minY": 409.4,
+          "maxX": 437.40000000000003,
+          "maxY": 560.6
+        }
+      }
+    }
+  ]
+}

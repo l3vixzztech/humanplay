@@ -1,0 +1,66 @@
+{
+  "pass": true,
+  "failures": [],
+  "initial": {
+    "uci": "b1c3",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3"
+  },
+  "afterMove": {
+    "uci": "c3d5",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3"
+  },
+  "geometry": {
+    "truth": {
+      "flipped": false,
+      "rect": {
+        "x": 18,
+        "y": 58,
+        "w": 560,
+        "h": 560
+      },
+      "boardStackingZ": 0,
+      "sqX": 70,
+      "sqY": 70,
+      "sqFromRect": 70,
+      "piecesUsed": 30,
+      "centres": {
+        "c3": {
+          "x": 193,
+          "y": 443
+        },
+        "d5": {
+          "x": 263,
+          "y": 303
+        }
+      }
+    },
+    "datassetFlipped": false,
+    "truthFlipped": false,
+    "sqX": 70,
+    "sqFromRect": 70,
+    "arrows": [
+      {
+        "uci": "c3d5",
+        "rank": 0,
+        "fromErr": 0,
+        "tipErr": 0,
+        "thickness": 11.2
+      }
+    ],
+    "maxEndpointErrorPx": 0,
+    "maxRectErrorPx": 0,
+    "samples": {}
+  },
+  "screenshots": [
+    "test/fixtures/captures/overlay/middlegame-arrows.png",
+    "test/fixtures/captures/overlay/middlegame-arrows-after-move.png"
+  ],
+  "clearedAfterMutationMs": 188,
+  "delayMs": 700,
+  "clearedDataset": {
+    "state": "cleared",
+    "reason": "panel:analyzing",
+    "key": null
+  },
+  "mutationToArrowsMs": 869
+}

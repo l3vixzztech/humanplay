@@ -1,0 +1,108 @@
+{
+  "pass": true,
+  "failures": [],
+  "threeArrows": [
+    {
+      "uci": "c3d5",
+      "rank": 0,
+      "thickness": 11.2
+    },
+    {
+      "uci": "h2h3",
+      "rank": 1,
+      "thickness": 6.65
+    },
+    {
+      "uci": "a2a3",
+      "rank": 2,
+      "thickness": 6.65
+    }
+  ],
+  "backToOne": [
+    "c3d5"
+  ],
+  "settingsAfterOn": {
+    "showAlternatives": true,
+    "showArrows": true
+  },
+  "settingsAfterOff": {
+    "showAlternatives": false,
+    "showArrows": true
+  },
+  "geometry": {
+    "truth": {
+      "flipped": false,
+      "rect": {
+        "x": 18,
+        "y": 58,
+        "w": 560,
+        "h": 560
+      },
+      "boardStackingZ": 0,
+      "sqX": 70,
+      "sqY": 70,
+      "sqFromRect": 70,
+      "piecesUsed": 30,
+      "centres": {
+        "c3": {
+          "x": 193,
+          "y": 443
+        },
+        "d5": {
+          "x": 263,
+          "y": 303
+        },
+        "h2": {
+          "x": 543,
+          "y": 513
+        },
+        "h3": {
+          "x": 543,
+          "y": 443
+        },
+        "a2": {
+          "x": 53,
+          "y": 513
+        },
+        "a3": {
+          "x": 53,
+          "y": 443
+        }
+      }
+    },
+    "datassetFlipped": false,
+    "truthFlipped": false,
+    "sqX": 70,
+    "sqFromRect": 70,
+    "arrows": [
+      {
+        "uci": "c3d5",
+        "rank": 0,
+        "fromErr": 0,
+        "tipErr": 0,
+        "thickness": 11.2
+      },
+      {
+        "uci": "h2h3",
+        "rank": 1,
+        "fromErr": 0,
+        "tipErr": 0,
+        "thickness": 6.65
+      },
+      {
+        "uci": "a2a3",
+        "rank": 2,
+        "fromErr": 0,
+        "tipErr": 0,
+        "thickness": 6.65
+      }
+    ],
+    "maxEndpointErrorPx": 0,
+    "maxRectErrorPx": 0,
+    "samples": {}
+  },
+  "screenshots": [
+    "test/fixtures/captures/overlay/middlegame-alternatives.png",
+    "test/fixtures/captures/overlay/middlegame-panel-alternatives.png"
+  ]
+}

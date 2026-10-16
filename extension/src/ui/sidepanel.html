@@ -10,7 +10,7 @@
     <header class="app-header">
       <div class="app-title">
         <h1>humanplay</h1>
-        <span class="version">M4</span>
+        <span class="version">M5</span>
       </div>
       <p class="tagline">human-like move assistant for chess.com · local Maia-3</p>
     </header>
@@ -54,13 +54,23 @@
         <p id="mx-warn" class="warn" hidden></p>
         <p id="mx-meta" class="meta" hidden></p>
 
+        <label class="setting-row" for="ov-arrows">
+          <span>Show arrows on board <span class="muted">(M5 overlay)</span></span>
+          <input id="ov-arrows" type="checkbox" checked />
+        </label>
+        <label class="setting-row" for="ov-alternatives">
+          <span>Show alternatives <span class="muted">(top-3, thinner)</span></span>
+          <input id="ov-alternatives" type="checkbox" />
+        </label>
+
         <div class="row">
           <button id="mx-analyze" type="button" class="primary">Analyze now</button>
         </div>
         <p class="hint" id="mx-hint">
           Maia-3 (human-move model) picks the move a strong human would play — not
           an engine best move. Top-3 with probabilities + Maia's human outcome
-          prediction. Opponent prediction arrives in M7.
+          prediction. Opponent prediction arrives in M7. The top move is drawn as
+          an arrow on the real board; alternatives are thinner and off by default.
         </p>
       </section>
 
