@@ -2,6 +2,227 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Session 8 — Milestone 8: live commentary (facts engine + templates + optional LLM phrasing) ✅
+
+**What works**
+- `extension/` **0.7.0**. Manifest: **no new required permissions** (`tts`,
+  `activeTab`, `storage`, `sidePanel`, `downloads` unchanged), no `<all_urls>`;
+  the only addition is `optional_host_permissions` for the two LLM providers
+  (`https://api.groq.com/*`, `https://generativelanguage.googleapis.com/*`),
+  requested at enable-time (`chrome.permissions.request`), never required.
+- **Server: `POST /explain` (additive; `/analyze` + `/premove` untouched,
+  `predict` unmodified, the 79 old tests still pass)** —
+  `server/explain_engine.py` explains the **LAST ply** of `moves`:
+  `{fen, moves, elo_self, elo_oppo}` (Elos clamp 0–5000) →
+  `{move{san,uci,by,ply,moveNumber}, flags{capture,check,mate,castle,
+  promotion,enPassant,recapture}, material{delta,captured}, maia{playedProb,
+  rank,totalLegal,top[3],moverElo}, wdl{before,after}(mover's perspective),
+  opening{eco,name}|null, classification, model, elapsed_ms}`.
+  Documented bands: **mainline = rank 1**, **common p ≥ 10 %**,
+  **uncommon 3–10 %**, **rare < 3 %** (probability bands, never judgement
+  words). `recapture` is the M8 flag: the previous ply captured on the same
+  square. Invalid FEN / illegal or unparseable history moves / engine-level
+  empty `moves` → **400**; a missing/shape-broken `moves` list → 422 (pydantic).
+  **Timings: engine 21–31 ms/article (pytest) — target ≤ 100 ms for 2 Maia
+  forward passes; real-proof round-trips 37–76 ms typical (one 128 ms outlier
+  under replay load, documented).**
+- **ECO/opening names**: bundled `server/data/openings_eco.json` from
+  **lichess-org/chess-openings**, license **verified clean (CC0-1.0, public
+  domain dedication)** before bundling — provenance, upstream SHA-256s and the
+  regeneration script (`server/tools/generate_openings.py`, 3865 openings) in
+  `server/data/README.md`. Longest SAN **prefix** match; `opening` is **always
+  null when the base FEN is not the standard start position** (honest: the
+  pre-base moves are unknowable); transpositions via a different move order are
+  not recognized (documented). No new runtime deps.
+- **`src/analysis/explain-client.js` (new, pure)**: the `/explain` client
+  (key `fen|moves|elo_self|elo_oppo`, LRU(24), in-flight dedupe, stale guard,
+  4 s timeout, exactly one network retry, injectable fetch, same error classes)
+  + **the feed driver `createCommentaryFeed()`**: request iff the adapter's
+  `movesUci` grew by **exactly one ply** (both colors); first state seeds the
+  baseline; a jump > 1 ply is skipped; re-emits are no-ops; **dedupe by ply**;
+  `sessionSeq` change clears + re-seeds; toggle off ⇒ `suppressed` (no request,
+  no retro-explain); entries newest-first, cap **50**. `buildExplainRequest()`
+  returns **null** without a usable history (mismatch never guesses).
+- **`src/commentary/phrase.js` (new, pure, zero-dep)**: one sentence per move —
+  `<SAN> — <event from flags>; <maia clause from the band>.` Event: capture on
+  `<sq>` / recapture / castling side / promotion to a piece / en passant /
+  check|checkmate. Maia clause always carries numbers: mainline → "the most
+  common move at 2400 (46 %)" (castle → "the main line"; recapture → "98 % of
+  2400s take back"), common → "a common choice at 2400 (17 %); Maia's pick was
+  c5 (37 %)", uncommon → same with "uncommon at", rare → "only 0.2 % play this;
+  Maia's pick was Nc3 (43 %)". Chips: `main line` / `common` / `uncommon` /
+  `rare` (documented).
+- **Panel "Commentary" card (M8)**: toggle **Explain moves** (default **ON**,
+  persisted; **not** gated by the assistant switch — it never suggests a move);
+  feed newest-first with move header (SAN + `you`/`opponent`), chip, text, meta
+  (`engine template | <provider> rephrasing · llm … ms · engine … ms ·
+  round-trip … ms · ECO name · ply N`); **Phrasing** select
+  [Templates (default) | Groq | Gemini]; **API key** input (masked, cleared
+  after storing, placeholder `•••••• stored`); **Test connection**; the
+  mandated privacy line "positions are sent to `<host>`" when a provider is
+  selected; feed meta (`N of the last 50 plies explained · phrasing …`).
+- **`src/commentary/llm.js` (new, pure)**: fixed providers (Groq OpenAI chat /
+  Gemini generateContent), the **mandated system prompt verbatim** + facts JSON,
+  sanitizer (fences/backticks/quotes/chatty lead-in, whitespace, **cap 220
+  chars**), **2.5 s timeout → template fallback**, every failure (no key, no
+  permission, HTTP, provider error, empty body) keeps the template text and the
+  meta notes the fallback. The entry renders with the template **immediately**;
+  the provider text is swapped in place. **Key hygiene:** `chrome.storage.local`
+  only (never `sync`), never logged, never in the DOM, sent as a **header**
+  (Groq `Authorization`, Gemini `x-goog-api-key` — never a URL). Test-only seam
+  `__humanplayAnalysis.commentaryTest.setLlmEndpoint(engine, url)` (documented,
+  like `__humanplayTtsTest`); custom provider URLs are **out of scope (future)**.
+- **No TTS for commentary** — explicitly out of scope (noted as future work).
+
+**Results (evidence: `test/fixtures/captures/commentary/`)**
+- `server` **`106 passed`** (79 old + 27 new `tests/test_explain.py`):
+  hand-verified cases — 1.e4 (mainline, B00 King's Pawn Game), 4.Bxc6 (capture,
+  common rank 2, C68), 5.cxd5 (recapture, A60), 4.O-O / 5.O-O-O (both castles),
+  a8=Q+ (promotion + check, 89 %), Re7+ (rare, rank 11/17, plain check),
+  4.Qxf7# (mate, WDL after = win 1), 3.exd6 e.p. (captured pawn on d5),
+  1.Nh3 (rare 0.027 %, rank 18/20 — Maia's pick e4 46 % surfaced), 2...d6 /
+  2...Nf6 (black-to-move parity), Qg6 stalemate (rules draw 1.0), the bands,
+  the ECO lookup, contract 400s/422s, Elo clamps, determinism, perf.
+- `commentary-unit.mjs` **17/17** (client contract/retry/errors, cache/dedupe/
+  stale, the feed driver incl. cap/reset/dedupe/suppression, the full template
+  matrix against recorded facts, the prompt builder, the sanitizer + 220-char
+  cap, every LLM fallback, permissions, display helpers).
+- `commentary-proof.mjs` **stub — ALL 7 CASES PASSED** (fixture server spawned
+  by the proof; the canned /explain bodies are **recorded from the real
+  server**, `canned-explain-report.json`):
+  - **S1 Italian replay**: the 7-ply game replayed move-by-move via DOM
+    mutations — 7 entries, **both colors** (playerLabel you/opponent), exact
+    texts + chips (recorded facts), newest first, **1 /explain request per ply**,
+    0 canned misses, mutation→entry **155–200 ms**, engine 21–33 ms;
+  - **S2 LLM rephrasing**: canned Groq + Gemini text replaces the template
+    (`source` groq/gemini, meta `groq llama-3.1-8b-instant · llm … ms`), the
+    API key appears in **no DOM node**, the input is empty after storing,
+    `chrome.storage.sync` untouched (0 keys);
+  - **S3 fallbacks**: provider 500 and a 3 s delay (> 2.5 s timeout) both keep
+    the template text and the meta notes `llm http|timeout: fallback to template`;
+  - **S4 toggle off**: 0 /explain attempts for the next ply, no entry, and no
+    retro-explaining when it goes back on (the following ply is explained);
+  - **S5 new-game reset**: move list back to start → `sessionSeq` 0→1, feed
+    cleared, baseline re-seeded, next move explained again;
+  - **S6 52-ply cap**: a knight shuffle replayed move-by-move (runtime-canned
+    bodies, documented) → **52 explained, feed holds 50 (plies 52..3)**, all
+    four chips present, ~10 s replay;
+  - **S7 stale race**: a 900 ms-delayed ply-53 article superseded by ply 54 is
+    discarded (`staleDiscards 0→1`, no ply 53 in the feed, no out-of-order).
+- `commentary-proof.mjs` **real — ALL PASSED**: the 14-ply fixture montage
+  (both castlings + captures) replayed move-by-move through the production
+  adapter; **every entry's text equals the hand-verified recorded facts**
+  (e.g. ply 7 `O-O — castling kingside; a common choice at 2400 (22 %); Maia's
+  pick was c3 (39 %).`, ply 12 black `O-O … only 3 % play this; Maia's pick
+  was h6 (81 %)`, ply 13 `Bxf6 — a capture on f6; only 0.2 % play this; …`,
+  ply 14 `Qxf6 — a recapture; 99 % of 2400s take back.`) and **ply 14 EQUALS a
+  direct `curl /explain`** phrased by the panel's own module (text +
+  classification + opening + `playedProb` 0.992488 value-identical);
+  mutation→entry **193–287 ms**, engine 38–76 ms typical (one 128 ms outlier),
+  console clean.
+- Regressions all green: `premove-proof` ALL PASSED, `tts-proof` ALL PASSED
+  (14805 voices), `overlay-proof` ALL PASSED, `adapter-proof` ALL PASSED,
+  `analyze-proof --stub` ALL PASSED, server `106 passed`.
+- Screenshots: `stub-italian-feed.png` (the feed: newest O-O on top),
+  `stub-llm-rephrasing.png`, `stub-llm-fallback.png`, `stub-toggle-off.png`,
+  `stub-new-game-reset.png`, `stub-feed-cap-50.png`, `stub-stale-race.png`,
+  `real-montage-feed.png`.
+
+**Exact commands**
+```bash
+CHROME="$HOME/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome"
+cd server && .venv/bin/python -m pytest tests -q           # 106 passed
+node test/tools/commentary-unit.mjs                        # 17 passed
+node test/tools/commentary-proof.mjs --chrome "$CHROME"    # stub: 7 cases, ALL PASSED (spawns the stub)
+cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765
+node test/tools/commentary-proof.mjs --chrome "$CHROME" --real   # 14-ply replay, entry == curl
+# regressions (all ALL PASSED)
+node test/tools/premove-proof.mjs --chrome "$CHROME"
+node test/tools/tts-proof.mjs --chrome "$CHROME"
+node test/tools/overlay-proof.mjs --chrome "$CHROME"
+node test/tools/adapter-proof.mjs --chrome "$CHROME"
+node test/tools/analyze-proof.mjs --chrome "$CHROME"
+# re-record the stub's canned data (real server must be running):
+server/.venv/bin/python test/fixtures/generate_chesscom.py   # unchanged by M8
+python3 test/tools/collect-canned.py                         # now also CANNED_EXPLAIN
+# regenerate the bundled ECO table (provenance: server/data/README.md):
+server/.venv/bin/python server/tools/generate_openings.py
+```
+
+**Automatic vs manual**
+- Delivered by tests: the fact engine (recorded model values + hand-checked
+  rules), the bands + ECO lookup, the contract/clamps, the client
+  key/dedupe/stale/error mapping, the feed driver (trigger/cap/reset/dedupe/
+  suppression), the template matrix, the LLM prompt/sanitizer/timeout/fallbacks,
+  the key hygiene, the card + chips + meta, the stub replay (both colors, exact
+  texts), the new-game reset, the 50-ply cap, the stale race, and the real-mode
+  panel == curl equality.
+- **Only a human can verify (below)**: the live commentary in a real game
+  (timing + phrasing feel), the toggle behaviour in practice, and **real LLM
+  calls** (they need a real user key + the provider host-permission grant —
+  the automated proof uses the fixture server's canned provider stand-ins).
+
+**MANUAL CHECKLIST (what only a human can verify — the point of M8)**
+1. **Real game with uvicorn + Chrome loaded (0.7.0, templates)**: load unpacked,
+   open a chess.com bot game — after **your** move and after **the opponent's**
+   move a new Commentary entry must appear within ~1 s, with the move header
+   (`you`/`opponent`), a classification chip and one factual sentence. No key,
+   no network needed.
+2. **Toggle off stops it**: untick **Explain moves** → make a move: no new entry
+   and no `/explain` request; tick it back on → the *next* move is explained
+   (the missed one is not retro-explained).
+3. **Groq/Gemini with a real key**: pick a provider, grant the host permission
+   when Chrome asks, paste a key, press **Test connection** (expect "OK in …
+   ms"), then move: the sentence should be rephrased conversationally (same
+   facts, no new tactics). **The key must stay local** — reload the panel: the
+   input is empty and the placeholder says "stored"; `chrome.storage.local`
+   holds `settings.llmApiKey`; `chrome.storage.sync` stays empty; the DOM never
+   contains it. Compare Groq vs Gemini vs Templates phrasing.
+4. **Templates with no key/network**: pick Templates (or stop uvicorn — the card
+   shows "server offline" with the start command and recovers) — templates are
+   the default and need neither.
+5. **New game**: start a rematch → the feed clears (message "new game —
+   commentary feed cleared (N entries)") and the next move starts a fresh feed.
+
+**Deviations / notes**
+- The commentary **ignores the assistant master switch** (its own toggle is the
+  control): it never suggests a move, so it stays useful with the assistant off;
+  documented in the card hint + PROJECT.md.
+- The **first observed state of a session only seeds the baseline** — a panel
+  opened mid-game does not explain the moves it never witnessed (commentary
+  starts with the next move). A mismatch (board ≠ move list) consumes the ply:
+  no guessed article, no retro-explain.
+- The **stale guard discards an article whose ply was superseded** while it was
+  in flight (consistent with M4/M7; in a real game answers land in ~50 ms). The
+  synthetic `inactive:<session>:<ply>` key invalidates in-flight articles when
+  the observed position cannot be explained at all.
+- **Perf**: target ≤ 100 ms/article met in isolation (pytest 21–31 ms); the
+  real-mode replay measured 38–76 ms typical with one **128 ms** outlier while
+  Chrome + Node + the server shared the CPU (recorded, not hidden).
+- The **50-ply cap case** registers deterministic **synthetic** canned bodies at
+  runtime (`/debug/canned-explain`) because recording 54 real articles would pin
+  a meaningless shuffle; the cap/order logic under test does not depend on the
+  facts (fact correctness is covered by S1 + the real mode). Documented in the
+  case JSON + the proof comment.
+- The **provider host permission grant is manual** (a real user gesture cannot
+  be produced headlessly); the proof asserts the manifest's
+  `optional_host_permissions` + the request path is exercised against the
+  fixture server, whose localhost origin is already permitted. **Custom provider
+  URLs are out of scope** (future work).
+- The card's "Test connection" sends one minimal call; the key is never part of
+  any error string (asserted in the unit tests).
+- `collect-canned.py` now also records `CANNED_EXPLAIN` (14 unique per-ply keys:
+  the 7-ply Italian prefixes coincide with the montage's first 7); the fixture
+  server grew `/explain`, `/llm/groq`, `/llm/gemini`, `/debug/explain-delay`,
+  `/debug/canned-explain`, `/debug/llm-mode` and the matching counters.
+
+**Next — Milestone 9**: continuous mode + robustness + polish + packaging
+(state-driven auto-analysis loop, failure recovery for page variants, UX,
+store-ready packaging). Commentary TTS and custom LLM endpoints stay listed as
+future work.
+
+---
+
 ## Session 7 — Milestone 7: premove planner (server criteria engine + panel + dashed arrow + speech) ✅
 
 **What works**

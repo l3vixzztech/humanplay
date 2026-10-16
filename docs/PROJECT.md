@@ -21,7 +21,10 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 │ arrow overlay (M5)            │        │                                      │
 │ voice "just the move" (M6)    │        │  POST /premove {fen, moves?, …}      │
 │ premove planner (M7)          │ ─────► │   └─ criteria engine (same Maia)     │
-│ debug: capture + PNG recorder │        │                                      │
+│ commentary feed (M8)          │ ─────► │  POST /explain {fen, moves, elos}    │
+│  └─ templates; optional LLM   │  ╲     │   └─ facts table + ECO (CC0)         │
+│     rephrasing (Groq/Gemini)  │   ╲────┼──► free provider API (optional,      │
+│ debug: capture + PNG recorder │        │    user key in chrome.storage.local) │
 └───────────────────────────────┘        └──────────────────────────────────────┘
      DOM only (chess.com only)                 separate process / venv boundary
 ```
@@ -58,12 +61,17 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 - **Permissions stay narrow**: no `<all_urls>` anywhere in the shipped manifest.
   `content_scripts`/`web_accessible_resources` match only chess.com; the only
   host permission is `http://127.0.0.1:8765/*` (`/health`, `/analyze`,
-  `/premove`, …); tab capture stays on
+  `/premove`, `/explain`, …); tab capture stays on
   `activeTab` (the toolbar click is what grants it —
   Chromium `CanCaptureVisiblePage`, `kActiveTabOrAllUrls`). M6 added exactly
   two things: the `tts` permission and the `toggle-tts` command (Ctrl+Shift+Y).
   **M7 added none** (the premove planner reuses the existing host permission and
-  the M6 speaker).
+  the M6 speaker). **M8 adds none either**: the only manifest addition is
+  `optional_host_permissions` for the two free LLM providers
+  (`https://api.groq.com/*`, `https://generativelanguage.googleapis.com/*`) —
+  *optional* origins, requested from a user gesture when a provider is picked
+  and never part of the required set; the templates work with no permission, no
+  key and no network.
 - **Vendored chess.js** (BSD-2-Clause, pinned **1.4.0**,
   `extension/vendor/chess.js`) — the only third-party runtime dependency, used
   for SAN → UCI/Castling/En-passant replay. See `extension/vendor/README.md`.
@@ -89,7 +97,7 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 | 5 | Arrow overlay on the real board | `src/content/board-overlay.js` (one fixed, click-transparent, DPR-crisp canvas) + `overlay-geometry.js` (pure: square centres normal/flipped, shaft + arrowhead, thickness scaling) + the shared `board-locate.js`; panel→SW→content routing (`humanplay:suggestion`/`clear-suggestion`) keyed by the M4 position key; "Show arrows" / "Show alternatives" settings; unit tests + CDP proof incl. a real chess.com page | ✅ done |
 | 6 | TTS | `chrome.tts` announcements (Piper-ready interface), "just the move" — service-worker speaker, dedupe + stale guard, toggle/hotkey/rate/badge, actionable no-voice note, CDP proof incl. the panel-closed case | ✅ done |
 | 7 | Premove planner | `POST /premove` criteria engine (opponent candidates from Maia, our reply must be safe or illegal), "Premove" panel card, dashed blue arrow, "premove …" speech, unit + stub/real CDP proofs | ✅ done |
-| 8 | Live commentary / explain mode | short natural-language "why this move" from the model's probabilities | ⬜ |
+| 8 | Live commentary / explain mode | `POST /explain` facts engine (rules flags + Maia distribution + ECO names), the panel's commentary feed (both colours, per-ply trigger, templates), the optional free-API LLM rephrasing layer (Groq/Gemini, optional host permissions, key local-only), unit + stub/real CDP proofs | ✅ done |
 | 9 | Continuous mode + robustness + polish + packaging | state-driven auto-analysis loop, failure recovery (page variants), UX, store-ready packaging | ⬜ |
 
 ## The GameState protocol (M3)
@@ -146,8 +154,8 @@ chess.com on 2026-10-16 — probes documented in `test/fixtures/chesscom/README.
 
 ## The analysis loop (M4)
 
-`extension/src/analysis/analyze-client.js` is the extension's only HTTP client
-for the helper server (clean-room, no maia3 code). The side panel renders what
+`extension/src/analysis/analyze-client.js` is the extension's only `/analyze` client
+(see also `premove-client.js` for M7 and `explain-client.js` for M8). The side panel renders what
 it returns; the unit tests exercise it with an injected `fetch`.
 
 **Request mapping.** The adapter's `fen` is the *current* position and
@@ -409,6 +417,116 @@ truth (normal **and** flipped), exactly one "premove …" speak per position
 (deduped), gating (our turn / assistant off / TTS off), and the stale race.
 Evidence: `test/fixtures/captures/premove/`.
 
+## Live commentary (M8)
+
+Every move that lands — **both colours** — is explained by one factual sentence,
+built by the server from **rules + Maia's own distribution**, never from an
+engine. The extension renders it in the "Commentary" card as a feed (newest
+first, last 50 plies) and optionally lets a free LLM provider *rephrase* the
+same facts. **Nothing here evaluates a move**: the classification is a
+probability band, not a quality label.
+
+**Server** (`server/explain_engine.py` + `POST /explain`; `/analyze` and
+`/premove` are **untouched** — `predict` was not modified and the old suites are
+byte-identical). The request explains the **LAST ply** of `moves`:
+`{fen (base), moves (UCI history incl. the move), elo_self, elo_oppo}` (Elos
+clamp to 0–5000 like `/premove`). The response (deterministic, python-chess +
+two Maia forward passes):
+
+| Field | Content |
+|---|---|
+| `move` | `{san, uci, by, ply (1-based index in `moves`), moveNumber}` |
+| `flags` | `capture`, `check` (mate implies check), `mate`, `castle` (`kingside`/`queenside`/null), `promotion` (piece name/null), `enPassant`, and the M8 `recapture` (the previous ply captured **on the same square** this move captures on) |
+| `material` | `delta` (the mover's material gain in pawn units, 0 for a quiet move) + `captured` (`{piece, square, value}` / null; values P1 N/B3 R5 Q9) |
+| `maia` | the mover's distribution **before** the move: `playedProb`, 1-based `rank` (probability desc, UCI tie-break), `totalLegal`, `top` (top-3), `moverElo` (Maia conditions on the side to move — the side to move of the before-position is the mover) |
+| `wdl` | the human value head **from the mover's perspective**, `before` (side-to-move view) and `after` (flipped; a terminal after-position is rules-decided, same convention as `/analyze`) |
+| `opening` | `{eco, name}` of the longest prefix of the game's SAN sequence in the bundled lichess **chess-openings** table (**CC0-1.0**, provenance + hashes in `server/data/README.md`, regeneration via `server/tools/generate_openings.py`), or `null` — **always null when the base FEN is not the standard start position** (the pre-base moves are unknowable) or nothing matches; transpositions not expressible as a dataset move-sequence prefix are not recognized |
+| `classification` | the documented probability band of the played move: **`mainline`** = rank 1 (Maia's most likely move, whatever its probability); **`common`** = `p ≥ 0.10`; **`uncommon`** = `0.03 ≤ p < 0.10`; **`rare`** = `p < 0.03` (bands about how often humans play it at this Elo — no judgement words) |
+| `model`, `elapsed_ms` | engine identity + the article's engine time (target ≤ 100 ms; measured ≈ 20–70 ms, see below) |
+
+Errors: invalid FEN / illegal or unparseable history move / `moves` empty at the
+engine level → **400**; a missing/shape-broken `moves` list → **422** (pydantic).
+
+**Extension** (`src/analysis/explain-client.js` +
+`src/commentary/phrase.js` + `src/commentary/llm.js` + the panel card):
+
+- **Trigger / feed driver** (`createCommentaryFeed`, pure, unit-tested): an
+  article is requested **iff the adapter's `movesUci` grew by exactly one ply**
+  since the last observed state — for **both colors** (whoever just moved).
+  The first state of a session seeds the baseline (a panel opened mid-game does
+  not spam the plies it never witnessed); a jump > 1 ply is skipped; re-emits
+  are no-ops; the same ply is never explained twice (dedupe by ply); a
+  `sessionSeq` change (new game) clears the feed and re-seeds; with the toggle
+  off the new ply is *suppressed* (no request — and no retro-explaining when it
+  goes back on). Entries are kept newest-first, capped at the **last 50 plies**.
+  A ply is only explained when the history is usable: a mismatch (board ≠ move
+  list) has no move to explain and returns `null` — nothing is guessed.
+- **Client**: the M4/M7 patterns — key `fen|moves|elo_self|elo_oppo`, LRU(24),
+  in-flight dedupe, stale guard (`expectKey`/`stale`; an article whose key is no
+  longer current is discarded silently, so the feed can never show an
+  out-of-order entry), 4 s timeout, exactly one retry on a network failure,
+  injectable `fetch`, the same error classes.
+- **Template phrasing** (`phrase.js`, pure, zero-dep, unit-tested):
+  `<SAN> — <event clause>; <maia clause>.` The event clause is built from the
+  rules flags (recapture/capture on `<square>`, castling side, promotion piece,
+  en passant; check/mate as a trailing suffix). The Maia clause always carries
+  Maia's numbers: `mainline` → "the most common move at `<elo>` (`p`%)" (a
+  castling reads "the main line", a recapture reads "`p`% of `<elo>`s take
+  back"), `common` → "a common choice at `<elo>` (`p`%); Maia's pick was `<top>`
+  (`q`%)", `uncommon` → the same with "uncommon at", `rare` → "only `p`% play
+  this; Maia's pick was …". Percentages ≥ 1 % round, below 1 % keep one decimal.
+- **Panel "Commentary" card**: toggle **"Explain moves"** (default **ON**,
+  persisted; *not* gated by the assistant master switch — commentary never
+  suggests a move, and it works before the color is known), the feed (move
+  header with SAN + `you`/`opponent`, classification chip `main line` / `common`
+  / `uncommon` / `rare`, the 1–2 sentence text, meta `engine template | <provider>
+  rephrasing · llm … ms · engine … ms · round-trip … ms · <ECO> <name> · ply N`),
+  the **Phrasing** select [Templates (default) | Groq | Gemini], the **API key**
+  input, **Test connection**, the privacy line, and the feed meta line.
+- **Optional LLM rephrasing** (`llm.js`): a fixed system prompt —
+  *"Rephrase ONLY these facts into 1-2 short sentences, conversational tone.
+  Never add chess analysis, tactics, or claims not in the facts. No engine
+  evaluations. Plain text."* — plus the **facts JSON** (the same facts the
+  template uses, including the template itself). Providers: Groq
+  (`api.groq.com`, OpenAI chat shape) and Gemini
+  (`generativelanguage.googleapis.com`, generateContent shape), both fixed
+  (**custom provider URLs are out of scope — future work**). 2.5 s timeout →
+  template fallback; the output is sanitized (code fences, backticks, quotes, a
+  chatty lead-in, whitespace collapse) and capped at ~220 chars; any provider
+  error (no key, permission missing, HTTP, timeout, empty body) keeps the
+  template text and the entry meta notes the fallback. The entry appears with
+  the template **immediately** — the provider never blocks the feed.
+- **Privacy / key handling**: the key is stored in `chrome.storage.local` only
+  (`settings.llmApiKey`) — never `chrome.storage.sync`, never logged, never in
+  an error message, never in the DOM (masked input, cleared after storing); it
+  is sent as a **header** (Groq `Authorization: Bearer`, Gemini
+  `x-goog-api-key` — never a query string). The card shows the mandated line
+  **"positions are sent to `<host>`"** whenever a real provider is selected. The
+  request body contains only the facts JSON. The provider origins are declared
+  under `optional_host_permissions` and requested with
+  `chrome.permissions.request` when a provider is picked (a user gesture — the
+  grant itself is a manual step). **No TTS for commentary** (explicitly out of
+  scope; the M6 speaker only speaks the suggestion/premove — future work).
+
+**Proving it.** `server/tests/test_explain.py` (27 tests: the opening move, a
+capture (rank 2 / common), a recapture, both castlings, a promotion + check, a
+plain check (rare), scholar's mate, en passant (captured pawn on d5), a rare
+rank-18 move with Maia's pick surfaced, black-to-move parity, a stalemate after,
+the documented bands, the ECO lookup, the contract 400s/422s, Elo clamps,
+determinism, perf). `test/tools/commentary-unit.mjs` (17 zero-dep tests: the
+client contract/retry/errors, cache/dedupe/stale, the feed driver, the whole
+template matrix, the prompt builder, the sanitizer/cap, every LLM failure,
+permissions). `test/tools/commentary-proof.mjs` (CDP, stub + real) — the stub
+replays the 7-ply Italian Game move-by-move through the production adapter
+(both colors, exact texts + chips, one request per ply, newest first), drives
+the canned Groq/Gemini rephrasing (key never in the DOM, `chrome.storage.sync`
+untouched), the 500 and timeout fallbacks, the toggle-off (0 requests, no
+retro-explain), the new-game reset, the 52-ply cap (feed holds the newest 50)
+and the stale race; the real mode replays the 14-ply fixture montage and asserts
+every entry against hand-verified facts **and** that the last entry equals a
+direct `curl /explain` phrased by the panel's own module. Evidence:
+`test/fixtures/captures/commentary/`.
+
 ## Repository layout
 
 ```
@@ -418,6 +536,10 @@ docs/       PROJECT.md (this file), HANDOFF.md (state log)
 test/       offline fixtures (test/fixtures/) + dev/test tools (test/tools/)
 parked/     stopped work kept for revival (parked/image-recognition/)
 ```
+
+`server/data/` holds the bundled ECO/opening table (`openings_eco.json`,
+lichess chess-openings, CC0-1.0 — see `server/data/README.md`); the generator is
+`server/tools/generate_openings.py`.
 
 ## Key interfaces (server)
 
@@ -435,6 +557,12 @@ parked/     stopped work kept for revival (parked/image-recognition/)
   [{uci, san, prob, reason}], reason, params, timings_ms, model, elapsed_ms}`.
   The criteria engine is documented in "The premove planner (M7)" above and in
   `server/premove_engine.py`. Numeric knobs clamp; invalid FEN/history is 400.
+- `POST http://127.0.0.1:8765/explain` (M8)
+  body `{fen, moves (LAST ply = the move to explain), elo_self, elo_oppo}` →
+  `{move, flags, material, maia, wdl: {before, after}, opening, classification,
+  model, elapsed_ms}` — the fact engine documented in "Live commentary (M8)"
+  above and in `server/explain_engine.py`. Elos clamp; invalid FEN / illegal or
+  unparseable moves / empty `moves` (engine level) are 400.
 - `GET /health` → `{status, model}`.
 
 Details, semantics (history planes, temperature, WDL perspective, the premove

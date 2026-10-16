@@ -1,26 +1,30 @@
 #!/usr/bin/env python3
-"""Record the CANNED /analyze + /premove responses for test/tools/fixture_server.py.
+"""Record the CANNED /analyze + /premove + /explain responses for test/tools/fixture_server.py.
 
-The M4/M7 proofs (test/tools/analyze-proof.mjs, test/tools/premove-proof.mjs) run
+The M4/M7/M8 proofs (test/tools/analyze-proof.mjs, premove-proof.mjs,
+commentary-proof.mjs) run
 in two modes: STUB (against test/tools/fixture_server.py) and REAL (against the
 actual Maia server). The stub answers with responses **recorded from the real
 server**, so the stub schema is identical by construction and the two modes can
 be compared value-by-value.
 
 This script re-records those responses. Run it whenever the fixtures change (a
-new position, a new Elo case, a new premove case) — the real server must be
+new position, a new Elo case, a new premove case, a new commentary replay) — the real server must be
 running:
 
     cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765
     python3 test/tools/collect-canned.py
 
-It prints the `CANNED = {...}` and `CANNED_PREMOVE = {...}` blocks for
+It prints the `CANNED = {...}` / `CANNED_PREMOVE = {...}` / `CANNED_EXPLAIN = {...}`
+blocks for
 test/tools/fixture_server.py (replace the dict bodies) and writes the full
 records (requests + responses + wall times) to
-test/fixtures/captures/analyze/canned-report.json (analyze) and
-test/fixtures/captures/premove/canned-premove-report.json (premove).
+test/fixtures/captures/analyze/canned-report.json (analyze),
+test/fixtures/captures/premove/canned-premove-report.json (premove) and
+test/fixtures/captures/commentary/canned-explain-report.json (explain).
 /analyze keys are `<fen>|<uci moves>|<elo_self>|<elo_oppo>|<top_k>`;
-/premove keys append `<top_n>|<min_safety>|<mode>` — exactly what the panel sends.
+/premove keys append `<top_n>|<min_safety>|<mode>` — exactly what the panel sends;
+/explain keys append `<elo_self>|<elo_oppo>`.
 """
 
 from __future__ import annotations
@@ -33,9 +37,11 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 REPORT = REPO_ROOT / "test/fixtures/captures/analyze/canned-report.json"
 PREMOVE_REPORT = REPO_ROOT / "test/fixtures/captures/premove/canned-premove-report.json"
+EXPLAIN_REPORT = REPO_ROOT / "test/fixtures/captures/commentary/canned-explain-report.json"
 
 URL = "http://127.0.0.1:8765/analyze"
 PREMOVE_URL = "http://127.0.0.1:8765/premove"
+EXPLAIN_URL = "http://127.0.0.1:8765/explain"
 START = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 # Fixture move lists (UCI, the adapter's replay output — see
@@ -51,6 +57,15 @@ PREMOVE_TAKEBACK = ["d2d4", "g8f6", "c2c4", "c7c5", "d4d5", "e7e6", "b1c3"]
 # The forced-recapture position of the M7 tests (board-only request; the panel
 # reaches it through the mismatch mutation of the take-back fixture page).
 PREMOVE_FORCED_FEN = "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 1"
+
+# M8 commentary: the move list the stub proof replays move-by-move on
+# startpos.html (Italian Game through 4.O-O — both colors, a castle, mixed
+# classification bands). One /explain response per PLY PREFIX, keyed
+# `<START>|<prefix>|<elo_self>|<elo_oppo>`.
+ITALIAN7 = ["e2e4", "e7e5", "g1f3", "b8c6", "f1c4", "f8c5", "e1g1"]
+# The M4/M5 fixture montage (14 plies, both castlings + captures) — the REAL
+# mode commentary replay.
+MG14_EXPLAIN = MG14
 
 # (comment, fen, moves, elo_self, elo_oppo, top_k)
 CASES = [
@@ -76,6 +91,15 @@ PREMOVE_CASES = [
     ("startpos + 1.e4 — c5/e5/c6/e6 need different answers -> no safe premove", START, ["e2e4"], 5, 0.9, "top"),
     ("take-back fixture + 4...exd5 5.cxd5 (9 plies, black to move) — robust", START, PREMOVE_TAKEBACK + ["e6d5", "c4d5"], 5, 0.9, "top"),
     ("forced-recapture position (board-only; the mismatch mutation) — forced", PREMOVE_FORCED_FEN, [], 5, 0.9, "top"),
+]
+
+# (comment, moves) — one /explain response per ply prefix, default Elo 2400.
+EXPLAIN_CASES = [
+    (f"Italian {index + 1}/{len(ITALIAN7)}: {ITALIAN7[:index + 1][-1]} (ply {index + 1}), both colors, chips + a castle", ITALIAN7[: index + 1])
+    for index in range(len(ITALIAN7))
+] + [
+    (f"middlegame montage ply {index + 1}/{len(MG14_EXPLAIN)}: {MG14_EXPLAIN[:index + 1][-1]} (the real-mode replay)", MG14_EXPLAIN[: index + 1])
+    for index in range(len(MG14_EXPLAIN))
 ]
 
 
@@ -161,6 +185,42 @@ def main() -> None:
     print(f"\nreport: {PREMOVE_REPORT.relative_to(REPO_ROOT)}")
     print("\n# ---- paste into test/tools/fixture_server.py (CANNED_PREMOVE) ----")
     for entry in premove_entries:
+        print(f"    # {entry['name']}")
+        print(f"    {json.dumps(entry['key'])}:")
+        print(f"    {json.dumps(entry['response'], sort_keys=True)},")
+
+    explain_entries = []
+    print("\n# ---- M8 explain cases (per-ply prefixes) ----")
+    for name, moves in EXPLAIN_CASES:
+        payload = {"fen": START, "moves": moves, "elo_self": 2400, "elo_oppo": 2400}
+        data, wall_ms = post(EXPLAIN_URL, payload)
+        key = f"{START}|{' '.join(moves)}|2400|2400"
+        move = data["move"]
+        print(
+            f"{name:112s} {move['san']:8s} {data['classification']:9s} p={data['maia']['playedProb']:.4f}"
+            f" rank={data['maia']['rank']} opening={data['opening']['name'] if data['opening'] else '-'}"
+            f" ({data['elapsed_ms']:.0f} ms engine, {wall_ms:.0f} ms wall)"
+        )
+        explain_entries.append({"name": name, "key": key, "request": payload, "wall_ms": wall_ms, "response": data})
+
+    EXPLAIN_REPORT.parent.mkdir(parents=True, exist_ok=True)
+    EXPLAIN_REPORT.write_text(
+        json.dumps(
+            {
+                "generatedWith": "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765",
+                "generatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "generator": "test/tools/collect-canned.py",
+                "consumedBy": "test/tools/fixture_server.py CANNED_EXPLAIN + test/tools/commentary-proof.mjs (stub/real modes)",
+                "entries": explain_entries,
+            },
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    print(f"\nreport: {EXPLAIN_REPORT.relative_to(REPO_ROOT)}")
+    print("\n# ---- paste into test/tools/fixture_server.py (CANNED_EXPLAIN) ----")
+    for entry in explain_entries:
         print(f"    # {entry['name']}")
         print(f"    {json.dumps(entry['key'])}:")
         print(f"    {json.dumps(entry['response'], sort_keys=True)},")

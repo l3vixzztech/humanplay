@@ -10,7 +10,7 @@
     <header class="app-header">
       <div class="app-title">
         <h1>humanplay</h1>
-        <span class="version">M7</span>
+        <span class="version">M8</span>
       </div>
       <p class="tagline">human-like move assistant for chess.com · local Maia-3</p>
     </header>
@@ -120,6 +120,51 @@
           Premoves fire the moment they are legal, so the planner only recommends one when it
           cannot backfire: either Maia plays it after their predicted moves too, or it is illegal
           after them (it simply never fires). A premove that is refused keeps you on manual play.
+        </p>
+      </section>
+
+      <section class="card" id="commentary-card">
+        <div class="row card-head">
+          <h2>Commentary</h2>
+          <span id="cm-status" class="chip chip-idle">idle</span>
+        </div>
+
+        <label class="setting-row" for="cm-enabled">
+          <span>Explain moves <span class="muted">(both sides)</span></span>
+          <input id="cm-enabled" type="checkbox" checked />
+        </label>
+
+        <p id="cm-message" class="mx-message">
+          Open a chess.com game — every move that lands is explained here.
+        </p>
+
+        <ol id="cm-feed" class="cm-feed" hidden></ol>
+
+        <label class="setting-row" for="cm-engine">
+          <span>Phrasing <span class="muted">(facts only)</span></span>
+          <select id="cm-engine">
+            <option value="templates" selected>Templates</option>
+            <option value="groq">Groq</option>
+            <option value="gemini">Gemini</option>
+          </select>
+        </label>
+        <label class="setting-row" for="cm-key">
+          <span>API key <span class="muted">(local only, masked)</span></span>
+          <input id="cm-key" type="password" placeholder="paste provider key" autocomplete="off" />
+        </label>
+        <div class="row">
+          <button id="cm-test" type="button">Test connection</button>
+          <span id="cm-llm-status" class="hint-inline">templates · no key needed</span>
+        </div>
+        <p id="cm-privacy" class="hint" hidden></p>
+
+        <p id="cm-meta" class="meta" hidden></p>
+        <p class="hint" id="cm-hint">
+          One factual sentence per move — both colours — built from Maia's probabilities and
+          the rules (never a judgement, never an engine claim). <strong>Templates</strong> work
+          with no key and no network; Groq/Gemini only rephrase the same facts and need the
+          provider host permission (requested when you pick them) plus a key. The API key is
+          stored in <code>chrome.storage.local</code> only and never logged. No TTS here (future).
         </p>
       </section>
 

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "humanplay",
-  "version": "0.6.0",
-  "description": "Human-like chess move assistant for chess.com: reads the game state from the DOM, asks a local Maia-3 helper server, draws the suggested move on the board, speaks it (just the move) and plans one safe premove while the opponent thinks.",
+  "version": "0.7.0",
+  "description": "Human-like chess move assistant for chess.com: reads the game state from the DOM, asks a local Maia-3 helper server, draws the suggested move on the board, speaks it (just the move), plans one safe premove and explains every move it sees (optional LLM rephrasing).",
   "minimum_chrome_version": "116",
   "icons": {
     "16": "icons/icon16.png",
@@ -27,6 +27,10 @@
     "default_path": "src/ui/sidepanel.html"
   },
   "permissions": ["activeTab", "storage", "sidePanel", "downloads", "tts"],
+  "optional_host_permissions": [
+    "https://api.groq.com/*",
+    "https://generativelanguage.googleapis.com/*"
+  ],
   "commands": {
     "toggle-tts": {
       "suggested_key": { "default": "Ctrl+Shift+Y" },

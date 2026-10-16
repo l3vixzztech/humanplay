@@ -1,0 +1,1745 @@
+{
+  "generatedWith": "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765",
+  "generatedAt": "2026-10-16T20:30:57Z",
+  "generator": "test/tools/collect-canned.py",
+  "consumedBy": "test/tools/fixture_server.py CANNED_EXPLAIN + test/tools/commentary-proof.mjs (stub/real modes)",
+  "entries": [
+    {
+      "name": "Italian 1/7: e2e4 (ply 1), both colors, chips + a castle",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 35.3,
+      "response": {
+        "move": {
+          "san": "e4",
+          "uci": "e2e4",
+          "by": "white",
+          "ply": 1,
+          "moveNumber": 1
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.464864,
+          "rank": 1,
+          "totalLegal": 20,
+          "top": [
+            {
+              "uci": "e2e4",
+              "san": "e4",
+              "prob": 0.464864
+            },
+            {
+              "uci": "d2d4",
+              "san": "d4",
+              "prob": 0.339048
+            },
+            {
+              "uci": "g1f3",
+              "san": "Nf3",
+              "prob": 0.081763
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.476414,
+            "draw": 0.067579,
+            "loss": 0.456007
+          },
+          "after": {
+            "win": 0.51594,
+            "draw": 0.064554,
+            "loss": 0.419506
+          }
+        },
+        "opening": {
+          "eco": "B00",
+          "name": "King's Pawn Game"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 33.45064
+      }
+    },
+    {
+      "name": "Italian 2/7: e7e5 (ply 2), both colors, chips + a castle",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 30.4,
+      "response": {
+        "move": {
+          "san": "e5",
+          "uci": "e7e5",
+          "by": "black",
+          "ply": 2,
+          "moveNumber": 1
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.171366,
+          "rank": 2,
+          "totalLegal": 20,
+          "top": [
+            {
+              "uci": "c7c5",
+              "san": "c5",
+              "prob": 0.374898
+            },
+            {
+              "uci": "e7e5",
+              "san": "e5",
+              "prob": 0.171366
+            },
+            {
+              "uci": "c7c6",
+              "san": "c6",
+              "prob": 0.128604
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.419506,
+            "draw": 0.064554,
+            "loss": 0.51594
+          },
+          "after": {
+            "win": 0.450382,
+            "draw": 0.070189,
+            "loss": 0.479429
+          }
+        },
+        "opening": {
+          "eco": "C20",
+          "name": "King's Pawn Game"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 28.680847
+      }
+    },
+    {
+      "name": "Italian 3/7: g1f3 (ply 3), both colors, chips + a castle",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 30.7,
+      "response": {
+        "move": {
+          "san": "Nf3",
+          "uci": "g1f3",
+          "by": "white",
+          "ply": 3,
+          "moveNumber": 2
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.783514,
+          "rank": 1,
+          "totalLegal": 29,
+          "top": [
+            {
+              "uci": "g1f3",
+              "san": "Nf3",
+              "prob": 0.783514
+            },
+            {
+              "uci": "b1c3",
+              "san": "Nc3",
+              "prob": 0.082608
+            },
+            {
+              "uci": "f2f4",
+              "san": "f4",
+              "prob": 0.050448
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.479429,
+            "draw": 0.070189,
+            "loss": 0.450382
+          },
+          "after": {
+            "win": 0.506782,
+            "draw": 0.068684,
+            "loss": 0.424534
+          }
+        },
+        "opening": {
+          "eco": "C40",
+          "name": "King's Knight Opening"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 29.363983
+      }
+    },
+    {
+      "name": "Italian 4/7: b8c6 (ply 4), both colors, chips + a castle",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 22.6,
+      "response": {
+        "move": {
+          "san": "Nc6",
+          "uci": "b8c6",
+          "by": "black",
+          "ply": 4,
+          "moveNumber": 2
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.789386,
+          "rank": 1,
+          "totalLegal": 29,
+          "top": [
+            {
+              "uci": "b8c6",
+              "san": "Nc6",
+              "prob": 0.789386
+            },
+            {
+              "uci": "g8f6",
+              "san": "Nf6",
+              "prob": 0.128772
+            },
+            {
+              "uci": "d7d6",
+              "san": "d6",
+              "prob": 0.039803
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.424534,
+            "draw": 0.068684,
+            "loss": 0.506782
+          },
+          "after": {
+            "win": 0.453647,
+            "draw": 0.069245,
+            "loss": 0.477108
+          }
+        },
+        "opening": {
+          "eco": "C44",
+          "name": "King's Knight Opening: Normal Variation"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 21.33167
+      }
+    },
+    {
+      "name": "Italian 5/7: f1c4 (ply 5), both colors, chips + a castle",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 23.5,
+      "response": {
+        "move": {
+          "san": "Bc4",
+          "uci": "f1c4",
+          "by": "white",
+          "ply": 5,
+          "moveNumber": 3
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.32033,
+          "rank": 2,
+          "totalLegal": 27,
+          "top": [
+            {
+              "uci": "f1b5",
+              "san": "Bb5",
+              "prob": 0.433423
+            },
+            {
+              "uci": "f1c4",
+              "san": "Bc4",
+              "prob": 0.32033
+            },
+            {
+              "uci": "d2d4",
+              "san": "d4",
+              "prob": 0.134536
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.477108,
+            "draw": 0.069245,
+            "loss": 0.453647
+          },
+          "after": {
+            "win": 0.507633,
+            "draw": 0.068238,
+            "loss": 0.424128
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 21.791062
+      }
+    },
+    {
+      "name": "Italian 6/7: f8c5 (ply 6), both colors, chips + a castle",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 26.2,
+      "response": {
+        "move": {
+          "san": "Bc5",
+          "uci": "f8c5",
+          "by": "black",
+          "ply": 6,
+          "moveNumber": 3
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.448502,
+          "rank": 2,
+          "totalLegal": 31,
+          "top": [
+            {
+              "uci": "g8f6",
+              "san": "Nf6",
+              "prob": 0.47118
+            },
+            {
+              "uci": "f8c5",
+              "san": "Bc5",
+              "prob": 0.448502
+            },
+            {
+              "uci": "f8e7",
+              "san": "Be7",
+              "prob": 0.037204
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.424128,
+            "draw": 0.068238,
+            "loss": 0.507633
+          },
+          "after": {
+            "win": 0.465397,
+            "draw": 0.05606,
+            "loss": 0.478543
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 24.553115
+      }
+    },
+    {
+      "name": "Italian 7/7: e1g1 (ply 7), both colors, chips + a castle",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 31.3,
+      "response": {
+        "move": {
+          "san": "O-O",
+          "uci": "e1g1",
+          "by": "white",
+          "ply": 7,
+          "moveNumber": 4
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": "kingside",
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.224414,
+          "rank": 2,
+          "totalLegal": 33,
+          "top": [
+            {
+              "uci": "c2c3",
+              "san": "c3",
+              "prob": 0.387351
+            },
+            {
+              "uci": "e1g1",
+              "san": "O-O",
+              "prob": 0.224414
+            },
+            {
+              "uci": "d2d3",
+              "san": "d3",
+              "prob": 0.20589
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.478543,
+            "draw": 0.05606,
+            "loss": 0.465397
+          },
+          "after": {
+            "win": 0.51426,
+            "draw": 0.065992,
+            "loss": 0.419748
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 29.450549
+      }
+    },
+    {
+      "name": "middlegame montage ply 1/14: e2e4 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 22.7,
+      "response": {
+        "move": {
+          "san": "e4",
+          "uci": "e2e4",
+          "by": "white",
+          "ply": 1,
+          "moveNumber": 1
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.464864,
+          "rank": 1,
+          "totalLegal": 20,
+          "top": [
+            {
+              "uci": "e2e4",
+              "san": "e4",
+              "prob": 0.464864
+            },
+            {
+              "uci": "d2d4",
+              "san": "d4",
+              "prob": 0.339048
+            },
+            {
+              "uci": "g1f3",
+              "san": "Nf3",
+              "prob": 0.081763
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.476414,
+            "draw": 0.067579,
+            "loss": 0.456007
+          },
+          "after": {
+            "win": 0.51594,
+            "draw": 0.064554,
+            "loss": 0.419506
+          }
+        },
+        "opening": {
+          "eco": "B00",
+          "name": "King's Pawn Game"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 20.750119
+      }
+    },
+    {
+      "name": "middlegame montage ply 2/14: e7e5 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 32.4,
+      "response": {
+        "move": {
+          "san": "e5",
+          "uci": "e7e5",
+          "by": "black",
+          "ply": 2,
+          "moveNumber": 1
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.171366,
+          "rank": 2,
+          "totalLegal": 20,
+          "top": [
+            {
+              "uci": "c7c5",
+              "san": "c5",
+              "prob": 0.374898
+            },
+            {
+              "uci": "e7e5",
+              "san": "e5",
+              "prob": 0.171366
+            },
+            {
+              "uci": "c7c6",
+              "san": "c6",
+              "prob": 0.128604
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.419506,
+            "draw": 0.064554,
+            "loss": 0.51594
+          },
+          "after": {
+            "win": 0.450382,
+            "draw": 0.070189,
+            "loss": 0.479429
+          }
+        },
+        "opening": {
+          "eco": "C20",
+          "name": "King's Pawn Game"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 30.408954
+      }
+    },
+    {
+      "name": "middlegame montage ply 3/14: g1f3 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 31.7,
+      "response": {
+        "move": {
+          "san": "Nf3",
+          "uci": "g1f3",
+          "by": "white",
+          "ply": 3,
+          "moveNumber": 2
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.783514,
+          "rank": 1,
+          "totalLegal": 29,
+          "top": [
+            {
+              "uci": "g1f3",
+              "san": "Nf3",
+              "prob": 0.783514
+            },
+            {
+              "uci": "b1c3",
+              "san": "Nc3",
+              "prob": 0.082608
+            },
+            {
+              "uci": "f2f4",
+              "san": "f4",
+              "prob": 0.050448
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.479429,
+            "draw": 0.070189,
+            "loss": 0.450382
+          },
+          "after": {
+            "win": 0.506782,
+            "draw": 0.068684,
+            "loss": 0.424534
+          }
+        },
+        "opening": {
+          "eco": "C40",
+          "name": "King's Knight Opening"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 30.033689
+      }
+    },
+    {
+      "name": "middlegame montage ply 4/14: b8c6 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 25.1,
+      "response": {
+        "move": {
+          "san": "Nc6",
+          "uci": "b8c6",
+          "by": "black",
+          "ply": 4,
+          "moveNumber": 2
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.789386,
+          "rank": 1,
+          "totalLegal": 29,
+          "top": [
+            {
+              "uci": "b8c6",
+              "san": "Nc6",
+              "prob": 0.789386
+            },
+            {
+              "uci": "g8f6",
+              "san": "Nf6",
+              "prob": 0.128772
+            },
+            {
+              "uci": "d7d6",
+              "san": "d6",
+              "prob": 0.039803
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.424534,
+            "draw": 0.068684,
+            "loss": 0.506782
+          },
+          "after": {
+            "win": 0.453647,
+            "draw": 0.069245,
+            "loss": 0.477108
+          }
+        },
+        "opening": {
+          "eco": "C44",
+          "name": "King's Knight Opening: Normal Variation"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 23.801635
+      }
+    },
+    {
+      "name": "middlegame montage ply 5/14: f1c4 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 28.4,
+      "response": {
+        "move": {
+          "san": "Bc4",
+          "uci": "f1c4",
+          "by": "white",
+          "ply": 5,
+          "moveNumber": 3
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.32033,
+          "rank": 2,
+          "totalLegal": 27,
+          "top": [
+            {
+              "uci": "f1b5",
+              "san": "Bb5",
+              "prob": 0.433423
+            },
+            {
+              "uci": "f1c4",
+              "san": "Bc4",
+              "prob": 0.32033
+            },
+            {
+              "uci": "d2d4",
+              "san": "d4",
+              "prob": 0.134536
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.477108,
+            "draw": 0.069245,
+            "loss": 0.453647
+          },
+          "after": {
+            "win": 0.507633,
+            "draw": 0.068238,
+            "loss": 0.424128
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 27.0054
+      }
+    },
+    {
+      "name": "middlegame montage ply 6/14: f8c5 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 30.0,
+      "response": {
+        "move": {
+          "san": "Bc5",
+          "uci": "f8c5",
+          "by": "black",
+          "ply": 6,
+          "moveNumber": 3
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.448502,
+          "rank": 2,
+          "totalLegal": 31,
+          "top": [
+            {
+              "uci": "g8f6",
+              "san": "Nf6",
+              "prob": 0.47118
+            },
+            {
+              "uci": "f8c5",
+              "san": "Bc5",
+              "prob": 0.448502
+            },
+            {
+              "uci": "f8e7",
+              "san": "Be7",
+              "prob": 0.037204
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.424128,
+            "draw": 0.068238,
+            "loss": 0.507633
+          },
+          "after": {
+            "win": 0.465397,
+            "draw": 0.05606,
+            "loss": 0.478543
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 28.62338
+      }
+    },
+    {
+      "name": "middlegame montage ply 7/14: e1g1 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 82.5,
+      "response": {
+        "move": {
+          "san": "O-O",
+          "uci": "e1g1",
+          "by": "white",
+          "ply": 7,
+          "moveNumber": 4
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": "kingside",
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.224414,
+          "rank": 2,
+          "totalLegal": 33,
+          "top": [
+            {
+              "uci": "c2c3",
+              "san": "c3",
+              "prob": 0.387351
+            },
+            {
+              "uci": "e1g1",
+              "san": "O-O",
+              "prob": 0.224414
+            },
+            {
+              "uci": "d2d3",
+              "san": "d3",
+              "prob": 0.20589
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.478543,
+            "draw": 0.05606,
+            "loss": 0.465397
+          },
+          "after": {
+            "win": 0.51426,
+            "draw": 0.065992,
+            "loss": 0.419748
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "common",
+        "model": "maia3-5m",
+        "elapsed_ms": 81.187767
+      }
+    },
+    {
+      "name": "middlegame montage ply 8/14: g8f6 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 21.8,
+      "response": {
+        "move": {
+          "san": "Nf6",
+          "uci": "g8f6",
+          "by": "black",
+          "ply": 8,
+          "moveNumber": 4
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.783456,
+          "rank": 1,
+          "totalLegal": 36,
+          "top": [
+            {
+              "uci": "g8f6",
+              "san": "Nf6",
+              "prob": 0.783456
+            },
+            {
+              "uci": "d7d6",
+              "san": "d6",
+              "prob": 0.1874
+            },
+            {
+              "uci": "g8e7",
+              "san": "Nge7",
+              "prob": 0.009349
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.419748,
+            "draw": 0.065992,
+            "loss": 0.51426
+          },
+          "after": {
+            "win": 0.472225,
+            "draw": 0.061186,
+            "loss": 0.466588
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 20.475834
+      }
+    },
+    {
+      "name": "middlegame montage ply 9/14: d2d3 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 28.8,
+      "response": {
+        "move": {
+          "san": "d3",
+          "uci": "d2d3",
+          "by": "white",
+          "ply": 9,
+          "moveNumber": 5
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.416865,
+          "rank": 1,
+          "totalLegal": 30,
+          "top": [
+            {
+              "uci": "d2d3",
+              "san": "d3",
+              "prob": 0.416865
+            },
+            {
+              "uci": "d2d4",
+              "san": "d4",
+              "prob": 0.402343
+            },
+            {
+              "uci": "c2c3",
+              "san": "c3",
+              "prob": 0.086015
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.466588,
+            "draw": 0.061186,
+            "loss": 0.472225
+          },
+          "after": {
+            "win": 0.477725,
+            "draw": 0.073142,
+            "loss": 0.449133
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 27.415566
+      }
+    },
+    {
+      "name": "middlegame montage ply 10/14: d7d6 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 30.1,
+      "response": {
+        "move": {
+          "san": "d6",
+          "uci": "d7d6",
+          "by": "black",
+          "ply": 10,
+          "moveNumber": 5
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.626179,
+          "rank": 1,
+          "totalLegal": 36,
+          "top": [
+            {
+              "uci": "d7d6",
+              "san": "d6",
+              "prob": 0.626179
+            },
+            {
+              "uci": "e8g8",
+              "san": "O-O",
+              "prob": 0.216105
+            },
+            {
+              "uci": "h7h6",
+              "san": "h6",
+              "prob": 0.077143
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.449133,
+            "draw": 0.073142,
+            "loss": 0.477725
+          },
+          "after": {
+            "win": 0.45914,
+            "draw": 0.06919,
+            "loss": 0.47167
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 28.812932
+      }
+    },
+    {
+      "name": "middlegame montage ply 11/14: c1g5 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 25.3,
+      "response": {
+        "move": {
+          "san": "Bg5",
+          "uci": "c1g5",
+          "by": "white",
+          "ply": 11,
+          "moveNumber": 6
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.078825,
+          "rank": 4,
+          "totalLegal": 35,
+          "top": [
+            {
+              "uci": "c2c3",
+              "san": "c3",
+              "prob": 0.48707
+            },
+            {
+              "uci": "h2h3",
+              "san": "h3",
+              "prob": 0.187593
+            },
+            {
+              "uci": "a2a4",
+              "san": "a4",
+              "prob": 0.085354
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.47167,
+            "draw": 0.06919,
+            "loss": 0.45914
+          },
+          "after": {
+            "win": 0.480211,
+            "draw": 0.069496,
+            "loss": 0.450294
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "uncommon",
+        "model": "maia3-5m",
+        "elapsed_ms": 23.97644
+      }
+    },
+    {
+      "name": "middlegame montage ply 12/14: e8g8 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 27.9,
+      "response": {
+        "move": {
+          "san": "O-O",
+          "uci": "e8g8",
+          "by": "black",
+          "ply": 12,
+          "moveNumber": 6
+        },
+        "flags": {
+          "capture": false,
+          "check": false,
+          "mate": false,
+          "castle": "kingside",
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 0,
+          "captured": null
+        },
+        "maia": {
+          "playedProb": 0.026258,
+          "rank": 5,
+          "totalLegal": 39,
+          "top": [
+            {
+              "uci": "h7h6",
+              "san": "h6",
+              "prob": 0.81232
+            },
+            {
+              "uci": "c8g4",
+              "san": "Bg4",
+              "prob": 0.064873
+            },
+            {
+              "uci": "c8e6",
+              "san": "Be6",
+              "prob": 0.03313
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.450294,
+            "draw": 0.069496,
+            "loss": 0.480211
+          },
+          "after": {
+            "win": 0.451028,
+            "draw": 0.072136,
+            "loss": 0.476836
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "rare",
+        "model": "maia3-5m",
+        "elapsed_ms": 26.513202
+      }
+    },
+    {
+      "name": "middlegame montage ply 13/14: g5f6 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 26.3,
+      "response": {
+        "move": {
+          "san": "Bxf6",
+          "uci": "g5f6",
+          "by": "white",
+          "ply": 13,
+          "moveNumber": 7
+        },
+        "flags": {
+          "capture": true,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": false
+        },
+        "material": {
+          "delta": 3,
+          "captured": {
+            "piece": "knight",
+            "square": "f6",
+            "value": 3
+          }
+        },
+        "maia": {
+          "playedProb": 0.001926,
+          "rank": 10,
+          "totalLegal": 37,
+          "top": [
+            {
+              "uci": "b1c3",
+              "san": "Nc3",
+              "prob": 0.433965
+            },
+            {
+              "uci": "c2c3",
+              "san": "c3",
+              "prob": 0.257085
+            },
+            {
+              "uci": "h2h3",
+              "san": "h3",
+              "prob": 0.147975
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.476836,
+            "draw": 0.072136,
+            "loss": 0.451028
+          },
+          "after": {
+            "win": 0.474381,
+            "draw": 0.069125,
+            "loss": 0.456494
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "rare",
+        "model": "maia3-5m",
+        "elapsed_ms": 24.92337
+      }
+    },
+    {
+      "name": "middlegame montage ply 14/14: d8f6 (the real-mode replay)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400
+      },
+      "wall_ms": 31.1,
+      "response": {
+        "move": {
+          "san": "Qxf6",
+          "uci": "d8f6",
+          "by": "black",
+          "ply": 14,
+          "moveNumber": 7
+        },
+        "flags": {
+          "capture": true,
+          "check": false,
+          "mate": false,
+          "castle": null,
+          "promotion": null,
+          "enPassant": false,
+          "recapture": true
+        },
+        "material": {
+          "delta": 3,
+          "captured": {
+            "piece": "bishop",
+            "square": "f6",
+            "value": 3
+          }
+        },
+        "maia": {
+          "playedProb": 0.992488,
+          "rank": 1,
+          "totalLegal": 33,
+          "top": [
+            {
+              "uci": "d8f6",
+              "san": "Qxf6",
+              "prob": 0.992488
+            },
+            {
+              "uci": "g7f6",
+              "san": "gxf6",
+              "prob": 0.007251
+            },
+            {
+              "uci": "h7h6",
+              "san": "h6",
+              "prob": 7e-05
+            }
+          ],
+          "moverElo": 2400
+        },
+        "wdl": {
+          "before": {
+            "win": 0.456494,
+            "draw": 0.069125,
+            "loss": 0.474381
+          },
+          "after": {
+            "win": 0.540358,
+            "draw": 0.073429,
+            "loss": 0.386213
+          }
+        },
+        "opening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "classification": "mainline",
+        "model": "maia3-5m",
+        "elapsed_ms": 29.708335
+      }
+    }
+  ]
+}

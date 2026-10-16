@@ -15,7 +15,7 @@
       "9.5%",
       "5.8%"
     ],
-    "meta": "model maia3-5m · engine 15.1 ms · round-trip 5.0 ms · 18 moves · replayed · ui 4.7 ms"
+    "meta": "model maia3-5m · engine 15.1 ms · round-trip 2.0 ms · 18 moves · replayed · ui 2.2 ms"
   },
   "afterSlow": {
     "rows": [
@@ -28,9 +28,9 @@
     "status": "suggestion ready"
   },
   "latency": {
-    "mutationToRenderMs": 158,
-    "slowMutationTriggeredMsBefore": 167,
-    "stateToRenderMs": 4.699999995529652
+    "mutationToRenderMs": 155,
+    "slowMutationTriggeredMsBefore": 168,
+    "stateToRenderMs": 2.1999999955296516
   },
   "requests": {
     "delta": 2,

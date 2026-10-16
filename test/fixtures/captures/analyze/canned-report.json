@@ -1,6 +1,6 @@
 {
   "generatedWith": "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765",
-  "generatedAt": "2026-10-16T18:15:55Z",
+  "generatedAt": "2026-10-16T20:30:56Z",
   "generator": "test/tools/collect-canned.py",
   "consumedBy": "test/tools/fixture_server.py CANNED + test/tools/analyze-proof.mjs (stub mode)",
   "entries": [
@@ -14,7 +14,7 @@
         "elo_oppo": 2400,
         "top_k": 3
       },
-      "wall_ms": 22.7,
+      "wall_ms": 20.7,
       "response": {
         "moves": [
           {
@@ -39,7 +39,7 @@
           "loss": 0.456007
         },
         "model": "maia3-5m",
-        "elapsed_ms": 15.58
+        "elapsed_ms": 13.61
       }
     },
     {
@@ -67,7 +67,7 @@
         "elo_oppo": 2400,
         "top_k": 3
       },
-      "wall_ms": 12.4,
+      "wall_ms": 15.5,
       "response": {
         "moves": [
           {
@@ -92,7 +92,7 @@
           "loss": 0.540358
         },
         "model": "maia3-5m",
-        "elapsed_ms": 11.08
+        "elapsed_ms": 14.17
       }
     },
     {
@@ -122,7 +122,7 @@
         "elo_oppo": 2400,
         "top_k": 3
       },
-      "wall_ms": 12.5,
+      "wall_ms": 11.7,
       "response": {
         "moves": [
           {
@@ -147,7 +147,7 @@
           "loss": 0.5278
         },
         "model": "maia3-5m",
-        "elapsed_ms": 11.32
+        "elapsed_ms": 10.44
       }
     },
     {
@@ -179,7 +179,7 @@
         "elo_oppo": 2400,
         "top_k": 3
       },
-      "wall_ms": 12.0,
+      "wall_ms": 18.9,
       "response": {
         "moves": [
           {
@@ -204,7 +204,7 @@
           "loss": 0.523696
         },
         "model": "maia3-5m",
-        "elapsed_ms": 10.83
+        "elapsed_ms": 17.62
       }
     },
     {
@@ -222,7 +222,7 @@
         "elo_oppo": 2400,
         "top_k": 3
       },
-      "wall_ms": 14.1,
+      "wall_ms": 11.9,
       "response": {
         "moves": [
           {
@@ -247,7 +247,7 @@
           "loss": 0.44602
         },
         "model": "maia3-5m",
-        "elapsed_ms": 12.84
+        "elapsed_ms": 10.75
       }
     },
     {
@@ -302,7 +302,7 @@
           "loss": 0.439256
         },
         "model": "maia3-5m",
-        "elapsed_ms": 11.95
+        "elapsed_ms": 11.9
       }
     },
     {
@@ -332,7 +332,7 @@
         "elo_oppo": 1200,
         "top_k": 3
       },
-      "wall_ms": 13.3,
+      "wall_ms": 11.1,
       "response": {
         "moves": [
           {
@@ -357,7 +357,7 @@
           "loss": 0.382135
         },
         "model": "maia3-5m",
-        "elapsed_ms": 12.07
+        "elapsed_ms": 9.91
       }
     },
     {
@@ -387,7 +387,7 @@
         "elo_oppo": 2600,
         "top_k": 3
       },
-      "wall_ms": 12.7,
+      "wall_ms": 13.8,
       "response": {
         "moves": [
           {
@@ -412,7 +412,7 @@
           "loss": 0.424486
         },
         "model": "maia3-5m",
-        "elapsed_ms": 11.5
+        "elapsed_ms": 12.51
       }
     },
     {
@@ -442,7 +442,82 @@
           "loss": 1.0
         },
         "model": "maia3-5m",
-        "elapsed_ms": 1.03
+        "elapsed_ms": 0.97
+      }
+    },
+    {
+      "name": "M7 forced-recapture position (mismatch mutation; user to move)",
+      "key": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 1||2400|2400|3",
+      "request": {
+        "fen": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 1",
+        "moves": [],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 9.9,
+      "response": {
+        "moves": [
+          {
+            "uci": "e2d2",
+            "san": "Rxd2",
+            "prob": 1.0
+          }
+        ],
+        "wdl": {
+          "win": 0.049258,
+          "draw": 0.039991,
+          "loss": 0.910751
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 8.79
+      }
+    },
+    {
+      "name": "M7 take-back fixture + 4...exd5 (stale-race mutation; user to move)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3 e6d5|2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "d2d4",
+          "g8f6",
+          "c2c4",
+          "c7c5",
+          "d4d5",
+          "e7e6",
+          "b1c3",
+          "e6d5"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 12.8,
+      "response": {
+        "moves": [
+          {
+            "uci": "c4d5",
+            "san": "cxd5",
+            "prob": 0.983822
+          },
+          {
+            "uci": "c3d5",
+            "san": "Nxd5",
+            "prob": 0.014418
+          },
+          {
+            "uci": "e2e4",
+            "san": "e4",
+            "prob": 0.000714
+          }
+        ],
+        "wdl": {
+          "win": 0.458563,
+          "draw": 0.070594,
+          "loss": 0.470843
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 11.57
       }
     }
   ]

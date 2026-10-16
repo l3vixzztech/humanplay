@@ -1,0 +1,2732 @@
+{
+  "tool": "commentary-proof.mjs",
+  "mode": "stub",
+  "generatedAt": "2026-10-16T20:56:14.399Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "extension": "/home/l3vixzz/Desktop/humanplay/extension",
+  "checks": {
+    "staticServer": {
+      "origin": "http://127.0.0.1:37819",
+      "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
+    },
+    "commentaryServer": {
+      "mode": "stub (spawned by the proof)",
+      "health": {
+        "status": "ok",
+        "model": "fixture-static-server"
+      },
+      "pid": 935057
+    },
+    "canned": {
+      "source": "test/tools/fixture_server.py CANNED_EXPLAIN — recorded from the real Maia server (schema-identical)",
+      "keyFormat": "<fen>|<uci moves incl. the move to explain>|<elo_self>|<elo_oppo>"
+    },
+    "manifest": {
+      "path": "extension/manifest.json",
+      "sha256": "feaeca046229cbb9de2b1de8c55ff9887f9295274652d7461fe4ccd0fa2d973a",
+      "version": "0.7.0",
+      "permissions": [
+        "activeTab",
+        "storage",
+        "sidePanel",
+        "downloads",
+        "tts"
+      ],
+      "host_permissions": [
+        "http://127.0.0.1:8765/*"
+      ],
+      "optional_host_permissions": [
+        "https://api.groq.com/*",
+        "https://generativelanguage.googleapis.com/*"
+      ],
+      "hasAllUrls": false
+    },
+    "commentaryFiles": {
+      "src/analysis/explain-client.js": "a00e4a9e24407387e6d1bd493cbce4ce668b7f460207efc1efd60d1a00854c1b",
+      "src/commentary/phrase.js": "3fb26bc262be4b97f63b2c8ad850752c3cae71d92b2df19c65a8288ca484b0eb",
+      "src/commentary/llm.js": "2979d1c74c47f4a4df4ea301a2f08819a0a1947db08e41d3462bb69943dfeac7",
+      "src/ui/sidepanel.js": "afda0a248bd976236920c3af34bc590bc8e687958ebaf471b0d77d84b019eb63",
+      "src/ui/sidepanel.html": "8e8485b06d6b3552ba293ab2010e0d64606f06b41d6dc07244f10b0b11b9188a",
+      "src/analysis/analyze-client.js": "7c65d2299cfbedb8694b75112da19b145749020c0257f2451898e956a8e6655e"
+    },
+    "manifestVariant": {
+      "enabled": true,
+      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:37819 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
+      "addedContentScriptMatch": "http://127.0.0.1:37819/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:37819/*",
+      "codeFilesCompared": 29,
+      "codeFileMismatches": [],
+      "codeIdentical": true
+    },
+    "extensionId": "mhgfddmohipcngdaofjeajiimhlkpigf",
+    "browser": {
+      "version": "Chrome/155.0.8059.84",
+      "protocolVersion": "1.3"
+    },
+    "panelUi": {
+      "present": {
+        "cm-status": true,
+        "cm-enabled": true,
+        "cm-message": true,
+        "cm-feed": true,
+        "cm-engine": true,
+        "cm-key": true,
+        "cm-test": true,
+        "cm-llm-status": true,
+        "cm-privacy": true,
+        "cm-meta": true
+      },
+      "missing": [],
+      "inlineScripts": 0,
+      "enabledChecked": true,
+      "engine": "templates",
+      "keyInputType": "password",
+      "keyInputValue": "",
+      "llmStatus": "templates · no key needed",
+      "privacyHidden": true
+    },
+    "startposPieces": 32,
+    "extensionConsoleClean": true
+  },
+  "cases": {
+    "stub-italian-replay": {
+      "pass": true,
+      "failures": [],
+      "entries": [
+        {
+          "ply": 1,
+          "san": "e4",
+          "by": "white",
+          "playerLabel": "you",
+          "chip": "main line",
+          "classification": "mainline",
+          "text": "e4 — the most common move at 2400 (46%).",
+          "source": "template",
+          "opening": {
+            "eco": "B00",
+            "name": "King's Pawn Game"
+          },
+          "engineMs": 33.45064,
+          "roundTripMs": 2,
+          "mutationToEntryMs": 158
+        },
+        {
+          "ply": 2,
+          "san": "e5",
+          "by": "black",
+          "playerLabel": "opponent",
+          "chip": "common",
+          "classification": "common",
+          "text": "e5 — a common choice at 2400 (17%); Maia's pick was c5 (37%).",
+          "source": "template",
+          "opening": {
+            "eco": "C20",
+            "name": "King's Pawn Game"
+          },
+          "engineMs": 28.680847,
+          "roundTripMs": 2,
+          "mutationToEntryMs": 155
+        },
+        {
+          "ply": 3,
+          "san": "Nf3",
+          "by": "white",
+          "playerLabel": "you",
+          "chip": "main line",
+          "classification": "mainline",
+          "text": "Nf3 — the most common move at 2400 (78%).",
+          "source": "template",
+          "opening": {
+            "eco": "C40",
+            "name": "King's Knight Opening"
+          },
+          "engineMs": 29.363983,
+          "roundTripMs": 2,
+          "mutationToEntryMs": 156
+        },
+        {
+          "ply": 4,
+          "san": "Nc6",
+          "by": "black",
+          "playerLabel": "opponent",
+          "chip": "main line",
+          "classification": "mainline",
+          "text": "Nc6 — the most common move at 2400 (79%).",
+          "source": "template",
+          "opening": {
+            "eco": "C44",
+            "name": "King's Knight Opening: Normal Variation"
+          },
+          "engineMs": 21.33167,
+          "roundTripMs": 2,
+          "mutationToEntryMs": 156
+        },
+        {
+          "ply": 5,
+          "san": "Bc4",
+          "by": "white",
+          "playerLabel": "you",
+          "chip": "common",
+          "classification": "common",
+          "text": "Bc4 — a common choice at 2400 (32%); Maia's pick was Bb5 (43%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game"
+          },
+          "engineMs": 21.791062,
+          "roundTripMs": 2,
+          "mutationToEntryMs": 155
+        },
+        {
+          "ply": 6,
+          "san": "Bc5",
+          "by": "black",
+          "playerLabel": "opponent",
+          "chip": "common",
+          "classification": "common",
+          "text": "Bc5 — a common choice at 2400 (45%); Maia's pick was Nf6 (47%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 24.553115,
+          "roundTripMs": 1,
+          "mutationToEntryMs": 154
+        },
+        {
+          "ply": 7,
+          "san": "O-O",
+          "by": "white",
+          "playerLabel": "you",
+          "chip": "common",
+          "classification": "common",
+          "text": "O-O — castling kingside; a common choice at 2400 (22%); Maia's pick was c3 (39%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 29.450549,
+          "roundTripMs": 2,
+          "mutationToEntryMs": 156
+        }
+      ],
+      "requests": {
+        "explainRequestsDelta": 7,
+        "byKey": {
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400": 1,
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400": 1,
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3|2400|2400": 1,
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400": 1,
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4|2400|2400": 1,
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400": 1,
+          "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1|2400|2400": 1
+        },
+        "cannedMisses": 0
+      },
+      "screenshot": "test/fixtures/captures/commentary/stub-italian-feed.png",
+      "final": {
+        "size": 7,
+        "newestFirst": [
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1
+        ],
+        "status": "listening",
+        "meta": "7 of the last 50 plies explained · phrasing templates",
+        "domRows": [
+          {
+            "ply": "7",
+            "san": "O-O",
+            "chip": "common",
+            "text": "O-O — castling kingside; a common choice at 2400 (22%); Maia's pick was c3 (39%).",
+            "source": "template",
+            "byLabel": "you"
+          },
+          {
+            "ply": "6",
+            "san": "Bc5",
+            "chip": "common",
+            "text": "Bc5 — a common choice at 2400 (45%); Maia's pick was Nf6 (47%).",
+            "source": "template",
+            "byLabel": "opponent"
+          },
+          {
+            "ply": "5",
+            "san": "Bc4",
+            "chip": "common",
+            "text": "Bc4 — a common choice at 2400 (32%); Maia's pick was Bb5 (43%).",
+            "source": "template",
+            "byLabel": "you"
+          },
+          {
+            "ply": "4",
+            "san": "Nc6",
+            "chip": "main line",
+            "text": "Nc6 — the most common move at 2400 (79%).",
+            "source": "template",
+            "byLabel": "opponent"
+          },
+          {
+            "ply": "3",
+            "san": "Nf3",
+            "chip": "main line",
+            "text": "Nf3 — the most common move at 2400 (78%).",
+            "source": "template",
+            "byLabel": "you"
+          },
+          {
+            "ply": "2",
+            "san": "e5",
+            "chip": "common",
+            "text": "e5 — a common choice at 2400 (17%); Maia's pick was c5 (37%).",
+            "source": "template",
+            "byLabel": "opponent"
+          },
+          {
+            "ply": "1",
+            "san": "e4",
+            "chip": "main line",
+            "text": "e4 — the most common move at 2400 (46%).",
+            "source": "template",
+            "byLabel": "you"
+          }
+        ]
+      }
+    },
+    "stub-llm-rephrasing": {
+      "pass": true,
+      "failures": [],
+      "groq": {
+        "template": "Nf6 — the most common move at 2400 (78%).",
+        "text": "Nice — that is the main line here, and plenty of 2400s play it too.",
+        "source": "groq",
+        "llm": {
+          "ok": true,
+          "provider": "groq",
+          "model": "llama-3.1-8b-instant",
+          "latencyMs": 44
+        },
+        "meta": "groq rephrasing · groq llama-3.1-8b-instant · llm 44.0 ms · engine 20.5 ms · round-trip 2.0 ms · C50 Italian Game: Giuoco Piano · ply 8",
+        "mutationToEntryMs": 156,
+        "calls": [
+          {
+            "provider": "groq",
+            "model": "llama-3.1-8b-instant",
+            "ok": true,
+            "errorClass": null,
+            "latencyMs": 44
+          }
+        ]
+      },
+      "gemini": {
+        "text": "A natural move for this position: most 2400s choose it as well.",
+        "source": "gemini",
+        "llm": {
+          "ok": true,
+          "provider": "gemini",
+          "model": "gemini-2.0-flash",
+          "latencyMs": 43
+        }
+      },
+      "screenshot": "test/fixtures/captures/commentary/stub-llm-rephrasing.png",
+      "requests": {
+        "llmDelta": 2,
+        "byProvider": {
+          "groq": 1,
+          "gemini": 1
+        }
+      },
+      "hygiene": {
+        "keyInDom": false,
+        "inputValue": "",
+        "inputPlaceholder": "•••••• stored (local only)",
+        "storedKey": true,
+        "syncUsage": 0
+      }
+    },
+    "stub-llm-fallback": {
+      "pass": true,
+      "failures": [],
+      "http500": {
+        "text": "d6 — the most common move at 2400 (63%).",
+        "template": "d6 — the most common move at 2400 (63%).",
+        "llm": {
+          "ok": false,
+          "provider": "groq",
+          "model": "llama-3.1-8b-instant",
+          "errorClass": "http",
+          "error": "provider answered HTTP 500: fixture server (test mode): simulated groq outage",
+          "latencyMs": 42
+        },
+        "meta": "engine template · llm http: fallback to template · engine 28.8 ms · round-trip 2.0 ms · C50 Italian Game: Giuoco Piano · ply 10"
+      },
+      "timeout": {
+        "text": "Bg5 — uncommon at 2400 (8%); Maia's pick was c3 (49%).",
+        "template": "Bg5 — uncommon at 2400 (8%); Maia's pick was c3 (49%).",
+        "llm": {
+          "ok": false,
+          "provider": "groq",
+          "model": "llama-3.1-8b-instant",
+          "errorClass": "timeout",
+          "error": "no answer within 2500 ms",
+          "latencyMs": 3360
+        },
+        "meta": "engine template · llm timeout: fallback to template · engine 24.0 ms · round-trip 2.0 ms · C50 Italian Game: Giuoco Piano · ply 11"
+      },
+      "screenshot": "test/fixtures/captures/commentary/stub-llm-fallback.png"
+    },
+    "stub-toggle-off": {
+      "pass": true,
+      "failures": [],
+      "off": {
+        "gate": "off",
+        "status": "off",
+        "message": "commentary off — moves are not explained.",
+        "size": 11,
+        "afterPly12": {
+          "size": 11,
+          "newestPly": 11,
+          "suppressed": 1,
+          "attemptsDelta": 0
+        }
+      },
+      "on": {
+        "newestPly": 13,
+        "plies": [
+          13,
+          11,
+          10
+        ],
+        "text": "Bxf6 — a capture on f6; only 0.2% play this; Maia's pick was Nc3 (43%).",
+        "chip": "rare"
+      },
+      "screenshot": "test/fixtures/captures/commentary/stub-toggle-off.png"
+    },
+    "stub-new-game-reset": {
+      "pass": true,
+      "failures": [],
+      "before": {
+        "size": 12,
+        "sessionSeq": 0,
+        "newestPly": 13
+      },
+      "after": {
+        "size": 0,
+        "sessionSeq": 1,
+        "stats": {
+          "observed": 19,
+          "requested": 12,
+          "seeded": 1,
+          "reset": 1,
+          "skipped": 0,
+          "deduped": 0,
+          "suppressed": 1,
+          "noHistory": 0,
+          "capEvictions": 0
+        },
+        "message": "new game — commentary feed cleared (12 entries)",
+        "status": "listening"
+      },
+      "resumed": {
+        "size": 1,
+        "newestPly": 1,
+        "text": "e4 — the most common move at 2400 (46%)."
+      },
+      "screenshot": "test/fixtures/captures/commentary/stub-new-game-reset.png"
+    },
+    "stub-feed-cap-50": {
+      "pass": true,
+      "failures": [],
+      "registered": 54,
+      "final": {
+        "size": 50,
+        "newestPly": 52,
+        "oldestPly": 3,
+        "requested": 52,
+        "capEvictions": 2,
+        "replayMs": 10332,
+        "chips": [
+          "common",
+          "main line",
+          "rare",
+          "uncommon"
+        ]
+      },
+      "screenshot": "test/fixtures/captures/commentary/stub-feed-cap-50.png"
+    },
+    "stub-stale-race": {
+      "pass": true,
+      "failures": [],
+      "stale": {
+        "staleBefore": 0,
+        "staleAfter": 1,
+        "has53": false,
+        "newestPly": 54,
+        "newestText": "Nf6 — a common choice at 2400 (15%); Maia's pick was e4 (46%).",
+        "size": 50,
+        "stats": {
+          "observed": 75,
+          "requested": 67,
+          "seeded": 1,
+          "reset": 2,
+          "skipped": 0,
+          "deduped": 0,
+          "suppressed": 1,
+          "noHistory": 0,
+          "capEvictions": 3
+        }
+      },
+      "screenshot": "test/fixtures/captures/commentary/stub-stale-race.png"
+    }
+  },
+  "latencies": {
+    "stub": {
+      "firstEntryMutationToRender_ms": 158,
+      "allEntriesMutationToRender_ms": [
+        158,
+        155,
+        156,
+        156,
+        155,
+        154,
+        156
+      ],
+      "engine_ms": [
+        33.45064,
+        28.680847,
+        29.363983,
+        21.33167,
+        21.791062,
+        24.553115,
+        29.450549
+      ],
+      "roundTrip_ms": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        2
+      ],
+      "capReplay_ms": 10332,
+      "target_ms": 1000
+    }
+  },
+  "console": {
+    "panel": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error) (http://127.0.0.1:8765/llm/groq)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      }
+    ],
+    "serviceWorker": [],
+    "pages": [
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:37819/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:37819/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:37819/favicon.ico)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=2"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=3"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=5"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=6"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=7"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=8"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=9"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=10"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=11"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=12"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=13"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:idle"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:idle"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=2"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=3"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=5"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=6"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=7"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=8"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=9"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=10"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=11"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=12"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=13"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=14"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=15"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=16"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=17"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=18"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=19"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=20"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=21"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=22"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=23"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=24"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=25"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=26"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=27"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=28"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=29"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=30"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=31"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=32"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=33"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=34"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=35"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=36"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=37"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=38"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=39"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=40"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=41"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=42"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=43"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=44"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=45"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=46"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=47"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=48"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=49"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=50"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=51"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=52"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=53"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=54"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      }
+    ],
+    "panelErrors": [],
+    "serviceWorkerErrors": [],
+    "pageErrors": [],
+    "networkErrors": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error) (http://127.0.0.1:8765/llm/groq)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/premove)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:37819/favicon.ico)"
+      }
+    ]
+  },
+  "failures": [],
+  "ok": true
+}

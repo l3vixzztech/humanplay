@@ -1,11 +1,11 @@
 {
   "tool": "overlay-proof.mjs",
-  "generatedAt": "2026-10-16T20:09:32.300Z",
+  "generatedAt": "2026-10-16T20:54:49.590Z",
   "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
   "extension": "/home/l3vixzz/Desktop/humanplay/extension",
   "checks": {
     "staticServer": {
-      "origin": "http://127.0.0.1:37071",
+      "origin": "http://127.0.0.1:45265",
       "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
     },
     "analysisServer": {
@@ -14,12 +14,12 @@
         "status": "ok",
         "model": "fixture-static-server"
       },
-      "pid": 852623
+      "pid": 933995
     },
     "manifest": {
       "path": "extension/manifest.json",
-      "sha256": "8993c87bec1cbda47202916ecd0d672610382db9664027e6210083f495976fde",
-      "version": "0.6.0",
+      "sha256": "feaeca046229cbb9de2b1de8c55ff9887f9295274652d7461fe4ccd0fa2d973a",
+      "version": "0.7.0",
       "permissions": [
         "activeTab",
         "storage",
@@ -50,27 +50,27 @@
       "src/content/overlay-geometry.js": "473d7ab5633c3cb4d67821cb515706aee626487fce34610a2ab6127193604c76",
       "src/content/board-locate.js": "59d4deeff2e3aee2b6a0fdb05e0a72d03a73de76cc7016603bb4b89837259b7f",
       "src/content/chesscom-adapter.js": "ca53e9e2d76acf50fd137e559cf826a3eccabca0c996807d25f3b0eac271419f",
-      "src/ui/sidepanel.js": "5ee7b100738d61e4964479df3cca7b4e2abbf4017483f339e344888f2fa84928",
+      "src/ui/sidepanel.js": "5fb56bd8b992c6d9764b97cb6045d58140d5c9b6a0faad4e3fd3ada74cf443e7",
       "src/background/service-worker.js": "48088db4b9d4f594ae3bbd8ab6f98dc64a468f4363f0fead25cdc738afee7e80"
     },
     "manifestVariant": {
       "enabled": true,
-      "addedContentScriptMatch": "http://127.0.0.1:37071/*",
-      "addedWebAccessibleMatch": "http://127.0.0.1:37071/*",
+      "addedContentScriptMatch": "http://127.0.0.1:45265/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:45265/*",
       "contentScriptFiles": [
         "src/content/chesscom-adapter.js",
         "src/content/board-overlay.js"
       ],
-      "codeFilesCompared": 26,
+      "codeFilesCompared": 29,
       "codeFileMismatches": [],
       "codeIdentical": true
     },
-    "extensionId": "jgohjpenkcglnogbiohledgcfalfhkbe",
+    "extensionId": "ioinodokdcinfocilfeakjpkfigbmdcf",
     "browser": {
       "version": "Chrome/155.0.8059.84",
       "protocolVersion": "1.3"
     },
-    "serviceWorkerUrl": "chrome-extension://jgohjpenkcglnogbiohledgcfalfhkbe/src/background/service-worker.js",
+    "serviceWorkerUrl": "chrome-extension://ioinodokdcinfocilfeakjpkfigbmdcf/src/background/service-worker.js",
     "panelUi": {
       "arrowsPresent": true,
       "alternativesPresent": true,
@@ -79,13 +79,13 @@
       "inlineScripts": 0
     },
     "settingsDefaults": null,
-    "overlayDebugLines": 99,
+    "overlayDebugLines": 97,
     "extensionConsoleClean": true,
     "expectedNetworkErrors": [
       "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
       "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
-      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:37071/favicon.ico)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45265/favicon.ico)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
@@ -97,7 +97,7 @@
     "overlay-startpos": {
       "pass": true,
       "failures": [],
-      "url": "http://127.0.0.1:37071/chesscom/startpos.html",
+      "url": "http://127.0.0.1:45265/chesscom/startpos.html",
       "canvas": {
         "display": "block",
         "position": "fixed",
@@ -174,7 +174,7 @@
         "messageType": "humanplay:suggestion",
         "response": {
           "ok": true,
-          "tabId": 365658137,
+          "tabId": 1649207746,
           "response": {
             "ok": true,
             "accepted": 1,
@@ -182,7 +182,7 @@
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
           }
         },
-        "expectedTabId": 365658137,
+        "expectedTabId": 1649207746,
         "lastError": null
       },
       "screenshots": [
@@ -226,7 +226,7 @@
         ],
         "renderCount": 1,
         "clearCount": 2,
-        "atEpochMs": 1792181388077
+        "atEpochMs": 1792184105319
       }
     },
     "overlay-scroll": {
@@ -293,14 +293,14 @@
           "w": 1425,
           "h": 757
         },
-        "renderCount": 9
+        "renderCount": 7
       },
       "after": {
         "viewport": {
           "w": 900,
           "h": 760
         },
-        "renderCount": 10,
+        "renderCount": 8,
         "bitmap": {
           "w": 900,
           "h": 760
@@ -407,14 +407,14 @@
         "test/fixtures/captures/overlay/middlegame-arrows.png",
         "test/fixtures/captures/overlay/middlegame-arrows-after-move.png"
       ],
-      "clearedAfterMutationMs": 191,
+      "clearedAfterMutationMs": 187,
       "delayMs": 700,
       "clearedDataset": {
         "state": "cleared",
         "reason": "panel:analyzing",
         "key": null
       },
-      "mutationToArrowsMs": 869
+      "mutationToArrowsMs": 864
     },
     "overlay-alternatives": {
       "pass": true,
@@ -530,7 +530,7 @@
       "waiting": {
         "gate": "waiting",
         "overlayState": "shown",
-        "reason": "board-resize",
+        "reason": "premove",
         "panelClearReason": "opponent-turn",
         "arrows": 0,
         "allArrows": [
@@ -622,8 +622,8 @@
       "gameOver": {
         "cardStatus": "game over",
         "message": "game over — checkmate — black is mated. Rules-decided outcome (you): win 0.0% · draw 0.0% · loss 100.0%",
-        "overlayState": "idle",
-        "reason": "resize",
+        "overlayState": "cleared",
+        "reason": "panel:game-over",
         "arrows": 0,
         "clearReason": "game-over"
       },
@@ -656,7 +656,7 @@
         "bUci": "h2h3",
         "bKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3",
         "aAfterBUci": "e2e4",
-        "aRenderCountAfterB": 2
+        "aRenderCountAfterB": 1
       },
       "screenshots": [
         "test/fixtures/captures/overlay/ruy-lopez-arrows.png"
@@ -673,7 +673,7 @@
       "returned": {
         "state": "shown",
         "uci": "h2h3",
-        "renderCount": 4
+        "renderCount": 5
       },
       "geometry": {
         "truth": {
@@ -742,12 +742,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:37071/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45265/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:37071/chesscom/startpos.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:45265/chesscom/startpos.html)"
       },
       {
         "bucket": "error",
@@ -757,7 +757,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:37071/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45265/favicon.ico)"
       },
       {
         "bucket": "info",
@@ -798,26 +798,6 @@
         "bucket": "info",
         "source": "console",
         "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,-162,560,560] reason=scroll"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,-162,560,560] reason=state"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay clear reason=panel:analyzing"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,57,560,560] reason=suggestion"
       },
       {
         "bucket": "info",
@@ -877,12 +857,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:37071/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45265/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:37071/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:45265/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "error",
@@ -962,12 +942,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:37071/chesscom/flipped-black.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45265/chesscom/flipped-black.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:37071/chesscom/flipped-black.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:45265/chesscom/flipped-black.html)"
       },
       {
         "bucket": "error",
@@ -1077,12 +1057,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:37071/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45265/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:37071/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:45265/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "error",
@@ -1207,12 +1187,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:37071/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45265/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:37071/chesscom/startpos.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:45265/chesscom/startpos.html)"
       },
       {
         "bucket": "error",
@@ -1247,12 +1227,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:37071/chesscom/ruy-lopez.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:45265/chesscom/ruy-lopez.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:37071/chesscom/ruy-lopez.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:45265/chesscom/ruy-lopez.html)"
       },
       {
         "bucket": "error",
@@ -1287,6 +1267,21 @@
       {
         "bucket": "info",
         "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
         "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
       },
       {
@@ -1297,12 +1292,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
       },
       {
         "bucket": "info",
@@ -1367,7 +1357,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:37071/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45265/favicon.ico)"
       },
       {
         "bucket": "error",

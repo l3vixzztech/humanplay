@@ -1,7 +1,7 @@
 {
   "pass": true,
   "failures": [],
-  "url": "http://127.0.0.1:40597/chesscom/startpos.html",
+  "url": "http://127.0.0.1:39789/chesscom/startpos.html",
   "top3": [
     {
       "rank": "1",
@@ -35,11 +35,11 @@
     "label": "human outcome prediction (you)",
     "tooltip": "Maia-3's human-model value head: the result distribution Maia predicts for your side in this position, conditioned on human games at Elo 2400 (you) / 2400 (opponent). It is NOT an engine evaluation."
   },
-  "meta": "model maia3-5m · engine 15.4 ms · round-trip 4.0 ms · board only · no history · ui 5.3 ms",
+  "meta": "model maia3-5m · engine 15.4 ms · round-trip 3.0 ms · board only · no history · ui 3.9 ms",
   "screenshot": "test/fixtures/captures/analyze/stub-startpos-suggestion.png",
   "latency": {
-    "stateToRenderMs": 5.300000004470348,
-    "roundTripMs": 4,
+    "stateToRenderMs": 3.899999998509884,
+    "roundTripMs": 3,
     "engineMs": 15.36
   },
   "requests": {
@@ -58,7 +58,7 @@
       "historyUsed": 0,
       "model": "maia3-5m",
       "elapsed_ms": 15.36,
-      "roundTripMs": 4,
+      "roundTripMs": 3,
       "attempts": 1,
       "fromCache": false,
       "moves": [

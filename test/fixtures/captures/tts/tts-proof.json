@@ -1,6 +1,6 @@
 {
   "tool": "tts-proof.mjs",
-  "generatedAt": "2026-10-16T20:06:34.763Z",
+  "generatedAt": "2026-10-16T20:54:18.257Z",
   "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
   "extension": "/home/l3vixzz/Desktop/humanplay/extension",
   "launch": {
@@ -9,7 +9,7 @@
   },
   "checks": {
     "staticServer": {
-      "origin": "http://127.0.0.1:36125",
+      "origin": "http://127.0.0.1:33469",
       "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
     },
     "analysisServer": {
@@ -18,12 +18,12 @@
         "status": "ok",
         "model": "fixture-static-server"
       },
-      "pid": 850178
+      "pid": 933672
     },
     "manifest": {
       "path": "extension/manifest.json",
-      "sha256": "8993c87bec1cbda47202916ecd0d672610382db9664027e6210083f495976fde",
-      "version": "0.6.0",
+      "sha256": "feaeca046229cbb9de2b1de8c55ff9887f9295274652d7461fe4ccd0fa2d973a",
+      "version": "0.7.0",
       "permissions": [
         "activeTab",
         "storage",
@@ -50,23 +50,23 @@
       "src/tts/speaker.js": "478301e1c0ccece9d3b2106fa29605edd495ed6fe5f5a63bea2d53efe293a547",
       "src/tts/tts-service.js": "9bf50990ca9fb7a114b4f00991b64afa528f7bbd722af548b639e54af2c92ca9",
       "src/background/service-worker.js": "48088db4b9d4f594ae3bbd8ab6f98dc64a468f4363f0fead25cdc738afee7e80",
-      "src/ui/sidepanel.js": "5ee7b100738d61e4964479df3cca7b4e2abbf4017483f339e344888f2fa84928",
-      "src/ui/sidepanel.html": "12a787d52c15c9b7428cdcbfd077c396d0dc48e5a5ceffdd01289abd1145f0ae"
+      "src/ui/sidepanel.js": "5fb56bd8b992c6d9764b97cb6045d58140d5c9b6a0faad4e3fd3ada74cf443e7",
+      "src/ui/sidepanel.html": "8e8485b06d6b3552ba293ab2010e0d64606f06b41d6dc07244f10b0b11b9188a"
     },
     "manifestVariant": {
       "enabled": true,
-      "addedContentScriptMatch": "http://127.0.0.1:36125/*",
-      "addedWebAccessibleMatch": "http://127.0.0.1:36125/*",
-      "codeFilesCompared": 26,
+      "addedContentScriptMatch": "http://127.0.0.1:33469/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:33469/*",
+      "codeFilesCompared": 29,
       "codeFileMismatches": [],
       "codeIdentical": true
     },
-    "extensionId": "lmiinkkfkmefkaabdelggmfdegfmdold",
+    "extensionId": "hopcnhdmkfilhglamjdlkiknagamcjmj",
     "browser": {
       "version": "Chrome/155.0.8059.84",
       "protocolVersion": "1.3"
     },
-    "serviceWorkerUrl": "chrome-extension://lmiinkkfkmefkaabdelggmfdegfmdold/src/background/service-worker.js",
+    "serviceWorkerUrl": "chrome-extension://hopcnhdmkfilhglamjdlkiknagamcjmj/src/background/service-worker.js",
     "panelUi": {
       "elements": {
         "tts-enabled": true,
@@ -89,7 +89,7 @@
     "expectedNetworkErrors": [
       "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
-      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:36125/favicon.ico)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:33469/favicon.ico)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
       "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
@@ -221,7 +221,7 @@
         ],
         "note": null,
         "ok": true,
-        "at": "2026-10-16T20:07:02.776Z",
+        "at": "2026-10-16T20:54:46.047Z",
         "lastError": null
       },
       "note": "start/end events mean Chrome reached a speech backend; without one every utterance reports {type:\"error\"} and the record is still written (assertions do not depend on audio)."
@@ -234,19 +234,19 @@
       "speakFailCount": 0,
       "calls": [
         {
-          "at": "2026-10-16T20:06:50.590Z",
-          "atEpochMs": 1792181210590,
+          "at": "2026-10-16T20:54:33.887Z",
+          "atEpochMs": 1792184073887,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181210590
+          "stoppedAt": 1792184073887
         },
         {
-          "at": "2026-10-16T20:06:50.590Z",
-          "atEpochMs": 1792181210590,
+          "at": "2026-10-16T20:54:33.887Z",
+          "atEpochMs": 1792184073887,
           "kind": "speak",
           "text": "e-pawn to e4",
           "san": "e4",
@@ -263,19 +263,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:06:52.326Z",
-          "atEpochMs": 1792181212326,
+          "at": "2026-10-16T20:54:35.809Z",
+          "atEpochMs": 1792184075809,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181212326
+          "stoppedAt": 1792184075809
         },
         {
-          "at": "2026-10-16T20:06:52.326Z",
-          "atEpochMs": 1792181212326,
+          "at": "2026-10-16T20:54:35.810Z",
+          "atEpochMs": 1792184075810,
           "kind": "speak",
           "text": "Knight to c3",
           "san": "Nc3",
@@ -292,19 +292,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:06:53.274Z",
-          "atEpochMs": 1792181213274,
+          "at": "2026-10-16T20:54:36.766Z",
+          "atEpochMs": 1792184076766,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181213274
+          "stoppedAt": 1792184076766
         },
         {
-          "at": "2026-10-16T20:06:53.274Z",
-          "atEpochMs": 1792181213274,
+          "at": "2026-10-16T20:54:36.766Z",
+          "atEpochMs": 1792184076766,
           "kind": "speak",
           "text": "Knight to d5",
           "san": "Nd5",
@@ -321,30 +321,30 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:06:53.722Z",
-          "atEpochMs": 1792181213722,
+          "at": "2026-10-16T20:54:37.202Z",
+          "atEpochMs": 1792184077202,
           "kind": "stop",
           "reason": "toggle-off",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181213722
+          "stoppedAt": 1792184077202
         },
         {
-          "at": "2026-10-16T20:06:54.235Z",
-          "atEpochMs": 1792181214235,
+          "at": "2026-10-16T20:54:37.716Z",
+          "atEpochMs": 1792184077716,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181214234
+          "stoppedAt": 1792184077716
         },
         {
-          "at": "2026-10-16T20:06:54.235Z",
-          "atEpochMs": 1792181214235,
+          "at": "2026-10-16T20:54:37.716Z",
+          "atEpochMs": 1792184077716,
           "kind": "speak",
           "text": "Knight to d5",
           "san": "Nd5",
@@ -361,19 +361,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:06:55.047Z",
-          "atEpochMs": 1792181215047,
+          "at": "2026-10-16T20:54:38.513Z",
+          "atEpochMs": 1792184078513,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181215047
+          "stoppedAt": 1792184078513
         },
         {
-          "at": "2026-10-16T20:06:55.048Z",
-          "atEpochMs": 1792181215048,
+          "at": "2026-10-16T20:54:38.514Z",
+          "atEpochMs": 1792184078514,
           "kind": "speak",
           "text": "Knight to g5",
           "san": "Ng5",
@@ -390,19 +390,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:06:56.380Z",
-          "atEpochMs": 1792181216380,
+          "at": "2026-10-16T20:54:39.802Z",
+          "atEpochMs": 1792184079802,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181216380
+          "stoppedAt": 1792184079802
         },
         {
-          "at": "2026-10-16T20:06:56.381Z",
-          "atEpochMs": 1792181216381,
+          "at": "2026-10-16T20:54:39.802Z",
+          "atEpochMs": 1792184079803,
           "kind": "speak",
           "text": "premove c-pawn takes d4",
           "san": "cxd4",
@@ -419,19 +419,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:06:59.109Z",
-          "atEpochMs": 1792181219109,
+          "at": "2026-10-16T20:54:42.491Z",
+          "atEpochMs": 1792184082491,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181219109
+          "stoppedAt": 1792184082491
         },
         {
-          "at": "2026-10-16T20:06:59.109Z",
-          "atEpochMs": 1792181219109,
+          "at": "2026-10-16T20:54:42.491Z",
+          "atEpochMs": 1792184082491,
           "kind": "speak",
           "text": "a-rook to d1",
           "san": "Rad1",
@@ -448,19 +448,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:06:59.887Z",
-          "atEpochMs": 1792181219887,
+          "at": "2026-10-16T20:54:43.271Z",
+          "atEpochMs": 1792184083271,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181219887
+          "stoppedAt": 1792184083271
         },
         {
-          "at": "2026-10-16T20:06:59.887Z",
-          "atEpochMs": 1792181219887,
+          "at": "2026-10-16T20:54:43.271Z",
+          "atEpochMs": 1792184083271,
           "kind": "speak",
           "text": "Queen to d2",
           "san": "Qd2",
@@ -477,30 +477,30 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:07:01.134Z",
-          "atEpochMs": 1792181221134,
+          "at": "2026-10-16T20:54:44.410Z",
+          "atEpochMs": 1792184084410,
           "kind": "stop",
           "reason": "toggle-off",
           "source": "hotkey",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181221134
+          "stoppedAt": 1792184084410
         },
         {
-          "at": "2026-10-16T20:07:01.936Z",
-          "atEpochMs": 1792181221936,
+          "at": "2026-10-16T20:54:45.229Z",
+          "atEpochMs": 1792184085229,
           "kind": "stop",
           "reason": "before-speak",
           "source": "hotkey",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181221936
+          "stoppedAt": 1792184085229
         },
         {
-          "at": "2026-10-16T20:07:01.936Z",
-          "atEpochMs": 1792181221936,
+          "at": "2026-10-16T20:54:45.230Z",
+          "atEpochMs": 1792184085230,
           "kind": "speak",
           "text": "Queen to d2",
           "san": "Qd2",
@@ -517,19 +517,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:07:02.597Z",
-          "atEpochMs": 1792181222597,
+          "at": "2026-10-16T20:54:45.885Z",
+          "atEpochMs": 1792184085885,
           "kind": "stop",
           "reason": "before-speak",
           "source": "panel-test",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181222597
+          "stoppedAt": 1792184085885
         },
         {
-          "at": "2026-10-16T20:07:02.597Z",
-          "atEpochMs": 1792181222597,
+          "at": "2026-10-16T20:54:45.885Z",
+          "atEpochMs": 1792184085885,
           "kind": "speak",
           "text": "Knight to f3",
           "san": null,
@@ -546,19 +546,19 @@
           "error": null
         },
         {
-          "at": "2026-10-16T20:07:04.470Z",
-          "atEpochMs": 1792181224470,
+          "at": "2026-10-16T20:54:47.849Z",
+          "atEpochMs": 1792184087849,
           "kind": "stop",
           "reason": "before-speak",
           "source": "content-script",
           "engine": "chrome.tts",
           "ok": true,
           "error": null,
-          "stoppedAt": 1792181224470
+          "stoppedAt": 1792184087849
         },
         {
-          "at": "2026-10-16T20:07:04.470Z",
-          "atEpochMs": 1792181224470,
+          "at": "2026-10-16T20:54:47.849Z",
+          "atEpochMs": 1792184087849,
           "kind": "speak",
           "text": "Knight to f3",
           "san": "Nf3",
@@ -591,7 +591,7 @@
         "decision": {
           "speak": false,
           "reason": "no-suggestion",
-          "at": 1792181210307,
+          "at": 1792184073817,
           "trigger": "toggle-on",
           "source": "panel",
           "force": true,
@@ -601,7 +601,7 @@
           {
             "speak": false,
             "reason": "no-suggestion",
-            "at": 1792181210307,
+            "at": 1792184073817,
             "trigger": "toggle-on",
             "source": "panel",
             "force": true,
@@ -637,8 +637,8 @@
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
       },
       "speak": {
-        "at": "2026-10-16T20:06:50.590Z",
-        "atEpochMs": 1792181210590,
+        "at": "2026-10-16T20:54:33.887Z",
+        "atEpochMs": 1792184073887,
         "kind": "speak",
         "text": "e-pawn to e4",
         "san": "e4",
@@ -661,7 +661,7 @@
           "speak": false,
           "reason": "duplicate",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-          "at": 1792181210590,
+          "at": 1792184073887,
           "trigger": "suggestion",
           "source": "panel",
           "force": false,
@@ -672,7 +672,7 @@
           {
             "speak": false,
             "reason": "no-suggestion",
-            "at": 1792181210307,
+            "at": 1792184073817,
             "trigger": "toggle-on",
             "source": "panel",
             "force": true,
@@ -682,7 +682,7 @@
             "speak": true,
             "reason": "speak",
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792181210589,
+            "at": 1792184073886,
             "trigger": "suggestion",
             "source": "panel",
             "force": false,
@@ -693,7 +693,7 @@
             "speak": true,
             "reason": "speak",
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792181210589,
+            "at": 1792184073886,
             "trigger": "suggestion",
             "source": "panel",
             "force": false,
@@ -704,18 +704,7 @@
             "speak": false,
             "reason": "duplicate",
             "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792181210590,
-            "trigger": "suggestion",
-            "source": "panel",
-            "force": false,
-            "move": "e4",
-            "text": null
-          },
-          {
-            "speak": false,
-            "reason": "duplicate",
-            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-            "at": 1792181210590,
+            "at": 1792184073887,
             "trigger": "suggestion",
             "source": "panel",
             "force": false,
@@ -735,11 +724,11 @@
             "ok": true,
             "engine": "chrome.tts",
             "text": "e-pawn to e4",
-            "issuedAt": "2026-10-16T20:06:50.590Z",
-            "issuedAtEpochMs": 1792181210590,
+            "issuedAt": "2026-10-16T20:54:33.887Z",
+            "issuedAtEpochMs": 1792184073887,
             "stopBefore": {
               "ok": true,
-              "stoppedAt": "2026-10-16T20:06:50.590Z",
+              "stoppedAt": "2026-10-16T20:54:33.887Z",
               "reason": "before-speak"
             },
             "error": null
@@ -761,7 +750,7 @@
         "noteVisible": true,
         "noteText": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend.",
         "staleDiscardCount": 0,
-        "renderCount": 3,
+        "renderCount": 2,
         "status": "ready",
         "gate": "auto",
         "lastRenderKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
@@ -918,25 +907,25 @@
         ],
         "note": null,
         "ok": true,
-        "at": "2026-10-16T20:06:50.586Z",
+        "at": "2026-10-16T20:54:34.157Z",
         "lastError": null
       },
       "stopBeforeSpeak": {
-        "at": "2026-10-16T20:06:50.590Z",
-        "atEpochMs": 1792181210590,
+        "at": "2026-10-16T20:54:33.887Z",
+        "atEpochMs": 1792184073887,
         "kind": "stop",
         "reason": "before-speak",
         "source": "panel",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792181210590
+        "stoppedAt": 1792184073887
       },
       "panelDecision": {
         "speak": false,
         "reason": "duplicate",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792181210590,
+        "at": 1792184073887,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -947,8 +936,8 @@
       "ttsEvents": [
         {
           "type": "start",
-          "at": "2026-10-16T20:06:50.631Z",
-          "atEpochMs": 1792181210631,
+          "at": "2026-10-16T20:54:34.065Z",
+          "atEpochMs": 1792184074065,
           "text": "e-pawn to e4",
           "errorMessage": null
         }
@@ -958,22 +947,22 @@
       "pass": true,
       "failures": [],
       "screenshots": [],
-      "renderCountBefore": 3,
-      "renderCountAfter": 9,
+      "renderCountBefore": 2,
+      "renderCountAfter": 8,
       "speaksForStartpos": 1,
       "speakCount": 1,
       "lastDecision": {
         "speak": false,
         "reason": "duplicate",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792181212011,
+        "at": 1792184075486,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
         "move": "e4",
         "text": null
       },
-      "duplicateDecisions": 8
+      "duplicateDecisions": 7
     },
     "tts-new-position": {
       "pass": true,
@@ -989,18 +978,18 @@
         "text": "Knight to d5",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3"
       },
-      "mutationToSpeakMs": 859,
+      "mutationToSpeakMs": 858,
       "delayMs": 700,
       "stopBeforeSpeak": {
-        "at": "2026-10-16T20:06:53.274Z",
-        "atEpochMs": 1792181213274,
+        "at": "2026-10-16T20:54:36.766Z",
+        "atEpochMs": 1792184076766,
         "kind": "stop",
         "reason": "before-speak",
         "source": "panel",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792181213274
+        "stoppedAt": 1792184076766
       },
       "speaksForNewKey": 1
     },
@@ -1012,19 +1001,19 @@
         "test/fixtures/captures/tts/tts-middlegame-on-again.png"
       ],
       "toggleOffStop": {
-        "at": "2026-10-16T20:06:53.722Z",
-        "atEpochMs": 1792181213722,
+        "at": "2026-10-16T20:54:37.202Z",
+        "atEpochMs": 1792184077202,
         "kind": "stop",
         "reason": "toggle-off",
         "source": "panel",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792181213722
+        "stoppedAt": 1792184077202
       },
       "toggleOnSpeak": {
-        "at": "2026-10-16T20:06:54.235Z",
-        "atEpochMs": 1792181214235,
+        "at": "2026-10-16T20:54:37.716Z",
+        "atEpochMs": 1792184077716,
         "kind": "speak",
         "text": "Knight to d5",
         "san": "Nd5",
@@ -1045,7 +1034,7 @@
           "speak": true,
           "reason": "forced",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
-          "at": 1792181214234,
+          "at": 1792184077715,
           "trigger": "toggle-on",
           "source": "panel",
           "force": true,
@@ -1063,12 +1052,12 @@
       "screenshots": [],
       "staleKey": "e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
       "staleMutations": {
-        "p3At": 1792181214721,
-        "p4At": 1792181214889
+        "p3At": 1792184078189,
+        "p4At": 1792184078357
       },
       "fastSpeak": {
-        "at": "2026-10-16T20:06:55.048Z",
-        "atEpochMs": 1792181215048,
+        "at": "2026-10-16T20:54:38.514Z",
+        "atEpochMs": 1792184078514,
         "kind": "speak",
         "text": "Knight to g5",
         "san": "Ng5",
@@ -1089,8 +1078,8 @@
       "staleDiscardsAfter": 1,
       "speaksForFastKey": 1,
       "lastSpeak": {
-        "at": "2026-10-16T20:06:55.048Z",
-        "atEpochMs": 1792181215048,
+        "at": "2026-10-16T20:54:38.514Z",
+        "atEpochMs": 1792184078514,
         "kind": "speak",
         "text": "Knight to g5",
         "san": "Ng5",
@@ -1106,7 +1095,7 @@
         "ok": true,
         "error": null
       },
-      "fastLatencyMs": 159
+      "fastLatencyMs": 157
     },
     "tts-clear-cases": {
       "pass": true,
@@ -1125,7 +1114,7 @@
           "speak": false,
           "reason": "not-your-turn",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3",
-          "at": 1792181217175,
+          "at": 1792184080604,
           "trigger": "suggestion",
           "source": "panel",
           "force": false,
@@ -1174,7 +1163,7 @@
           "speak": false,
           "reason": "no-suggestion",
           "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 f1c4 b8c6 d1h5 g8f6 h5f7|2400|2400|3",
-          "at": 1792181220006,
+          "at": 1792184083394,
           "trigger": "suggestion",
           "source": "panel",
           "force": false,
@@ -1257,8 +1246,8 @@
         },
         "badgeText": "TTS",
         "hotkeySpeak": {
-          "at": "2026-10-16T20:07:01.936Z",
-          "atEpochMs": 1792181221936,
+          "at": "2026-10-16T20:54:45.230Z",
+          "atEpochMs": 1792184085230,
           "kind": "speak",
           "text": "Queen to d2",
           "san": "Qd2",
@@ -1279,7 +1268,7 @@
         "text": "TTS",
         "backgroundColor": "#2f6f4f",
         "textColor": "#ffffff",
-        "updatedAt": "2026-10-16T20:07:01.935Z",
+        "updatedAt": "2026-10-16T20:54:45.229Z",
         "error": null
       }
     },
@@ -1408,7 +1397,7 @@
         ],
         "note": null,
         "ok": true,
-        "at": "2026-10-16T20:06:52.729Z",
+        "at": "2026-10-16T20:54:36.730Z",
         "lastError": null
       },
       "panelVoices": {
@@ -1417,8 +1406,8 @@
         "noteText": ""
       },
       "testSpeak": {
-        "at": "2026-10-16T20:07:02.597Z",
-        "atEpochMs": 1792181222597,
+        "at": "2026-10-16T20:54:45.885Z",
+        "atEpochMs": 1792184085885,
         "kind": "speak",
         "text": "Knight to f3",
         "san": null,
@@ -1448,7 +1437,7 @@
         },
         {
           "type": "TAB",
-          "url": "chrome-extension://lmiinkkfkmefkaabdelggmfdegfmdold/src/ui/sidepanel.html"
+          "url": "chrome-extension://hopcnhdmkfilhglamjdlkiknagamcjmj/src/ui/sidepanel.html"
         }
       ],
       "contextsAfterClose": [
@@ -1461,9 +1450,9 @@
         "ok": true,
         "turn": "b",
         "moves": 1,
-        "tabId": 147231558,
-        "at": "2026-10-16T20:07:04.415Z",
-        "atEpochMs": 1792181224415
+        "tabId": 240638074,
+        "at": "2026-10-16T20:54:47.794Z",
+        "atEpochMs": 1792184087794
       },
       "speaksWhilePanelClosed": 0,
       "panelClosedSpeak": {
@@ -1471,18 +1460,18 @@
           "ok": true,
           "engine": "chrome.tts",
           "text": "Knight to f3",
-          "issuedAt": "2026-10-16T20:07:04.470Z",
-          "issuedAtEpochMs": 1792181224470,
+          "issuedAt": "2026-10-16T20:54:47.849Z",
+          "issuedAtEpochMs": 1792184087849,
           "stopBefore": {
             "ok": true,
-            "stoppedAt": "2026-10-16T20:07:04.470Z",
+            "stoppedAt": "2026-10-16T20:54:47.849Z",
             "reason": "before-speak"
           },
           "error": null
         },
         "call": {
-          "at": "2026-10-16T20:07:04.470Z",
-          "atEpochMs": 1792181224470,
+          "at": "2026-10-16T20:54:47.849Z",
+          "atEpochMs": 1792184087849,
           "kind": "speak",
           "text": "Knight to f3",
           "san": "Nf3",
@@ -1500,15 +1489,15 @@
         }
       },
       "stopAfterPanelClosed": {
-        "at": "2026-10-16T20:07:04.470Z",
-        "atEpochMs": 1792181224470,
+        "at": "2026-10-16T20:54:47.849Z",
+        "atEpochMs": 1792184087849,
         "kind": "stop",
         "reason": "before-speak",
         "source": "content-script",
         "engine": "chrome.tts",
         "ok": true,
         "error": null,
-        "stoppedAt": 1792181224470
+        "stoppedAt": 1792184087849
       },
       "hotkeyWithPanelClosed": {
         "off": {
@@ -1538,12 +1527,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:33469/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/startpos.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:33469/chesscom/startpos.html)"
       },
       {
         "bucket": "error",
@@ -1553,7 +1542,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:36125/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:33469/favicon.ico)"
       },
       {
         "bucket": "info",
@@ -1578,11 +1567,6 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
         "text": "[humanplay] overlay clear reason=panel:analyzing"
       },
       {
@@ -1603,12 +1587,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
-      },
-      {
-        "bucket": "info",
-        "source": "console",
-        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
       },
       {
         "bucket": "info",
@@ -1718,12 +1697,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:33469/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:33469/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "error",
@@ -1763,7 +1742,17 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 moves=1 topN=1"
       },
       {
         "bucket": "info",
@@ -1838,12 +1827,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/flipped-black.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:33469/chesscom/flipped-black.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/flipped-black.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:33469/chesscom/flipped-black.html)"
       },
       {
         "bucket": "error",
@@ -1993,12 +1982,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:36125/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:33469/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:36125/chesscom/gameover-checkmate.html)"
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:33469/chesscom/gameover-checkmate.html)"
       },
       {
         "bucket": "error",
@@ -2148,7 +2137,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:36125/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:33469/favicon.ico)"
       },
       {
         "bucket": "error",

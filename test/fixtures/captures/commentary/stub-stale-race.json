@@ -1,0 +1,24 @@
+{
+  "pass": true,
+  "failures": [],
+  "stale": {
+    "staleBefore": 0,
+    "staleAfter": 1,
+    "has53": false,
+    "newestPly": 54,
+    "newestText": "Nf6 — a common choice at 2400 (15%); Maia's pick was e4 (46%).",
+    "size": 50,
+    "stats": {
+      "observed": 75,
+      "requested": 67,
+      "seeded": 1,
+      "reset": 2,
+      "skipped": 0,
+      "deduped": 0,
+      "suppressed": 1,
+      "noHistory": 0,
+      "capEvictions": 3
+    }
+  },
+  "screenshot": "test/fixtures/captures/commentary/stub-stale-race.png"
+}

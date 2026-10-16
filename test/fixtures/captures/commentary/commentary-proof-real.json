@@ -1,0 +1,922 @@
+{
+  "tool": "commentary-proof.mjs",
+  "mode": "real",
+  "generatedAt": "2026-10-16T20:53:33.909Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "extension": "/home/l3vixzz/Desktop/humanplay/extension",
+  "checks": {
+    "staticServer": {
+      "origin": "http://127.0.0.1:46581",
+      "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
+    },
+    "commentaryServer": {
+      "mode": "real",
+      "health": {
+        "status": "ok",
+        "model": "maia3-5m"
+      }
+    },
+    "manifest": {
+      "path": "extension/manifest.json",
+      "sha256": "feaeca046229cbb9de2b1de8c55ff9887f9295274652d7461fe4ccd0fa2d973a",
+      "version": "0.7.0",
+      "permissions": [
+        "activeTab",
+        "storage",
+        "sidePanel",
+        "downloads",
+        "tts"
+      ],
+      "host_permissions": [
+        "http://127.0.0.1:8765/*"
+      ],
+      "optional_host_permissions": [
+        "https://api.groq.com/*",
+        "https://generativelanguage.googleapis.com/*"
+      ],
+      "hasAllUrls": false
+    },
+    "commentaryFiles": {
+      "src/analysis/explain-client.js": "a00e4a9e24407387e6d1bd493cbce4ce668b7f460207efc1efd60d1a00854c1b",
+      "src/commentary/phrase.js": "3fb26bc262be4b97f63b2c8ad850752c3cae71d92b2df19c65a8288ca484b0eb",
+      "src/commentary/llm.js": "2979d1c74c47f4a4df4ea301a2f08819a0a1947db08e41d3462bb69943dfeac7",
+      "src/ui/sidepanel.js": "5fb56bd8b992c6d9764b97cb6045d58140d5c9b6a0faad4e3fd3ada74cf443e7",
+      "src/ui/sidepanel.html": "8e8485b06d6b3552ba293ab2010e0d64606f06b41d6dc07244f10b0b11b9188a",
+      "src/analysis/analyze-client.js": "7c65d2299cfbedb8694b75112da19b145749020c0257f2451898e956a8e6655e"
+    },
+    "manifestVariant": {
+      "enabled": true,
+      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:46581 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
+      "addedContentScriptMatch": "http://127.0.0.1:46581/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:46581/*",
+      "codeFilesCompared": 29,
+      "codeFileMismatches": [],
+      "codeIdentical": true
+    },
+    "extensionId": "nadhhhbgbkfnoockbhjnoimhdglkhlbi",
+    "browser": {
+      "version": "Chrome/155.0.8059.84",
+      "protocolVersion": "1.3"
+    },
+    "panelUi": {
+      "present": {
+        "cm-status": true,
+        "cm-enabled": true,
+        "cm-message": true,
+        "cm-feed": true,
+        "cm-engine": true,
+        "cm-key": true,
+        "cm-test": true,
+        "cm-llm-status": true,
+        "cm-privacy": true,
+        "cm-meta": true
+      },
+      "missing": [],
+      "inlineScripts": 0,
+      "enabledChecked": true,
+      "engine": "templates",
+      "keyInputType": "password",
+      "keyInputValue": "",
+      "llmStatus": "templates · no key needed",
+      "privacyHidden": true
+    },
+    "extensionConsoleClean": true
+  },
+  "cases": {
+    "real-montage-replay": {
+      "pass": true,
+      "failures": [],
+      "entries": [
+        {
+          "ply": 1,
+          "san": "e4",
+          "by": "white",
+          "chip": "main line",
+          "text": "e4 — the most common move at 2400 (46%).",
+          "source": "template",
+          "opening": {
+            "eco": "B00",
+            "name": "King's Pawn Game"
+          },
+          "engineMs": 49.752742,
+          "roundTripMs": 53,
+          "mutationToEntryMs": 210
+        },
+        {
+          "ply": 2,
+          "san": "e5",
+          "by": "black",
+          "chip": "common",
+          "text": "e5 — a common choice at 2400 (17%); Maia's pick was c5 (37%).",
+          "source": "template",
+          "opening": {
+            "eco": "C20",
+            "name": "King's Pawn Game"
+          },
+          "engineMs": 42.449749,
+          "roundTripMs": 45,
+          "mutationToEntryMs": 197
+        },
+        {
+          "ply": 3,
+          "san": "Nf3",
+          "by": "white",
+          "chip": "main line",
+          "text": "Nf3 — the most common move at 2400 (78%).",
+          "source": "template",
+          "opening": {
+            "eco": "C40",
+            "name": "King's Knight Opening"
+          },
+          "engineMs": 34.325033,
+          "roundTripMs": 37,
+          "mutationToEntryMs": 190
+        },
+        {
+          "ply": 4,
+          "san": "Nc6",
+          "by": "black",
+          "chip": "main line",
+          "text": "Nc6 — the most common move at 2400 (79%).",
+          "source": "template",
+          "opening": {
+            "eco": "C44",
+            "name": "King's Knight Opening: Normal Variation"
+          },
+          "engineMs": 79.808736,
+          "roundTripMs": 83,
+          "mutationToEntryMs": 236
+        },
+        {
+          "ply": 5,
+          "san": "Bc4",
+          "by": "white",
+          "chip": "common",
+          "text": "Bc4 — a common choice at 2400 (32%); Maia's pick was Bb5 (43%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game"
+          },
+          "engineMs": 35.116774,
+          "roundTripMs": 37,
+          "mutationToEntryMs": 191
+        },
+        {
+          "ply": 6,
+          "san": "Bc5",
+          "by": "black",
+          "chip": "common",
+          "text": "Bc5 — a common choice at 2400 (45%); Maia's pick was Nf6 (47%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 41.770308,
+          "roundTripMs": 44,
+          "mutationToEntryMs": 199
+        },
+        {
+          "ply": 7,
+          "san": "O-O",
+          "by": "white",
+          "chip": "common",
+          "text": "O-O — castling kingside; a common choice at 2400 (22%); Maia's pick was c3 (39%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 38.737701,
+          "roundTripMs": 43,
+          "mutationToEntryMs": 196
+        },
+        {
+          "ply": 8,
+          "san": "Nf6",
+          "by": "black",
+          "chip": "main line",
+          "text": "Nf6 — the most common move at 2400 (78%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 38.274202,
+          "roundTripMs": 40,
+          "mutationToEntryMs": 193
+        },
+        {
+          "ply": 9,
+          "san": "d3",
+          "by": "white",
+          "chip": "main line",
+          "text": "d3 — the most common move at 2400 (42%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 49.069967,
+          "roundTripMs": 52,
+          "mutationToEntryMs": 205
+        },
+        {
+          "ply": 10,
+          "san": "d6",
+          "by": "black",
+          "chip": "main line",
+          "text": "d6 — the most common move at 2400 (63%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 52.265739,
+          "roundTripMs": 55,
+          "mutationToEntryMs": 208
+        },
+        {
+          "ply": 11,
+          "san": "Bg5",
+          "by": "white",
+          "chip": "uncommon",
+          "text": "Bg5 — uncommon at 2400 (8%); Maia's pick was c3 (49%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 46.929938,
+          "roundTripMs": 50,
+          "mutationToEntryMs": 204
+        },
+        {
+          "ply": 12,
+          "san": "O-O",
+          "by": "black",
+          "chip": "rare",
+          "text": "O-O — castling kingside; only 3% play this; Maia's pick was h6 (81%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 45.658522,
+          "roundTripMs": 48,
+          "mutationToEntryMs": 201
+        },
+        {
+          "ply": 13,
+          "san": "Bxf6",
+          "by": "white",
+          "chip": "rare",
+          "text": "Bxf6 — a capture on f6; only 0.2% play this; Maia's pick was Nc3 (43%).",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 54.441919,
+          "roundTripMs": 57,
+          "mutationToEntryMs": 210
+        },
+        {
+          "ply": 14,
+          "san": "Qxf6",
+          "by": "black",
+          "chip": "main line",
+          "text": "Qxf6 — a recapture; 99% of 2400s take back.",
+          "source": "template",
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "engineMs": 46.494559,
+          "roundTripMs": 49,
+          "mutationToEntryMs": 203
+        }
+      ],
+      "curl": {
+        "wallMs": 38,
+        "ok": true,
+        "body": {
+          "move": {
+            "san": "Qxf6",
+            "uci": "d8f6",
+            "by": "black",
+            "ply": 14,
+            "moveNumber": 7
+          },
+          "flags": {
+            "capture": true,
+            "check": false,
+            "mate": false,
+            "castle": null,
+            "promotion": null,
+            "enPassant": false,
+            "recapture": true
+          },
+          "material": {
+            "delta": 3,
+            "captured": {
+              "piece": "bishop",
+              "square": "f6",
+              "value": 3
+            }
+          },
+          "maia": {
+            "playedProb": 0.992488,
+            "rank": 1,
+            "totalLegal": 33,
+            "top": [
+              {
+                "uci": "d8f6",
+                "san": "Qxf6",
+                "prob": 0.992488
+              },
+              {
+                "uci": "g7f6",
+                "san": "gxf6",
+                "prob": 0.007251
+              },
+              {
+                "uci": "h7h6",
+                "san": "h6",
+                "prob": 0.00007
+              }
+            ],
+            "moverElo": 2400
+          },
+          "wdl": {
+            "before": {
+              "win": 0.456494,
+              "draw": 0.069125,
+              "loss": 0.474381
+            },
+            "after": {
+              "win": 0.540358,
+              "draw": 0.073429,
+              "loss": 0.386213
+            }
+          },
+          "opening": {
+            "eco": "C50",
+            "name": "Italian Game: Giuoco Piano"
+          },
+          "classification": "mainline",
+          "model": "maia3-5m",
+          "elapsed_ms": 26.285038
+        }
+      },
+      "latency": {
+        "entries": 14,
+        "engineMs": [
+          49.752742,
+          42.449749,
+          34.325033,
+          79.808736,
+          35.116774,
+          41.770308,
+          38.737701,
+          38.274202,
+          49.069967,
+          52.265739,
+          46.929938,
+          45.658522,
+          54.441919,
+          46.494559
+        ],
+        "roundTripMs": [
+          53,
+          45,
+          37,
+          83,
+          37,
+          44,
+          43,
+          40,
+          52,
+          55,
+          50,
+          48,
+          57,
+          49
+        ],
+        "mutationToEntryMs": [
+          210,
+          197,
+          190,
+          236,
+          191,
+          199,
+          196,
+          193,
+          205,
+          208,
+          204,
+          201,
+          210,
+          203
+        ],
+        "maxMutationToEntryMs": 236,
+        "curlWallMs": 38,
+        "staleDiscards": 0,
+        "errors": 0
+      },
+      "screenshots": [
+        "test/fixtures/captures/commentary/real-montage-feed.png"
+      ],
+      "equalsCurl": {
+        "curlText": "Qxf6 — a recapture; 99% of 2400s take back.",
+        "panelText": "Qxf6 — a recapture; 99% of 2400s take back.",
+        "curlClassification": "mainline",
+        "panelClassification": "main line",
+        "curlOpening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        },
+        "panelOpening": {
+          "eco": "C50",
+          "name": "Italian Game: Giuoco Piano"
+        }
+      },
+      "rawEqualsCurl": {
+        "playedProb": 0.992488,
+        "curlPlayedProb": 0.992488,
+        "classification": "mainline",
+        "opening": "C50",
+        "curlOpening": "C50"
+      }
+    }
+  },
+  "latencies": {
+    "real": {
+      "entries": 14,
+      "engineMax_ms": 79.808736,
+      "engineAvg_ms": 46.79256349999999,
+      "maxMutationToEntry_ms": 236,
+      "target_article_ms": 100,
+      "target_visible_ms": 1000
+    }
+  },
+  "console": {
+    "panel": [],
+    "serviceWorker": [],
+    "pages": [
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:46581/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m7.0 loaded (http://127.0.0.1:46581/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:46581/favicon.ico)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=2"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=3"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=5"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=6"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=7"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=8"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=9"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3|2400|2400|5|0.9|top uci=c2c3"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=c2c3 arrows=1 flipped=false rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=10"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=11"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=12"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=13"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6|2400|2400|5|0.9|top uci=f6d8"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=f6d8 arrows=1 flipped=false rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=14"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      }
+    ],
+    "panelErrors": [],
+    "serviceWorkerErrors": [],
+    "pageErrors": [],
+    "networkErrors": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:46581/favicon.ico)"
+      }
+    ]
+  },
+  "failures": [],
+  "ok": true
+}

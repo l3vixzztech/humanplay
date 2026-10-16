@@ -1,6 +1,6 @@
 {
   "tool": "premove-unit.mjs",
-  "generatedAt": "2026-10-16T20:13:12.011Z",
+  "generatedAt": "2026-10-16T20:15:22.040Z",
   "node": "v22.22.0",
   "modules": [
     "extension/src/analysis/premove-client.js",

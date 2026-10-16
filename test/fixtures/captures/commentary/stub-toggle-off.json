@@ -1,0 +1,27 @@
+{
+  "pass": true,
+  "failures": [],
+  "off": {
+    "gate": "off",
+    "status": "off",
+    "message": "commentary off — moves are not explained.",
+    "size": 11,
+    "afterPly12": {
+      "size": 11,
+      "newestPly": 11,
+      "suppressed": 1,
+      "attemptsDelta": 0
+    }
+  },
+  "on": {
+    "newestPly": 13,
+    "plies": [
+      13,
+      11,
+      10
+    ],
+    "text": "Bxf6 — a capture on f6; only 0.2% play this; Maia's pick was Nc3 (43%).",
+    "chip": "rare"
+  },
+  "screenshot": "test/fixtures/captures/commentary/stub-toggle-off.png"
+}

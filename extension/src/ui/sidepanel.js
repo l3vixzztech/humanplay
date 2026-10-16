@@ -1,6 +1,6 @@
 /**
- * humanplay side panel (M4 + M5 + M6): game state card + Maia suggestion +
- * Elo + board overlay controls + voice (TTS).
+ * humanplay side panel (M4 + M5 + M6 + M7 + M8): game state card + Maia
+ * suggestion + Elo + board overlay controls + voice (TTS) + premove + commentary.
  *
  * What it does:
  * - listens for `humanplay:chesscom-state` messages broadcast by the content
@@ -34,6 +34,18 @@
  *   `chrome.storage.onChanged`) speaks the current suggestion once; disabling
  *   sends an immediate stop. The "Speak test" button speaks "Knight to f3"
  *   regardless of the toggle (it tests the voice, not the policy);
+ * - **M8: live commentary ("explain mode").** Every move that lands — yours
+ *   and the opponent's — is explained by one factual sentence built from
+ *   `POST /explain` (rules flags + Maia's own distribution, both from the local
+ *   server; see `src/analysis/explain-client.js` and `src/commentary/phrase.js`).
+ *   The **feed driver** requests an article exactly when the adapter's
+ *   `movesUci` grew by one ply, dedupes by ply, keeps the last ~50 entries
+ *   (newest first) and clears on a new game. The optional LLM layer
+ *   (`src/commentary/llm.js`) only *rephrases* the same facts with a free
+ *   provider (Groq/Gemini) — the template engine stays the default and works
+ *   with no key and no network. No TTS for commentary (explicitly out of scope;
+ *   future work). The commentary card has its own toggle; the assistant master
+ *   switch does not gate it (commentary never suggests a move).
  * - keeps the M2 debug features: one-frame capture through the locked
  *   capture-source abstraction and PNG fixture recording (pixel recognition is
  *   parked — see docs/PROJECT.md).
@@ -86,6 +98,22 @@ import {
   premoveCaveat,
   premoveGate,
 } from "../analysis/premove-client.js";
+import {
+  createCommentaryFeed,
+  createExplainClient,
+  moverLabel,
+} from "../analysis/explain-client.js";
+import { phraseCommentary } from "../commentary/phrase.js";
+import {
+  LLM_DEFAULT_ENGINE,
+  llmPermissionState,
+  llmPhrase,
+  llmProvider,
+  normalizeLlmEngine,
+  providerPrivacyLine,
+  requestLlmPermission,
+  testLlmConnection,
+} from "../commentary/llm.js";
 import { moveToSpeech, premoveSpeech } from "../tts/move-speech.js";
 import {
   DEFAULT_TTS_RATE,
@@ -128,6 +156,8 @@ const PREMOVE_OPTS = Object.freeze({
 const PREMOVE_OPPO_MAX = 3;
 /** The "listening" chip drops back to idle after this long without a state. */
 const LISTENING_STALE_MS = 6000;
+/** M8: how many commentary entries the feed keeps (documented; newest first). */
+const COMMENTARY_MAX_ENTRIES = 50;
 const SERVER_START_COMMAND = "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765";
 
 const els = {
@@ -192,6 +222,16 @@ const els = {
   pmArrow: document.getElementById("pm-arrow"),
   pmSpeak: document.getElementById("pm-speak"),
   pmMeta: document.getElementById("pm-meta"),
+  cmStatus: document.getElementById("cm-status"),
+  cmEnabled: document.getElementById("cm-enabled"),
+  cmMessage: document.getElementById("cm-message"),
+  cmFeed: document.getElementById("cm-feed"),
+  cmEngine: document.getElementById("cm-engine"),
+  cmKey: document.getElementById("cm-key"),
+  cmTest: document.getElementById("cm-test"),
+  cmLlmStatus: document.getElementById("cm-llm-status"),
+  cmPrivacy: document.getElementById("cm-privacy"),
+  cmMeta: document.getElementById("cm-meta"),
 };
 
 /** Last frame, in memory only (never persisted — see header comment). */
@@ -266,6 +306,56 @@ const premove = {
 };
 
 /**
+ * M8 commentary state: the feed driver, the explain client, the settings and
+ * the optional LLM rephrasing bookkeeping. `llmApiKey` lives here and in
+ * `chrome.storage.local` only — never logged, never mirrored anywhere.
+ */
+const commentary = {
+  enabled: true, // settings.commentaryEnabled (default ON)
+  llmEngine: LLM_DEFAULT_ENGINE, // settings.llmEngine ("templates"|"groq"|"gemini")
+  llmApiKey: "", // settings.llmApiKey — masked in the UI, never logged
+  gate: "idle",
+  status: "idle",
+  lastObservation: null,
+  lastResult: null,
+  lastEntry: null,
+  llmPermission: "unknown", // granted|missing|unavailable|templates|error|unknown
+  llmStatus: null, // last "Test connection" outcome (never the key)
+  llmCalls: [], // bounded history of llmPhrase outcomes (provider/meta only)
+  staleDiscards: 0,
+  errors: 0,
+  lastError: null,
+};
+const COMMENTARY_LLM_HISTORY = 20;
+const commentaryFeed = createCommentaryFeed({ maxEntries: COMMENTARY_MAX_ENTRIES });
+const explainClient = createExplainClient();
+
+/**
+ * M8 test-only seam (documented like `__humanplayTtsTest`): the proof overrides
+ * the provider endpoints with the fixture server's canned routes — no network,
+ * no real key, and the shipped code path (llm.js) is still the one exercised.
+ * Production code never calls `setLlmEndpoint`.
+ */
+const commentaryTest = {
+  endpoints: {},
+  setLlmEndpoint(engine, url) {
+    commentaryTest.endpoints[engine] = url;
+  },
+  clearLlmEndpoints() {
+    commentaryTest.endpoints = {};
+  },
+  requestPermission(engine) {
+    return requestLlmPermission(engine);
+  },
+  permissionState(engine) {
+    return llmPermissionState(engine);
+  },
+  feedStats() {
+    return commentaryFeed.getStats();
+  },
+};
+
+/**
  * Read-only diagnostics for test/tools/analyze-proof.mjs and
  * test/tools/tts-proof.mjs (see header). Never read back by the panel itself.
  */
@@ -291,6 +381,10 @@ const analysisDebug = {
   /** M7: live view of the premove policy/plan (read-only for the proof). */
   premove,
   premoveClient: null,
+  /** M8: live view of the commentary feed/policy (read-only for the proof). */
+  commentary,
+  commentaryFeed,
+  commentaryTest,
 };
 globalThis.__humanplayAnalysis = analysisDebug;
 
@@ -298,6 +392,7 @@ const analyzeClient = createAnalyzeClient();
 analysisDebug.client = analyzeClient;
 const premoveClient = createPremoveClient();
 analysisDebug.premoveClient = premoveClient;
+analysisDebug.explainClient = explainClient;
 
 init();
 
@@ -321,6 +416,10 @@ async function init() {
   els.ttsEnabled.addEventListener("change", () => onTtsEnabledChanged({ source: "panel" }));
   els.ttsRate.addEventListener("change", onTtsRateChanged);
   els.ttsTest.addEventListener("click", onTtsTestClicked);
+  els.cmEnabled.addEventListener("change", onCommentaryEnabledChanged);
+  els.cmEngine.addEventListener("change", onLlmEngineChanged);
+  els.cmKey.addEventListener("change", onLlmKeyChanged);
+  els.cmTest.addEventListener("click", onLlmTestClicked);
 
   chrome.runtime.onMessage.addListener(onRuntimeMessage);
   // The Ctrl+Shift+Y hotkey is handled by the service worker; it flips
@@ -350,6 +449,14 @@ async function init() {
   els.pmSpeak.checked = settings.speakPremoves;
   renderPremoveIdle("open a chess.com game — the premove plan appears while the opponent thinks.", "no-state");
 
+  commentary.enabled = settings.commentaryEnabled;
+  commentary.llmEngine = settings.llmEngine;
+  commentary.llmApiKey = settings.llmApiKey;
+  els.cmEnabled.checked = settings.commentaryEnabled;
+  els.cmEngine.value = settings.llmEngine;
+  renderCommentaryIdle("open a chess.com game — every move that lands is explained here.");
+  renderCommentaryLlmStatus();
+
   await refreshHealth();
   refreshTtsVoices(); // async, never blocks the panel
   // The content script emits on load; panel-initiated refresh covers the case
@@ -374,6 +481,9 @@ async function loadSettings() {
       ttsRate: clampRate(settings.ttsRate, DEFAULT_TTS_RATE),
       showPremoveArrow: settings.showPremoveArrow !== false, // default ON (M7)
       speakPremoves: settings.speakPremoves !== false, // default ON (M7)
+      commentaryEnabled: settings.commentaryEnabled !== false, // default ON (M8)
+      llmEngine: normalizeLlmEngine(settings.llmEngine, LLM_DEFAULT_ENGINE), // default "templates"
+      llmApiKey: typeof settings.llmApiKey === "string" ? settings.llmApiKey : "",
     };
   } catch {
     return {
@@ -387,6 +497,9 @@ async function loadSettings() {
       ttsRate: DEFAULT_TTS_RATE,
       showPremoveArrow: true,
       speakPremoves: true,
+      commentaryEnabled: true,
+      llmEngine: LLM_DEFAULT_ENGINE,
+      llmApiKey: "",
     };
   }
 }
@@ -594,6 +707,24 @@ function onSettingsChanged(changes, area) {
   if (rate !== tts.rate) {
     tts.rate = rate;
     els.ttsRate.value = String(rate);
+  }
+  // M8: the commentary toggle / LLM engine may also change elsewhere (another
+  // panel instance, a future options page) — sync without writing back.
+  const commentaryEnabled = next.commentaryEnabled !== false;
+  if (commentaryEnabled !== commentary.enabled) {
+    commentary.enabled = commentaryEnabled;
+    els.cmEnabled.checked = commentaryEnabled;
+    renderCommentaryStatus();
+  }
+  const engine = normalizeLlmEngine(next.llmEngine, LLM_DEFAULT_ENGINE);
+  if (engine !== commentary.llmEngine) {
+    commentary.llmEngine = engine;
+    els.cmEngine.value = engine;
+    renderCommentaryLlmStatus();
+  }
+  if (typeof next.llmApiKey === "string" && next.llmApiKey !== commentary.llmApiKey) {
+    commentary.llmApiKey = next.llmApiKey;
+    renderCommentaryLlmStatus();
   }
 }
 
@@ -1168,6 +1299,415 @@ async function speakCurrentPremove({ force = false, reason = "manual", source = 
   return speakPremove({ state: lastChesscomState, key: plan.key, recommended: plan.recommended, force, trigger: reason, source });
 }
 
+/* ----------------------------------------------------------- commentary (M8) */
+
+/**
+ * The M8 policy for one GameState: the feed driver observes EVERY state (both
+ * colors) and the panel requests `/explain` for a ply the moment it appears.
+ *
+ *  - trigger: `movesUci` grew by exactly one ply (the driver's rule) and the
+ *    history is usable — never on a jump, never on a re-emit, never on a
+ *    mismatch (a guessed article is worse than none);
+ *  - the entry is added the moment the server answers (templates, no waiting on
+ *    the network for the LLM layer); an optional provider rephrasing replaces
+ *    the text in place, and any provider failure keeps the template text;
+ *  - stale guard: an article whose key is no longer current is discarded
+ *    silently (the synthetic `inactive:` key invalidates anything in flight
+ *    when the observed position cannot be explained);
+ *  - a new game (`sessionSeq` change) clears the feed + the explain cache.
+ */
+async function onCommentary(state) {
+  if (state?.ok) {
+    explainClient.noteSessionSeq(state.sessionSeq ?? 0);
+  }
+  const observation = commentaryFeed.observe(state, {
+    eloSelf: elo.self,
+    eloOppo: elo.oppo,
+    enabled: commentary.enabled,
+  });
+  commentary.lastObservation = observation;
+
+  if (!state?.ok) {
+    commentary.gate = "no-state";
+    renderCommentaryIdle(state?.reason ? `no commentary: ${state.reason}` : "open a chess.com game — every move that lands is explained here.");
+    return;
+  }
+  commentary.gate = commentary.enabled ? "active" : "off";
+
+  if (observation.action === "reset") {
+    renderCommentaryIdle(`new game — commentary feed cleared (${observation.cleared} entries)`);
+    return;
+  }
+  if (observation.action !== "explain") {
+    // Anything in flight for an older position must never land on the feed.
+    if (observation.ply !== undefined) {
+      explainClient.expectKey(`inactive:${state.sessionSeq ?? 0}:${observation.ply}`);
+    }
+    if (observation.action === "suppressed") {
+      renderCommentaryIdle("commentary off — moves are not explained.");
+    } else {
+      renderCommentaryIdle(null);
+    }
+    return;
+  }
+
+  await runCommentary({ state, observation });
+}
+
+async function runCommentary({ state, observation }) {
+  commentary.status = "explaining";
+  setCmStatus("explaining…", "chip-checking");
+  setCommentaryMessage(
+    `explaining ply ${observation.ply} — requesting /explain for the last move…`,
+  );
+
+  const result = await explainClient.load(observation.request);
+  commentary.lastResult = result;
+
+  if (result.stale) {
+    // The position moved on while the article was in flight: discard silently
+    // (never an out-of-order feed entry).
+    commentary.staleDiscards += 1;
+    return;
+  }
+  if (!result.ok) {
+    renderCommentaryError(result);
+    return;
+  }
+
+  const phrased = phraseCommentary(result.data);
+  const entry = {
+    key: result.key,
+    ply: observation.ply,
+    moveNumber: phrased.moveNumber,
+    san: phrased.san,
+    uci: phrased.uci,
+    by: phrased.by,
+    playerLabel: moverLabel(phrased.by, state.userColor),
+    chip: phrased.chip,
+    classification: phrased.classification,
+    opening: phrased.opening,
+    text: phrased.text, // the template sentence — the base the LLM rephrases
+    template: phrased.text,
+    source: "template",
+    llm: null,
+    engineMs: result.data.elapsed_ms ?? null,
+    roundTripMs: result.roundTripMs,
+    fromCache: Boolean(result.fromCache),
+    atEpochMs: Date.now(),
+    /** Read-only diagnostics for the proof (the raw /explain body). */
+    data: result.data,
+  };
+  commentaryFeed.addEntry(entry);
+  commentary.lastEntry = entry;
+  commentary.status = "ready";
+  renderCommentaryFeed();
+  renderCommentaryIdle(null);
+
+  // Optional LLM rephrasing: never blocks the feed; on failure the template
+  // text stays and the entry meta notes the fallback.
+  const provider = llmProvider(commentary.llmEngine);
+  if (provider && commentary.llmApiKey) {
+    runCommentaryLlm({ entry, explain: result.data, template: phrased.text }).catch((error) =>
+      showError(`commentary LLM: ${error?.message ?? error}`),
+    );
+  }
+}
+
+/** One provider call for one entry; the text is replaced in place on success. */
+async function runCommentaryLlm({ entry, explain, template }) {
+  const engine = commentary.llmEngine;
+  const result = await llmPhrase({
+    engine,
+    apiKey: commentary.llmApiKey,
+    explain,
+    template,
+    endpoint: commentaryTest.endpoints[engine] ?? null, // null in production
+  });
+  recordCommentaryLlmCall({
+    engine,
+    provider: result.provider,
+    model: result.model,
+    ok: result.ok,
+    errorClass: result.errorClass,
+    latencyMs: result.latencyMs,
+    text: result.ok ? result.text : null,
+  });
+  // The feed may have been cleared (new game) while the provider was thinking.
+  if (!commentaryFeed.getEntries().includes(entry)) return;
+  if (result.ok) {
+    entry.text = result.text;
+    entry.source = engine;
+    entry.llm = {
+      ok: true,
+      provider: result.provider,
+      model: result.model,
+      latencyMs: result.latencyMs,
+    };
+  } else {
+    // Fallback: the template text stays; the meta notes why.
+    entry.llm = {
+      ok: false,
+      provider: result.provider,
+      model: result.model,
+      errorClass: result.errorClass,
+      error: result.error ?? null,
+      latencyMs: result.latencyMs,
+    };
+  }
+  renderCommentaryFeed();
+  renderCommentaryMeta();
+}
+
+/** Bounded history of provider outcomes (provider/meta only — never the key). */
+function recordCommentaryLlmCall(call) {
+  commentary.llmCalls.push({ ...call, at: Date.now() });
+  while (commentary.llmCalls.length > COMMENTARY_LLM_HISTORY) commentary.llmCalls.shift();
+}
+
+/* ----------------------------------------------- commentary UI + settings */
+
+function setCmStatus(text, className) {
+  els.cmStatus.textContent = text;
+  els.cmStatus.className = `chip ${className}`;
+}
+
+function setCommentaryMessage(text, className = "mx-message") {
+  els.cmMessage.hidden = !text;
+  els.cmMessage.className = className;
+  els.cmMessage.textContent = text ?? "";
+}
+
+/**
+ * One place that paints the card: status chip, message, feed (newest first) and
+ * the meta line. `message` overrides the default message for this render.
+ */
+function renderCommentaryIdle(message = null) {
+  if (!commentary.enabled) {
+    setCmStatus("off", "chip-idle");
+    setCommentaryMessage(message ?? "commentary off — moves are not explained.");
+  } else if (commentary.gate === "active") {
+    setCmStatus("listening", "chip-online");
+    setCommentaryMessage(
+      message ?? (commentaryFeed.size() > 0 ? null : "waiting for the next move…"),
+    );
+  } else {
+    setCmStatus("idle", "chip-idle");
+    setCommentaryMessage(
+      message ?? "open a chess.com game — every move that lands is explained here.",
+    );
+  }
+  renderCommentaryFeed();
+  renderCommentaryMeta();
+}
+
+function renderCommentaryFeed() {
+  const entries = commentaryFeed.getEntries();
+  if (entries.length === 0) {
+    els.cmFeed.hidden = true;
+    els.cmFeed.innerHTML = "";
+    return;
+  }
+  els.cmFeed.hidden = false;
+  els.cmFeed.innerHTML = "";
+  entries.forEach((entry, index) => {
+    const item = document.createElement("li");
+    item.className = index === 0 ? "cm-entry cm-newest" : "cm-entry";
+    item.dataset.ply = entry.ply != null ? String(entry.ply) : "";
+    item.dataset.by = entry.by ?? "";
+    item.dataset.san = entry.san ?? "";
+    item.dataset.classification = entry.classification ?? "";
+    item.dataset.source = entry.source ?? "template";
+    item.dataset.key = entry.key ?? "";
+
+    const head = document.createElement("div");
+    head.className = "row cm-entry-head";
+    const san = document.createElement("span");
+    san.className = "cm-san";
+    san.textContent = entry.san ?? "?";
+    const by = document.createElement("span");
+    by.className = "cm-by";
+    by.textContent = entry.playerLabel ?? entry.by ?? "";
+    const chip = document.createElement("span");
+    chip.className = "cm-chip";
+    chip.textContent = entry.chip ?? "—";
+    chip.title = `classification: ${entry.classification ?? "?"} (probability band, not a judgement)`;
+    head.append(san, by, chip);
+
+    const text = document.createElement("p");
+    text.className = "cm-text";
+    text.textContent = entry.text ?? "";
+
+    const meta = document.createElement("p");
+    meta.className = "cm-entry-meta";
+    const metaParts = [
+      entry.source === "template" ? "engine template" : `${entry.source} rephrasing`,
+    ];
+    if (entry.llm?.ok) {
+      metaParts.push(`${entry.llm.provider} ${entry.llm.model} · llm ${formatMs(entry.llm.latencyMs)} ms`);
+    } else if (entry.llm && !entry.llm.ok) {
+      metaParts.push(`llm ${entry.llm.errorClass}: fallback to template`);
+    }
+    metaParts.push(`engine ${formatMs(entry.engineMs)} ms`, `round-trip ${formatMs(entry.roundTripMs)} ms`);
+    if (entry.opening?.name) metaParts.push(`${entry.opening.eco} ${entry.opening.name}`);
+    metaParts.push(`ply ${entry.ply}`);
+    meta.textContent = metaParts.join(" · ");
+
+    item.append(head, text, meta);
+    els.cmFeed.append(item);
+  });
+}
+
+function renderCommentaryMeta() {
+  const stats = commentaryFeed.getStats();
+  const parts = [`${commentaryFeed.size()} of the last ${COMMENTARY_MAX_ENTRIES} plies explained`];
+  parts.push(commentary.llmEngine === "templates" ? "phrasing templates" : `phrasing ${commentary.llmEngine}`);
+  if (stats.skipped > 0) parts.push(`${stats.skipped} jump(s) skipped`);
+  if (stats.suppressed > 0) parts.push(`${stats.suppressed} suppressed (off)`);
+  if (commentary.staleDiscards > 0) parts.push(`${commentary.staleDiscards} stale discarded`);
+  if (commentary.errors > 0) parts.push(`${commentary.errors} error(s)`);
+  els.cmMeta.hidden = false;
+  els.cmMeta.textContent = parts.join(" · ");
+  els.cmMeta.title = `explain client: ${explainClient.url}`;
+}
+
+function renderCommentaryError(result) {
+  const error = result.error ?? {};
+  const attempts = result.attempts > 1 ? ` (retried once, ${result.attempts} attempts)` : "";
+  commentary.status = `error:${result.errorClass}`;
+  commentary.errors += 1;
+  commentary.lastError = {
+    class: result.errorClass,
+    status: result.status,
+    detail: error.detail ?? null,
+    at: Date.now(),
+  };
+  setCmStatus(result.errorClass === "offline" ? "server offline" : "error", "chip-offline");
+  setCommentaryMessage(
+    result.errorClass === "offline"
+      ? `commentary needs the local server — could not reach ${explainClient.url}${attempts}. Start it: ${SERVER_START_COMMAND}`
+      : result.errorClass === "invalid_input"
+        ? `commentary input rejected (HTTP ${result.status}): ${error.detail ?? "the server rejected this position"}${attempts}`
+        : `commentary failed: ${error.message ?? result.errorClass}${error.detail ? ` — ${error.detail}` : ""}${attempts}`,
+    "mx-message is-error",
+  );
+  renderCommentaryMeta();
+}
+
+/** The LLM status line: engine · model · key/permission state (never the key). */
+function renderCommentaryLlmStatus() {
+  const provider = llmProvider(commentary.llmEngine);
+  const hasKey = commentary.llmApiKey.length > 0;
+  const status = commentary.llmStatus;
+  if (!provider) {
+    els.cmLlmStatus.textContent = "templates · no key needed";
+  } else if (status && status.engine === commentary.llmEngine && status.at) {
+    els.cmLlmStatus.textContent = status.ok
+      ? `${provider.id} · ${status.model} · OK in ${formatMs(status.latencyMs)} ms`
+      : `${provider.id} · test failed: ${status.errorClass}${status.error ? ` (${status.error})` : ""}`;
+  } else {
+    const parts = [`${provider.id} · ${provider.model}`];
+    parts.push(hasKey ? "key stored (local)" : "key needed");
+    if (commentary.llmPermission === "declined") parts.push("host permission declined");
+    else if (commentary.llmPermission === "error") parts.push("host permission error");
+    els.cmLlmStatus.textContent = parts.join(" · ");
+  }
+  els.cmKey.placeholder = hasKey ? "•••••• stored (local only)" : "paste provider key";
+  renderCommentaryPrivacy();
+}
+
+/** The mandated privacy line, shown whenever a real provider is selected. */
+function renderCommentaryPrivacy() {
+  const line = providerPrivacyLine(commentary.llmEngine);
+  if (line) {
+    els.cmPrivacy.hidden = false;
+    els.cmPrivacy.textContent =
+      `${line} when you explain a move. The key stays in chrome.storage.local and is never logged; ` +
+      "the templates need neither.";
+  } else {
+    els.cmPrivacy.hidden = true;
+    els.cmPrivacy.textContent = "";
+  }
+}
+
+async function onCommentaryEnabledChanged() {
+  clearError();
+  commentary.enabled = els.cmEnabled.checked;
+  await saveSettings({ commentaryEnabled: commentary.enabled });
+  if (!commentary.enabled) {
+    renderCommentaryIdle("commentary off — moves are not explained. The feed keeps what it already explained.");
+  } else {
+    renderCommentaryIdle(null);
+  }
+  // Re-evaluate the current state: a move that landed while the toggle was off
+  // was consumed (`suppressed`) and is not retro-explained.
+  if (lastChesscomState) await onCommentary(lastChesscomState);
+}
+
+async function onLlmEngineChanged() {
+  clearError();
+  const engine = normalizeLlmEngine(els.cmEngine.value, LLM_DEFAULT_ENGINE);
+  commentary.llmEngine = engine;
+  els.cmEngine.value = engine;
+  await saveSettings({ llmEngine: engine });
+  const provider = llmProvider(engine);
+  if (provider) {
+    // Enable-time host-permission request (this change handler is the user
+    // gesture). A denial is reported; requests then fall back to templates.
+    const permission = await requestLlmPermission(engine);
+    commentary.llmPermission = permission.status;
+  } else {
+    commentary.llmPermission = "templates";
+  }
+  commentary.llmStatus = null;
+  renderCommentaryLlmStatus();
+}
+
+async function onLlmKeyChanged() {
+  clearError();
+  const value = typeof els.cmKey.value === "string" ? els.cmKey.value.trim() : "";
+  commentary.llmApiKey = value;
+  els.cmKey.value = ""; // never keep the key in the DOM
+  await saveSettings({ llmApiKey: value });
+  commentary.llmStatus = null;
+  renderCommentaryLlmStatus();
+}
+
+async function onLlmTestClicked() {
+  clearError();
+  const engine = commentary.llmEngine;
+  const provider = llmProvider(engine);
+  if (!provider) {
+    commentary.llmStatus = { engine, ok: true, model: "templates", latencyMs: 0, errorClass: null, error: null, at: Date.now() };
+    renderCommentaryLlmStatus();
+    return;
+  }
+  els.cmTest.disabled = true;
+  els.cmLlmStatus.textContent = `testing ${provider.id}…`;
+  try {
+    const result = await testLlmConnection({
+      engine,
+      apiKey: commentary.llmApiKey,
+      endpoint: commentaryTest.endpoints[engine] ?? null, // null in production
+    });
+    commentary.llmStatus = {
+      engine,
+      ok: result.ok,
+      model: result.model,
+      latencyMs: result.latencyMs,
+      errorClass: result.errorClass,
+      error: result.error ?? null,
+      sample: result.sample ?? null,
+      at: Date.now(),
+    };
+  } catch (error) {
+    commentary.llmStatus = { engine, ok: false, model: provider.model, latencyMs: 0, errorClass: "exception", error: error?.message ?? String(error), at: Date.now() };
+  } finally {
+    els.cmTest.disabled = false;
+  }
+  renderCommentaryLlmStatus();
+}
+
 /* ------------------------------------------------ chess.com game state card */
 
 function onRuntimeMessage(message, sender) {
@@ -1285,14 +1825,14 @@ function setCcChip(text, className) {
 /* --------------------------------------------------------- Maia suggestion */
 
 /**
- * The policy for one GameState: the M4 analysis loop and the M7 premove
- * planner, each with its own client, cache and stale guard. Run concurrently —
- * they share no state beyond the settings they both read.
+ * The policy for one GameState: the M4 analysis loop, the M7 premove planner
+ * and the M8 commentary feed, each with its own client, cache and stale guard.
+ * Run concurrently — they share no state beyond the settings they read.
  * Called for every state render (message or Refresh state) — the clients'
  * cache/dedupe/stale logic makes repeated calls free.
  */
 async function onGameState(state) {
-  await Promise.all([onGameStateAnalysis(state), onPremovePolicy(state)]);
+  await Promise.all([onGameStateAnalysis(state), onPremovePolicy(state), onCommentary(state)]);
 }
 
 /**

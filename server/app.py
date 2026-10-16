@@ -8,6 +8,11 @@ POST /analyze  -> {"moves": [{"uci", "san", "prob"}], "wdl": {"win", "draw", "lo
 POST /premove  -> {"opponent": [...], "recommended": null | {...}, "candidates": [...],
                    "excluded": [...], "reason", "params", "timings_ms", "model",
                    "elapsed_ms"}   (M7 premove planner — see premove_engine.py)
+POST /explain  -> {"move": {...}, "flags": {...}, "material": {...}, "maia": {...},
+                   "wdl": {"before", "after"}, "opening": null | {"eco", "name"},
+                   "classification", "model", "elapsed_ms"}
+                  (M8 live commentary facts — see explain_engine.py; explains the
+                   LAST ply of `moves`)
 
 Binds 127.0.0.1:8765 by default (see README / run instructions). CORS is
 permissive for local dev only: localhost/127.0.0.1 origins and
@@ -47,6 +52,10 @@ from premove_engine import (
     PREMOVE_MIN_TOP_N,
     PREMOVE_MODES,
     plan_premove,
+)
+from explain_engine import (  # M8: live commentary facts (additive; /analyze + /premove untouched)
+    CLASSIFICATIONS,
+    explain_move,
 )
 
 log = logging.getLogger("humanplay.server")
@@ -228,6 +237,110 @@ class PremoveResponse(BaseModel):
     elapsed_ms: float
 
 
+# --------------------------------------------------------------- M8 /explain
+
+
+class ExplainRequest(BaseModel):
+    fen: str = Field(
+        ...,
+        min_length=1,
+        description=(
+            "Base position FEN. When 'moves' is given they are applied on top of it "
+            "(UCI 'position fen <fen> moves ...' semantics); the LAST ply of 'moves' is "
+            "the move to explain. The extension sends the standard start position + the "
+            "full replayed UCI history."
+        ),
+        examples=["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"],
+    )
+    moves: List[str] = Field(
+        ...,
+        min_length=1,
+        description=(
+            "UCI move history whose LAST element is the move to explain (the history "
+            "before it fills Maia's history planes). Empty is a 400: there is no move "
+            "to explain without at least one ply."
+        ),
+        examples=[["e2e4", "e7e5", "g1f3"]],
+    )
+    elo_self: int = Field(
+        DEFAULT_ELO_SELF,
+        description=(
+            "Elo of the MOVER (well — of the side to move of the position before the "
+            "explained move; Maia conditions on the side to move, and that is the mover). "
+            "Clamped to 0..5000 (the model's trained range), not rejected."
+        ),
+    )
+    elo_oppo: int = Field(
+        DEFAULT_ELO_OPPO,
+        description="Elo of the other player. Clamped to 0..5000, not rejected.",
+    )
+
+
+class ExplainMoveOut(BaseModel):
+    san: str
+    uci: str
+    by: Literal["white", "black"]
+    ply: int
+    moveNumber: int
+
+
+class ExplainFlagsOut(BaseModel):
+    capture: bool
+    check: bool
+    mate: bool
+    castle: Optional[Literal["kingside", "queenside"]]
+    promotion: Optional[Literal["queen", "rook", "bishop", "knight"]]
+    enPassant: bool
+    recapture: bool
+
+
+class ExplainCapturedOut(BaseModel):
+    piece: Literal["pawn", "knight", "bishop", "rook", "queen", "king"]
+    square: str
+    value: int
+
+
+class ExplainMaterialOut(BaseModel):
+    delta: int
+    captured: Optional[ExplainCapturedOut]
+
+
+class ExplainTopMoveOut(BaseModel):
+    uci: str
+    san: str
+    prob: float
+
+
+class ExplainMaiaOut(BaseModel):
+    playedProb: float
+    rank: int
+    totalLegal: int
+    top: List[ExplainTopMoveOut]
+    moverElo: int
+
+
+class ExplainWdlOut(BaseModel):
+    before: WdlOut
+    after: WdlOut
+
+
+class ExplainOpeningOut(BaseModel):
+    eco: str
+    name: str
+
+
+class ExplainResponse(BaseModel):
+    move: ExplainMoveOut
+    flags: ExplainFlagsOut
+    material: ExplainMaterialOut
+    maia: ExplainMaiaOut
+    wdl: ExplainWdlOut
+    opening: Optional[ExplainOpeningOut]
+    classification: Literal["mainline", "common", "uncommon", "rare"]
+    model: str
+    elapsed_ms: float
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     # Warm up the model so the first /analyze is fast. A failure here (e.g. no
@@ -321,6 +434,33 @@ def premove(request: PremoveRequest) -> PremoveResponse:
         raise HTTPException(status_code=503, detail=f"engine unavailable: {exc}") from exc
 
     return PremoveResponse(**result)
+
+
+@app.post("/explain", response_model=ExplainResponse)
+def explain(request: ExplainRequest) -> ExplainResponse:
+    """Live commentary facts for the LAST ply of `moves` (M8).
+
+    Deterministic python-chess + Maia-3 facts (see `explain_engine.py`): rules
+    flags, material, the mover's own probability distribution, the mover's WDL
+    before/after, the opening name and a documented probability band. No engine
+    claims, no judgement words. Numeric knobs clamp; invalid input is 400.
+    """
+    engine = get_engine()
+    try:
+        result = explain_move(
+            engine,
+            request.fen,
+            request.moves,
+            elo_self=request.elo_self,
+            elo_oppo=request.elo_oppo,
+        )
+    except EngineInputError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:  # model download/load/backend failure
+        log.exception("explain failed")
+        raise HTTPException(status_code=503, detail=f"engine unavailable: {exc}") from exc
+
+    return ExplainResponse(**result)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,51 @@
+{
+  "pass": true,
+  "failures": [],
+  "groq": {
+    "template": "Nf6 — the most common move at 2400 (78%).",
+    "text": "Nice — that is the main line here, and plenty of 2400s play it too.",
+    "source": "groq",
+    "llm": {
+      "ok": true,
+      "provider": "groq",
+      "model": "llama-3.1-8b-instant",
+      "latencyMs": 44
+    },
+    "meta": "groq rephrasing · groq llama-3.1-8b-instant · llm 44.0 ms · engine 20.5 ms · round-trip 2.0 ms · C50 Italian Game: Giuoco Piano · ply 8",
+    "mutationToEntryMs": 156,
+    "calls": [
+      {
+        "provider": "groq",
+        "model": "llama-3.1-8b-instant",
+        "ok": true,
+        "errorClass": null,
+        "latencyMs": 44
+      }
+    ]
+  },
+  "gemini": {
+    "text": "A natural move for this position: most 2400s choose it as well.",
+    "source": "gemini",
+    "llm": {
+      "ok": true,
+      "provider": "gemini",
+      "model": "gemini-2.0-flash",
+      "latencyMs": 43
+    }
+  },
+  "screenshot": "test/fixtures/captures/commentary/stub-llm-rephrasing.png",
+  "requests": {
+    "llmDelta": 2,
+    "byProvider": {
+      "groq": 1,
+      "gemini": 1
+    }
+  },
+  "hygiene": {
+    "keyInDom": false,
+    "inputValue": "",
+    "inputPlaceholder": "•••••• stored (local only)",
+    "storedKey": true,
+    "syncUsage": 0
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "pass": true,
+  "failures": [],
+  "http500": {
+    "text": "d6 — the most common move at 2400 (63%).",
+    "template": "d6 — the most common move at 2400 (63%).",
+    "llm": {
+      "ok": false,
+      "provider": "groq",
+      "model": "llama-3.1-8b-instant",
+      "errorClass": "http",
+      "error": "provider answered HTTP 500: fixture server (test mode): simulated groq outage",
+      "latencyMs": 42
+    },
+    "meta": "engine template · llm http: fallback to template · engine 28.8 ms · round-trip 2.0 ms · C50 Italian Game: Giuoco Piano · ply 10"
+  },
+  "timeout": {
+    "text": "Bg5 — uncommon at 2400 (8%); Maia's pick was c3 (49%).",
+    "template": "Bg5 — uncommon at 2400 (8%); Maia's pick was c3 (49%).",
+    "llm": {
+      "ok": false,
+      "provider": "groq",
+      "model": "llama-3.1-8b-instant",
+      "errorClass": "timeout",
+      "error": "no answer within 2500 ms",
+      "latencyMs": 3360
+    },
+    "meta": "engine template · llm timeout: fallback to template · engine 24.0 ms · round-trip 2.0 ms · C50 Italian Game: Giuoco Piano · ply 11"
+  },
+  "screenshot": "test/fixtures/captures/commentary/stub-llm-fallback.png"
+}

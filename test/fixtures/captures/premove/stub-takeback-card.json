@@ -35,13 +35,13 @@
       }
     ],
     "caveat": "safe only over their top-5; a premove still fires whenever it is legal",
-    "meta": "model maia3-5m · engine 69.1 ms · round-trip 3.0 ms · 5 considered of 5 likely replies · ui 0.1 ms · cached",
+    "meta": "model maia3-5m · engine 69.1 ms · round-trip 2.0 ms · 5 considered of 5 likely replies · ui 0.0 ms · cached",
     "gate": "auto",
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top",
-    "renderMs": 0.09999999403953552,
+    "renderMs": 0,
     "engineMs": 69.14,
-    "roundTripMs": 3,
-    "stateToRenderMs": 18
+    "roundTripMs": 2,
+    "stateToRenderMs": 21
   },
   "overlay": {
     "display": "block",

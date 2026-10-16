@@ -1,0 +1,20 @@
+{
+  "pass": true,
+  "failures": [],
+  "registered": 54,
+  "final": {
+    "size": 50,
+    "newestPly": 52,
+    "oldestPly": 3,
+    "requested": 52,
+    "capEvictions": 2,
+    "replayMs": 10332,
+    "chips": [
+      "common",
+      "main line",
+      "rare",
+      "uncommon"
+    ]
+  },
+  "screenshot": "test/fixtures/captures/commentary/stub-feed-cap-50.png"
+}

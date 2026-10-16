@@ -1,0 +1,483 @@
+{
+  "generatedWith": "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765",
+  "generatedAt": "2026-10-16T20:30:56Z",
+  "generator": "test/tools/collect-canned.py",
+  "consumedBy": "test/tools/fixture_server.py CANNED_PREMOVE + test/tools/premove-proof.mjs (stub mode)",
+  "entries": [
+    {
+      "name": "premove-takeback.html \u2014 Benoni, black to move: their exd5 -> our take-back cxd5 (safe_vs_all)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "d2d4",
+          "g8f6",
+          "c2c4",
+          "c7c5",
+          "d4d5",
+          "e7e6",
+          "b1c3"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_n": 5,
+        "min_safety": 0.9,
+        "mode": "top"
+      },
+      "wall_ms": 71.0,
+      "response": {
+        "fen": "rnbqkb1r/pp1p1ppp/4pn2/2pP4/2P5/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 4",
+        "side_to_move": "black",
+        "opponent": [
+          {
+            "uci": "e6d5",
+            "san": "exd5",
+            "prob": 0.963475551535253
+          },
+          {
+            "uci": "d7d6",
+            "san": "d6",
+            "prob": 0.021383989145183174
+          },
+          {
+            "uci": "b7b5",
+            "san": "b5",
+            "prob": 0.008509975375647018
+          },
+          {
+            "uci": "g7g6",
+            "san": "g6",
+            "prob": 0.0040534700236192775
+          },
+          {
+            "uci": "a7a6",
+            "san": "a6",
+            "prob": 0.0025770139202975022
+          }
+        ],
+        "recommended": {
+          "uci": "c4d5",
+          "san": "cxd5",
+          "criterion": "safe_vs_all",
+          "safety": 1.0,
+          "min_response_prob": 0.983822,
+          "detail": "1/5 considered replies are met by cxd5 (safe mass 96%); 4% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 98%"
+        },
+        "candidates": [
+          {
+            "uci": "c4d5",
+            "san": "cxd5",
+            "safe_mass": 0.963476,
+            "guard_mass": 0.036524,
+            "min_response_prob": 0.983822,
+            "verdict": "recommended",
+            "why": "safety 100% >= 90%; safe mass 96%, guard mass 4%; min response prob 98% >= 15%"
+          },
+          {
+            "uci": "c4b5",
+            "san": "cxb5",
+            "safe_mass": 0.00851,
+            "guard_mass": 0.99149,
+            "min_response_prob": 0.369842,
+            "verdict": "recommended",
+            "why": "safety 100% >= 90%; safe mass 1%, guard mass 99%; min response prob 37% >= 15%"
+          },
+          {
+            "uci": "e2e4",
+            "san": "e4",
+            "safe_mass": 0.025437,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.727735,
+            "verdict": "not_safe",
+            "why": "safety 3% < required 90% (safe 3% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          },
+          {
+            "uci": "a2a4",
+            "san": "a4",
+            "safe_mass": 0.002577,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.57489,
+            "verdict": "not_safe",
+            "why": "safety 0% < required 90% (safe 0% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          }
+        ],
+        "excluded": [],
+        "reason": null,
+        "params": {
+          "elo_self": 2400,
+          "elo_oppo": 2400,
+          "top_n": 5,
+          "min_safety": 0.9,
+          "min_response_prob": 0.15,
+          "mode": "top"
+        },
+        "timings_ms": {
+          "root": 10.211306,
+          "responses": 58.236019,
+          "total": 69.540325
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 69.540325
+      }
+    },
+    {
+      "name": "flipped-black.html \u2014 white to move (user black): their d4 -> our take-back cxd4 (safe_vs_all, flipped)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|5|0.9|top",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "c7c5",
+          "g1f3",
+          "d7d6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_n": 5,
+        "min_safety": 0.9,
+        "mode": "top"
+      },
+      "wall_ms": 72.2,
+      "response": {
+        "fen": "rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+        "side_to_move": "white",
+        "opponent": [
+          {
+            "uci": "d2d4",
+            "san": "d4",
+            "prob": 0.7365397160438939
+          },
+          {
+            "uci": "f1b5",
+            "san": "Bb5+",
+            "prob": 0.1447068820090497
+          },
+          {
+            "uci": "c2c3",
+            "san": "c3",
+            "prob": 0.0676732967411944
+          },
+          {
+            "uci": "b1c3",
+            "san": "Nc3",
+            "prob": 0.03207490723851233
+          },
+          {
+            "uci": "f1c4",
+            "san": "Bc4",
+            "prob": 0.01900519796734962
+          }
+        ],
+        "recommended": {
+          "uci": "c5d4",
+          "san": "cxd4",
+          "criterion": "safe_vs_all",
+          "safety": 1.0,
+          "min_response_prob": 0.980774,
+          "detail": "1/5 considered replies are met by cxd4 (safe mass 74%); 26% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 98%"
+        },
+        "candidates": [
+          {
+            "uci": "c5d4",
+            "san": "cxd4",
+            "safe_mass": 0.73654,
+            "guard_mass": 0.26346,
+            "min_response_prob": 0.980774,
+            "verdict": "recommended",
+            "why": "safety 100% >= 90%; safe mass 74%, guard mass 26%; min response prob 98% >= 15%"
+          },
+          {
+            "uci": "g8f6",
+            "san": "Nf6",
+            "safe_mass": 0.118753,
+            "guard_mass": 0.144707,
+            "min_response_prob": 0.499573,
+            "verdict": "not_safe",
+            "why": "safety 26% < required 90% (safe 12% + guard 14%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          },
+          {
+            "uci": "c8d7",
+            "san": "Bd7",
+            "safe_mass": 0.144707,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.489529,
+            "verdict": "not_safe",
+            "why": "safety 14% < required 90% (safe 14% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          }
+        ],
+        "excluded": [],
+        "reason": null,
+        "params": {
+          "elo_self": 2400,
+          "elo_oppo": 2400,
+          "top_n": 5,
+          "min_safety": 0.9,
+          "min_response_prob": 0.15,
+          "mode": "top"
+        },
+        "timings_ms": {
+          "root": 15.345377,
+          "responses": 54.821785,
+          "total": 70.919181
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 70.919181
+      }
+    },
+    {
+      "name": "startpos + 1.e4 \u2014 c5/e5/c6/e6 need different answers -> no safe premove",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400|5|0.9|top",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_n": 5,
+        "min_safety": 0.9,
+        "mode": "top"
+      },
+      "wall_ms": 60.8,
+      "response": {
+        "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+        "side_to_move": "black",
+        "opponent": [
+          {
+            "uci": "c7c5",
+            "san": "c5",
+            "prob": 0.43896698772665643
+          },
+          {
+            "uci": "e7e5",
+            "san": "e5",
+            "prob": 0.2006519555152767
+          },
+          {
+            "uci": "c7c6",
+            "san": "c6",
+            "prob": 0.15058205295733484
+          },
+          {
+            "uci": "e7e6",
+            "san": "e6",
+            "prob": 0.14729768654147435
+          },
+          {
+            "uci": "d7d6",
+            "san": "d6",
+            "prob": 0.0625013172592577
+          }
+        ],
+        "recommended": null,
+        "candidates": [
+          {
+            "uci": "g1f3",
+            "san": "Nf3",
+            "safe_mass": 0.639619,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.669597,
+            "verdict": "not_safe",
+            "why": "safety 64% < required 90% (safe 64% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          },
+          {
+            "uci": "d2d4",
+            "san": "d4",
+            "safe_mass": 0.360381,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.682793,
+            "verdict": "not_safe",
+            "why": "safety 36% < required 90% (safe 36% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          }
+        ],
+        "excluded": [],
+        "reason": "no safe premove: the best reply Nf3 covers only 64% of their considered moves (safe 64%, required 90%)",
+        "params": {
+          "elo_self": 2400,
+          "elo_oppo": 2400,
+          "top_n": 5,
+          "min_safety": 0.9,
+          "min_response_prob": 0.15,
+          "mode": "top"
+        },
+        "timings_ms": {
+          "root": 10.167879,
+          "responses": 48.875255,
+          "total": 59.458653
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 59.458653
+      }
+    },
+    {
+      "name": "take-back fixture + 4...exd5 5.cxd5 (9 plies, black to move) \u2014 robust",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3 e6d5 c4d5|2400|2400|5|0.9|top",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "d2d4",
+          "g8f6",
+          "c2c4",
+          "c7c5",
+          "d4d5",
+          "e7e6",
+          "b1c3",
+          "e6d5",
+          "c4d5"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_n": 5,
+        "min_safety": 0.9,
+        "mode": "top"
+      },
+      "wall_ms": 77.3,
+      "response": {
+        "fen": "rnbqkb1r/pp1p1ppp/5n2/2pP4/8/2N5/PP2PPPP/R1BQKBNR b KQkq - 0 5",
+        "side_to_move": "black",
+        "opponent": [
+          {
+            "uci": "d7d6",
+            "san": "d6",
+            "prob": 0.9203850080327004
+          },
+          {
+            "uci": "f8d6",
+            "san": "Bd6",
+            "prob": 0.044669235258841485
+          },
+          {
+            "uci": "g7g6",
+            "san": "g6",
+            "prob": 0.028176627148321157
+          },
+          {
+            "uci": "a7a6",
+            "san": "a6",
+            "prob": 0.004762458708309683
+          },
+          {
+            "uci": "b7b5",
+            "san": "b5",
+            "prob": 0.002006670851827264
+          }
+        ],
+        "recommended": {
+          "uci": "e2e4",
+          "san": "e4",
+          "criterion": "robust",
+          "safety": 0.993231,
+          "min_response_prob": 0.579885,
+          "detail": "3/5 considered replies are met by e4 (safe mass 99%); 0% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 99%; min best-response probability 58%"
+        },
+        "candidates": [
+          {
+            "uci": "e2e4",
+            "san": "e4",
+            "safe_mass": 0.993231,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.579885,
+            "verdict": "recommended",
+            "why": "safety 99% >= 90%; safe mass 99%, guard mass 0%; min response prob 58% >= 15%"
+          },
+          {
+            "uci": "a2a4",
+            "san": "a4",
+            "safe_mass": 0.004762,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.671206,
+            "verdict": "not_safe",
+            "why": "safety 0% < required 90% (safe 0% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          },
+          {
+            "uci": "c3b5",
+            "san": "Nxb5",
+            "safe_mass": 0.002007,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.695113,
+            "verdict": "not_safe",
+            "why": "safety 0% < required 90% (safe 0% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+          }
+        ],
+        "excluded": [],
+        "reason": null,
+        "params": {
+          "elo_self": 2400,
+          "elo_oppo": 2400,
+          "top_n": 5,
+          "min_safety": 0.9,
+          "min_response_prob": 0.15,
+          "mode": "top"
+        },
+        "timings_ms": {
+          "root": 13.924576,
+          "responses": 60.823553,
+          "total": 75.998184
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 75.998184
+      }
+    },
+    {
+      "name": "forced-recapture position (board-only; the mismatch mutation) \u2014 forced",
+      "key": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 1||2400|2400|5|0.9|top",
+      "request": {
+        "fen": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 1",
+        "moves": [],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_n": 5,
+        "min_safety": 0.9,
+        "mode": "top"
+      },
+      "wall_ms": 24.8,
+      "response": {
+        "fen": "8/1n4b1/4K3/5N2/4R3/3k4/1R1Qr1Q1/8 b - - 0 1",
+        "side_to_move": "black",
+        "opponent": [
+          {
+            "uci": "e2d2",
+            "san": "Rxd2",
+            "prob": 1.0
+          }
+        ],
+        "recommended": {
+          "uci": "g2d2",
+          "san": "Qxd2+",
+          "criterion": "forced",
+          "safety": 1.0,
+          "min_response_prob": 0.311407,
+          "detail": "forced premove: their only legal move is Rxd2; Maia's best answer is Qxd2+ (31% of the reply distribution)"
+        },
+        "candidates": [
+          {
+            "uci": "g2d2",
+            "san": "Qxd2+",
+            "safe_mass": 1.0,
+            "guard_mass": 0.0,
+            "min_response_prob": 0.311407,
+            "verdict": "recommended",
+            "why": "forced: their only legal move is Rxd2; Maia's best answer is Qxd2+ (31%)"
+          }
+        ],
+        "excluded": [],
+        "reason": null,
+        "params": {
+          "elo_self": 2400,
+          "elo_oppo": 2400,
+          "top_n": 5,
+          "min_safety": 0.9,
+          "min_response_prob": 0.15,
+          "mode": "top"
+        },
+        "timings_ms": {
+          "root": 8.515449,
+          "responses": 14.703891,
+          "total": 23.49288
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 23.49288
+      }
+    }
+  ]
+}

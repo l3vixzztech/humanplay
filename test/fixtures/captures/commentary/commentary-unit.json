@@ -1,0 +1,124 @@
+{
+  "tool": "commentary-unit.mjs",
+  "generatedAt": "2026-10-16T20:56:12.571Z",
+  "node": "v22.22.0",
+  "modules": [
+    "extension/src/analysis/explain-client.js",
+    "extension/src/commentary/phrase.js",
+    "extension/src/commentary/llm.js"
+  ],
+  "passed": 17,
+  "failed": 0,
+  "total": 17,
+  "cases": [
+    {
+      "name": "explain: success -> {ok, status, data, roundTripMs} (1 attempt, exact payload)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "explain: exactly one retry on a network failure (never 4xx/5xx, never timeout)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "explain: error classes (422 invalid, 503 engine, 500 http, 2xx bad body)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "seen": [
+          "invalid_input",
+          "engine_unavailable",
+          "http",
+          "bad_response"
+        ]
+      }
+    },
+    {
+      "name": "explainPositionKey: fen|moves|elos (every input matters)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "buildExplainRequest: replayed history only; mismatch/absent -> null",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "client: cache hit, in-flight dedupe, failures never cached, force bypasses",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "client: stale guard — a newer ply always wins over an older, slower article",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "feed driver: seeds the baseline, requests on growth by exactly one ply (both colors)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "feed driver: mismatch growth -> no request; dedupe by ply; suppressed when off",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "feed driver: reset on a new game (sessionSeq) + the ~50-ply cap (newest first)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "phrase: mainline + capture + recapture + castle + quiet (recorded facts)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "phrase: uncommon, rare (rank>1 surfaces Maia's pick), promotion, ep, check, mate",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "commentaryFacts + buildLlmPrompt: the facts JSON, no hidden info, constraint text present",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "sanitizeLlmText: fences/backticks/quotes/chatty prefix/whitespace + the 220-char cap",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "llmPhrase: groq + gemini shapes, and every failure -> {ok:false} (fallback signal)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "testLlmConnection + permissions: status without ever exposing the key",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "display helpers: classification chips + you/opponent labels",
+      "pass": true,
+      "message": null,
+      "details": null
+    }
+  ]
+}

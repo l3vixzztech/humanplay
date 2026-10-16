@@ -8,7 +8,7 @@
       "speak": false,
       "reason": "tts-off",
       "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top",
-      "at": 1792181635888,
+      "at": 1792184048873,
       "trigger": "plan",
       "source": "panel",
       "force": false,
@@ -28,15 +28,15 @@
     "uci": "c4d5",
     "reason": "premove",
     "stopBefore": {
-      "at": "2026-10-16T20:13:56.434Z",
-      "atEpochMs": 1792181636434,
+      "at": "2026-10-16T20:54:09.414Z",
+      "atEpochMs": 1792184049414,
       "kind": "stop",
       "reason": "before-speak",
       "source": "panel",
       "engine": "chrome.tts",
       "ok": true,
       "error": null,
-      "stoppedAt": 1792181636434
+      "stoppedAt": 1792184049414
     },
     "issuedAfterToggleMs": 5
   },
@@ -47,7 +47,7 @@
       "speak": false,
       "reason": "duplicate",
       "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 c2c4 c7c5 d4d5 e7e6 b1c3|2400|2400|5|0.9|top",
-      "at": 1792181636518,
+      "at": 1792184049499,
       "trigger": "plan",
       "source": "panel",
       "force": false,

@@ -1,0 +1,367 @@
+{
+  "pass": true,
+  "failures": [],
+  "entries": [
+    {
+      "ply": 1,
+      "san": "e4",
+      "by": "white",
+      "chip": "main line",
+      "text": "e4 — the most common move at 2400 (46%).",
+      "source": "template",
+      "opening": {
+        "eco": "B00",
+        "name": "King's Pawn Game"
+      },
+      "engineMs": 49.752742,
+      "roundTripMs": 53,
+      "mutationToEntryMs": 210
+    },
+    {
+      "ply": 2,
+      "san": "e5",
+      "by": "black",
+      "chip": "common",
+      "text": "e5 — a common choice at 2400 (17%); Maia's pick was c5 (37%).",
+      "source": "template",
+      "opening": {
+        "eco": "C20",
+        "name": "King's Pawn Game"
+      },
+      "engineMs": 42.449749,
+      "roundTripMs": 45,
+      "mutationToEntryMs": 197
+    },
+    {
+      "ply": 3,
+      "san": "Nf3",
+      "by": "white",
+      "chip": "main line",
+      "text": "Nf3 — the most common move at 2400 (78%).",
+      "source": "template",
+      "opening": {
+        "eco": "C40",
+        "name": "King's Knight Opening"
+      },
+      "engineMs": 34.325033,
+      "roundTripMs": 37,
+      "mutationToEntryMs": 190
+    },
+    {
+      "ply": 4,
+      "san": "Nc6",
+      "by": "black",
+      "chip": "main line",
+      "text": "Nc6 — the most common move at 2400 (79%).",
+      "source": "template",
+      "opening": {
+        "eco": "C44",
+        "name": "King's Knight Opening: Normal Variation"
+      },
+      "engineMs": 79.808736,
+      "roundTripMs": 83,
+      "mutationToEntryMs": 236
+    },
+    {
+      "ply": 5,
+      "san": "Bc4",
+      "by": "white",
+      "chip": "common",
+      "text": "Bc4 — a common choice at 2400 (32%); Maia's pick was Bb5 (43%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game"
+      },
+      "engineMs": 35.116774,
+      "roundTripMs": 37,
+      "mutationToEntryMs": 191
+    },
+    {
+      "ply": 6,
+      "san": "Bc5",
+      "by": "black",
+      "chip": "common",
+      "text": "Bc5 — a common choice at 2400 (45%); Maia's pick was Nf6 (47%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 41.770308,
+      "roundTripMs": 44,
+      "mutationToEntryMs": 199
+    },
+    {
+      "ply": 7,
+      "san": "O-O",
+      "by": "white",
+      "chip": "common",
+      "text": "O-O — castling kingside; a common choice at 2400 (22%); Maia's pick was c3 (39%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 38.737701,
+      "roundTripMs": 43,
+      "mutationToEntryMs": 196
+    },
+    {
+      "ply": 8,
+      "san": "Nf6",
+      "by": "black",
+      "chip": "main line",
+      "text": "Nf6 — the most common move at 2400 (78%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 38.274202,
+      "roundTripMs": 40,
+      "mutationToEntryMs": 193
+    },
+    {
+      "ply": 9,
+      "san": "d3",
+      "by": "white",
+      "chip": "main line",
+      "text": "d3 — the most common move at 2400 (42%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 49.069967,
+      "roundTripMs": 52,
+      "mutationToEntryMs": 205
+    },
+    {
+      "ply": 10,
+      "san": "d6",
+      "by": "black",
+      "chip": "main line",
+      "text": "d6 — the most common move at 2400 (63%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 52.265739,
+      "roundTripMs": 55,
+      "mutationToEntryMs": 208
+    },
+    {
+      "ply": 11,
+      "san": "Bg5",
+      "by": "white",
+      "chip": "uncommon",
+      "text": "Bg5 — uncommon at 2400 (8%); Maia's pick was c3 (49%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 46.929938,
+      "roundTripMs": 50,
+      "mutationToEntryMs": 204
+    },
+    {
+      "ply": 12,
+      "san": "O-O",
+      "by": "black",
+      "chip": "rare",
+      "text": "O-O — castling kingside; only 3% play this; Maia's pick was h6 (81%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 45.658522,
+      "roundTripMs": 48,
+      "mutationToEntryMs": 201
+    },
+    {
+      "ply": 13,
+      "san": "Bxf6",
+      "by": "white",
+      "chip": "rare",
+      "text": "Bxf6 — a capture on f6; only 0.2% play this; Maia's pick was Nc3 (43%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 54.441919,
+      "roundTripMs": 57,
+      "mutationToEntryMs": 210
+    },
+    {
+      "ply": 14,
+      "san": "Qxf6",
+      "by": "black",
+      "chip": "main line",
+      "text": "Qxf6 — a recapture; 99% of 2400s take back.",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 46.494559,
+      "roundTripMs": 49,
+      "mutationToEntryMs": 203
+    }
+  ],
+  "curl": {
+    "wallMs": 38,
+    "ok": true,
+    "body": {
+      "move": {
+        "san": "Qxf6",
+        "uci": "d8f6",
+        "by": "black",
+        "ply": 14,
+        "moveNumber": 7
+      },
+      "flags": {
+        "capture": true,
+        "check": false,
+        "mate": false,
+        "castle": null,
+        "promotion": null,
+        "enPassant": false,
+        "recapture": true
+      },
+      "material": {
+        "delta": 3,
+        "captured": {
+          "piece": "bishop",
+          "square": "f6",
+          "value": 3
+        }
+      },
+      "maia": {
+        "playedProb": 0.992488,
+        "rank": 1,
+        "totalLegal": 33,
+        "top": [
+          {
+            "uci": "d8f6",
+            "san": "Qxf6",
+            "prob": 0.992488
+          },
+          {
+            "uci": "g7f6",
+            "san": "gxf6",
+            "prob": 0.007251
+          },
+          {
+            "uci": "h7h6",
+            "san": "h6",
+            "prob": 0.00007
+          }
+        ],
+        "moverElo": 2400
+      },
+      "wdl": {
+        "before": {
+          "win": 0.456494,
+          "draw": 0.069125,
+          "loss": 0.474381
+        },
+        "after": {
+          "win": 0.540358,
+          "draw": 0.073429,
+          "loss": 0.386213
+        }
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "classification": "mainline",
+      "model": "maia3-5m",
+      "elapsed_ms": 26.285038
+    }
+  },
+  "latency": {
+    "entries": 14,
+    "engineMs": [
+      49.752742,
+      42.449749,
+      34.325033,
+      79.808736,
+      35.116774,
+      41.770308,
+      38.737701,
+      38.274202,
+      49.069967,
+      52.265739,
+      46.929938,
+      45.658522,
+      54.441919,
+      46.494559
+    ],
+    "roundTripMs": [
+      53,
+      45,
+      37,
+      83,
+      37,
+      44,
+      43,
+      40,
+      52,
+      55,
+      50,
+      48,
+      57,
+      49
+    ],
+    "mutationToEntryMs": [
+      210,
+      197,
+      190,
+      236,
+      191,
+      199,
+      196,
+      193,
+      205,
+      208,
+      204,
+      201,
+      210,
+      203
+    ],
+    "maxMutationToEntryMs": 236,
+    "curlWallMs": 38,
+    "staleDiscards": 0,
+    "errors": 0
+  },
+  "screenshots": [
+    "test/fixtures/captures/commentary/real-montage-feed.png"
+  ],
+  "equalsCurl": {
+    "curlText": "Qxf6 — a recapture; 99% of 2400s take back.",
+    "panelText": "Qxf6 — a recapture; 99% of 2400s take back.",
+    "curlClassification": "mainline",
+    "panelClassification": "main line",
+    "curlOpening": {
+      "eco": "C50",
+      "name": "Italian Game: Giuoco Piano"
+    },
+    "panelOpening": {
+      "eco": "C50",
+      "name": "Italian Game: Giuoco Piano"
+    }
+  },
+  "rawEqualsCurl": {
+    "playedProb": 0.992488,
+    "curlPlayedProb": 0.992488,
+    "classification": "mainline",
+    "opening": "C50",
+    "curlOpening": "C50"
+  }
+}

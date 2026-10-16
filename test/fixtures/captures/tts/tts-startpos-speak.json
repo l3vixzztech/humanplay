@@ -11,7 +11,7 @@
     "decision": {
       "speak": false,
       "reason": "no-suggestion",
-      "at": 1792181210307,
+      "at": 1792184073817,
       "trigger": "toggle-on",
       "source": "panel",
       "force": true,
@@ -21,7 +21,7 @@
       {
         "speak": false,
         "reason": "no-suggestion",
-        "at": 1792181210307,
+        "at": 1792184073817,
         "trigger": "toggle-on",
         "source": "panel",
         "force": true,
@@ -57,8 +57,8 @@
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
   },
   "speak": {
-    "at": "2026-10-16T20:06:50.590Z",
-    "atEpochMs": 1792181210590,
+    "at": "2026-10-16T20:54:33.887Z",
+    "atEpochMs": 1792184073887,
     "kind": "speak",
     "text": "e-pawn to e4",
     "san": "e4",
@@ -81,7 +81,7 @@
       "speak": false,
       "reason": "duplicate",
       "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-      "at": 1792181210590,
+      "at": 1792184073887,
       "trigger": "suggestion",
       "source": "panel",
       "force": false,
@@ -92,7 +92,7 @@
       {
         "speak": false,
         "reason": "no-suggestion",
-        "at": 1792181210307,
+        "at": 1792184073817,
         "trigger": "toggle-on",
         "source": "panel",
         "force": true,
@@ -102,7 +102,7 @@
         "speak": true,
         "reason": "speak",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792181210589,
+        "at": 1792184073886,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -113,7 +113,7 @@
         "speak": true,
         "reason": "speak",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792181210589,
+        "at": 1792184073886,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -124,18 +124,7 @@
         "speak": false,
         "reason": "duplicate",
         "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792181210590,
-        "trigger": "suggestion",
-        "source": "panel",
-        "force": false,
-        "move": "e4",
-        "text": null
-      },
-      {
-        "speak": false,
-        "reason": "duplicate",
-        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-        "at": 1792181210590,
+        "at": 1792184073887,
         "trigger": "suggestion",
         "source": "panel",
         "force": false,
@@ -155,11 +144,11 @@
         "ok": true,
         "engine": "chrome.tts",
         "text": "e-pawn to e4",
-        "issuedAt": "2026-10-16T20:06:50.590Z",
-        "issuedAtEpochMs": 1792181210590,
+        "issuedAt": "2026-10-16T20:54:33.887Z",
+        "issuedAtEpochMs": 1792184073887,
         "stopBefore": {
           "ok": true,
-          "stoppedAt": "2026-10-16T20:06:50.590Z",
+          "stoppedAt": "2026-10-16T20:54:33.887Z",
           "reason": "before-speak"
         },
         "error": null
@@ -181,7 +170,7 @@
     "noteVisible": true,
     "noteText": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend.",
     "staleDiscardCount": 0,
-    "renderCount": 3,
+    "renderCount": 2,
     "status": "ready",
     "gate": "auto",
     "lastRenderKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
@@ -338,25 +327,25 @@
     ],
     "note": null,
     "ok": true,
-    "at": "2026-10-16T20:06:50.586Z",
+    "at": "2026-10-16T20:54:34.157Z",
     "lastError": null
   },
   "stopBeforeSpeak": {
-    "at": "2026-10-16T20:06:50.590Z",
-    "atEpochMs": 1792181210590,
+    "at": "2026-10-16T20:54:33.887Z",
+    "atEpochMs": 1792184073887,
     "kind": "stop",
     "reason": "before-speak",
     "source": "panel",
     "engine": "chrome.tts",
     "ok": true,
     "error": null,
-    "stoppedAt": 1792181210590
+    "stoppedAt": 1792184073887
   },
   "panelDecision": {
     "speak": false,
     "reason": "duplicate",
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-    "at": 1792181210590,
+    "at": 1792184073887,
     "trigger": "suggestion",
     "source": "panel",
     "force": false,
@@ -367,8 +356,8 @@
   "ttsEvents": [
     {
       "type": "start",
-      "at": "2026-10-16T20:06:50.631Z",
-      "atEpochMs": 1792181210631,
+      "at": "2026-10-16T20:54:34.065Z",
+      "atEpochMs": 1792184074065,
       "text": "e-pawn to e4",
       "errorMessage": null
     }

@@ -1,0 +1,32 @@
+{
+  "pass": true,
+  "failures": [],
+  "before": {
+    "size": 12,
+    "sessionSeq": 0,
+    "newestPly": 13
+  },
+  "after": {
+    "size": 0,
+    "sessionSeq": 1,
+    "stats": {
+      "observed": 19,
+      "requested": 12,
+      "seeded": 1,
+      "reset": 1,
+      "skipped": 0,
+      "deduped": 0,
+      "suppressed": 1,
+      "noHistory": 0,
+      "capEvictions": 0
+    },
+    "message": "new game — commentary feed cleared (12 entries)",
+    "status": "listening"
+  },
+  "resumed": {
+    "size": 1,
+    "newestPly": 1,
+    "text": "e4 — the most common move at 2400 (46%)."
+  },
+  "screenshot": "test/fixtures/captures/commentary/stub-new-game-reset.png"
+}

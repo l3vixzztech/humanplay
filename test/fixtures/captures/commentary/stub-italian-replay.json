@@ -1,0 +1,211 @@
+{
+  "pass": true,
+  "failures": [],
+  "entries": [
+    {
+      "ply": 1,
+      "san": "e4",
+      "by": "white",
+      "playerLabel": "you",
+      "chip": "main line",
+      "classification": "mainline",
+      "text": "e4 — the most common move at 2400 (46%).",
+      "source": "template",
+      "opening": {
+        "eco": "B00",
+        "name": "King's Pawn Game"
+      },
+      "engineMs": 33.45064,
+      "roundTripMs": 2,
+      "mutationToEntryMs": 158
+    },
+    {
+      "ply": 2,
+      "san": "e5",
+      "by": "black",
+      "playerLabel": "opponent",
+      "chip": "common",
+      "classification": "common",
+      "text": "e5 — a common choice at 2400 (17%); Maia's pick was c5 (37%).",
+      "source": "template",
+      "opening": {
+        "eco": "C20",
+        "name": "King's Pawn Game"
+      },
+      "engineMs": 28.680847,
+      "roundTripMs": 2,
+      "mutationToEntryMs": 155
+    },
+    {
+      "ply": 3,
+      "san": "Nf3",
+      "by": "white",
+      "playerLabel": "you",
+      "chip": "main line",
+      "classification": "mainline",
+      "text": "Nf3 — the most common move at 2400 (78%).",
+      "source": "template",
+      "opening": {
+        "eco": "C40",
+        "name": "King's Knight Opening"
+      },
+      "engineMs": 29.363983,
+      "roundTripMs": 2,
+      "mutationToEntryMs": 156
+    },
+    {
+      "ply": 4,
+      "san": "Nc6",
+      "by": "black",
+      "playerLabel": "opponent",
+      "chip": "main line",
+      "classification": "mainline",
+      "text": "Nc6 — the most common move at 2400 (79%).",
+      "source": "template",
+      "opening": {
+        "eco": "C44",
+        "name": "King's Knight Opening: Normal Variation"
+      },
+      "engineMs": 21.33167,
+      "roundTripMs": 2,
+      "mutationToEntryMs": 156
+    },
+    {
+      "ply": 5,
+      "san": "Bc4",
+      "by": "white",
+      "playerLabel": "you",
+      "chip": "common",
+      "classification": "common",
+      "text": "Bc4 — a common choice at 2400 (32%); Maia's pick was Bb5 (43%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game"
+      },
+      "engineMs": 21.791062,
+      "roundTripMs": 2,
+      "mutationToEntryMs": 155
+    },
+    {
+      "ply": 6,
+      "san": "Bc5",
+      "by": "black",
+      "playerLabel": "opponent",
+      "chip": "common",
+      "classification": "common",
+      "text": "Bc5 — a common choice at 2400 (45%); Maia's pick was Nf6 (47%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 24.553115,
+      "roundTripMs": 1,
+      "mutationToEntryMs": 154
+    },
+    {
+      "ply": 7,
+      "san": "O-O",
+      "by": "white",
+      "playerLabel": "you",
+      "chip": "common",
+      "classification": "common",
+      "text": "O-O — castling kingside; a common choice at 2400 (22%); Maia's pick was c3 (39%).",
+      "source": "template",
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "engineMs": 29.450549,
+      "roundTripMs": 2,
+      "mutationToEntryMs": 156
+    }
+  ],
+  "requests": {
+    "explainRequestsDelta": 7,
+    "byKey": {
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3|2400|2400": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4|2400|2400": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1|2400|2400": 1
+    },
+    "cannedMisses": 0
+  },
+  "screenshot": "test/fixtures/captures/commentary/stub-italian-feed.png",
+  "final": {
+    "size": 7,
+    "newestFirst": [
+      7,
+      6,
+      5,
+      4,
+      3,
+      2,
+      1
+    ],
+    "status": "listening",
+    "meta": "7 of the last 50 plies explained · phrasing templates",
+    "domRows": [
+      {
+        "ply": "7",
+        "san": "O-O",
+        "chip": "common",
+        "text": "O-O — castling kingside; a common choice at 2400 (22%); Maia's pick was c3 (39%).",
+        "source": "template",
+        "byLabel": "you"
+      },
+      {
+        "ply": "6",
+        "san": "Bc5",
+        "chip": "common",
+        "text": "Bc5 — a common choice at 2400 (45%); Maia's pick was Nf6 (47%).",
+        "source": "template",
+        "byLabel": "opponent"
+      },
+      {
+        "ply": "5",
+        "san": "Bc4",
+        "chip": "common",
+        "text": "Bc4 — a common choice at 2400 (32%); Maia's pick was Bb5 (43%).",
+        "source": "template",
+        "byLabel": "you"
+      },
+      {
+        "ply": "4",
+        "san": "Nc6",
+        "chip": "main line",
+        "text": "Nc6 — the most common move at 2400 (79%).",
+        "source": "template",
+        "byLabel": "opponent"
+      },
+      {
+        "ply": "3",
+        "san": "Nf3",
+        "chip": "main line",
+        "text": "Nf3 — the most common move at 2400 (78%).",
+        "source": "template",
+        "byLabel": "you"
+      },
+      {
+        "ply": "2",
+        "san": "e5",
+        "chip": "common",
+        "text": "e5 — a common choice at 2400 (17%); Maia's pick was c5 (37%).",
+        "source": "template",
+        "byLabel": "opponent"
+      },
+      {
+        "ply": "1",
+        "san": "e4",
+        "chip": "main line",
+        "text": "e4 — the most common move at 2400 (46%).",
+        "source": "template",
+        "byLabel": "you"
+      }
+    ]
+  }
+}
