@@ -1,0 +1,64 @@
+{
+  "name": "castling-black-to-move@800x900@2",
+  "image": {
+    "width": 1600,
+    "height": 1800
+  },
+  "groundTruth": {
+    "x": 356.9230769230769,
+    "y": 258.9230769230769,
+    "w": 886.1538461538462,
+    "h": 886.1538461538462
+  },
+  "result": {
+    "ok": true,
+    "rect": {
+      "x": 356.2999467384313,
+      "y": 258.3674969546747,
+      "w": 886.3170065264726,
+      "h": 886.3170065264726
+    },
+    "squareSize": 110.78962581580907,
+    "confidence": 0.7137406570945762,
+    "method": "gradient-lattice-9"
+  },
+  "locateMs": 75.2,
+  "deterministic": true,
+  "overlay": "test/fixtures/captures/locator/castling-black-to-move-800x900@2-overlay.png",
+  "errors": {
+    "left": -0.62,
+    "top": -0.56,
+    "right": -0.46,
+    "bottom": -0.39,
+    "width": 0.16,
+    "height": 0.16,
+    "maxEdge": 0.62
+  },
+  "tolerance": 6,
+  "pass": true,
+  "failure": null,
+  "frame": "test/fixtures/captures/locator/castling-black-to-move-800x900@2-overlay-frame.png",
+  "groundTruthCss": {
+    "x": 178.46153846153845,
+    "y": 129.46153846153845,
+    "w": 443.0769230769231,
+    "h": 443.0769230769231,
+    "svg": {
+      "x": 160,
+      "y": 111,
+      "w": 480,
+      "h": 480
+    },
+    "viewport": {
+      "w": 800,
+      "h": 900,
+      "dpr": 2
+    }
+  },
+  "groundTruthVisible": true,
+  "viewport": {
+    "width": 800,
+    "height": 900,
+    "dpr": 2
+  }
+}

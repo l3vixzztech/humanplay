@@ -1,0 +1,1076 @@
+{
+  "tool": "locator-proof.mjs",
+  "generatedAt": "2026-10-16T17:19:30.175Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "locator": {
+    "path": "extension/src/board/locator.js",
+    "sha256": "15add793742ec9c2d6349c5a9c06146d9361af228b693e63ea3e7560b823be3b",
+    "bytes": 34782
+  },
+  "cases": {
+    "castling-black-to-move": {
+      "1100x757@1": {
+        "image": {
+          "width": 1100,
+          "height": 757
+        },
+        "groundTruth": {
+          "x": 328.46153846153845,
+          "y": 129.46153846153845,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 327.6542843588081,
+            "y": 128.61244707279997,
+            "w": 443.7011885028017,
+            "h": 443.7011885028017
+          },
+          "squareSize": 55.46264856285021,
+          "confidence": 0.6956485381882032,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 79.5,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/castling-black-to-move-1100x757@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.85,
+          "right": -0.18,
+          "bottom": -0.22,
+          "width": 0.62,
+          "height": 0.62,
+          "maxEdge": 0.85
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/castling-black-to-move-1100x757@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 328.46153846153845,
+          "y": 129.46153846153845,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 310,
+            "y": 111,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 1100,
+            "h": 757,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 1100,
+          "height": 757,
+          "dpr": 1
+        }
+      },
+      "800x900@2": {
+        "image": {
+          "width": 1600,
+          "height": 1800
+        },
+        "groundTruth": {
+          "x": 356.9230769230769,
+          "y": 258.9230769230769,
+          "w": 886.1538461538462,
+          "h": 886.1538461538462
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 356.2999467384313,
+            "y": 258.3674969546747,
+            "w": 886.3170065264726,
+            "h": 886.3170065264726
+          },
+          "squareSize": 110.78962581580907,
+          "confidence": 0.7137406570945762,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 75.2,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/castling-black-to-move-800x900@2-overlay.png",
+        "errors": {
+          "left": -0.62,
+          "top": -0.56,
+          "right": -0.46,
+          "bottom": -0.39,
+          "width": 0.16,
+          "height": 0.16,
+          "maxEdge": 0.62
+        },
+        "tolerance": 6,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/castling-black-to-move-800x900@2-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 178.46153846153845,
+          "y": 129.46153846153845,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 160,
+            "y": 111,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 800,
+            "h": 900,
+            "dpr": 2
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 800,
+          "height": 900,
+          "dpr": 2
+        }
+      },
+      "640x700@1": {
+        "image": {
+          "width": 640,
+          "height": 700
+        },
+        "groundTruth": {
+          "x": 98.46153846153847,
+          "y": 129.46153846153845,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 97.65428435880814,
+            "y": 128.61244707279997,
+            "w": 443.7011885028017,
+            "h": 443.7011885028017
+          },
+          "squareSize": 55.46264856285021,
+          "confidence": 0.6710488919785336,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 23.4,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/castling-black-to-move-640x700@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.85,
+          "right": -0.18,
+          "bottom": -0.22,
+          "width": 0.62,
+          "height": 0.62,
+          "maxEdge": 0.85
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/castling-black-to-move-640x700@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 98.46153846153847,
+          "y": 129.46153846153845,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 80,
+            "y": 111,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 640,
+            "h": 700,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 640,
+          "height": 700,
+          "dpr": 1
+        }
+      },
+      "900x700@0.75": {
+        "image": {
+          "width": 675,
+          "height": 525
+        },
+        "groundTruth": {
+          "x": 171.34615384615384,
+          "y": 97.09615384615384,
+          "w": 332.3076923076923,
+          "h": 332.3076923076923
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 170.57013753246287,
+            "y": 96.32923180614375,
+            "w": 332.8400763996022,
+            "h": 332.8400763996022
+          },
+          "squareSize": 41.605009549950275,
+          "confidence": 0.6622851742114121,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 26.6,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/castling-black-to-move-900x700@0.75-overlay.png",
+        "errors": {
+          "left": -0.78,
+          "top": -0.77,
+          "right": -0.24,
+          "bottom": -0.23,
+          "width": 0.53,
+          "height": 0.53,
+          "maxEdge": 0.78
+        },
+        "tolerance": 6,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/castling-black-to-move-900x700@0.75-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 228.46153846153845,
+          "y": 129.46153846153845,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 210,
+            "y": 111,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 900,
+            "h": 700,
+            "dpr": 0.75
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 900,
+          "height": 700,
+          "dpr": 0.75
+        }
+      }
+    },
+    "middlegame": {
+      "1100x757@1": {
+        "image": {
+          "width": 1100,
+          "height": 757
+        },
+        "groundTruth": {
+          "x": 328.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 327.6471925362658,
+            "y": 113.61087541629395,
+            "w": 443.70206971389047,
+            "h": 443.70206971389047
+          },
+          "squareSize": 55.46275871423631,
+          "confidence": 0.661879506111318,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 31,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/middlegame-1100x757@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.85,
+          "right": -0.19,
+          "bottom": -0.23,
+          "width": 0.63,
+          "height": 0.63,
+          "maxEdge": 0.85
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/middlegame-1100x757@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 328.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 310,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 1100,
+            "h": 757,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 1100,
+          "height": 757,
+          "dpr": 1
+        }
+      },
+      "800x900@2": {
+        "image": {
+          "width": 1600,
+          "height": 1800
+        },
+        "groundTruth": {
+          "x": 356.9230769230769,
+          "y": 228.92307692307693,
+          "w": 886.1538461538462,
+          "h": 886.1538461538462
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 356.2999467384313,
+            "y": 228.3893412796321,
+            "w": 886.3070662807825,
+            "h": 886.3070662807825
+          },
+          "squareSize": 110.78838328509781,
+          "confidence": 0.670742272081454,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 86.1,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/middlegame-800x900@2-overlay.png",
+        "errors": {
+          "left": -0.62,
+          "top": -0.53,
+          "right": -0.47,
+          "bottom": -0.38,
+          "width": 0.15,
+          "height": 0.15,
+          "maxEdge": 0.62
+        },
+        "tolerance": 6,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/middlegame-800x900@2-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 178.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 160,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 800,
+            "h": 900,
+            "dpr": 2
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 800,
+          "height": 900,
+          "dpr": 2
+        }
+      },
+      "640x700@1": {
+        "image": {
+          "width": 640,
+          "height": 700
+        },
+        "groundTruth": {
+          "x": 98.46153846153847,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 97.64719253626598,
+            "y": 113.61054869168295,
+            "w": 443.70225309960597,
+            "h": 443.70225309960597
+          },
+          "squareSize": 55.462781637450746,
+          "confidence": 0.6481322943533093,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 23.7,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/middlegame-640x700@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.85,
+          "right": -0.19,
+          "bottom": -0.23,
+          "width": 0.63,
+          "height": 0.63,
+          "maxEdge": 0.85
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/middlegame-640x700@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 98.46153846153847,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 80,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 640,
+            "h": 700,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 640,
+          "height": 700,
+          "dpr": 1
+        }
+      },
+      "900x700@0.75": {
+        "image": {
+          "width": 675,
+          "height": 525
+        },
+        "groundTruth": {
+          "x": 171.34615384615384,
+          "y": 85.84615384615385,
+          "w": 332.3076923076923,
+          "h": 332.3076923076923
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 170.56018231232517,
+            "y": 84.92188851438817,
+            "w": 332.85679519151313,
+            "h": 332.85679519151313
+          },
+          "squareSize": 41.60709939893914,
+          "confidence": 0.6376872222112837,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 18.6,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/middlegame-900x700@0.75-overlay.png",
+        "errors": {
+          "left": -0.79,
+          "top": -0.92,
+          "right": -0.24,
+          "bottom": -0.38,
+          "width": 0.55,
+          "height": 0.55,
+          "maxEdge": 0.92
+        },
+        "tolerance": 6,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/middlegame-900x700@0.75-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 228.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 210,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 900,
+            "h": 700,
+            "dpr": 0.75
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 900,
+          "height": 700,
+          "dpr": 0.75
+        }
+      }
+    },
+    "promotion": {
+      "1100x757@1": {
+        "image": {
+          "width": 1100,
+          "height": 757
+        },
+        "groundTruth": {
+          "x": 328.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 327.654284359893,
+            "y": 113.66066582262062,
+            "w": 443.65726928495144,
+            "h": 443.65726928495144
+          },
+          "squareSize": 55.45715866061893,
+          "confidence": 0.8734292706799806,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 53.7,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/promotion-1100x757@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.8,
+          "right": -0.23,
+          "bottom": -0.22,
+          "width": 0.58,
+          "height": 0.58,
+          "maxEdge": 0.81
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/promotion-1100x757@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 328.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 310,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 1100,
+            "h": 757,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 1100,
+          "height": 757,
+          "dpr": 1
+        }
+      },
+      "800x900@2": {
+        "image": {
+          "width": 1600,
+          "height": 1800
+        },
+        "groundTruth": {
+          "x": 356.9230769230769,
+          "y": 228.92307692307693,
+          "w": 886.1538461538462,
+          "h": 886.1538461538462
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 356.29994673843146,
+            "y": 228.38924186368965,
+            "w": 886.3074474242876,
+            "h": 886.3074474242876
+          },
+          "squareSize": 110.78843092803595,
+          "confidence": 0.8687169328443762,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 87.2,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/promotion-800x900@2-overlay.png",
+        "errors": {
+          "left": -0.62,
+          "top": -0.53,
+          "right": -0.47,
+          "bottom": -0.38,
+          "width": 0.15,
+          "height": 0.15,
+          "maxEdge": 0.62
+        },
+        "tolerance": 6,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/promotion-800x900@2-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 178.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 160,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 800,
+            "h": 900,
+            "dpr": 2
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 800,
+          "height": 900,
+          "dpr": 2
+        }
+      },
+      "640x700@1": {
+        "image": {
+          "width": 640,
+          "height": 700
+        },
+        "groundTruth": {
+          "x": 98.46153846153847,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 97.65428435989296,
+            "y": 113.66066582262062,
+            "w": 443.65726928495144,
+            "h": 443.65726928495144
+          },
+          "squareSize": 55.45715866061893,
+          "confidence": 0.7932070954760747,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 25,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/promotion-640x700@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.8,
+          "right": -0.23,
+          "bottom": -0.22,
+          "width": 0.58,
+          "height": 0.58,
+          "maxEdge": 0.81
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/promotion-640x700@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 98.46153846153847,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 80,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 640,
+            "h": 700,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 640,
+          "height": 700,
+          "dpr": 1
+        }
+      },
+      "900x700@0.75": {
+        "image": {
+          "width": 675,
+          "height": 525
+        },
+        "groundTruth": {
+          "x": 171.34615384615384,
+          "y": 85.84615384615385,
+          "w": 332.3076923076923,
+          "h": 332.3076923076923
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 170.57015711304948,
+            "y": 85.10137673645188,
+            "w": 332.7661489216324,
+            "h": 332.7661489216324
+          },
+          "squareSize": 41.59576861520405,
+          "confidence": 0.7799980264272317,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 20.1,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/promotion-900x700@0.75-overlay.png",
+        "errors": {
+          "left": -0.78,
+          "top": -0.74,
+          "right": -0.32,
+          "bottom": -0.29,
+          "width": 0.46,
+          "height": 0.46,
+          "maxEdge": 0.78
+        },
+        "tolerance": 6,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/promotion-900x700@0.75-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 228.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 210,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 900,
+            "h": 700,
+            "dpr": 0.75
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 900,
+          "height": 700,
+          "dpr": 0.75
+        }
+      }
+    },
+    "startpos": {
+      "1100x757@1": {
+        "image": {
+          "width": 1100,
+          "height": 757
+        },
+        "groundTruth": {
+          "x": 328.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 327.6471925362658,
+            "y": 113.61087541629395,
+            "w": 443.70206971389047,
+            "h": 443.70206971389047
+          },
+          "squareSize": 55.46275871423631,
+          "confidence": 0.6597774341969902,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 45.3,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/startpos-1100x757@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.85,
+          "right": -0.19,
+          "bottom": -0.23,
+          "width": 0.63,
+          "height": 0.63,
+          "maxEdge": 0.85
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/startpos-1100x757@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 328.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 310,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 1100,
+            "h": 757,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 1100,
+          "height": 757,
+          "dpr": 1
+        }
+      },
+      "800x900@2": {
+        "image": {
+          "width": 1600,
+          "height": 1800
+        },
+        "groundTruth": {
+          "x": 356.9230769230769,
+          "y": 228.92307692307693,
+          "w": 886.1538461538462,
+          "h": 886.1538461538462
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 356.2999467384313,
+            "y": 228.3675960668953,
+            "w": 886.3169435961681,
+            "h": 886.3169435961681
+          },
+          "squareSize": 110.78961794952102,
+          "confidence": 0.67546784879551,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 89.1,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/startpos-800x900@2-overlay.png",
+        "errors": {
+          "left": -0.62,
+          "top": -0.56,
+          "right": -0.46,
+          "bottom": -0.39,
+          "width": 0.16,
+          "height": 0.16,
+          "maxEdge": 0.62
+        },
+        "tolerance": 6,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/startpos-800x900@2-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 178.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 160,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 800,
+            "h": 900,
+            "dpr": 2
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 800,
+          "height": 900,
+          "dpr": 2
+        }
+      },
+      "640x700@1": {
+        "image": {
+          "width": 640,
+          "height": 700
+        },
+        "groundTruth": {
+          "x": 98.46153846153847,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 97.64719253626598,
+            "y": 113.61054869168295,
+            "w": 443.70225309960597,
+            "h": 443.70225309960597
+          },
+          "squareSize": 55.462781637450746,
+          "confidence": 0.6445991619851232,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 23.1,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/startpos-640x700@1-overlay.png",
+        "errors": {
+          "left": -0.81,
+          "top": -0.85,
+          "right": -0.19,
+          "bottom": -0.23,
+          "width": 0.63,
+          "height": 0.63,
+          "maxEdge": 0.85
+        },
+        "tolerance": 4,
+        "pass": true,
+        "failure": null,
+        "frame": "test/fixtures/captures/locator/startpos-640x700@1-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 98.46153846153847,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 80,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 640,
+            "h": 700,
+            "dpr": 1
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 640,
+          "height": 700,
+          "dpr": 1
+        }
+      },
+      "900x700@0.75": {
+        "image": {
+          "width": 675,
+          "height": 525
+        },
+        "groundTruth": {
+          "x": 171.34615384615384,
+          "y": 85.84615384615385,
+          "w": 332.3076923076923,
+          "h": 332.3076923076923
+        },
+        "result": {
+          "ok": true,
+          "rect": {
+            "x": 170.56018231478492,
+            "y": 72.96102760667516,
+            "w": 332.76695425031824,
+            "h": 359.15719604795777
+          },
+          "squareSize": 43.24525939364225,
+          "confidence": 0.6379729507517486,
+          "method": "gradient-lattice-9"
+        },
+        "locateMs": 18.6,
+        "deterministic": true,
+        "overlay": "test/fixtures/captures/locator/startpos-900x700@0.75-overlay.png",
+        "errors": {
+          "left": -0.79,
+          "top": -12.89,
+          "right": -0.33,
+          "bottom": 13.96,
+          "width": 0.46,
+          "height": 26.85,
+          "maxEdge": 26.85
+        },
+        "tolerance": 6,
+        "pass": false,
+        "failure": "max edge error 26.85px > 6px tolerance",
+        "frame": "test/fixtures/captures/locator/startpos-900x700@0.75-overlay-frame.png",
+        "groundTruthCss": {
+          "x": 228.46153846153845,
+          "y": 114.46153846153847,
+          "w": 443.0769230769231,
+          "h": 443.0769230769231,
+          "svg": {
+            "x": 210,
+            "y": 96,
+            "w": 480,
+            "h": 480
+          },
+          "viewport": {
+            "w": 900,
+            "h": 700,
+            "dpr": 0.75
+          }
+        },
+        "groundTruthVisible": true,
+        "viewport": {
+          "width": 900,
+          "height": 700,
+          "dpr": 0.75
+        }
+      }
+    },
+    "extension-capture": {
+      "image": {
+        "width": 1100,
+        "height": 757
+      },
+      "groundTruth": {
+        "x": 328.46153846153845,
+        "y": 114.46153846153847,
+        "w": 443.0769230769231,
+        "h": 443.0769230769231
+      },
+      "result": {
+        "ok": true,
+        "rect": {
+          "x": 327.6471925362658,
+          "y": 113.61087541629395,
+          "w": 443.70206971389047,
+          "h": 443.70206971389047
+        },
+        "squareSize": 55.46275871423631,
+        "confidence": 0.6597774341969902,
+        "method": "gradient-lattice-9"
+      },
+      "locateMs": 44.4,
+      "deterministic": true,
+      "overlay": "test/fixtures/captures/locator/extension-capture-startpos-1100x757-overlay.png",
+      "errors": {
+        "left": -0.81,
+        "top": -0.85,
+        "right": -0.19,
+        "bottom": -0.23,
+        "width": 0.63,
+        "height": 0.63,
+        "maxEdge": 0.85
+      },
+      "tolerance": 4,
+      "pass": true,
+      "failure": null,
+      "frame": "test/fixtures/captures/locator/extension-capture-startpos-1100x757-overlay-frame.png"
+    }
+  },
+  "failures": [
+    "startpos@900x700@0.75"
+  ],
+  "browser": {
+    "version": "Chrome/155.0.8059.84",
+    "protocolVersion": "1.3"
+  },
+  "ok": false
+}

@@ -10,9 +10,9 @@
     <header class="app-header">
       <div class="app-title">
         <h1>humanplay</h1>
-        <span class="version">M2</span>
+        <span class="version">M3</span>
       </div>
-      <p class="tagline">human-like move assistant · local Maia-3</p>
+      <p class="tagline">human-like move assistant for chess.com · local Maia-3</p>
     </header>
 
     <main>
@@ -23,20 +23,67 @@
           <span class="toggle-label">Assistant <strong id="toggle-state">off</strong></span>
         </label>
         <p class="hint" id="toggle-hint">
-          Stored in <code>chrome.storage.local</code>. The continuous capture loop
-          arrives in M9; until then captures are manual.
+          Stored in <code>chrome.storage.local</code>. The continuous loop arrives
+          in M9; until then state reading is passive and captures are manual.
+        </p>
+      </section>
+
+      <section class="card" id="chesscom-card">
+        <div class="row card-head">
+          <h2>chess.com game state</h2>
+          <span id="cc-chip" class="chip chip-idle">waiting…</span>
+        </div>
+
+        <div class="state-grid">
+          <div class="state-cell"><dt>board</dt><dd id="cc-board">—</dd></div>
+          <div class="state-cell"><dt>moves</dt><dd id="cc-moves">—</dd></div>
+          <div class="state-cell"><dt>turn</dt><dd id="cc-turn">—</dd></div>
+          <div class="state-cell"><dt>you play</dt><dd id="cc-color">—</dd></div>
+        </div>
+        <dl class="state-cell state-cell-wide">
+          <dt>FEN</dt>
+          <dd><code id="cc-fen">—</code></dd>
+        </dl>
+
+        <p id="cc-mismatch" class="warn" hidden></p>
+        <p id="cc-warning" class="warn-text" hidden></p>
+
+        <div class="row">
+          <button id="cc-refresh" type="button">Refresh state</button>
+          <button id="cc-snapshot" type="button">Record chess.com snapshot</button>
+        </div>
+        <p id="cc-snapshot-status" class="hint" hidden></p>
+
+        <label class="setting-row" for="cc-color-setting">
+          <span>fallback color <span class="muted">(used only if detection fails)</span></span>
+          <select id="cc-color-setting">
+            <option value="auto">auto</option>
+            <option value="white">white</option>
+            <option value="black">black</option>
+          </select>
+        </label>
+
+        <p class="hint" id="cc-hint">
+          Open a chess.com game (a bot game is fine) in the active tab — the content
+          script reports the position, move history, board rect and color automatically.
+          No analysis yet: M4 wires <code>/analyze</code>.
         </p>
       </section>
 
       <section class="card">
-        <div class="row">
-          <button id="capture-button" class="primary" type="button">Capture now</button>
-          <button id="record-button" type="button" disabled>Record fixture (PNG)</button>
+        <div class="row card-head">
+          <h2>Debug tools</h2>
+          <span class="version">M2, kept</span>
         </div>
         <p class="hint">
-          Captures the visible tab through the capture-source abstraction and
-          downloads it for the fixture corpus (<code>test/fixtures/</code>).
+          Screenshot capture through the capture-source abstraction + PNG fixture
+          recorder. Pixel recognition is parked (<code>parked/image-recognition/</code>);
+          these stay as debug tools.
         </p>
+        <div class="row">
+          <button id="capture-button" type="button">Capture now</button>
+          <button id="record-button" type="button" disabled>Record fixture (PNG)</button>
+        </div>
         <div id="frame-meta" class="meta" hidden></div>
         <figure id="frame-preview-wrap" class="preview" hidden>
           <img id="frame-preview" alt="Last captured frame" />

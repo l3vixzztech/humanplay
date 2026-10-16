@@ -1,0 +1,717 @@
+{
+  "tool": "adapter-proof.mjs",
+  "generatedAt": "2026-10-16T17:52:49.851Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "extension": "/home/l3vixzz/Desktop/humanplay/extension",
+  "checks": {
+    "staticServer": {
+      "origin": "http://127.0.0.1:45407",
+      "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
+    },
+    "manifest": {
+      "path": "extension/manifest.json",
+      "sha256": "299118e239e40433476857923b88de03767c3b92abace06b289fb29d547b7174",
+      "version": "0.2.0",
+      "permissions": [
+        "activeTab",
+        "storage",
+        "sidePanel",
+        "downloads"
+      ],
+      "host_permissions": [
+        "http://127.0.0.1:8765/*"
+      ],
+      "content_scripts": [
+        {
+          "matches": [
+            "https://www.chess.com/*",
+            "https://chess.com/*"
+          ],
+          "js": [
+            "src/content/chesscom-adapter.js"
+          ],
+          "run_at": "document_idle"
+        }
+      ],
+      "web_accessible_resources": [
+        {
+          "resources": [
+            "src/content/board-dom.js",
+            "src/content/move-history.js",
+            "vendor/chess.js"
+          ],
+          "matches": [
+            "https://www.chess.com/*",
+            "https://chess.com/*"
+          ]
+        }
+      ],
+      "hasAllUrls": false
+    },
+    "adapterFiles": {
+      "src/content/chesscom-adapter.js": "a4226a948dd2c652b330eea7168eadc057cba6d2a1ce0b4173c726ec9557da29",
+      "src/content/board-dom.js": "30c755766d2670bd82fb06baac1ddbc35ede1ba9f84e982aab447092d2c7e3a3",
+      "src/content/move-history.js": "deebeb095d4c3f2c5c4a46099eafa2a25a1525cff7fb712ab8ea6d0b96db91a7",
+      "vendor/chess.js": "0fd3d85b712fd650987416ebdc9e85a97406dbc69cb759a2179e96cc7770f16d"
+    },
+    "manifestVariant": {
+      "enabled": true,
+      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:45407 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
+      "addedContentScriptMatch": "http://127.0.0.1:45407/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:45407/*",
+      "contentScriptMatches": [
+        "https://www.chess.com/*",
+        "https://chess.com/*",
+        "http://127.0.0.1:45407/*"
+      ],
+      "webAccessibleMatches": [
+        "https://www.chess.com/*",
+        "https://chess.com/*",
+        "http://127.0.0.1:45407/*"
+      ],
+      "codeFilesCompared": 17,
+      "codeFileMismatches": [],
+      "codeIdentical": true
+    },
+    "extensionId": "gehacgfccceonjllccgcobfghpaigdoj",
+    "browser": {
+      "version": "Chrome/155.0.8059.84",
+      "protocolVersion": "1.3"
+    },
+    "serviceWorkerUrl": "chrome-extension://gehacgfccceonjllccgcobfghpaigdoj/src/background/service-worker.js",
+    "panelCollector": true,
+    "panelUi": {
+      "present": {
+        "assistant-toggle": true,
+        "capture-button": true,
+        "record-button": true,
+        "server-chip": true,
+        "refresh-health": true,
+        "cc-chip": true,
+        "cc-board": true,
+        "cc-fen": true,
+        "cc-moves": true,
+        "cc-turn": true,
+        "cc-color": true,
+        "cc-mismatch": true,
+        "cc-refresh": true,
+        "cc-snapshot": true,
+        "cc-snapshot-status": true,
+        "cc-color-setting": true
+      },
+      "inlineScripts": 0
+    },
+    "snapshotReplays": {
+      "dir": "test/fixtures/chesscom-snapshots",
+      "files": []
+    },
+    "adapterDebugLines": 13,
+    "extensionConsoleClean": true
+  },
+  "cases": {
+    "flipped-black": {
+      "url": "http://127.0.0.1:45407/chesscom/flipped-black.html",
+      "pass": true,
+      "failures": [],
+      "state": {
+        "ok": true,
+        "fen": "rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+        "movesUci": [
+          "e2e4",
+          "c7c5",
+          "g1f3",
+          "d7d6"
+        ],
+        "userColor": "black",
+        "flipped": true,
+        "boardRect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "gameUrl": "http://127.0.0.1:45407/chesscom/flipped-black.html",
+        "gameId": null,
+        "ts": "2026-10-16T17:52:50.323Z",
+        "boardId": "board-single",
+        "boardTag": "wc-chess-board",
+        "boardInViewport": true,
+        "turn": "w",
+        "moveCount": 4,
+        "moveListCount": 4,
+        "positionSource": "piece-square-class",
+        "historySource": "move-list",
+        "historyStatus": "replayed",
+        "flippedSource": "board-class",
+        "userColorSource": "player-bottom-clock",
+        "sideToMoveSource": "default",
+        "boardStateAgrees": null,
+        "warnings": [],
+        "strategyLog": [
+          {
+            "strategy": "piece-square-class",
+            "ok": true,
+            "pieces": 32
+          }
+        ],
+        "sessionSeq": 0,
+        "resetDetected": false,
+        "adapterVersion": "m3.0"
+      },
+      "groundTruth": {
+        "fen": "rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+        "movesUci": [
+          "e2e4",
+          "c7c5",
+          "g1f3",
+          "d7d6"
+        ],
+        "userColor": "black",
+        "flipped": true,
+        "boardId": "board-single",
+        "rect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "viewport": {
+          "w": 1440,
+          "h": 757
+        },
+        "boardsOnPage": 3
+      },
+      "panel": {
+        "chip": "listening",
+        "chipClass": "chip chip-online",
+        "board": "#board-single · wc-chess-board",
+        "fen": "rnbqkbnr/pp2pppp/3p4/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+        "moves": "4 moves · replayed",
+        "turn": "white to move",
+        "color": "black (player-bottom-clock)",
+        "mismatchHidden": true
+      },
+      "rectErrors": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trapBoards": 2,
+      "panelScreenshot": "test/fixtures/captures/adapter/flipped-black-panel.png"
+    },
+    "middlegame-castling": {
+      "url": "http://127.0.0.1:45407/chesscom/middlegame-castling.html",
+      "pass": true,
+      "failures": [],
+      "state": {
+        "ok": true,
+        "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6"
+        ],
+        "userColor": "white",
+        "flipped": false,
+        "boardRect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "gameUrl": "http://127.0.0.1:45407/chesscom/middlegame-castling.html",
+        "gameId": null,
+        "ts": "2026-10-16T17:52:52.004Z",
+        "boardId": "board-play-computer",
+        "boardTag": "wc-chess-board",
+        "boardInViewport": true,
+        "turn": "w",
+        "moveCount": 14,
+        "moveListCount": 14,
+        "positionSource": "piece-square-class",
+        "historySource": "move-list",
+        "historyStatus": "replayed",
+        "flippedSource": "board-class",
+        "userColorSource": "player-bottom-clock",
+        "sideToMoveSource": "default",
+        "boardStateAgrees": null,
+        "warnings": [],
+        "strategyLog": [
+          {
+            "strategy": "piece-square-class",
+            "ok": true,
+            "pieces": 30
+          }
+        ],
+        "sessionSeq": 0,
+        "resetDetected": false,
+        "adapterVersion": "m3.0"
+      },
+      "groundTruth": {
+        "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6"
+        ],
+        "userColor": "white",
+        "flipped": false,
+        "boardId": "board-play-computer",
+        "rect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "viewport": {
+          "w": 1440,
+          "h": 757
+        },
+        "boardsOnPage": 3
+      },
+      "panel": {
+        "chip": "listening",
+        "chipClass": "chip chip-online",
+        "board": "#board-play-computer · wc-chess-board",
+        "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+        "moves": "14 moves · replayed",
+        "turn": "white to move",
+        "color": "white (player-bottom-clock)",
+        "mismatchHidden": true
+      },
+      "rectErrors": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trapBoards": 2,
+      "panelScreenshot": "test/fixtures/captures/adapter/middlegame-castling-panel.png"
+    },
+    "startpos": {
+      "url": "http://127.0.0.1:45407/chesscom/startpos.html",
+      "pass": true,
+      "failures": [],
+      "state": {
+        "ok": true,
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "movesUci": [],
+        "userColor": "white",
+        "flipped": false,
+        "boardRect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "gameUrl": "http://127.0.0.1:45407/chesscom/startpos.html",
+        "gameId": null,
+        "ts": "2026-10-16T17:52:52.997Z",
+        "boardId": "board-single",
+        "boardTag": "wc-chess-board",
+        "boardInViewport": true,
+        "turn": "w",
+        "moveCount": 0,
+        "moveListCount": 0,
+        "positionSource": "piece-square-class",
+        "historySource": "move-list-empty",
+        "historyStatus": "startpos",
+        "flippedSource": "board-class",
+        "userColorSource": "player-bottom-clock",
+        "sideToMoveSource": "default",
+        "boardStateAgrees": null,
+        "warnings": [],
+        "strategyLog": [
+          {
+            "strategy": "piece-square-class",
+            "ok": true,
+            "pieces": 32
+          }
+        ],
+        "sessionSeq": 0,
+        "resetDetected": false,
+        "adapterVersion": "m3.0"
+      },
+      "groundTruth": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "movesUci": [],
+        "userColor": "white",
+        "flipped": false,
+        "boardId": "board-single",
+        "rect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "viewport": {
+          "w": 1440,
+          "h": 757
+        },
+        "boardsOnPage": 3
+      },
+      "panel": {
+        "chip": "listening",
+        "chipClass": "chip chip-online",
+        "board": "#board-single · wc-chess-board",
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": "0 moves · startpos",
+        "turn": "white to move",
+        "color": "white (player-bottom-clock)",
+        "mismatchHidden": true
+      },
+      "rectErrors": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trapBoards": 2,
+      "panelScreenshot": "test/fixtures/captures/adapter/startpos-panel.png"
+    },
+    "dom-change": {
+      "pass": true,
+      "failures": [],
+      "before": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "after": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/5N2/PPPPPPPP/RNBQKB1R b KQkq - 1 1",
+        "movesUci": [
+          "g1f3"
+        ],
+        "historyStatus": "replayed"
+      }
+    },
+    "snapshot-recorder": {
+      "pass": true,
+      "failures": [],
+      "file": "de8df000-5582-4490-8392-ecc50a1df145.json",
+      "sanitized": {
+        "containsTopUsername": false,
+        "containsBottomUsername": false,
+        "containsUserUploadUrl": false,
+        "containsMemberLink": false,
+        "usernamePlaceholders": 2
+      },
+      "state": {
+        "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6"
+        ],
+        "userColor": "white",
+        "flipped": false
+      },
+      "evidence": "test/fixtures/captures/adapter/snapshot-recorder.json",
+      "requestedName": "chesscom-snapshot-20261016-232254.json"
+    }
+  },
+  "snapshotReplays": {
+    "self-test (fixture snapshot)": {
+      "pass": true,
+      "failures": [],
+      "recorded": {
+        "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6"
+        ],
+        "userColor": "white",
+        "flipped": false
+      },
+      "parsed": {
+        "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6"
+        ],
+        "userColor": "white",
+        "flipped": false,
+        "ok": true
+      }
+    }
+  },
+  "failures": [],
+  "console": {
+    "panel": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/health)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/snapshot)"
+      }
+    ],
+    "serviceWorker": [],
+    "pages": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/flipped-black.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45407/favicon.ico)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=14"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=1"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=14"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/replay.html?url=%2Fcaptures%2Fadapter%2Fsnapshot-recorder.json)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=14"
+      }
+    ],
+    "panelErrors": [],
+    "serviceWorkerErrors": [],
+    "pageErrors": [],
+    "networkErrors": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/health)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/snapshot)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45407/favicon.ico)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      }
+    ]
+  },
+  "ok": true
+}

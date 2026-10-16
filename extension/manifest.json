@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "humanplay",
-  "version": "0.1.0",
-  "description": "Human-like chess move assistant: captures the board from the tab and asks a local Maia-3 helper server.",
+  "version": "0.2.0",
+  "description": "Human-like chess move assistant for chess.com: reads the game state from the DOM and asks a local Maia-3 helper server.",
   "minimum_chrome_version": "116",
   "icons": {
     "16": "icons/icon16.png",
@@ -27,5 +27,22 @@
     "default_path": "src/ui/sidepanel.html"
   },
   "permissions": ["activeTab", "storage", "sidePanel", "downloads"],
-  "host_permissions": ["http://127.0.0.1:8765/*"]
+  "host_permissions": ["http://127.0.0.1:8765/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.chess.com/*", "https://chess.com/*"],
+      "js": ["src/content/chesscom-adapter.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/content/board-dom.js",
+        "src/content/move-history.js",
+        "vendor/chess.js"
+      ],
+      "matches": ["https://www.chess.com/*", "https://chess.com/*"]
+    }
+  ]
 }

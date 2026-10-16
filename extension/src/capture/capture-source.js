@@ -14,10 +14,16 @@
  *       tabTitle:   string                       // best-effort, "" if unknown
  *     }
  *
- * Downstream milestones (board locator M3, classifier M4, tracker M5, server
- * call M6) must consume frames ONLY through this interface, never by calling
- * chrome.tabs.captureVisibleTab (or any other capture API) directly. That keeps
- * a future desktop-capture source a drop-in addition.
+ * Downstream code must consume frames ONLY through this interface, never by
+ * calling chrome.tabs.captureVisibleTab (or any other capture API) directly.
+ * That keeps a future desktop-capture source a drop-in addition.
+ *
+ * Milestone note (M3): the product path no longer uses frames at all — chess.com
+ * game state is read from the DOM by the content script. This abstraction and
+ * its screenshot frames remain as a DEBUG TOOL (panel "Capture now" + "Record
+ * fixture (PNG)"), and as the seam a future desktop source would plug into
+ * (docs/PROJECT.md, locked decisions; pixel recognition is parked under
+ * parked/image-recognition/).
  *
  * Choose a source with `getCaptureSource(kind, options)`; the default kind is
  * "browser-tab". "desktop" exists as a seam only (out of scope for now): it

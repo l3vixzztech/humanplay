@@ -1,0 +1,41 @@
+{
+  "name": "extension-capture startpos 1100x757",
+  "image": {
+    "width": 1100,
+    "height": 757
+  },
+  "groundTruth": {
+    "x": 328.46153846153845,
+    "y": 114.46153846153847,
+    "w": 443.0769230769231,
+    "h": 443.0769230769231
+  },
+  "result": {
+    "ok": true,
+    "rect": {
+      "x": 327.6471925362658,
+      "y": 113.61087541629395,
+      "w": 443.70206971389047,
+      "h": 443.70206971389047
+    },
+    "squareSize": 55.46275871423631,
+    "confidence": 0.6597774341969902,
+    "method": "gradient-lattice-9"
+  },
+  "locateMs": 44.4,
+  "deterministic": true,
+  "overlay": "test/fixtures/captures/locator/extension-capture-startpos-1100x757-overlay.png",
+  "errors": {
+    "left": -0.81,
+    "top": -0.85,
+    "right": -0.19,
+    "bottom": -0.23,
+    "width": 0.63,
+    "height": 0.63,
+    "maxEdge": 0.85
+  },
+  "tolerance": 4,
+  "pass": true,
+  "failure": null,
+  "frame": "test/fixtures/captures/locator/extension-capture-startpos-1100x757-overlay-frame.png"
+}

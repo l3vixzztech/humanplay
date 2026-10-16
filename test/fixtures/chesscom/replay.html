@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="humanplay-fixture" content="chesscom-replay" />
+    <title>humanplay — chess.com snapshot replay</title>
+    <style>
+      /* Minimal layout so the rebuilt board/move list have sane geometry.
+         This page validates PARSING, not chess.com's look. */
+      html, body { margin: 0; background: #312e2b; color: #e8e6e3;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+      #board-layout-main { display: flex; gap: 20px; padding: 18px; align-items: flex-start; }
+      .board-column { display: flex; flex-direction: column; gap: 8px; }
+      .player-component { display: flex; align-items: center; gap: 10px; padding: 4px 2px; }
+      wc-chess-board.board { display: block; position: relative; width: 560px; height: 560px;
+        background: repeating-conic-gradient(#ebecd0 0% 25%, #779556 0% 50%); background-size: 25% 25%; }
+      wc-chess-board .coordinates { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .piece { position: absolute; width: 12.5%; height: 12.5%; }
+      .highlight { position: absolute; width: 12.5%; height: 12.5%; }
+      #board-layout-sidebar { width: 260px; background: #262421; border-radius: 6px; padding: 10px 12px; }
+      wc-simple-move-list .move-list-row, wc-vertical-move-list .move-list-row {
+        display: grid; grid-template-columns: 28px 1fr 1fr; gap: 2px 8px; font-size: 14px; padding: 1px 4px; }
+      wc-simple-move-list [data-move-list-el="timestamp"], wc-vertical-move-list [data-move-list-el="timestamp"] { display: none; }
+      .replay-status { padding: 10px 18px; color: #a8a6a4; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <p class="replay-status" id="replay-status">loading snapshot…</p>
+    <div id="board-layout-main"></div>
+
+    <script>
+      /**
+       * Rebuilds a chess.com game page from a sanitized snapshot recorded by the
+       * panel's "Record chess.com snapshot" button (test/fixtures/chesscom-snapshots/).
+       * The proof harness then asserts that the adapter parses the rebuilt page
+       * into the same state the snapshot was recorded with.
+       *
+       * Usage: http://127.0.0.1:8765/chesscom/replay.html?name=<file>.json
+       */
+      (() => {
+        const status = document.getElementById("replay-status");
+        const host = document.getElementById("board-layout-main");
+        const params = new URLSearchParams(location.search);
+        const name = params.get("name");
+        const urlParam = params.get("url");
+        const source = urlParam || (name ? `../chesscom-snapshots/${encodeURIComponent(name)}` : null);
+        if (!source) {
+          status.textContent = "missing ?name=<snapshot file>.json (or ?url=<snapshot url>)";
+          globalThis.__humanplayReplay = { ok: false, error: "missing ?name" };
+          return;
+        }
+        fetch(source, { cache: "no-store" })
+          .then((response) => {
+            if (!response.ok) throw new Error(`HTTP ${response.status} for ${source}`);
+            return response.json();
+          })
+          .then((snapshot) => {
+            const players = snapshot.players ?? {};
+            // Prefer the sanitized player strips from the snapshot; otherwise
+            // synthesize minimal ones so the color detection path still works.
+            let strips = snapshot.playersOuterHTML ?? "";
+            if (!strips && (players.top?.color || players.bottom?.color)) {
+              strips =
+                `<div id="board-layout-player-top" class="board-layout-player board-layout-top">
+                   <div class="player-component player-top"><div class="clock-component clock-top clock-${players.top?.color ?? "black"}">10:00</div></div>
+                 </div>` +
+                (players.bottom?.color
+                  ? `<div class="player-component player-bottom"><div class="clock-component clock-bottom clock-${players.bottom.color}">10:00</div></div>`
+                  : "");
+            }
+            const side = `<div id="board-layout-sidebar"><wc-simple-move-list></wc-simple-move-list></div>`;
+            host.innerHTML =
+              `<div class="board-column">${strips}${snapshot.boardOuterHTML ?? ""}</div>` + side;
+            const moveListHost = host.querySelector("#board-layout-sidebar");
+            moveListHost.innerHTML = snapshot.moveListOuterHTML ?? "";
+            status.textContent = `replaying ${name ?? urlParam} — state recorded: ${snapshot.state?.fen ?? "?"}`;
+            globalThis.__humanplayReplay = {
+              ok: true,
+              name: name ?? urlParam,
+              schema: snapshot.schema ?? null,
+              recordedState: snapshot.state ?? null,
+            };
+          })
+          .catch((error) => {
+            status.textContent = `snapshot replay failed: ${error.message}`;
+            globalThis.__humanplayReplay = { ok: false, error: String(error.message ?? error) };
+          });
+      })();
+    </script>
+  </body>
+</html>

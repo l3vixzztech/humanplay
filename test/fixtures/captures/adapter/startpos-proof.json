@@ -1,0 +1,84 @@
+{
+  "slug": "startpos",
+  "url": "http://127.0.0.1:45407/chesscom/startpos.html",
+  "pass": true,
+  "failures": [],
+  "state": {
+    "ok": true,
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "movesUci": [],
+    "userColor": "white",
+    "flipped": false,
+    "boardRect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "gameUrl": "http://127.0.0.1:45407/chesscom/startpos.html",
+    "gameId": null,
+    "ts": "2026-10-16T17:52:52.997Z",
+    "boardId": "board-single",
+    "boardTag": "wc-chess-board",
+    "boardInViewport": true,
+    "turn": "w",
+    "moveCount": 0,
+    "moveListCount": 0,
+    "positionSource": "piece-square-class",
+    "historySource": "move-list-empty",
+    "historyStatus": "startpos",
+    "flippedSource": "board-class",
+    "userColorSource": "player-bottom-clock",
+    "sideToMoveSource": "default",
+    "boardStateAgrees": null,
+    "warnings": [],
+    "strategyLog": [
+      {
+        "strategy": "piece-square-class",
+        "ok": true,
+        "pieces": 32
+      }
+    ],
+    "sessionSeq": 0,
+    "resetDetected": false,
+    "adapterVersion": "m3.0"
+  },
+  "groundTruth": {
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "movesUci": [],
+    "userColor": "white",
+    "flipped": false,
+    "boardId": "board-single",
+    "rect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "viewport": {
+      "w": 1440,
+      "h": 757
+    },
+    "boardsOnPage": 3
+  },
+  "panel": {
+    "chip": "listening",
+    "chipClass": "chip chip-online",
+    "board": "#board-single · wc-chess-board",
+    "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "moves": "0 moves · startpos",
+    "turn": "white to move",
+    "color": "white (player-bottom-clock)",
+    "mismatchHidden": true
+  },
+  "rectErrors": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0
+  },
+  "trapBoards": 2,
+  "panelScreenshot": "test/fixtures/captures/adapter/startpos-panel.png"
+}

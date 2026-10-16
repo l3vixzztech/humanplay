@@ -1,0 +1,48 @@
+{
+  "check": "live chess.com verification of the M3 adapter (one-off, not part of the pass/fail suite)",
+  "date": "2026-10-16",
+  "method": {
+    "browser": "Chrome for Testing 155.0.8059.84, headless=new, CDP",
+    "extension": "the SHIPPED extension/ directory (no manifest variant, no test-only matches)",
+    "page": "https://www.chess.com/game/live/186394589423 (public finished blitz game; URL taken from the public chess.com API)",
+    "collector": "the side panel document opened as a tab, raw chrome.runtime GameState listener",
+    "ground_truth": "the game's official PGN from https://api.chess.com/pub/player/hikaru/games/2026/10 replayed with python-chess (independent rules engine)"
+  },
+  "state_sequence": [
+    { "boardId": "board", "ok": false, "reason": "board found but neither its position nor a move list could be read", "note": "chess.com's pre-JS skeleton board (a CSS-sprite .board without .piece children) — the adapter reports it honestly, then re-emits when the real board appears" },
+    { "boardId": "board-single", "ok": true, "historySource": "absent", "fen": "2r5/8/8/7k/8/5N2/6P1/5nK1 w - - 0 1", "warnings": ["side to move inferred from active-clock; castling/en-passant/move counters unknown"], "note": "pieces rendered before the move list: degraded metadata is flagged, not guessed silently" },
+    { "boardId": "board-single", "ok": true, "historySource": "move-list", "historyStatus": "replayed" }
+  ],
+  "final_state": {
+    "ok": true,
+    "fen": "2r5/8/8/7k/8/5N2/6P1/5nK1 w - - 0 72",
+    "movesUci": "142 plies, byte-equal to the PGN replay",
+    "userColor": "white",
+    "flipped": false,
+    "boardId": "board-single",
+    "positionSource": "piece-square-class",
+    "historySource": "move-list",
+    "historyStatus": "replayed",
+    "mismatch": null,
+    "warnings": [],
+    "boardRect": { "x": 223, "y": 66, "w": 624, "h": 624 },
+    "devicePixelRatio": 1
+  },
+  "assertions": {
+    "fen_equal_to_pgn": true,
+    "uci_history_equal_to_pgn": true,
+    "userColor": "white",
+    "flipped": false,
+    "mismatch": null
+  },
+  "also_verified_live_same_day": {
+    "skeleton_board": "chess.com keeps a visible, same-sized #board.board skeleton div alongside/after load — the adapter prefers wc-chess-board over it (regression-trapped in test/fixtures/generate_chesscom.py)",
+    "flipped_board": "the play-computer side selector for black adds class=\"flipped\" to wc-chess-board; piece square classes stay absolute",
+    "internal_api": "wc-chess-board.game.getFEN()/getHistorySANs() returned the same position/history (used only as fallback/cross-check)"
+  },
+  "what_this_does_not_cover": [
+    "the real side-panel container (the collector ran in the panel document opened as a tab)",
+    "the toolbar-click / activeTab flow",
+    "interaction (clicking the panel buttons by hand) — covered by the manual checklist in docs/HANDOFF.md"
+  ]
+}

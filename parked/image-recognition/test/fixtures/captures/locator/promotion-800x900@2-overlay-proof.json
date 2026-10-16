@@ -1,0 +1,64 @@
+{
+  "name": "promotion@800x900@2",
+  "image": {
+    "width": 1600,
+    "height": 1800
+  },
+  "groundTruth": {
+    "x": 356.9230769230769,
+    "y": 228.92307692307693,
+    "w": 886.1538461538462,
+    "h": 886.1538461538462
+  },
+  "result": {
+    "ok": true,
+    "rect": {
+      "x": 356.29994673843146,
+      "y": 228.38924186368965,
+      "w": 886.3074474242876,
+      "h": 886.3074474242876
+    },
+    "squareSize": 110.78843092803595,
+    "confidence": 0.8687169328443762,
+    "method": "gradient-lattice-9"
+  },
+  "locateMs": 87.2,
+  "deterministic": true,
+  "overlay": "test/fixtures/captures/locator/promotion-800x900@2-overlay.png",
+  "errors": {
+    "left": -0.62,
+    "top": -0.53,
+    "right": -0.47,
+    "bottom": -0.38,
+    "width": 0.15,
+    "height": 0.15,
+    "maxEdge": 0.62
+  },
+  "tolerance": 6,
+  "pass": true,
+  "failure": null,
+  "frame": "test/fixtures/captures/locator/promotion-800x900@2-overlay-frame.png",
+  "groundTruthCss": {
+    "x": 178.46153846153845,
+    "y": 114.46153846153847,
+    "w": 443.0769230769231,
+    "h": 443.0769230769231,
+    "svg": {
+      "x": 160,
+      "y": 96,
+      "w": 480,
+      "h": 480
+    },
+    "viewport": {
+      "w": 800,
+      "h": 900,
+      "dpr": 2
+    }
+  },
+  "groundTruthVisible": true,
+  "viewport": {
+    "width": 800,
+    "height": 900,
+    "dpr": 2
+  }
+}
