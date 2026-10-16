@@ -1,6 +1,6 @@
 {
   "slug": "ruy-lopez",
-  "url": "http://127.0.0.1:45581/chesscom/ruy-lopez.html",
+  "url": "http://127.0.0.1:46185/chesscom/ruy-lopez.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -33,9 +33,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:45581/chesscom/ruy-lopez.html",
+    "gameUrl": "http://127.0.0.1:46185/chesscom/ruy-lopez.html",
     "gameId": null,
-    "ts": "2026-10-16T22:01:18.016Z",
+    "ts": "2026-10-16T22:13:49.049Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,
@@ -45,6 +45,10 @@
     "positionSource": "piece-square-class",
     "historySource": "move-list",
     "historyStatus": "replayed",
+    "historyTracking": {
+      "active": false,
+      "moves": 16
+    },
     "flippedSource": "board-class",
     "userColorSource": "player-bottom-clock",
     "sideToMoveSource": "default",
@@ -59,7 +63,7 @@
     ],
     "sessionSeq": 0,
     "resetDetected": false,
-    "adapterVersion": "m3.2"
+    "adapterVersion": "m3.3"
   },
   "groundTruth": {
     "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",

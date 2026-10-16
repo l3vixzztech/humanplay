@@ -207,6 +207,25 @@ def reference_positions() -> list[dict]:
             ),
             "stray_moves_san": ((5, "Bc5"),),
         },
+        {
+            # M9.2: the move list is GONE (long games virtualise/recycle it —
+            # observed live: a late-game position with only 2 readable nodes).
+            # The adapter must still report the correct side to move (from the
+            # last-move highlight) and TRACK subsequent moves by diffing the
+            # board (historyStatus "tracked"; exercised by the board-tracking
+            # case in adapter-proof.mjs).
+            "slug": "highlight-turn",
+            "title": "chess.com fixture — no move list; highlight + board tracking (M9.2)",
+            "board_id": "board-single",
+            "no_move_list": True,
+            "user_color": "white",
+            "flipped": False,
+            "top_color": "black",
+            "bottom_color": "white",
+            "top_player": "MaiaBot-2400",
+            "bottom_player": "humanplay-session-user",
+            "moves_san": ("e4", "e5"),
+        },
     ]
 
 
@@ -497,7 +516,7 @@ def render_page(spec: dict, board: chess.Board, uci: list[str], last_move: chess
         bottom_player=player_strip("bottom", spec["bottom_color"], spec["bottom_player"]),
         legacy_board=LEGACY_BOARD_TRAP,
         board=board_markup(board, spec["board_id"], spec["flipped"], last_move),
-        move_list=move_list_markup(
+        move_list="" if spec.get("no_move_list") else move_list_markup(
             spec["moves_san"],
             spec["board_id"],
             stray_moves=spec.get("stray_moves_san", ()),

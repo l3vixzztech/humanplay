@@ -23,6 +23,10 @@ import {
   sanTokensFromNodeTexts,
   replaySanList,
   replaySanListResilient,
+  turnFromHighlightPieces,
+  findMovesToBoardField,
+  applyUciToFen,
+  seedCastlingRights,
   fenFields,
   fenBoardField,
   sideToMoveFromPly,
@@ -335,6 +339,50 @@ test("replaySanListResilient: an empty list is a valid startpos", () => {
   const result = replaySanListResilient([]);
   eq(result.ok, true, "ok");
   eq(result.fen, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "startpos fen");
+});
+
+/* ------------------------------------ M9.2: highlight turn + board tracking */
+
+test("turnFromHighlightPieces: exactly one colour on the highlight -> other side moves", () => {
+  eq(turnFromHighlightPieces(["white"]), "b", "white just moved");
+  eq(turnFromHighlightPieces(["black"]), "w", "black just moved");
+  eq(turnFromHighlightPieces([null, "white"]), "b", "nulls ignored");
+  eq(turnFromHighlightPieces(["white", "black"]), null, "two colours -> ambiguous");
+  eq(turnFromHighlightPieces([]), null, "no pieces -> unknown");
+  eq(turnFromHighlightPieces(undefined), null, "missing -> unknown");
+});
+
+test("seedCastlingRights: granted only while king + rook are home", () => {
+  eq(seedCastlingRights("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"), "KQkq", "startpos");
+  eq(
+    seedCastlingRights("r1bq1knr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R"),
+    "KQ",
+    "castling position: white keeps both, black king has left e8",
+  );
+  eq(seedCastlingRights("r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1"), "-", "both kings moved");
+  eq(seedCastlingRights("garbage"), "-", "malformed board field");
+});
+
+test("findMovesToBoardField: unique explaining move from the placement diff", () => {
+  const start = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  eq(findMovesToBoardField(start, "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR"), ["e2e4"], "1.e4 unique");
+  eq(findMovesToBoardField("not a fen", "8/8/8/8/8/8/8/8"), null, "invalid fen -> null");
+});
+
+test("findMovesToBoardField: en passant needs the ep square in the FEN", () => {
+  const withEp = "rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3";
+  const withoutEp = "rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3";
+  const target = "rnbqkbnr/ppp1p1pp/5P2/3p4/8/8/PPPP1PPP/RNBQKBNR";
+  eq(findMovesToBoardField(withEp, target), ["e5f6"], "ep capture found when the ep square is set");
+  eq(findMovesToBoardField(withoutEp, target), [], "no match without the ep square (tracker re-seeds)");
+});
+
+test("applyUciToFen: legal move applies, illegal is rejected", () => {
+  const start = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  const applied = applyUciToFen(start, "e2e4");
+  eq(applied.ok, true, "ok");
+  eq(applied.fen, "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1", "fen after 1.e4");
+  eq(applyUciToFen(start, "e2e5").ok, false, "illegal move rejected");
 });
 
 /* ------------------------------------------------------------------ done */

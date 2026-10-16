@@ -1823,14 +1823,16 @@ function renderChesscomState(state, tabId) {
       (state.boardTag ? ` · ${state.boardTag}` : "") +
       (state.boardInViewport === false ? " · off-screen" : "");
     els.ccFen.textContent = state.fen;
+    const moveCount = state.historyTracking?.active ? state.historyTracking.moves : state.movesUci.length;
     els.ccMoves.textContent =
-      `${state.movesUci.length} move${state.movesUci.length === 1 ? "" : "s"}` +
+      `${moveCount} move${moveCount === 1 ? "" : "s"}` +
       (state.historyStatus ? ` · ${state.historyStatus}` : "") +
+      (state.historyTracking?.active ? " (tracked from the board)" : "") +
       (state.sessionSeq ? ` · session ${state.sessionSeq}` : "");
     els.ccTurn.textContent = `${state.turn === "b" ? "black" : "white"} to move`;
     els.ccColor.textContent = state.userColor
       ? `${state.userColor} (${state.userColorSource ?? "?"})`
-      : `unknown (${state.userColorSource ?? "?"})`;
+      : `unknown (${state.userColorSource ?? "auto"}) — pick a fallback color below`;
 
     if (state.mismatch) {
       const mismatch = state.mismatch;

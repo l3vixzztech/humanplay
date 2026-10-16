@@ -1,6 +1,6 @@
 {
   "slug": "artifact-token",
-  "url": "http://127.0.0.1:45581/chesscom/artifact-token.html",
+  "url": "http://127.0.0.1:46185/chesscom/artifact-token.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -31,9 +31,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:45581/chesscom/artifact-token.html",
+    "gameUrl": "http://127.0.0.1:46185/chesscom/artifact-token.html",
     "gameId": null,
-    "ts": "2026-10-16T22:01:11.605Z",
+    "ts": "2026-10-16T22:13:42.152Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,
@@ -43,6 +43,10 @@
     "positionSource": "piece-square-class",
     "historySource": "move-list",
     "historyStatus": "replayed",
+    "historyTracking": {
+      "active": false,
+      "moves": 14
+    },
     "flippedSource": "board-class",
     "userColorSource": "player-bottom-clock",
     "sideToMoveSource": "default",
@@ -60,7 +64,7 @@
     ],
     "sessionSeq": 0,
     "resetDetected": false,
-    "adapterVersion": "m3.2"
+    "adapterVersion": "m3.3"
   },
   "groundTruth": {
     "fen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",

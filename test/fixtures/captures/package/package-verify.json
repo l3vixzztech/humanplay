@@ -1,11 +1,11 @@
 {
   "tool": "package-verify.mjs",
-  "generatedAt": "2026-10-16T22:03:29.547Z",
+  "generatedAt": "2026-10-16T22:14:45.766Z",
   "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
-  "zip": "dist/humanplay-1.0.1.zip",
+  "zip": "dist/humanplay-1.0.2.zip",
   "checks": {
     "manifest": {
-      "version": "1.0.1",
+      "version": "1.0.2",
       "name": "humanplay",
       "minimum_chrome_version": "116",
       "permissions": [
@@ -43,9 +43,9 @@
     },
     "serviceWorker": {
       "registered": true,
-      "url": "chrome-extension://gjdkchkkhmkdaejfchbldfejmlkbppie/src/background/service-worker.js",
-      "extensionId": "gjdkchkkhmkdaejfchbldfejmlkbppie",
-      "title": "Service Worker chrome-extension://gjdkchkkhmkdaejfchbldfejmlkbppie/src/background/service-worker.js"
+      "url": "chrome-extension://ejjgbmlfpdholgeiikdiooingeknfpge/src/background/service-worker.js",
+      "extensionId": "ejjgbmlfpdholgeiikdiooingeknfpge",
+      "title": "Service Worker chrome-extension://ejjgbmlfpdholgeiikdiooingeknfpge/src/background/service-worker.js"
     },
     "sidePanelDocument": {
       "path": "src/ui/sidepanel.html",

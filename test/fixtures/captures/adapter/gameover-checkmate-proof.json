@@ -1,6 +1,6 @@
 {
   "slug": "gameover-checkmate",
-  "url": "http://127.0.0.1:45581/chesscom/gameover-checkmate.html",
+  "url": "http://127.0.0.1:46185/chesscom/gameover-checkmate.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -24,9 +24,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:45581/chesscom/gameover-checkmate.html",
+    "gameUrl": "http://127.0.0.1:46185/chesscom/gameover-checkmate.html",
     "gameId": null,
-    "ts": "2026-10-16T22:01:14.014Z",
+    "ts": "2026-10-16T22:13:45.026Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,
@@ -36,6 +36,10 @@
     "positionSource": "piece-square-class",
     "historySource": "move-list",
     "historyStatus": "replayed",
+    "historyTracking": {
+      "active": false,
+      "moves": 7
+    },
     "flippedSource": "board-class",
     "userColorSource": "player-bottom-clock",
     "sideToMoveSource": "default",
@@ -50,7 +54,7 @@
     ],
     "sessionSeq": 0,
     "resetDetected": false,
-    "adapterVersion": "m3.2"
+    "adapterVersion": "m3.3"
   },
   "groundTruth": {
     "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",

@@ -2,6 +2,38 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Hotfix v1.0.2 — M9.2: board-diff move tracking + highlight turn (long-game lockout) 🚑
+
+**Reported live (after v1.0.1):** in a long bot game the card showed `0 moves · dropped`, a
+`board-history-disagreement` mentioning a **2-move** list, `you play: unknown` and turn from
+history-parity — no suggestions at all. Diagnosis from the reported FEN/late position: chess.com
+renders only a **sliver** of the move list in long games (2 readable nodes) — replaying those from
+the start position can never reconcile, so history died and the pipeline went idle.
+
+**Fix (extension only):**
+- **Board-diff move tracking (`historyStatus: "tracked"`)**: when no move-list candidate reconciles
+  but the board is readable, the adapter follows the game by diffing placements — the unique legal
+  move whose result equals the observed board (`findMovesToBoardField`, vendored chess.js). Seeds
+  from the exact board-exposed FEN when available, else placement + the side-to-move ladder + a
+  castling-rights heuristic (`seedCastlingRights`: a colour keeps its rights only while king + rook
+  sit home — safe: a game without rights never castles). Castling/en-passant surprises against a
+  heuristic seed re-seed the tracker at the observed position. The FEN **turn stays exact** after
+  the first tracked move and suggestions/premove/commentary keep working (clients send the board
+  FEN alone; Maia history planes are unavailable in tracked mode — documented).
+- **Highlight-based side to move**: `detectSideToMoveFromHighlight` reads the last-move highlight
+  (the piece colour on the highlighted squares = who just moved) and slots into the ladder
+  clock → highlight → parity. This fixes "shows black's move when it is my turn".
+- `you play: unknown` now points at the fallback-color select; the setting drives the gate when
+  auto-detection fails.
+- Mismatch diagnostics report the MOST COMPLETE candidate list (previously a 2-node artifact could
+  be quoted in the banner).
+
+**Verified:** adapter-unit **32/32** (+5: highlight turn, castling heuristic, explaining-move diff
+incl. en passant, applyUciToFen); adapter-proof **ALL PASSED** with a new dedicated
+`board-tracking` case on the new `highlight-turn` fixture (no move list at all → highlight turn
+`w` → tracked Nf3 → turn `b`, `historyTracking.moves` 1); acceptance `--real` against the live
+server **ALL PASSED** (rematch + 104-ply soak). **Extension reload required; server unchanged.**
+
 ## Hotfix v1.0.1 — M9.1: move-list reconciliation + resilient replay (live-game mismatch) 🚑
 
 **Reported in live play:** the panel repeatedly showed `mismatch: history-unreliable … (move list

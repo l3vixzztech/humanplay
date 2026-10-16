@@ -180,6 +180,86 @@ export function replaySanListResilient(sanList, { startFen = INITIAL_FEN } = {})
   };
 }
 
+/**
+ * Side to move from the pieces sitting on the "last move" highlight (M9.2):
+ * chess.com marks the last move's from/to squares; the destination square
+ * holds the piece that just moved (a capture leaves the mover's piece there).
+ * `colors` is the list of colours of pieces found on highlighted squares.
+ * Exactly one colour → the other side is to move; anything else is ambiguous.
+ * @param {Array<"white"|"black"|null>} colors
+ * @returns {"w"|"b"|null}
+ */
+export function turnFromHighlightPieces(colors) {
+  const moved = (Array.isArray(colors) ? colors : []).filter((color) => color === "white" || color === "black");
+  if (moved.length !== 1) return null;
+  return moved[0] === "white" ? "b" : "w";
+}
+
+/**
+ * UCI moves whose result board field equals `boardField`, or null when the FEN
+ * is invalid (M9.2 board-diff tracking: which single move explains the new
+ * board?). Uniqueness holds in practice — two different legal moves cannot
+ * produce the identical piece placement.
+ */
+export function findMovesToBoardField(fen, boardField) {
+  if (!validateFen(fen).ok || typeof boardField !== "string" || !boardField) return null;
+  const chess = new Chess(fen);
+  const matches = [];
+  for (const move of chess.moves({ verbose: true })) {
+    chess.move(move);
+    if (fenBoardField(chess.fen()) === boardField) {
+      matches.push(`${move.from}${move.to}${move.promotion ?? ""}`);
+    }
+    chess.undo();
+  }
+  return matches;
+}
+
+/** Apply one UCI move to a FEN. */
+export function applyUciToFen(fen, uci) {
+  const check = validateFen(fen);
+  if (!check.ok) return { ok: false, error: `invalid FEN: ${check.error}`, fen };
+  const chess = new Chess(fen);
+  let move = null;
+  try {
+    move = chess.move(uci);
+  } catch {
+    move = null;
+  }
+  if (!move) return { ok: false, error: `illegal UCI move: ${uci} for ${fen}`, fen };
+  return { ok: true, fen: chess.fen(), move: `${move.from}${move.to}${move.promotion ?? ""}` };
+}
+
+/**
+ * Castling-rights heuristic for a board-tracking seed FEN (M9.2): a colour is
+ * granted its rights only when its king AND the relevant rook sit on home
+ * squares. Safe for tracking — a game that lost its rights never castles, so
+ * the generous grant is never exercised; a game that still has them is covered.
+ */
+export function seedCastlingRights(boardField) {
+  const ranks = String(boardField ?? "").split("/");
+  if (ranks.length !== 8) return "-";
+  const expand = (rank) => {
+    const out = [];
+    for (const ch of rank) {
+      if (/\d/.test(ch)) {
+        for (let i = 0; i < Number(ch); i += 1) out.push("");
+      } else {
+        out.push(ch);
+      }
+    }
+    return out;
+  };
+  const home = expand(ranks[7]); // rank 1 (white)
+  const away = expand(ranks[0]); // rank 8 (black)
+  let rights = "";
+  if (home[4] === "K" && home[0] === "R") rights += "K";
+  if (home[4] === "K" && home[7] === "R") rights += "Q";
+  if (away[4] === "k" && away[0] === "r") rights += "k";
+  if (away[4] === "k" && away[7] === "r") rights += "q";
+  return rights || "-";
+}
+
 /** Split a FEN into its six fields (missing trailing fields stay undefined). */
 export function fenFields(fen) {
   const [board = "", turn = "", castling = "", enPassant = "", halfmove = "", fullmove = ""] =

@@ -499,7 +499,13 @@ async function main() {
     /* -------------------------------------------------- per-fixture checks */
 
     const fixtureFiles = (await readdir(args.fixturesDir))
-      .filter((file) => file.endsWith(".html") && file !== "index.html" && file !== "replay.html")
+      .filter(
+        (file) =>
+          file.endsWith(".html") &&
+          file !== "index.html" &&
+          file !== "replay.html" &&
+          file !== "highlight-turn.html", // degraded-mode fixture: dedicated board-tracking case below
+      )
       .sort();
 
     const openPage = async (url) => {
@@ -720,6 +726,83 @@ async function main() {
       changeCase.failures.push(String(error?.message ?? error));
     }
     if (!changeCase.pass) for (const failure of changeCase.failures) fail(failure, "dom-change");
+
+    /* ------------------------------------------------ board tracking (M9.2) */
+
+    const trackingCase = { pass: true, failures: [], before: null, after: null };
+    summary.cases["board-tracking"] = trackingCase;
+    try {
+      const url = `${origin}/chesscom/highlight-turn.html`;
+      const before = await stateCount();
+      const { session } = await openPage(url);
+      await waitFor("highlight-turn page load", () => evaluateInPage(session, 'document.readyState === "complete"'), {
+        timeoutMs: args.timeoutMs,
+      });
+      const initialFen = "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1";
+      const initial = await latestStateFor("/chesscom/highlight-turn.html", { minIndex: before, expectedFen: initialFen });
+      trackingCase.before = {
+        fen: initial.state.fen,
+        turn: initial.state.turn,
+        sideToMoveSource: initial.state.sideToMoveSource,
+        historyStatus: initial.state.historyStatus,
+        userColor: initial.state.userColor,
+        mismatch: initial.state.mismatch ?? null,
+      };
+      const stage = (condition, message) => {
+        if (!condition) trackingCase.failures.push(message);
+      };
+      stage(initial.state.fen === initialFen, `initial fen ${initial.state.fen}`);
+      stage(initial.state.turn === "w", `initial turn ${initial.state.turn}`);
+      stage(initial.state.sideToMoveSource === "highlight", `initial sideToMoveSource ${initial.state.sideToMoveSource}`);
+      stage(initial.state.historyStatus === "tracked", `initial historyStatus ${initial.state.historyStatus}`);
+      stage(initial.state.userColor === "white", `initial userColor ${initial.state.userColor}`);
+      stage(!initial.state.mismatch, `initial mismatch ${JSON.stringify(initial.state.mismatch ?? null)}`);
+
+      await evaluateInPage(
+        session,
+        `(() => {
+           const board = document.getElementById("board-single");
+           const knight = board.querySelector(".piece.wn.square-71") ?? board.querySelector(".piece.square-71.wn");
+           knight.classList.remove("square-71");
+           knight.classList.add("square-63");
+           knight.style.left = "62.5%";
+           knight.style.top = "62.5%";
+           // The observer watches childList, not attributes: nudge it (and the
+           // panel Refresh) so the adapter re-reads the mutated board.
+           board.appendChild(document.createElement("div"));
+           return true;
+         })()`,
+      );
+      await evaluateInPanel('document.getElementById("cc-refresh")?.click(); true');
+
+      const expectedFen = "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 1";
+      const after = await latestStateFor("/chesscom/highlight-turn.html", { minIndex: before, expectedFen });
+      trackingCase.after = {
+        fen: after.state.fen,
+        turn: after.state.turn,
+        historyStatus: after.state.historyStatus,
+        historyTracking: after.state.historyTracking ?? null,
+        sideToMoveSource: after.state.sideToMoveSource,
+      };
+      stage(after.state.fen === expectedFen, `tracked fen ${after.state.fen}`);
+      stage(after.state.turn === "b", `tracked turn ${after.state.turn}`);
+      stage(after.state.historyStatus === "tracked", `tracked historyStatus ${after.state.historyStatus}`);
+      stage(
+        after.state.historyTracking?.active === true && after.state.historyTracking?.moves === 1,
+        `historyTracking ${JSON.stringify(after.state.historyTracking ?? null)}`,
+      );
+      stage(after.state.sideToMoveSource === "board-tracking", `tracked sideToMoveSource ${after.state.sideToMoveSource}`);
+      trackingCase.pass = trackingCase.failures.length === 0;
+      console.log(
+        trackingCase.pass
+          ? `PASS board-tracking: highlight turn ${trackingCase.before.turn} -> ${trackingCase.after.fen} (${trackingCase.after.historyStatus})`
+          : `FAIL board-tracking: ${trackingCase.failures.join("; ")}`,
+      );
+    } catch (error) {
+      trackingCase.pass = false;
+      trackingCase.failures.push(String(error?.message ?? error));
+    }
+    if (!trackingCase.pass) for (const failure of trackingCase.failures) fail(failure, "board-tracking");
 
     /* ------------------------------------------------ snapshot recorder */
 

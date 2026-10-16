@@ -1,5 +1,20 @@
 # humanplay — Release Notes
 
+## v1.0.2 — 2026-10-17 — long-game fix: board tracking + highlight turn
+
+- **Fixes the long-game lockout**: chess.com renders only a sliver of the move list in long games,
+  which can never reconcile against the board — history died, the turn degraded and no suggestions
+  appeared. The adapter now **tracks the game by diffing board placements**: every position change
+  is matched to the unique legal move that explains it, so the FEN — and the side to move — stay
+  exact. Suggestions, premove and commentary keep working (history planes unavailable in this mode).
+- **Side to move from the last-move highlight** (clock → highlight → parity): correct turn even when
+  the move list is unusable.
+- `you play: unknown` now points at the fallback-color select; mismatch diagnostics report the most
+  complete candidate list instead of a small artifact.
+- Evidence: `adapter-unit` **32 tests**; `adapter-proof` **ALL PASSED** including the new
+  `board-tracking` case + `highlight-turn` fixture; full acceptance re-run against the live server
+  (all cases passed).
+
 ## v1.0.1 — 2026-10-17 — live-game move-list fix
 
 - **Fixes** a live-game failure where the adapter could latch onto the wrong move list (pages with

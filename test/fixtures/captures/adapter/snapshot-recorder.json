@@ -1,8 +1,8 @@
 {
   "schema": "humanplay.chesscom.snapshot/1",
-  "recordedAt": "2026-10-16T22:01:20.766Z",
-  "adapterVersion": "m3.2",
-  "pageUrl": "http://127.0.0.1:45581/chesscom/middlegame-castling.html",
+  "recordedAt": "2026-10-16T22:13:52.022Z",
+  "adapterVersion": "m3.3",
+  "pageUrl": "http://127.0.0.1:46185/chesscom/middlegame-castling.html",
   "pageTitle": "chess.com fixture — middlegame with castling + captures (playing white)",
   "board": {
     "id": "board-play-computer",
@@ -43,9 +43,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:45581/chesscom/middlegame-castling.html",
+    "gameUrl": "http://127.0.0.1:46185/chesscom/middlegame-castling.html",
     "gameId": null,
-    "ts": "2026-10-16T22:01:20.763Z",
+    "ts": "2026-10-16T22:13:52.020Z",
     "boardId": "board-play-computer",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,
@@ -55,6 +55,10 @@
     "positionSource": "piece-square-class",
     "historySource": "move-list",
     "historyStatus": "replayed",
+    "historyTracking": {
+      "active": false,
+      "moves": 14
+    },
     "flippedSource": "board-class",
     "userColorSource": "player-bottom-clock",
     "sideToMoveSource": "default",
@@ -69,7 +73,7 @@
     ],
     "sessionSeq": 0,
     "resetDetected": false,
-    "adapterVersion": "m3.2"
+    "adapterVersion": "m3.3"
   },
   "players": {
     "top": {

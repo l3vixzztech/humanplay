@@ -73,7 +73,7 @@
 // arrow overlay uses the same module, so both scripts always agree which board
 // (and which rect) is live.
 
-const ADAPTER_VERSION = "m3.2";
+const ADAPTER_VERSION = "m3.3";
 const MSG_STATE = "humanplay:chesscom-state";
 const MSG_GET_STATE = "humanplay:get-state";
 const MSG_RECORD_SNAPSHOT = "humanplay:record-snapshot";
@@ -115,7 +115,7 @@ if (window.top === window.self) {
 }
 
 function start() {
-  const runtime = { modules: null, modulesError: null, lastSignature: null, lastState: null, lastStrategyLine: null, sessionSeq: 0, userColorRaw: null };
+  const runtime = { modules: null, modulesError: null, lastSignature: null, lastState: null, lastStrategyLine: null, sessionSeq: 0, userColorRaw: null, tracking: null };
   let timer = null;
 
   readUserColorSetting();
@@ -295,7 +295,9 @@ function start() {
         if (!Array.isArray(candidate.sans)) continue;
         const replay = modules.history.replaySanList(candidate.sans);
         if (!replay.ok) {
-          if (!firstFailure) firstFailure = { candidate, replay };
+          if (!firstFailure || candidate.sans.length > firstFailure.candidate.sans.length) {
+            firstFailure = { candidate, replay };
+          }
           continue;
         }
         if (modules.history.fenBoardField(replay.fen) === positionField) {
@@ -333,7 +335,9 @@ function start() {
           chosen = { candidate, replay: repaired, repaired };
           break;
         }
-        if (!firstFailure) firstFailure = { candidate, replay };
+        if (!firstFailure || candidate.sans.length > firstFailure.candidate.sans.length) {
+          firstFailure = { candidate, replay };
+        }
       }
       if (chosen) historyOnly = true;
     }
@@ -345,7 +349,9 @@ function start() {
       chosen?.candidate ??
       bestDisagreement?.candidate ??
       firstFailure?.candidate ??
-      historyCandidates.find((candidate) => Array.isArray(candidate.sans)) ??
+      historyCandidates
+        .filter((candidate) => Array.isArray(candidate.sans))
+        .sort((a, b) => b.sans.length - a.sans.length)[0] ??
       historyCandidates[0] ??
       { source: "absent", sans: null, container: null, nodeCount: null };
 
@@ -356,6 +362,8 @@ function start() {
     const inferSideToMove = () => {
       const fromClock = detectSideToMoveFromClock();
       if (fromClock) return fromClock;
+      const fromHighlight = detectSideToMoveFromHighlight(board.el, modules);
+      if (fromHighlight) return fromHighlight;
       if (history.sans) {
         return { turn: modules.history.sideToMoveFromPly(history.sans.length), source: "history-parity" };
       }
@@ -382,6 +390,7 @@ function start() {
     let positionSource = historyOnly ? "move-list-replay" : position.strategy;
 
     if (chosen) {
+      anchorTracking(chosen.replay.fen, chosen.replay.movesUci);
       if (historyOnly) {
         warnings.push("board position could not be read from the DOM — using the move-list replay (history) only");
       }
@@ -441,6 +450,27 @@ function start() {
       historyStatus = "absent";
     }
 
+    // M9.2: whenever no candidate reconciled but the board itself is readable,
+    // follow the game by diffing placements. This keeps the turn exact and the
+    // pipeline live (suggestions/premove/commentary work from the tracked FEN)
+    // even when chess.com renders only a sliver of the move list (long games).
+    if (!chosen && positionField) {
+      const trackedState = continueTracking(modules, positionField, position.fen ?? boardState.fen ?? null, sideToMove.turn);
+      if (trackedState) {
+        const trackedTurn = modules.history.fenFields(trackedState.fen).turn;
+        const seeded = trackedState.moves === 0;
+        fen = trackedState.fen;
+        sideToMove =
+          seeded && sideToMove.source !== "default"
+            ? { turn: trackedTurn, source: sideToMove.source }
+            : { turn: trackedTurn, source: "board-tracking" };
+        historyStatus = "tracked";
+        warnings.push(
+          "move list unreliable here — tracking moves from the board (suggestions stay live; Maia history planes unavailable)",
+        );
+      }
+    }
+
     if (!fen) {
       return {
         ok: false,
@@ -470,10 +500,13 @@ function start() {
     const previous = runtime.lastState;
     let resetDetected = false;
     if (previous?.ok) {
-      if (previous.gameUrl !== location.href) runtime.sessionSeq += 1;
-      else if (previous.movesUci.length > 0 && movesUci.length === 0 && historyStatus === "startpos") {
+      if (previous.gameUrl !== location.href) {
+        runtime.sessionSeq += 1;
+        runtime.tracking = null;
+      } else if (previous.movesUci.length > 0 && movesUci.length === 0 && historyStatus === "startpos") {
         resetDetected = true;
         runtime.sessionSeq += 1;
+        runtime.tracking = null;
       }
     }
 
@@ -497,8 +530,9 @@ function start() {
       moveCount: movesUci.length,
       moveListCount: history.sans ? history.sans.length : null,
       positionSource,
-      historySource: history.source,
+      historySource: historyStatus === "tracked" ? "board-tracking" : history.source,
       historyStatus,
+      historyTracking: { active: historyStatus === "tracked", moves: runtime.tracking?.movesUci.length ?? 0 },
       flippedSource: flippedInfo.source,
       userColorSource: userColor.source,
       sideToMoveSource: sideToMove.source,
@@ -831,6 +865,95 @@ function start() {
       if (active) return { turn: color === "white" ? "w" : "b", source: "active-clock" };
     }
     return null;
+  }
+
+  /**
+   * Side to move from the last-move highlight (M9.2). chess.com marks the last
+   * move's from/to squares with highlight elements that carry `square-XX`
+   * classes (verified markup; see the fixtures). The DESTINATION square holds
+   * the piece that just moved (a capture leaves the mover's piece there), so
+   * exactly one piece colour on the highlighted squares → the other side moves.
+   * This keeps the turn correct in long games where the move list is unusable.
+   */
+  function detectSideToMoveFromHighlight(boardEl, modules) {
+    try {
+      const marked = new Set();
+      for (const el of boardEl.querySelectorAll("[class*='highlight']")) {
+        const square = modules.boardDom.squareFromTokens([...el.classList]);
+        if (square) marked.add(modules.boardDom.squareName(square.file, square.rank));
+      }
+      if (marked.size === 0) return null;
+      const colors = [];
+      for (const piece of boardEl.querySelectorAll(".piece")) {
+        const square = modules.boardDom.squareFromTokens([...piece.classList]);
+        if (!square) continue;
+        if (!marked.has(modules.boardDom.squareName(square.file, square.rank))) continue;
+        const code = modules.boardDom.pieceCodeFromTokens([...piece.classList]);
+        if (!code) continue;
+        colors.push(code === code.toUpperCase() ? "white" : "black");
+      }
+      const turn = modules.history.turnFromHighlightPieces(colors);
+      return turn ? { turn, source: "highlight" } : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /* ------------------------------------------------------- board tracking */
+
+  /**
+   * Seed FEN for board-diff tracking (M9.2): exact when a board-exposed FEN is
+   * available, otherwise board placement + the inferred side to move + the
+   * castling-rights heuristic (counters are cosmetic; clients send this FEN
+   * alone or replay tracked UCI on top of it).
+   */
+  function seedTrackingFen(exactFen, positionField, modules, fallbackTurn = "w") {
+    if (exactFen) return exactFen;
+    const turn = fallbackTurn === "b" ? "b" : "w";
+    return modules.history.buildFen({
+      board: positionField,
+      turn,
+      castling: modules.history.seedCastlingRights(positionField),
+      fullmove: "1",
+    });
+  }
+
+  /**
+   * Follow the game by diffing board placements (M9.2). Anchored exactly
+   * whenever a reconciled history / board-exposed FEN exists; otherwise seeded
+   * from placement + the side-to-move ladder, then advanced one legal move at a
+   * time (the unique move whose result equals the observed board). Castling /
+   * en-passant surprises against a heuristic seed re-seed the tracker at the
+   * observed position — the turn stays correct via the highlight ladder.
+   */
+  function continueTracking(modules, positionField, exactFen, fallbackTurn = "w") {
+    let tracking = runtime.tracking;
+    if (!tracking?.fen) {
+      tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn), movesUci: [] };
+    } else if (modules.history.fenBoardField(tracking.fen) !== positionField) {
+      const matches = modules.history.findMovesToBoardField(tracking.fen, positionField);
+      if (matches && matches.length === 1) {
+        const applied = modules.history.applyUciToFen(tracking.fen, matches[0]);
+        if (applied.ok) {
+          tracking.fen = applied.fen;
+          tracking.movesUci.push(applied.move);
+          if (tracking.movesUci.length > 400) {
+            tracking.movesUci.splice(0, tracking.movesUci.length - 400);
+          }
+        } else {
+          tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn), movesUci: [] };
+        }
+      } else {
+        tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn), movesUci: [] };
+      }
+    }
+    runtime.tracking = tracking;
+    return { fen: tracking.fen, moves: tracking.movesUci.length };
+  }
+
+  /** Anchor the tracker on an exact position + its full UCI history. */
+  function anchorTracking(fen, movesUci) {
+    runtime.tracking = { fen, movesUci: [...movesUci] };
   }
 
   /* -------------------------------------------------------------- snapshot */
