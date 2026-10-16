@@ -59,6 +59,15 @@ worker registers.
 | **Offline-tolerant UX** | Every card shows an actionable "server offline" state with a **Copy start command** button, and recovers on its own when the server returns. |
 | **Debug tools** | Kept from earlier milestones: one-frame screenshot capture and PNG fixture recording (the pixel-recognition product work is parked in `parked/`). |
 
+## Screenshots
+
+| | |
+|---|---|
+| ![Suggested move drawn as an arrow on a live chess.com game](test/fixtures/captures/acceptance/real/06-real-chesscom-arrow.png) | ![Suggestion card: top-3 moves with probabilities and human win/draw/loss](test/fixtures/captures/analyze/stub-middlegame-suggestion.png) |
+| Suggestion arrow on a real chess.com game | Top-3 suggestions + Maia's human win/draw/loss prediction |
+| ![Premove planner: dashed blue arrow for a safe take-back](test/fixtures/captures/premove/stub-takeback-arrow.png) | ![Commentary feed explaining every move, both colours](test/fixtures/captures/commentary/real-montage-feed.png) |
+| Safe premove (dashed blue) on the opponent's turn | Per-move commentary, both colours, with optional LLM rephrasing |
+
 ## Controls
 
 - **Toolbar icon / puzzle-piece button** → open the side panel (that click is
