@@ -1,0 +1,43 @@
+{
+  "pass": true,
+  "failures": [],
+  "top3": [
+    {
+      "rank": "1",
+      "san": "Nc3",
+      "uci": "b1c3",
+      "prob": "58.6%",
+      "barWidth": "58.5868%",
+      "top": true
+    },
+    {
+      "rank": "2",
+      "san": "h3",
+      "uci": "h2h3",
+      "prob": "16.0%",
+      "barWidth": "16.039%",
+      "top": false
+    },
+    {
+      "rank": "3",
+      "san": "c3",
+      "uci": "c2c3",
+      "prob": "13.0%",
+      "barWidth": "12.9875%",
+      "top": false
+    }
+  ],
+  "meta": "model maia3-5m · engine 10.6 ms · round-trip 1.0 ms · 14 moves · replayed · ui 1.6 ms",
+  "screenshot": "test/fixtures/captures/analyze/stub-middlegame-suggestion.png",
+  "wdl": {
+    "win": "win 38.6%",
+    "draw": "draw 7.3%",
+    "loss": "loss 54.0%"
+  },
+  "latency": {
+    "stateToRenderMs": 1.6000000014901161,
+    "roundTripMs": 1,
+    "engineMs": 10.63
+  },
+  "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3"
+}

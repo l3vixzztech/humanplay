@@ -117,6 +117,39 @@ def reference_positions() -> list[dict]:
             "bottom_player": "humanplay-session-user",
             "moves_san": ("e4", "c5", "Nf3", "d6"),
         },
+        {
+            # M4: the Elo card demo. On this Ruy Lopez position Maia-3's top move
+            # actually changes with Elo (d4 at 1200 vs h3 at 2600 — verified
+            # against the real server, see test/fixtures/captures/analyze/).
+            "slug": "ruy-lopez",
+            "title": "chess.com fixture — Ruy Lopez middlegame (playing white, Elo demo)",
+            "board_id": "board-single",
+            "user_color": "white",
+            "flipped": False,
+            "top_color": "black",
+            "bottom_color": "white",
+            "top_player": "MaiaBot-2400",
+            "bottom_player": "humanplay-session-user",
+            "moves_san": (
+                "e4", "e5", "Nf3", "Nc6", "Bb5", "a6", "Ba4", "Nf6",
+                "O-O", "Be7", "Re1", "b5", "Bb3", "d6", "c3", "O-O",
+            ),
+        },
+        {
+            # M4: a finished game (scholar's mate). The adapter reads it like any
+            # other position; /analyze answers moves:[] + a rules-decided WDL, so
+            # the panel must show the game-over message instead of move rows.
+            "slug": "gameover-checkmate",
+            "title": "chess.com fixture — game over, black is checkmated (playing black)",
+            "board_id": "board-single",
+            "user_color": "black",
+            "flipped": True,
+            "top_color": "white",
+            "bottom_color": "black",
+            "top_player": "MaiaBot-2400",
+            "bottom_player": "humanplay-session-user",
+            "moves_san": ("e4", "e5", "Bc4", "Nc6", "Qh5", "Nf6", "Qxf7#"),
+        },
     ]
 
 

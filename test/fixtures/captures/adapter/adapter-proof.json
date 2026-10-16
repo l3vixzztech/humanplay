@@ -1,17 +1,17 @@
 {
   "tool": "adapter-proof.mjs",
-  "generatedAt": "2026-10-16T17:52:49.851Z",
+  "generatedAt": "2026-10-16T18:20:37.813Z",
   "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
   "extension": "/home/l3vixzz/Desktop/humanplay/extension",
   "checks": {
     "staticServer": {
-      "origin": "http://127.0.0.1:45407",
+      "origin": "http://127.0.0.1:39005",
       "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
     },
     "manifest": {
       "path": "extension/manifest.json",
-      "sha256": "299118e239e40433476857923b88de03767c3b92abace06b289fb29d547b7174",
-      "version": "0.2.0",
+      "sha256": "387d28762fe2764955ee67bddadf6e0c49d92a0b7285275f9ddaf2be49f9a9c9",
+      "version": "0.3.0",
       "permissions": [
         "activeTab",
         "storage",
@@ -56,29 +56,29 @@
     },
     "manifestVariant": {
       "enabled": true,
-      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:45407 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
-      "addedContentScriptMatch": "http://127.0.0.1:45407/*",
-      "addedWebAccessibleMatch": "http://127.0.0.1:45407/*",
+      "reason": "the shipped manifest injects the content script on chess.com only; a headless fixture served from http://127.0.0.1:39005 can never match, so the test loads a copy whose content_scripts/web_accessible_resources also match that origin. Everything else, including every code file, is identical.",
+      "addedContentScriptMatch": "http://127.0.0.1:39005/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:39005/*",
       "contentScriptMatches": [
         "https://www.chess.com/*",
         "https://chess.com/*",
-        "http://127.0.0.1:45407/*"
+        "http://127.0.0.1:39005/*"
       ],
       "webAccessibleMatches": [
         "https://www.chess.com/*",
         "https://chess.com/*",
-        "http://127.0.0.1:45407/*"
+        "http://127.0.0.1:39005/*"
       ],
-      "codeFilesCompared": 17,
+      "codeFilesCompared": 18,
       "codeFileMismatches": [],
       "codeIdentical": true
     },
-    "extensionId": "gehacgfccceonjllccgcobfghpaigdoj",
+    "extensionId": "lgahgpoboelhkdaponfgleonhfbiejah",
     "browser": {
       "version": "Chrome/155.0.8059.84",
       "protocolVersion": "1.3"
     },
-    "serviceWorkerUrl": "chrome-extension://gehacgfccceonjllccgcobfghpaigdoj/src/background/service-worker.js",
+    "serviceWorkerUrl": "chrome-extension://lgahgpoboelhkdaponfgleonhfbiejah/src/background/service-worker.js",
     "panelCollector": true,
     "panelUi": {
       "present": {
@@ -105,12 +105,12 @@
       "dir": "test/fixtures/chesscom-snapshots",
       "files": []
     },
-    "adapterDebugLines": 13,
+    "adapterDebugLines": 17,
     "extensionConsoleClean": true
   },
   "cases": {
     "flipped-black": {
-      "url": "http://127.0.0.1:45407/chesscom/flipped-black.html",
+      "url": "http://127.0.0.1:39005/chesscom/flipped-black.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -131,9 +131,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:45407/chesscom/flipped-black.html",
+        "gameUrl": "http://127.0.0.1:39005/chesscom/flipped-black.html",
         "gameId": null,
-        "ts": "2026-10-16T17:52:50.323Z",
+        "ts": "2026-10-16T18:20:38.248Z",
         "boardId": "board-single",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -202,8 +202,107 @@
       "trapBoards": 2,
       "panelScreenshot": "test/fixtures/captures/adapter/flipped-black-panel.png"
     },
+    "gameover-checkmate": {
+      "url": "http://127.0.0.1:39005/chesscom/gameover-checkmate.html",
+      "pass": true,
+      "failures": [],
+      "state": {
+        "ok": true,
+        "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "f1c4",
+          "b8c6",
+          "d1h5",
+          "g8f6",
+          "h5f7"
+        ],
+        "userColor": "black",
+        "flipped": true,
+        "boardRect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "gameUrl": "http://127.0.0.1:39005/chesscom/gameover-checkmate.html",
+        "gameId": null,
+        "ts": "2026-10-16T18:20:40.017Z",
+        "boardId": "board-single",
+        "boardTag": "wc-chess-board",
+        "boardInViewport": true,
+        "turn": "b",
+        "moveCount": 7,
+        "moveListCount": 7,
+        "positionSource": "piece-square-class",
+        "historySource": "move-list",
+        "historyStatus": "replayed",
+        "flippedSource": "board-class",
+        "userColorSource": "player-bottom-clock",
+        "sideToMoveSource": "default",
+        "boardStateAgrees": null,
+        "warnings": [],
+        "strategyLog": [
+          {
+            "strategy": "piece-square-class",
+            "ok": true,
+            "pieces": 31
+          }
+        ],
+        "sessionSeq": 0,
+        "resetDetected": false,
+        "adapterVersion": "m3.0"
+      },
+      "groundTruth": {
+        "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "f1c4",
+          "b8c6",
+          "d1h5",
+          "g8f6",
+          "h5f7"
+        ],
+        "userColor": "black",
+        "flipped": true,
+        "boardId": "board-single",
+        "rect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "viewport": {
+          "w": 1440,
+          "h": 757
+        },
+        "boardsOnPage": 3
+      },
+      "panel": {
+        "chip": "listening",
+        "chipClass": "chip chip-online",
+        "board": "#board-single · wc-chess-board",
+        "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
+        "moves": "7 moves · replayed",
+        "turn": "black to move",
+        "color": "black (player-bottom-clock)",
+        "mismatchHidden": true
+      },
+      "rectErrors": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trapBoards": 2,
+      "panelScreenshot": "test/fixtures/captures/adapter/gameover-checkmate-panel.png"
+    },
     "middlegame-castling": {
-      "url": "http://127.0.0.1:45407/chesscom/middlegame-castling.html",
+      "url": "http://127.0.0.1:39005/chesscom/middlegame-castling.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -234,9 +333,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:45407/chesscom/middlegame-castling.html",
+        "gameUrl": "http://127.0.0.1:39005/chesscom/middlegame-castling.html",
         "gameId": null,
-        "ts": "2026-10-16T17:52:52.004Z",
+        "ts": "2026-10-16T18:20:41.007Z",
         "boardId": "board-play-computer",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -315,8 +414,125 @@
       "trapBoards": 2,
       "panelScreenshot": "test/fixtures/captures/adapter/middlegame-castling-panel.png"
     },
+    "ruy-lopez": {
+      "url": "http://127.0.0.1:39005/chesscom/ruy-lopez.html",
+      "pass": true,
+      "failures": [],
+      "state": {
+        "ok": true,
+        "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1b5",
+          "a7a6",
+          "b5a4",
+          "g8f6",
+          "e1g1",
+          "f8e7",
+          "f1e1",
+          "b7b5",
+          "a4b3",
+          "d7d6",
+          "c2c3",
+          "e8g8"
+        ],
+        "userColor": "white",
+        "flipped": false,
+        "boardRect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "gameUrl": "http://127.0.0.1:39005/chesscom/ruy-lopez.html",
+        "gameId": null,
+        "ts": "2026-10-16T18:20:42.014Z",
+        "boardId": "board-single",
+        "boardTag": "wc-chess-board",
+        "boardInViewport": true,
+        "turn": "w",
+        "moveCount": 16,
+        "moveListCount": 16,
+        "positionSource": "piece-square-class",
+        "historySource": "move-list",
+        "historyStatus": "replayed",
+        "flippedSource": "board-class",
+        "userColorSource": "player-bottom-clock",
+        "sideToMoveSource": "default",
+        "boardStateAgrees": null,
+        "warnings": [],
+        "strategyLog": [
+          {
+            "strategy": "piece-square-class",
+            "ok": true,
+            "pieces": 32
+          }
+        ],
+        "sessionSeq": 0,
+        "resetDetected": false,
+        "adapterVersion": "m3.0"
+      },
+      "groundTruth": {
+        "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",
+        "movesUci": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1b5",
+          "a7a6",
+          "b5a4",
+          "g8f6",
+          "e1g1",
+          "f8e7",
+          "f1e1",
+          "b7b5",
+          "a4b3",
+          "d7d6",
+          "c2c3",
+          "e8g8"
+        ],
+        "userColor": "white",
+        "flipped": false,
+        "boardId": "board-single",
+        "rect": {
+          "x": 18,
+          "y": 58,
+          "w": 560,
+          "h": 560
+        },
+        "devicePixelRatio": 1,
+        "viewport": {
+          "w": 1440,
+          "h": 757
+        },
+        "boardsOnPage": 3
+      },
+      "panel": {
+        "chip": "listening",
+        "chipClass": "chip chip-online",
+        "board": "#board-single · wc-chess-board",
+        "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",
+        "moves": "16 moves · replayed",
+        "turn": "white to move",
+        "color": "white (player-bottom-clock)",
+        "mismatchHidden": true
+      },
+      "rectErrors": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "trapBoards": 2,
+      "panelScreenshot": "test/fixtures/captures/adapter/ruy-lopez-panel.png"
+    },
     "startpos": {
-      "url": "http://127.0.0.1:45407/chesscom/startpos.html",
+      "url": "http://127.0.0.1:39005/chesscom/startpos.html",
       "pass": true,
       "failures": [],
       "state": {
@@ -332,9 +548,9 @@
           "h": 560
         },
         "devicePixelRatio": 1,
-        "gameUrl": "http://127.0.0.1:45407/chesscom/startpos.html",
+        "gameUrl": "http://127.0.0.1:39005/chesscom/startpos.html",
         "gameId": null,
-        "ts": "2026-10-16T17:52:52.997Z",
+        "ts": "2026-10-16T18:20:43.010Z",
         "boardId": "board-single",
         "boardTag": "wc-chess-board",
         "boardInViewport": true,
@@ -413,7 +629,7 @@
     "snapshot-recorder": {
       "pass": true,
       "failures": [],
-      "file": "de8df000-5582-4490-8392-ecc50a1df145.json",
+      "file": "13afe703-b2e9-46dd-bfae-821de13aa6b8.json",
       "sanitized": {
         "containsTopUsername": false,
         "containsBottomUsername": false,
@@ -443,7 +659,7 @@
         "flipped": false
       },
       "evidence": "test/fixtures/captures/adapter/snapshot-recorder.json",
-      "requestedName": "chesscom-snapshot-20261016-232254.json"
+      "requestedName": "chesscom-snapshot-20261016-235044.json"
     }
   },
   "snapshotReplays": {
@@ -506,7 +722,127 @@
       {
         "bucket": "error",
         "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
         "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/snapshot)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
       }
     ],
     "serviceWorker": [],
@@ -524,12 +860,12 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/flipped-black.html)"
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/flipped-black.html)"
       },
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45407/favicon.ico)"
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:39005/favicon.ico)"
       },
       {
         "bucket": "info",
@@ -549,7 +885,27 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/gameover-checkmate.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=7"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "info",
@@ -569,7 +925,27 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/ruy-lopez.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=16"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
@@ -589,7 +965,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/startpos.html)"
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/startpos.html)"
       },
       {
         "bucket": "info",
@@ -614,7 +990,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/middlegame-castling.html)"
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/middlegame-castling.html)"
       },
       {
         "bucket": "info",
@@ -624,7 +1000,7 @@
       {
         "bucket": "info",
         "source": "console",
-        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:45407/chesscom/replay.html?url=%2Fcaptures%2Fadapter%2Fsnapshot-recorder.json)"
+        "text": "[humanplay] chess.com adapter m3.0 loaded (http://127.0.0.1:39005/chesscom/replay.html?url=%2Fcaptures%2Fadapter%2Fsnapshot-recorder.json)"
       },
       {
         "bucket": "error",
@@ -649,11 +1025,151 @@
       {
         "bucket": "error",
         "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
         "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/snapshot)"
       },
       {
         "bucket": "error",
         "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_CONNECTION_REFUSED (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:39005/favicon.ico)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
         "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
       },
       {
@@ -664,7 +1180,7 @@
       {
         "bucket": "error",
         "source": "network",
-        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:45407/favicon.ico)"
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
       },
       {
         "bucket": "error",

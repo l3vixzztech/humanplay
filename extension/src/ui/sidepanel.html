@@ -10,7 +10,7 @@
     <header class="app-header">
       <div class="app-title">
         <h1>humanplay</h1>
-        <span class="version">M3</span>
+        <span class="version">M4</span>
       </div>
       <p class="tagline">human-like move assistant for chess.com · local Maia-3</p>
     </header>
@@ -23,8 +23,64 @@
           <span class="toggle-label">Assistant <strong id="toggle-state">off</strong></span>
         </label>
         <p class="hint" id="toggle-hint">
-          Stored in <code>chrome.storage.local</code>. The continuous loop arrives
-          in M9; until then state reading is passive and captures are manual.
+          On: the position is analyzed automatically on your turn (assistant on +
+          game state ok + your color known). Off: idle — <em>Analyze now</em> still
+          works. Stored in <code>chrome.storage.local</code>.
+        </p>
+      </section>
+
+      <section class="card" id="maia-card">
+        <div class="row card-head">
+          <h2>Maia suggestion</h2>
+          <span id="mx-status" class="chip chip-idle">idle</span>
+        </div>
+
+        <p id="mx-message" class="mx-message">Open a chess.com game — the suggestion appears on your turn.</p>
+
+        <ol id="mx-moves" class="mx-moves" hidden></ol>
+
+        <div id="mx-wdl-box" class="mx-wdl-box" hidden>
+          <div class="row mx-wdl-head">
+            <span id="mx-wdl-label" class="mx-wdl-title">human outcome prediction (you)</span>
+            <span id="mx-wdl-info" class="mx-info" title="">?</span>
+          </div>
+          <div class="row" id="mx-wdl">
+            <span class="chip wdl-chip wdl-win" id="mx-wdl-win">win —</span>
+            <span class="chip wdl-chip wdl-draw" id="mx-wdl-draw">draw —</span>
+            <span class="chip wdl-chip wdl-loss" id="mx-wdl-loss">loss —</span>
+          </div>
+        </div>
+
+        <p id="mx-warn" class="warn" hidden></p>
+        <p id="mx-meta" class="meta" hidden></p>
+
+        <div class="row">
+          <button id="mx-analyze" type="button" class="primary">Analyze now</button>
+        </div>
+        <p class="hint" id="mx-hint">
+          Maia-3 (human-move model) picks the move a strong human would play — not
+          an engine best move. Top-3 with probabilities + Maia's human outcome
+          prediction. Opponent prediction arrives in M7.
+        </p>
+      </section>
+
+      <section class="card" id="elo-card">
+        <div class="row card-head">
+          <h2>Elo</h2>
+          <button id="elo-reset" type="button" class="link-button">reset to 2400</button>
+        </div>
+        <label class="setting-row" for="elo-self">
+          <span>you <span class="muted">(elo_self)</span></span>
+          <input id="elo-self" type="number" min="0" max="5000" step="50" value="2400" inputmode="numeric" />
+        </label>
+        <label class="setting-row" for="elo-oppo">
+          <span>opponent <span class="muted">(elo_oppo)</span></span>
+          <input id="elo-oppo" type="number" min="0" max="5000" step="50" value="2400" inputmode="numeric" />
+        </label>
+        <p class="hint">
+          Maia-3 is conditioned on both players' Elo (0–5000, trained on human
+          games; clamped). Changing them re-analyzes the current position — the
+          probabilities (and sometimes the top move) change with Elo.
         </p>
       </section>
 
@@ -66,7 +122,6 @@
         <p class="hint" id="cc-hint">
           Open a chess.com game (a bot game is fine) in the active tab — the content
           script reports the position, move history, board rect and color automatically.
-          No analysis yet: M4 wires <code>/analyze</code>.
         </p>
       </section>
 

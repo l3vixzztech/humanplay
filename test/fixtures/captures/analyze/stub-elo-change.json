@@ -1,0 +1,59 @@
+{
+  "pass": true,
+  "failures": [],
+  "at2400": {
+    "rows": [
+      "h3",
+      "d4",
+      "d3"
+    ],
+    "probs": [
+      "80.5%",
+      "13.3%",
+      "3.0%"
+    ]
+  },
+  "at1200": {
+    "rows": [
+      "d4",
+      "h3",
+      "d3"
+    ],
+    "probs": [
+      "83.6%",
+      "10.6%",
+      "2.2%"
+    ],
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|1200|1200|3"
+  },
+  "at2600": {
+    "rows": [
+      "h3",
+      "d4",
+      "a4"
+    ],
+    "probs": [
+      "86.2%",
+      "9.5%",
+      "2.3%"
+    ],
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2600|2600|3"
+  },
+  "back": {
+    "self": "2400",
+    "oppo": "2400",
+    "rows": [
+      "h3",
+      "d4",
+      "d3"
+    ],
+    "requests": 0
+  },
+  "screenshots": [
+    "test/fixtures/captures/analyze/stub-elo-1200.png",
+    "test/fixtures/captures/analyze/stub-elo-2600.png"
+  ],
+  "requests": {
+    "delta": 2
+  }
+}

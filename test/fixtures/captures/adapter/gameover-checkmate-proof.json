@@ -1,0 +1,100 @@
+{
+  "slug": "gameover-checkmate",
+  "url": "http://127.0.0.1:39005/chesscom/gameover-checkmate.html",
+  "pass": true,
+  "failures": [],
+  "state": {
+    "ok": true,
+    "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
+    "movesUci": [
+      "e2e4",
+      "e7e5",
+      "f1c4",
+      "b8c6",
+      "d1h5",
+      "g8f6",
+      "h5f7"
+    ],
+    "userColor": "black",
+    "flipped": true,
+    "boardRect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "gameUrl": "http://127.0.0.1:39005/chesscom/gameover-checkmate.html",
+    "gameId": null,
+    "ts": "2026-10-16T18:20:40.017Z",
+    "boardId": "board-single",
+    "boardTag": "wc-chess-board",
+    "boardInViewport": true,
+    "turn": "b",
+    "moveCount": 7,
+    "moveListCount": 7,
+    "positionSource": "piece-square-class",
+    "historySource": "move-list",
+    "historyStatus": "replayed",
+    "flippedSource": "board-class",
+    "userColorSource": "player-bottom-clock",
+    "sideToMoveSource": "default",
+    "boardStateAgrees": null,
+    "warnings": [],
+    "strategyLog": [
+      {
+        "strategy": "piece-square-class",
+        "ok": true,
+        "pieces": 31
+      }
+    ],
+    "sessionSeq": 0,
+    "resetDetected": false,
+    "adapterVersion": "m3.0"
+  },
+  "groundTruth": {
+    "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
+    "movesUci": [
+      "e2e4",
+      "e7e5",
+      "f1c4",
+      "b8c6",
+      "d1h5",
+      "g8f6",
+      "h5f7"
+    ],
+    "userColor": "black",
+    "flipped": true,
+    "boardId": "board-single",
+    "rect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "viewport": {
+      "w": 1440,
+      "h": 757
+    },
+    "boardsOnPage": 3
+  },
+  "panel": {
+    "chip": "listening",
+    "chipClass": "chip chip-online",
+    "board": "#board-single · wc-chess-board",
+    "fen": "r1bqkb1r/pppp1Qpp/2n2n2/4p3/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 4",
+    "moves": "7 moves · replayed",
+    "turn": "black to move",
+    "color": "black (player-bottom-clock)",
+    "mismatchHidden": true
+  },
+  "rectErrors": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0
+  },
+  "trapBoards": 2,
+  "panelScreenshot": "test/fixtures/captures/adapter/gameover-checkmate-panel.png"
+}

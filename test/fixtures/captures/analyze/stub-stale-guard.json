@@ -1,0 +1,45 @@
+{
+  "pass": true,
+  "failures": [],
+  "slowKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6",
+  "fastKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
+  "before": 2,
+  "rendered": {
+    "rows": [
+      "Nd5",
+      "a3",
+      "Nh2"
+    ],
+    "probs": [
+      "76.8%",
+      "9.5%",
+      "5.8%"
+    ],
+    "meta": "model maia3-5m · engine 15.1 ms · round-trip 3.0 ms · 18 moves · replayed · ui 2.6 ms"
+  },
+  "afterSlow": {
+    "rows": [
+      "Nd5",
+      "a3",
+      "Nh2"
+    ],
+    "lastRenderKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
+    "staleDiscardCount": 1,
+    "status": "suggestion ready"
+  },
+  "latency": {
+    "mutationToRenderMs": 157,
+    "slowMutationTriggeredMsBefore": 168,
+    "stateToRenderMs": 2.600000001490116
+  },
+  "requests": {
+    "delta": 2,
+    "byKey": {
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3": 1,
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3": 1
+    }
+  },
+  "screenshot": "test/fixtures/captures/analyze/stub-stale-newer-wins.png"
+}

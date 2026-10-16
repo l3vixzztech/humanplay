@@ -1,0 +1,16 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshot": "test/fixtures/captures/analyze/stub-mismatch-board-only.png",
+  "warning": "adapter mismatch (board-history-disagreement): the move list and the board disagree — analyzing the board position WITHOUT the move history",
+  "boardOnlyKey": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R2Q1RK1 w - - 0 8||2400|2400|3",
+  "m3CardMismatch": "mismatch: board-history-disagreement — board is the source of truth; the move-list history was dropped for this update (move list had 14 moves). Board kept as the source of truth; history dropped for this update.",
+  "rows": [
+    "Nc3",
+    "h3",
+    "c3"
+  ],
+  "meta": "model maia3-5m · engine 10.6 ms · round-trip 2.0 ms · board only · no history · ui 39.7 ms",
+  "mode": "board-only",
+  "historyUsed": 0
+}

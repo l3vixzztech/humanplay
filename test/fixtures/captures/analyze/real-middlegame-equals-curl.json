@@ -1,0 +1,122 @@
+{
+  "pass": true,
+  "failures": [],
+  "panel": {
+    "rows": [
+      {
+        "rank": "1",
+        "san": "Nc3",
+        "uci": "b1c3",
+        "prob": "58.6%",
+        "barWidth": "58.5868%",
+        "top": true
+      },
+      {
+        "rank": "2",
+        "san": "h3",
+        "uci": "h2h3",
+        "prob": "16.0%",
+        "barWidth": "16.039%",
+        "top": false
+      },
+      {
+        "rank": "3",
+        "san": "c3",
+        "uci": "c2c3",
+        "prob": "13.0%",
+        "barWidth": "12.9875%",
+        "top": false
+      }
+    ],
+    "meta": "model maia3-5m · engine 17.7 ms · round-trip 21.0 ms · 14 moves · replayed · ui 22.6 ms",
+    "wdl": [
+      "win 38.6%",
+      "draw 7.3%",
+      "loss 54.0%"
+    ],
+    "gate": "auto"
+  },
+  "curl": {
+    "command": "curl -s http://127.0.0.1:8765/analyze -H 'Content-Type: application/json' -d '{\"fen\":\"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1\",\"moves\":[\"e2e4\",\"e7e5\",\"g1f3\",\"b8c6\",\"f1c4\",\"f8c5\",\"e1g1\",\"g8f6\",\"d2d3\",\"d7d6\",\"c1g5\",\"e8g8\",\"g5f6\",\"d8f6\"],\"elo_self\":2400,\"elo_oppo\":2400,\"top_k\":3}'",
+    "wallMs": 26,
+    "ok": true,
+    "moves": [
+      {
+        "uci": "b1c3",
+        "san": "Nc3",
+        "prob": 0.585868
+      },
+      {
+        "uci": "h2h3",
+        "san": "h3",
+        "prob": 0.16039
+      },
+      {
+        "uci": "c2c3",
+        "san": "c3",
+        "prob": 0.129875
+      }
+    ],
+    "wdl": {
+      "win": 0.386213,
+      "draw": 0.073429,
+      "loss": 0.540358
+    },
+    "model": "maia3-5m",
+    "elapsed_ms": 14.02,
+    "error": null
+  },
+  "comparison": {
+    "payload": {
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "moves": [
+        "e2e4",
+        "e7e5",
+        "g1f3",
+        "b8c6",
+        "f1c4",
+        "f8c5",
+        "e1g1",
+        "g8f6",
+        "d2d3",
+        "d7d6",
+        "c1g5",
+        "e8g8",
+        "g5f6",
+        "d8f6"
+      ],
+      "elo_self": 2400,
+      "elo_oppo": 2400,
+      "top_k": 3
+    },
+    "tolerance": 0.0005
+  },
+  "screenshot": "test/fixtures/captures/analyze/real-middlegame-suggestion.png",
+  "latency": {
+    "stateToRenderMs": 22.600000001490116,
+    "roundTripMs": 21,
+    "engineMs": 17.74
+  },
+  "positionChange": {
+    "mutationToRenderMs": 175,
+    "stateToRenderMs": 21.200000002980232,
+    "roundTripMs": 21,
+    "engineMs": 18.18,
+    "rows": [
+      {
+        "san": "Nd5",
+        "prob": "79.4%"
+      },
+      {
+        "san": "h3",
+        "prob": "15.2%"
+      },
+      {
+        "san": "a3",
+        "prob": "1.7%"
+      }
+    ],
+    "meta": "model maia3-5m · engine 18.2 ms · round-trip 21.0 ms · 16 moves · replayed · ui 21.2 ms"
+  },
+  "positionChangeScreenshot": "test/fixtures/captures/analyze/real-position-change.png"
+}

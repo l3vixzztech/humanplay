@@ -16,8 +16,9 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 │     pieces → board field      │        │        │                             │
 │     move list → SAN → UCI     │        │        ▼                             │
 │     → GameState message       │ ◄───── │  maia_engine.py                      │
-│ side panel: state card (M3)   │        │   └─ Maia3-5M (torch, CPU)           │
-│ arrow overlay (M5) · TTS (M6) │        │        AGPL-3.0, separate venv       │
+│ side panel: suggestion card   │        │   └─ Maia3-5M (torch, CPU)           │
+│  (M4: top-3 + WDL + Elo)      │        │        AGPL-3.0, separate venv       │
+│ arrow overlay (M5) · TTS (M6) │        │                                      │
 │ debug: capture + PNG recorder │        │                                      │
 └───────────────────────────────┘        └──────────────────────────────────────┘
      DOM only (chess.com only)                 separate process / venv boundary
@@ -74,7 +75,7 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 | 1 | Scaffold + Maia-3 helper server | repo scaffold, docs, venv, `maia_engine.predict`, FastAPI `/analyze` + `/health`, tests incl. `maia3-uci` golden check | ✅ done |
 | 2 | Extension skeleton + tab capture + offline fixtures | MV3 manifest, capture-source interface (locked), side panel (toggle/capture/recorder/chip), offline fixture pages + captured PNG evidence | ✅ done |
 | 3 | chess.com DOM adapter + state protocol + fixtures | content script (board detection, multi-strategy position reading, move-list SAN → UCI replay, flip/color detection, mismatch policy), GameState protocol, panel state card, snapshot recorder, adapter proof harness + unit tests | ✅ done |
-| 4 | End-to-end analysis loop | panel sends `POST /analyze {fen, moves}` for the live state, renders top-3 moves + WDL; assistant toggle gates it | ⬜ |
+| 4 | End-to-end analysis loop | `src/analysis/analyze-client.js` (timeout, single network retry, position-key LRU cache + dedupe, stale guard, request builder, gating), panel "Maia suggestion" card (top-3 + bar + % + WDL + perspective + meta) and "Elo" card, canned `/analyze` in the fixture server, unit tests + stub/real CDP proofs | ✅ done |
 | 5 | Arrow overlay on the real board | draw the best move on the chess.com board using `boardRect` + devicePixelRatio (overlay lives in the content script or as an extension overlay page) | ⬜ |
 | 6 | TTS | `chrome.tts` announcements (Piper-ready interface), "just the move" | ⬜ |
 | 7 | Premove planner | precompute replies for the opponent's likely moves (from Maia's distribution) while they think | ⬜ |
@@ -128,6 +129,62 @@ chess.com on 2026-10-16 — probes documented in `test/fixtures/chesscom/README.
 - **New game/reset** is detected (move list back to start / URL change) and
   reported via `sessionSeq` + `resetDetected`.
 
+## The analysis loop (M4)
+
+`extension/src/analysis/analyze-client.js` is the extension's only HTTP client
+for the helper server (clean-room, no maia3 code). The side panel renders what
+it returns; the unit tests exercise it with an injected `fetch`.
+
+**Request mapping.** The adapter's `fen` is the *current* position and
+`movesUci` the *full* history, but `/analyze` takes a BASE position plus moves
+on top of it (`position fen <base> moves …` semantics). So:
+
+| Adapter state | Request |
+|---|---|
+| `historyStatus: "replayed"`, ≥ 1 move, no mismatch | `{fen: <standard start position>, moves: <full UCI history>}` → Maia's history planes see the real game |
+| adapter `mismatch` (board ≠ move list) | `{fen: <board FEN>, moves: []}` + the mismatch warning in the card |
+| no usable history (absent/unreliable/empty) | `{fen: <board FEN>, moves: []}` |
+| always | `elo_self`/`elo_oppo` (settings, 0–5000, default 2400, clamped), `top_k: 3` |
+
+**Fetch semantics.** 4 s timeout via `AbortController`; **exactly one retry on
+a network failure** (connection refused/dropped); never a retry on 4xx/5xx or on
+a timeout. Every outcome is a result object
+`{ok, status, data, roundTripMs, error, errorClass, attempts, attemptLog}` with
+the error classes `offline` / `timeout` / `invalid_input` (400, 422) /
+`engine_unavailable` (503) / `http` / `bad_response`.
+
+**Cache + stale guard.** Position key =
+`fen|moves|elo_self|elo_oppo|top_k`. Identical keys are answered from a small
+LRU (24) — re-emitted states never re-request — and concurrent identical
+requests are shared (in-flight dedupe). Failures are never cached. A new game
+(`sessionSeq` change) clears the cache. Every request carries its key and the
+client tracks the current one (also via `expectKey()` when the policy does not
+request, e.g. on the opponent's turn): a response whose key is no longer
+current comes back `stale: true` and the panel **discards it silently** — a new
+position always wins over an older, slower response.
+
+**Gating policy** (`analysisGate`): auto-analyze iff assistant toggle on **and**
+adapter state ok **and** `userColor` known **and** `turn === userColor`;
+otherwise `waiting` / `no-color` / `off` / `no-state`. "Analyze now" works
+whenever a state is known and forces a fresh request.
+
+**Panel states**: `idle`, `analyzing…`, `suggestion ready` (top-3 rows + WDL),
+`waiting`, `game over` (server answers `moves: []` + rules-decided WDL),
+`server offline` (actionable: the uvicorn command), `invalid input` (server
+detail), `engine unavailable`. The meta line carries the model, engine
+`elapsed_ms`, round-trip ms, the history used (`14 moves · replayed`), the
+UI latency and `cached` when applicable. WDL is the server's side-to-move
+quantity: labelled "(you)" for auto analyses, flipped win↔loss and labelled
+"opponent's perspective" for manual analyses on the opponent's turn, with a
+tooltip that it is Maia's human value head and **not** an engine evaluation.
+
+**Proving it.** `test/tools/analyze-proof.mjs` (CDP, manifest-variant like the
+M3 proof) runs STUB mode against `test/tools/fixture_server.py` (canned
+responses recorded from the real server — `test/tools/collect-canned.py`) and
+REAL mode against the running Maia server, where the panel's top-3 must equal a
+direct `curl /analyze` for the same FEN + history. Evidence:
+`test/fixtures/captures/analyze/`.
+
 ## Repository layout
 
 ```
@@ -145,11 +202,14 @@ parked/     stopped work kept for revival (parked/image-recognition/)
   `{moves: [{uci, san, prob}], wdl: {win, draw, loss}, model, elapsed_ms}`.
   `wdl` is from the **side-to-move** perspective of the analyzed position.
   `moves` is the exact UCI history (what M3's move-list replay provides).
+  A finished game answers `moves: []` + a rules-decided WDL.
 - `GET /health` → `{status, model}`.
 
 Details, semantics (history planes, temperature, WDL perspective) and exact
 commands: `server/README.md`. Extension-side details (adapter architecture, the
-snapshot recorder, the proofs): `extension/README.md`.
+analysis client, the snapshot recorder, the proofs): `extension/README.md`.
+Test tooling (fixture server with canned `/analyze` + `/debug/*` test routes,
+proof harnesses): `test/README.md`.
 
 ## Licensing / boundaries
 

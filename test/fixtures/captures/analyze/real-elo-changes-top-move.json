@@ -1,0 +1,112 @@
+{
+  "pass": true,
+  "failures": [],
+  "at1200": {
+    "panelRows": [
+      {
+        "rank": "1",
+        "san": "d4",
+        "uci": "d2d4",
+        "prob": "83.6%",
+        "barWidth": "83.5798%",
+        "top": true
+      },
+      {
+        "rank": "2",
+        "san": "h3",
+        "uci": "h2h3",
+        "prob": "10.6%",
+        "barWidth": "10.6114%",
+        "top": false
+      },
+      {
+        "rank": "3",
+        "san": "d3",
+        "uci": "d2d3",
+        "prob": "2.2%",
+        "barWidth": "2.1596%",
+        "top": false
+      }
+    ],
+    "meta": "model maia3-5m · engine 12.2 ms · round-trip 14.0 ms · 16 moves · replayed · ui 14.4 ms",
+    "curlMoves": [
+      {
+        "uci": "d2d4",
+        "san": "d4",
+        "prob": 0.835798
+      },
+      {
+        "uci": "h2h3",
+        "san": "h3",
+        "prob": 0.106114
+      },
+      {
+        "uci": "d2d3",
+        "san": "d3",
+        "prob": 0.021596
+      }
+    ],
+    "curlWallMs": 26,
+    "latency": {
+      "stateToRenderMs": 14.399999998509884,
+      "roundTripMs": 14,
+      "engineMs": 12.16
+    }
+  },
+  "at2600": {
+    "panelRows": [
+      {
+        "rank": "1",
+        "san": "h3",
+        "uci": "h2h3",
+        "prob": "86.2%",
+        "barWidth": "86.1733%",
+        "top": true
+      },
+      {
+        "rank": "2",
+        "san": "d4",
+        "uci": "d2d4",
+        "prob": "9.5%",
+        "barWidth": "9.4848%",
+        "top": false
+      },
+      {
+        "rank": "3",
+        "san": "a4",
+        "uci": "a2a4",
+        "prob": "2.3%",
+        "barWidth": "2.3123%",
+        "top": false
+      }
+    ],
+    "meta": "model maia3-5m · engine 16.6 ms · round-trip 20.0 ms · 16 moves · replayed · ui 19.7 ms",
+    "curlMoves": [
+      {
+        "uci": "h2h3",
+        "san": "h3",
+        "prob": 0.861733
+      },
+      {
+        "uci": "d2d4",
+        "san": "d4",
+        "prob": 0.094848
+      },
+      {
+        "uci": "a2a4",
+        "san": "a4",
+        "prob": 0.023123
+      }
+    ],
+    "curlWallMs": 22,
+    "latency": {
+      "stateToRenderMs": 19.700000002980232,
+      "roundTripMs": 20,
+      "engineMs": 16.55
+    }
+  },
+  "screenshots": [
+    "test/fixtures/captures/analyze/real-elo-1200.png",
+    "test/fixtures/captures/analyze/real-elo-2600.png"
+  ]
+}

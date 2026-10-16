@@ -1,0 +1,449 @@
+{
+  "generatedWith": "cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765",
+  "generatedAt": "2026-10-16T18:15:55Z",
+  "generator": "test/tools/collect-canned.py",
+  "consumedBy": "test/tools/fixture_server.py CANNED + test/tools/analyze-proof.mjs (stub mode)",
+  "entries": [
+    {
+      "name": "startpos.html \u2014 no moves, default Elo",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 22.7,
+      "response": {
+        "moves": [
+          {
+            "uci": "e2e4",
+            "san": "e4",
+            "prob": 0.464864
+          },
+          {
+            "uci": "d2d4",
+            "san": "d4",
+            "prob": 0.339048
+          },
+          {
+            "uci": "g1f3",
+            "san": "Nf3",
+            "prob": 0.081763
+          }
+        ],
+        "wdl": {
+          "win": 0.476414,
+          "draw": 0.067579,
+          "loss": 0.456007
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 15.58
+      }
+    },
+    {
+      "name": "middlegame-castling.html \u2014 14 plies (stale-proof P1 / the real-mode case)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 12.4,
+      "response": {
+        "moves": [
+          {
+            "uci": "b1c3",
+            "san": "Nc3",
+            "prob": 0.585868
+          },
+          {
+            "uci": "h2h3",
+            "san": "h3",
+            "prob": 0.16039
+          },
+          {
+            "uci": "c2c3",
+            "san": "c3",
+            "prob": 0.129875
+          }
+        ],
+        "wdl": {
+          "win": 0.386213,
+          "draw": 0.073429,
+          "loss": 0.540358
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 11.08
+      }
+    },
+    {
+      "name": "middlegame + 15.b1c3 15...h7h6 \u2014 stale-proof P2 (delayed)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6",
+          "b1c3",
+          "h7h6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 12.5,
+      "response": {
+        "moves": [
+          {
+            "uci": "c3d5",
+            "san": "Nd5",
+            "prob": 0.794386
+          },
+          {
+            "uci": "h2h3",
+            "san": "h3",
+            "prob": 0.151575
+          },
+          {
+            "uci": "a2a3",
+            "san": "a3",
+            "prob": 0.016804
+          }
+        ],
+        "wdl": {
+          "win": 0.406747,
+          "draw": 0.065454,
+          "loss": 0.5278
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 11.32
+      }
+    },
+    {
+      "name": "middlegame + 16.h2h3 16...f8e8 \u2014 stale-proof P3 (fast, must win)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1c4",
+          "f8c5",
+          "e1g1",
+          "g8f6",
+          "d2d3",
+          "d7d6",
+          "c1g5",
+          "e8g8",
+          "g5f6",
+          "d8f6",
+          "b1c3",
+          "h7h6",
+          "h2h3",
+          "f8e8"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 12.0,
+      "response": {
+        "moves": [
+          {
+            "uci": "c3d5",
+            "san": "Nd5",
+            "prob": 0.767718
+          },
+          {
+            "uci": "a2a3",
+            "san": "a3",
+            "prob": 0.094755
+          },
+          {
+            "uci": "f3h2",
+            "san": "Nh2",
+            "prob": 0.057927
+          }
+        ],
+        "wdl": {
+          "win": 0.400184,
+          "draw": 0.07612,
+          "loss": 0.523696
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 10.83
+      }
+    },
+    {
+      "name": "flipped-black.html \u2014 4 plies (manual analysis on the opponent's turn)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "c7c5",
+          "g1f3",
+          "d7d6"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 14.1,
+      "response": {
+        "moves": [
+          {
+            "uci": "d2d4",
+            "san": "d4",
+            "prob": 0.709055
+          },
+          {
+            "uci": "f1b5",
+            "san": "Bb5+",
+            "prob": 0.139307
+          },
+          {
+            "uci": "c2c3",
+            "san": "c3",
+            "prob": 0.065148
+          }
+        ],
+        "wdl": {
+          "win": 0.491259,
+          "draw": 0.062721,
+          "loss": 0.44602
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 12.84
+      }
+    },
+    {
+      "name": "ruy-lopez.html \u2014 16 plies, default Elo (top-1 h3)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1b5",
+          "a7a6",
+          "b5a4",
+          "g8f6",
+          "e1g1",
+          "f8e7",
+          "f1e1",
+          "b7b5",
+          "a4b3",
+          "d7d6",
+          "c2c3",
+          "e8g8"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 13.1,
+      "response": {
+        "moves": [
+          {
+            "uci": "h2h3",
+            "san": "h3",
+            "prob": 0.805269
+          },
+          {
+            "uci": "d2d4",
+            "san": "d4",
+            "prob": 0.132964
+          },
+          {
+            "uci": "d2d3",
+            "san": "d3",
+            "prob": 0.03005
+          }
+        ],
+        "wdl": {
+          "win": 0.490922,
+          "draw": 0.069823,
+          "loss": 0.439256
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 11.95
+      }
+    },
+    {
+      "name": "ruy-lopez @ 1200/1200 \u2014 top-1 d4 (the Elo proof)",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|1200|1200|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1b5",
+          "a7a6",
+          "b5a4",
+          "g8f6",
+          "e1g1",
+          "f8e7",
+          "f1e1",
+          "b7b5",
+          "a4b3",
+          "d7d6",
+          "c2c3",
+          "e8g8"
+        ],
+        "elo_self": 1200,
+        "elo_oppo": 1200,
+        "top_k": 3
+      },
+      "wall_ms": 13.3,
+      "response": {
+        "moves": [
+          {
+            "uci": "d2d4",
+            "san": "d4",
+            "prob": 0.835798
+          },
+          {
+            "uci": "h2h3",
+            "san": "h3",
+            "prob": 0.106114
+          },
+          {
+            "uci": "d2d3",
+            "san": "d3",
+            "prob": 0.021596
+          }
+        ],
+        "wdl": {
+          "win": 0.596622,
+          "draw": 0.021242,
+          "loss": 0.382135
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 12.07
+      }
+    },
+    {
+      "name": "ruy-lopez @ 2600/2600 \u2014 top-1 h3 with different probabilities",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1b5 a7a6 b5a4 g8f6 e1g1 f8e7 f1e1 b7b5 a4b3 d7d6 c2c3 e8g8|2600|2600|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "g1f3",
+          "b8c6",
+          "f1b5",
+          "a7a6",
+          "b5a4",
+          "g8f6",
+          "e1g1",
+          "f8e7",
+          "f1e1",
+          "b7b5",
+          "a4b3",
+          "d7d6",
+          "c2c3",
+          "e8g8"
+        ],
+        "elo_self": 2600,
+        "elo_oppo": 2600,
+        "top_k": 3
+      },
+      "wall_ms": 12.7,
+      "response": {
+        "moves": [
+          {
+            "uci": "h2h3",
+            "san": "h3",
+            "prob": 0.861733
+          },
+          {
+            "uci": "d2d4",
+            "san": "d4",
+            "prob": 0.094848
+          },
+          {
+            "uci": "a2a4",
+            "san": "a4",
+            "prob": 0.023123
+          }
+        ],
+        "wdl": {
+          "win": 0.479579,
+          "draw": 0.095935,
+          "loss": 0.424486
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 11.5
+      }
+    },
+    {
+      "name": "gameover-checkmate.html \u2014 scholar's mate: moves[] + rules-decided WDL",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 f1c4 b8c6 d1h5 g8f6 h5f7|2400|2400|3",
+      "request": {
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": [
+          "e2e4",
+          "e7e5",
+          "f1c4",
+          "b8c6",
+          "d1h5",
+          "g8f6",
+          "h5f7"
+        ],
+        "elo_self": 2400,
+        "elo_oppo": 2400,
+        "top_k": 3
+      },
+      "wall_ms": 1.9,
+      "response": {
+        "moves": [],
+        "wdl": {
+          "win": 0.0,
+          "draw": 0.0,
+          "loss": 1.0
+        },
+        "model": "maia3-5m",
+        "elapsed_ms": 1.03
+      }
+    }
+  ]
+}

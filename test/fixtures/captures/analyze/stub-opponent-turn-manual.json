@@ -1,0 +1,34 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshot": "test/fixtures/captures/analyze/stub-opponent-turn-manual.png",
+  "waiting": {
+    "gate": "waiting",
+    "message": "their turn (white to move) — waiting. Opponent prediction arrives in M7; Analyze now still works.",
+    "rowsHidden": true,
+    "wdlHidden": true
+  },
+  "manual": {
+    "top3": [
+      {
+        "san": "d4",
+        "prob": "70.9%"
+      },
+      {
+        "san": "Bb5+",
+        "prob": "13.9%"
+      },
+      {
+        "san": "c3",
+        "prob": "6.5%"
+      }
+    ],
+    "wdlLabel": "human outcome prediction (opponent's perspective)",
+    "wdl": [
+      "win 44.6%",
+      "draw 6.3%",
+      "loss 49.1%"
+    ],
+    "meta": "model maia3-5m · engine 10.1 ms · round-trip 2.0 ms · 4 moves · replayed · ui 104.5 ms"
+  }
+}

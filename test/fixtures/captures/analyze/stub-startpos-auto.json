@@ -1,0 +1,90 @@
+{
+  "pass": true,
+  "failures": [],
+  "url": "http://127.0.0.1:40709/chesscom/startpos.html",
+  "top3": [
+    {
+      "rank": "1",
+      "san": "e4",
+      "uci": "e2e4",
+      "prob": "46.5%",
+      "barWidth": "46.4864%",
+      "top": true
+    },
+    {
+      "rank": "2",
+      "san": "d4",
+      "uci": "d2d4",
+      "prob": "33.9%",
+      "barWidth": "33.9048%",
+      "top": false
+    },
+    {
+      "rank": "3",
+      "san": "Nf3",
+      "uci": "g1f3",
+      "prob": "8.2%",
+      "barWidth": "8.1763%",
+      "top": false
+    }
+  ],
+  "wdl": {
+    "win": "win 47.6%",
+    "draw": "draw 6.8%",
+    "loss": "loss 45.6%",
+    "label": "human outcome prediction (you)",
+    "tooltip": "Maia-3's human-model value head: the result distribution Maia predicts for your side in this position, conditioned on human games at Elo 2400 (you) / 2400 (opponent). It is NOT an engine evaluation."
+  },
+  "meta": "model maia3-5m · engine 15.4 ms · round-trip 3.0 ms · board only · no history · ui 4.1 ms",
+  "screenshot": "test/fixtures/captures/analyze/stub-startpos-suggestion.png",
+  "latency": {
+    "stateToRenderMs": 4.100000001490116,
+    "roundTripMs": 3,
+    "engineMs": 15.36
+  },
+  "requests": {
+    "before": 0,
+    "after": 1,
+    "delta": 1,
+    "fromCache": true,
+    "lastRenderKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
+  },
+  "debug": {
+    "gate": "auto",
+    "status": "ready",
+    "lastResult": {
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+      "mode": "board-only",
+      "historyUsed": 0,
+      "model": "maia3-5m",
+      "elapsed_ms": 15.36,
+      "roundTripMs": 3,
+      "attempts": 1,
+      "fromCache": false,
+      "moves": [
+        {
+          "uci": "e2e4",
+          "san": "e4",
+          "prob": 0.464864
+        },
+        {
+          "uci": "d2d4",
+          "san": "d4",
+          "prob": 0.339048
+        },
+        {
+          "uci": "g1f3",
+          "san": "Nf3",
+          "prob": 0.081763
+        }
+      ],
+      "wdl": {
+        "draw": 0.067579,
+        "loss": 0.456007,
+        "win": 0.476414
+      },
+      "opponentPerspective": false
+    }
+  },
+  "dedupeScreenshot": "test/fixtures/captures/analyze/stub-startpos-dedupe.png"
+}

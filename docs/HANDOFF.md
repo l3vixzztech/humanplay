@@ -2,6 +2,133 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Session 4 — Milestone 4: end-to-end analysis loop (game state → Maia → panel) ✅
+
+**What works**
+- `extension/` **0.3.0**: new `src/analysis/analyze-client.js` (pure, no chrome.*)
+  = the only `/analyze` client. `analyze()`: 4 s AbortController timeout,
+  **exactly one retry on a network failure** (never on 4xx/5xx, never on a
+  timeout), result objects only, error classes `offline` / `timeout` /
+  `invalid_input` (400, 422) / `engine_unavailable` (503) / `http` /
+  `bad_response`; `fetchImpl` injectable. `createAnalyzeClient()`: position key
+  `fen|moves|elos|top_k`, small LRU (24; failures never cached), in-flight
+  dedupe, `noteSessionSeq()` clears the cache on a new game, stale guard
+  (`expectKey()` + `result.stale`) so an older slower response can never
+  overwrite a newer position. `buildAnalyzeRequest()`: replayed history →
+  `{fen: startpos, moves: full UCI history}`; adapter `mismatch` (or no usable
+  history) → `{fen: board FEN, moves: []}` + card warning. `analysisGate()`:
+  auto only when assistant ON + state ok + `userColor` known + `turn === userColor`.
+- Panel: **"Maia suggestion"** card (status chip, top-3 rows with rank/SAN/UCI/
+  probability bar/1-decimal %, top-1 highlighted, WDL chips + perspective label
+  + "not an engine evaluation" tooltip, mismatch warning, meta line
+  `model · engine ms · round-trip ms · 14 moves · replayed · ui ms [· cached]`,
+  **Analyze now**) and **"Elo"** card (`elo_self`/`elo_oppo` 0–5000 clamped,
+  default 2400, persisted, "reset to 2400", changing them re-analyzes). Opponent
+  turn → "their turn — waiting" (M7); game over → message instead of rows;
+  manual analysis on the opponent's turn flips win↔loss + "opponent's
+  perspective". M2/M3 cards kept. Panel debug hook `__humanplayAnalysis`
+  (read-only) for the proof.
+- Fixtures: `ruy-lopez.html` (Elo demo position) + `gameover-checkmate.html`
+  (scholar's mate) added to `generate_chesscom.py`; the other three regenerate
+  byte-identical.
+- `test/tools/fixture_server.py`: `POST /analyze` with **canned real-server
+  responses** (9 keys; schema identical by construction — verified equal to a
+  fresh real run) + `/debug/stats|delay|mode|reset|canned` (test-only routes).
+  `test/tools/collect-canned.py` re-records them; the full record is
+  `captures/analyze/canned-report.json`.
+- `test/tools/analyze-unit.mjs` (20 zero-dep tests, injected fetch) and
+  `test/tools/analyze-proof.mjs` (CDP, manifest-variant, stub + `--real`).
+
+**Results (evidence: `test/fixtures/captures/analyze/`)**
+- analyze-unit: **20 passed** (`analyze-unit.json`).
+- analyze-proof **STUB** (10 cases, `analyze-proof-stub.json`) — all PASS:
+  top-3 + bar + 1-decimal % + WDL chips + tooltip + meta; **3 state renders →
+  1 HTTP request** (dedupe, second was `fromCache`); **stale guard**: P2 (delayed
+  900 ms) discarded (`staleDiscards: 1`), P3's rows kept, no overwrite after the
+  slow response landed; assistant OFF → 0 requests, ON → analyzed again (400
+  detail shown); 400 UI shows the server detail; **server offline**: 2 fetch
+  attempts (1 retry; 4 server-side connection attempts — Chrome retries a
+  dropped keep-alive connection internally) + actionable uvicorn command;
+  opponent turn: waiting → manual `d4` with WDL flipped 44.6/49.1 %
+  (opponent's perspective); game over message; Elo 1200→`d4` 83.6 %,
+  2600→`h3` 86.2 %, reset→2400; mismatch → board-only request
+  (`… 2NP1N2/… w - - 0 8||2400|2400|3`, no `e2e4`) + warning + successful
+  board-only suggestion.
+- analyze-proof **REAL** (`--real`, uvicorn up, `analyze-proof-real.json`):
+  **panel top-3 == `curl /analyze`** for `{fen: startpos, moves: 14 UCI}`
+  (Nc3 0.585868 / h3 0.16039 / c3 0.129875), real game-over checkmate, and Elo
+  1200→`d4` 83.6 % vs 2600→`h3` 86.2 % (panel AND curl).
+- **Latencies (target ≤ 1500 ms)**: real engine **18.75 ms**, round-trip
+  **22 ms**, state→render **23 ms**, **position change (DOM mutation)→suggestion
+  173 ms** (includes the 150 ms adapter debounce); stub: 2–4 ms state→render,
+  157 ms mutation→render. Canned model output is deterministic (canned == fresh
+  real run, value-identical).
+- Regressions: `adapter-proof` **ALL ADAPTER CASES PASSED** (now incl.
+  ruy-lopez + gameover fixtures; snapshot recorder + replay; console clean);
+  `adapter-unit` 22 passed; `capture-proof` exit 0 (codeIdentical, capture
+  1100×757, byte-identical recorded PNG, toggle persistence, console clean);
+  `cd server && .venv/bin/python -m pytest tests -q` → **55 passed, 3.00 s**
+  (server untouched).
+
+**Exact commands**
+```bash
+CHROME="$HOME/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome"
+node test/tools/analyze-unit.mjs                        # 20 passed
+node test/tools/analyze-proof.mjs --chrome "$CHROME"    # STUB, 10 cases (spawns the stub itself)
+cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765   # for REAL mode
+node test/tools/analyze-proof.mjs --chrome "$CHROME" --real
+node test/tools/adapter-proof.mjs --chrome "$CHROME"    # M3 regression
+python3 test/tools/fixture_server.py --port 8765 &      # M2 regression
+node test/tools/capture-proof.mjs --chrome "$CHROME" --extension extension --manifest-all-urls \
+  --page-url http://127.0.0.1:8765/pages/startpos.html --expect-chip online
+# re-record the stub's canned /analyze data (real server must be running):
+server/.venv/bin/python test/fixtures/generate_chesscom.py && python3 test/tools/collect-canned.py
+```
+
+**A human must verify (not automatable here) — manual checklist**
+1. **Real chess.com bot game**: load unpacked (0.3.0), start the server, open a
+   game, click the toolbar icon. On your move the suggestion card must appear
+   (≤ ~1.5 s after the board updates) and change after the opponent moves;
+   the FEN in the state card must still match the board (M3 regression).
+2. **Elo effect**: in some middlegame, set 1200/1200 vs 2600/2600 — the top
+   move (or at least the probabilities) must change and a new request must be
+   fired. (Automated proof: Ruy Lopez `d4`@1200 vs `h3`@2600.)
+3. **Server offline**: stop uvicorn → the card must show "server offline" with
+   the start command (after one retry), and recover on the next position once
+   the server is back.
+4. **Game over**: finish a game (or get mated) → the card must show the
+   "game over — checkmate — …" message instead of move rows.
+5. Optional: press **Analyze now** on the opponent's turn → rows appear with
+   the "opponent's perspective" WDL label.
+
+**Deviations / notes**
+- The delayed-request test surfaced a stub bug (the artificial delay leaked onto
+  the *next* request); fixed in `fixture_server.py` (only the request that
+  consumes a delay slot sleeps).
+- `/analyze` requests use the **standard start position** as the base for
+  replayed histories; a chess.com analysis board with a custom setup would
+  therefore show a mismatch and fall back to board-only (correct, but the
+  history planes are then empty).
+- Chrome internally retried the deliberately dropped keep-alive connection in
+  the offline case (4 server-side attempts for 2 fetch attempts); the panel's
+  "retried once, 2 attempts" text comes from the client's own attempt log
+  (unit-tested exactly).
+- Stub mode's canned responses are real-server recordings; stub screenshots
+  therefore show "maia3-5m" — the proof records the server identity
+  (`fixture-static-server`) separately.
+- Finding (not fixed, by design): the M3 adapter's MutationObserver watches
+  childList/characterData, not attributes — a class-only piece mutation does not
+  trigger a refresh. Real chess.com repaints the move list with every move, so
+  the live path is unaffected; the mismatch proof repaints the move list too.
+- `/debug/*` routes live only in the test fixture server; the shipped extension
+  never calls them (only `/health`, `/analyze`, `/snapshot`).
+
+**Next — Milestone 5**: draw the suggested move on the real board using
+`boardRect` + `devicePixelRatio` from the GameState (and the top-1 UCI the panel
+already has from `/analyze`). M6: TTS.
+
+---
+
 ## Session 3 — Milestone 3 (pivot): chess.com DOM adapter + state protocol + fixtures ✅
 
 **The pivot** (why this differs from the "Next" note at the end of session 2)

@@ -1,0 +1,155 @@
+{
+  "tool": "analyze-unit.mjs",
+  "generatedAt": "2026-10-16T18:20:37.729Z",
+  "node": "v22.22.0",
+  "module": "extension/src/analysis/analyze-client.js",
+  "passed": 20,
+  "failed": 0,
+  "total": 20,
+  "cases": [
+    {
+      "name": "analyze: success -> {ok, status, data, roundTripMs} (1 attempt)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "roundTripMs": 0,
+        "attempts": 1
+      }
+    },
+    {
+      "name": "analyze: game over body (moves: [] + rules-decided wdl) is a SUCCESS",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "analyze: timeout -> class \"timeout\", NOT retried",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "analyze: network error -> exactly one retry, then succeeds",
+      "pass": true,
+      "message": null,
+      "details": {
+        "attempts": 2
+      }
+    },
+    {
+      "name": "analyze: permanent network error -> class \"offline\" after 2 attempts",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "analyze: HTTP 400 -> invalid_input, detail shown, NEVER retried",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "analyze: HTTP 422 -> invalid_input, HTTP 500 -> http, HTTP 503 -> engine_unavailable",
+      "pass": true,
+      "message": null,
+      "details": {
+        "422": "invalid_input",
+        "500": "http",
+        "503": "engine_unavailable"
+      }
+    },
+    {
+      "name": "analyze: 2xx with a malformed body -> bad_response (no retry)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "client: identical key re-emits -> cache hit, no re-request",
+      "pass": true,
+      "message": null,
+      "details": {
+        "requests": 1,
+        "cacheHits": 1
+      }
+    },
+    {
+      "name": "client: concurrent identical key -> one request (in-flight dedupe)",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "client: out-of-order responses -> the older key is stale and discarded",
+      "pass": true,
+      "message": null,
+      "details": {
+        "staleDiscards": 1,
+        "currentKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3"
+      }
+    },
+    {
+      "name": "client: expectKey() makes an in-flight result stale without a new request",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "client: Elo change -> different key -> new request (key includes elos)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "requests": 2,
+        "cacheHits": 1
+      }
+    },
+    {
+      "name": "client: sessionSeq change (new game) clears the cache",
+      "pass": true,
+      "message": null,
+      "details": {
+        "cleared": 1,
+        "requests": 2
+      }
+    },
+    {
+      "name": "client: cache is a small LRU, failures are never cached",
+      "pass": true,
+      "message": null,
+      "details": {
+        "cacheSize": 2,
+        "calls": 5
+      }
+    },
+    {
+      "name": "buildAnalyzeRequest: replayed history -> startpos + full UCI history",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "buildAnalyzeRequest: mismatch -> board FEN WITHOUT moves + warning",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "buildAnalyzeRequest: empty history / no usable history / no state",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "analysisGate: auto only on your turn with everything known",
+      "pass": true,
+      "message": null,
+      "details": null
+    },
+    {
+      "name": "clampElo / positionKey",
+      "pass": true,
+      "message": null,
+      "details": null
+    }
+  ]
+}

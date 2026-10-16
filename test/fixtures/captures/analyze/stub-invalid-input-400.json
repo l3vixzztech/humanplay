@@ -1,0 +1,8 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshot": "test/fixtures/captures/analyze/stub-invalid-input-400.png",
+  "message": "invalid input (HTTP 400): fixture server (test mode): simulated invalid input — the FEN was rejected",
+  "status": "invalid input",
+  "statusClass": "chip chip-offline"
+}

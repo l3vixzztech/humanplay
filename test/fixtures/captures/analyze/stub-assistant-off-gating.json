@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "failures": [],
+  "offState": {
+    "message": "assistant off — press Analyze now to analyze the current position",
+    "status": "idle",
+    "gate": "off",
+    "requests": 0
+  },
+  "onState": {
+    "message": "invalid input (HTTP 400): fixture server: no canned response for 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3' (record one with the real server)",
+    "status": "invalid input",
+    "requests": 1,
+    "debugStatus": "error:invalid_input"
+  },
+  "screenshot": "test/fixtures/captures/analyze/stub-assistant-off.png"
+}

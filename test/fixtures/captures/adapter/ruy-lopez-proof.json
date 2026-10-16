@@ -1,0 +1,118 @@
+{
+  "slug": "ruy-lopez",
+  "url": "http://127.0.0.1:39005/chesscom/ruy-lopez.html",
+  "pass": true,
+  "failures": [],
+  "state": {
+    "ok": true,
+    "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",
+    "movesUci": [
+      "e2e4",
+      "e7e5",
+      "g1f3",
+      "b8c6",
+      "f1b5",
+      "a7a6",
+      "b5a4",
+      "g8f6",
+      "e1g1",
+      "f8e7",
+      "f1e1",
+      "b7b5",
+      "a4b3",
+      "d7d6",
+      "c2c3",
+      "e8g8"
+    ],
+    "userColor": "white",
+    "flipped": false,
+    "boardRect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "gameUrl": "http://127.0.0.1:39005/chesscom/ruy-lopez.html",
+    "gameId": null,
+    "ts": "2026-10-16T18:20:42.014Z",
+    "boardId": "board-single",
+    "boardTag": "wc-chess-board",
+    "boardInViewport": true,
+    "turn": "w",
+    "moveCount": 16,
+    "moveListCount": 16,
+    "positionSource": "piece-square-class",
+    "historySource": "move-list",
+    "historyStatus": "replayed",
+    "flippedSource": "board-class",
+    "userColorSource": "player-bottom-clock",
+    "sideToMoveSource": "default",
+    "boardStateAgrees": null,
+    "warnings": [],
+    "strategyLog": [
+      {
+        "strategy": "piece-square-class",
+        "ok": true,
+        "pieces": 32
+      }
+    ],
+    "sessionSeq": 0,
+    "resetDetected": false,
+    "adapterVersion": "m3.0"
+  },
+  "groundTruth": {
+    "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",
+    "movesUci": [
+      "e2e4",
+      "e7e5",
+      "g1f3",
+      "b8c6",
+      "f1b5",
+      "a7a6",
+      "b5a4",
+      "g8f6",
+      "e1g1",
+      "f8e7",
+      "f1e1",
+      "b7b5",
+      "a4b3",
+      "d7d6",
+      "c2c3",
+      "e8g8"
+    ],
+    "userColor": "white",
+    "flipped": false,
+    "boardId": "board-single",
+    "rect": {
+      "x": 18,
+      "y": 58,
+      "w": 560,
+      "h": 560
+    },
+    "devicePixelRatio": 1,
+    "viewport": {
+      "w": 1440,
+      "h": 757
+    },
+    "boardsOnPage": 3
+  },
+  "panel": {
+    "chip": "listening",
+    "chipClass": "chip chip-online",
+    "board": "#board-single · wc-chess-board",
+    "fen": "r1bq1rk1/2p1bppp/p1np1n2/1p2p3/4P3/1BP2N2/PP1P1PPP/RNBQR1K1 w - - 1 9",
+    "moves": "16 moves · replayed",
+    "turn": "white to move",
+    "color": "white (player-bottom-clock)",
+    "mismatchHidden": true
+  },
+  "rectErrors": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0
+  },
+  "trapBoards": 2,
+  "panelScreenshot": "test/fixtures/captures/adapter/ruy-lopez-panel.png"
+}

@@ -1,0 +1,11 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshot": "test/fixtures/captures/analyze/stub-server-offline.png",
+  "attempts": 2,
+  "message": "server offline — could not reach http://127.0.0.1:8765/analyze (retried once, 2 attempts). Start it: cd server && .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765",
+  "serverAttempts": 4,
+  "latency": {
+    "roundTripMs": 4
+  }
+}

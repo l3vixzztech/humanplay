@@ -316,3 +316,185 @@ button.primary {
   background: var(--card);
   color: var(--text);
 }
+
+/* ------------------------------------------------------- Maia suggestion (M4) */
+
+.mx-message {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+}
+
+.mx-message code {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.mx-message.is-error {
+  color: var(--error);
+}
+
+.mx-message.is-warn {
+  color: var(--warn);
+}
+
+.mx-message.is-gameover {
+  font-weight: 600;
+}
+
+.mx-moves {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mx-move {
+  display: grid;
+  grid-template-columns: 18px minmax(64px, auto) 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 7px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+.mx-san-block {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.mx-move.mx-top {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.mx-rank {
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+.mx-san {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 3.5em;
+}
+
+.mx-uci {
+  color: var(--muted);
+  font-size: 11px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.mx-bar {
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--border) 60%, transparent);
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.mx-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--muted);
+  border-radius: 999px;
+}
+
+.mx-move.mx-top .mx-bar > span {
+  background: var(--accent);
+}
+
+.mx-prob {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  font-size: 12px;
+  min-width: 3.6em;
+  text-align: right;
+}
+
+.mx-wdl-box {
+  margin: 10px 0 0;
+  padding: 8px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+.mx-wdl-head {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mx-wdl-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.mx-info {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 13px;
+  text-align: center;
+  cursor: help;
+  user-select: none;
+}
+
+#mx-wdl {
+  margin-top: 6px;
+  gap: 6px;
+}
+
+.wdl-chip {
+  font-variant-numeric: tabular-nums;
+}
+
+.wdl-win {
+  color: var(--ok);
+  border-color: currentColor;
+}
+
+.wdl-draw {
+  color: var(--muted);
+  border-color: currentColor;
+}
+
+.wdl-loss {
+  color: var(--error);
+  border-color: currentColor;
+}
+
+/* -------------------------------------------------------------------- Elo (M4) */
+
+.link-button {
+  border: none;
+  padding: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  font-size: 11.5px;
+}
+
+.setting-row input[type="number"] {
+  font: inherit;
+  width: 86px;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card);
+  color: var(--text);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
