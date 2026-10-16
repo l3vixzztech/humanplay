@@ -6,19 +6,19 @@
     "test/fixtures/captures/tts/tts-middlegame-on-again.png"
   ],
   "toggleOffStop": {
-    "at": "2026-10-16T20:54:37.202Z",
-    "atEpochMs": 1792184077202,
+    "at": "2026-10-16T21:38:32.633Z",
+    "atEpochMs": 1792186712633,
     "kind": "stop",
     "reason": "toggle-off",
     "source": "panel",
     "engine": "chrome.tts",
     "ok": true,
     "error": null,
-    "stoppedAt": 1792184077202
+    "stoppedAt": 1792186712633
   },
   "toggleOnSpeak": {
-    "at": "2026-10-16T20:54:37.716Z",
-    "atEpochMs": 1792184077716,
+    "at": "2026-10-16T21:38:33.140Z",
+    "atEpochMs": 1792186713140,
     "kind": "speak",
     "text": "Knight to d5",
     "san": "Nd5",
@@ -39,7 +39,7 @@
       "speak": true,
       "reason": "forced",
       "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
-      "at": 1792184077715,
+      "at": 1792186713139,
       "trigger": "toggle-on",
       "source": "panel",
       "force": true,

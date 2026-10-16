@@ -23,9 +23,11 @@
  *
  *   analyze({fen, moves, elo_self, elo_oppo, top_k, timeoutMs, fetchImpl})
  *       one request. Timeout via AbortController; **exactly one retry on a
- *       network failure** (connection refused/dropped) and never on a 4xx/5xx
- *       response or on a timeout. Error classes: offline / timeout /
- *       invalid_input / engine_unavailable / http / bad_response.
+ *       network failure** (connection refused/dropped) and **exactly one retry
+ *       on HTTP 503** (the engine refuses while the model is cold-loading)
+ *       after a short backoff; never on a 4xx/5xx response or on a timeout.
+ *       Error classes: offline / timeout / invalid_input / engine_unavailable /
+ *       http / bad_response.
  *       -> {ok, status, data, roundTripMs, error, errorClass, attempts, …}
  *
  *   createAnalyzeClient({fetchImpl, …})
@@ -64,6 +66,12 @@ export const MAX_TOP_K = 20;
 export const DEFAULT_TIMEOUT_MS = 4000;
 /** Small LRU: a real game has one position per ply; 24 covers a long game. */
 export const DEFAULT_MAX_CACHE_ENTRIES = 24;
+/**
+ * M9: a cold Maia-3 load answers HTTP 503 for the first requests. One retry
+ * after this short backoff is worth it (the second request usually succeeds);
+ * the delay is injectable so the unit tests stay instant.
+ */
+export const RETRY_503_DELAY_MS = 300;
 
 /** Error classes surfaced to the panel and the tests. */
 export const ERROR_CLASSES = Object.freeze({
@@ -167,6 +175,9 @@ export function analysisGate(state, { assistantEnabled = true } = {}) {
 
 /* --------------------------------------------------------------- one call */
 
+/** The injectable backoff sleep (unit tests pass a no-op). */
+export const defaultDelay = (ms) => new Promise((resolve) => setTimeout(resolve, Math.max(0, ms)));
+
 function classifyHttpError(status, detail) {
   if (status === 400 || status === 422) return ERROR_CLASSES.INVALID_INPUT;
   if (status === 503) return ERROR_CLASSES.ENGINE_UNAVAILABLE;
@@ -174,7 +185,8 @@ function classifyHttpError(status, detail) {
 }
 
 /**
- * One /analyze request (with the exactly-once network retry).
+ * One /analyze request (with the exactly-once network retry and the
+ * exactly-once HTTP-503 retry after a short backoff).
  * Never throws for transport/server problems — everything becomes a result
  * object, so the panel and the tests handle one shape only.
  */
@@ -185,6 +197,8 @@ export async function analyze({
   elo_oppo = DEFAULT_ELO,
   top_k = DEFAULT_TOP_K,
   timeoutMs = DEFAULT_TIMEOUT_MS,
+  retry503DelayMs = RETRY_503_DELAY_MS,
+  delayImpl = defaultDelay,
   fetchImpl = globalThis.fetch,
   url = ANALYZE_URL,
   now = () => Date.now(),
@@ -218,7 +232,12 @@ export async function analyze({
       } catch {
         parsed = null;
       }
-      attemptLog.push({ attempt, outcome: response.ok ? "ok" : "http", status: response.status, durationMs: now() - startedAt });
+      attemptLog.push({
+        attempt,
+        outcome: response.ok ? "ok" : response.status === 503 && attempt === 1 ? "engine-503" : "http",
+        status: response.status,
+        durationMs: now() - startedAt,
+      });
     } catch (error) {
       const aborted = error?.name === "AbortError";
       attemptLog.push({
@@ -272,6 +291,22 @@ export async function analyze({
     const detail =
       (parsed && typeof parsed.detail === "string" && parsed.detail) ||
       (parsed && parsed.detail !== undefined ? JSON.stringify(parsed.detail) : null);
+
+    if (response.status === 503 && attempt === 1) {
+      // The engine refused while the model was cold-loading. One retry after a
+      // short backoff — the server usually answers the second request. Never
+      // on 4xx, never a third attempt.
+      lastError = {
+        class: ERROR_CLASSES.ENGINE_UNAVAILABLE,
+        message: `HTTP ${response.status}`,
+        detail,
+        status: response.status,
+      };
+      attemptLog[attemptLog.length - 1].backoffMs = retry503DelayMs;
+      await delayImpl(retry503DelayMs);
+      continue; // exactly one retry, only for 503
+    }
+
     lastError = {
       class: classifyHttpError(response.status, detail),
       message: `HTTP ${response.status}`,
@@ -315,6 +350,8 @@ export function createAnalyzeClient({
   fetchImpl = globalThis.fetch,
   url = ANALYZE_URL,
   timeoutMs = DEFAULT_TIMEOUT_MS,
+  retry503DelayMs = RETRY_503_DELAY_MS,
+  delayImpl = defaultDelay,
   maxCacheEntries = DEFAULT_MAX_CACHE_ENTRIES,
   now = () => Date.now(),
 } = {}) {
@@ -362,7 +399,7 @@ export function createAnalyzeClient({
 
     const requestedAt = now();
     stats.requests += 1;
-    const promise = analyze({ ...payload, timeoutMs, fetchImpl, url, now }).then((result) => ({
+    const promise = analyze({ ...payload, timeoutMs, retry503DelayMs, delayImpl, fetchImpl, url, now }).then((result) => ({
       ...result,
       resolvedAt: now(),
     }));

@@ -4,7 +4,7 @@
   "waiting": {
     "gate": "waiting",
     "overlayState": "shown",
-    "reason": "premove",
+    "reason": "board-resize",
     "panelClearReason": "opponent-turn",
     "arrows": 0,
     "allArrows": [

@@ -9,6 +9,6 @@
     "draw 0.0%",
     "loss 100.0%"
   ],
-  "meta": "model maia3-5m · engine 1.0 ms · round-trip 1.0 ms · 7 moves · replayed · ui 0.1 ms · cached",
+  "meta": "model maia3-5m · engine 1.0 ms · round-trip 2.0 ms · 7 moves · replayed · ui 0.1 ms · cached",
   "rowsHidden": true
 }

@@ -60,6 +60,24 @@ tools/          dev/test drivers
                        toggle off, the new-game reset, the 52-ply cap, the stale
                        race) and --real (the 14-ply montage replayed, every entry
                        hand-verified, the last entry == curl /explain)
+  acceptance-proof.mjs M9 CAPSTONE: one end-to-end run (real browser + real
+                       extension + one fixture game) asserting the adapter, the
+                       per-turn suggestions vs a direct request (curl in --real),
+                       arrow endpoints ≤ 2 px, TTS speaks for suggestions AND
+                       premoves with dedupe, premove cards with criteria, one
+                       commentary entry per ply (both colours), the rematch
+                       reset, the 104-ply soak, the 503/offline/recovery flow and
+                       clean consoles, plus a best-effort real chess.com page
+                       segment. --stub (fixture server + recorded canned bodies)
+                       or --real (real Maia server + real curl)
+  package-verify.mjs   proves a built zip loads: unzips it, checks every file is
+                       byte-identical to extension/, loads it in Chrome and
+                       asserts the MV3 service worker registers (called by
+                       scripts/package-extension.sh)
+  collect-acceptance-canned.py
+                       records the acceptance game's /analyze + /premove +
+                       /explain bodies from the REAL server into
+                       captures/acceptance/canned-acceptance.json (stub mode)
   capture-proof.mjs    CDP proof of the M2 capture/recorder pipeline
 groundtruth/    (planned, M3+) per-fixture known FENs, test-only ground truth
 manual/         (planned, M6+) manual end-to-end scripts
@@ -87,11 +105,11 @@ python3 test/tools/fixture_server.py --port 8765         # browse the fixtures o
 test/fixtures/render_pages.sh "$CHROME"                  # rasterize pages -> PNG
 
 node test/tools/adapter-unit.mjs                         # 22 passed
-node test/tools/analyze-unit.mjs                         # 20 passed (injected fetch)
+node test/tools/analyze-unit.mjs                         # 22 passed (injected fetch)
 node test/tools/overlay-unit.mjs                         # 13 passed (pure geometry)
 node test/tools/tts-unit.mjs                             # 12 passed (formatter + policy)
-node test/tools/premove-unit.mjs                         # 12 passed (client + premove policy/text)
-node test/tools/commentary-unit.mjs                      # 17 passed (client + feed + phrase + LLM)
+node test/tools/premove-unit.mjs                         # 13 passed (client + premove policy/text)
+node test/tools/commentary-unit.mjs                      # 18 passed (client + feed + phrase + LLM)
 node test/tools/adapter-proof.mjs --chrome "$CHROME"
 node test/tools/analyze-proof.mjs --chrome "$CHROME"     # stub mode (spawns the stub)
 node test/tools/analyze-proof.mjs --chrome "$CHROME" --real   # needs the Maia server on 8765
@@ -103,6 +121,13 @@ node test/tools/premove-proof.mjs --chrome "$CHROME"     # stub mode (spawns the
 node test/tools/premove-proof.mjs --chrome "$CHROME" --real   # needs the Maia server on 8765
 node test/tools/commentary-proof.mjs --chrome "$CHROME"  # stub mode (spawns the stub)
 node test/tools/commentary-proof.mjs --chrome "$CHROME" --real   # needs the Maia server on 8765
+
+# M9 capstone (stub spawns the fixture stub; --real needs the Maia server)
+server/.venv/bin/python test/tools/collect-acceptance-canned.py   # re-record the stub's acceptance bodies
+node test/tools/acceptance-proof.mjs --chrome "$CHROME" --stub
+node test/tools/acceptance-proof.mjs --chrome "$CHROME" --real
+# packaging (builds + verifies dist/humanplay-1.0.0.zip in Chrome)
+scripts/package-extension.sh
 ```
 
 The proofs never touch the shipped manifest: they load a temporary copy whose
@@ -143,4 +168,14 @@ fixtures/captures/tts/        M6: unit results, tts-proof.json + per-case JSONs,
                               no-backend/ — the same proof run without
                               --enable-speech-dispatcher (0 voices -> the
                               actionable note + the speak path still recorded)
+fixtures/captures/acceptance/ M9: acceptance-proof.json (the capstone: adapter,
+                              replay with spot-checks + arrow geometry + TTS +
+                              premove criteria + commentary, rematch reset,
+                              104-ply soak, offline/recovery, real-page segment),
+                              canned-acceptance.json (the recorded server bodies
+                              the stub mode replays) and screenshots
+                              (01-adapter-startpos.png … 06-real-chesscom-arrow.png)
+fixtures/captures/package/    M9: package-verify.json — the built
+                              dist/humanplay-<version>.zip was unzipped, loaded
+                              in Chrome and its service worker registered
 ```

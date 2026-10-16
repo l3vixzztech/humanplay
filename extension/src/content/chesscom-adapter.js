@@ -371,6 +371,16 @@ function start() {
     const userColor = detectUserColor(boardState, warnings);
     const flippedInfo = detectFlipped(board.el, boardState, warnings);
 
+    // M9: one line pointing at the fast-fix protocol whenever anything degraded
+    // (repeated warnings on a real game mean the markup changed — a recorded
+    // snapshot makes the failure reproducible and replay-provable).
+    if (warnings.length > 0) {
+      warnings.push(
+        "seeing these repeatedly? fast-fix protocol: press “Record chess.com snapshot” in the panel, " +
+          "drop the JSON into test/fixtures/chesscom-snapshots/ and replay it (test/fixtures/chesscom/README.md)",
+      );
+    }
+
     // New game / reset detection: move list went back to the start, or the URL
     // changed (SPA navigation) — a fresh session for downstream consumers.
     const previous = runtime.lastState;

@@ -38,7 +38,7 @@
       "speak": false,
       "reason": "no-premove",
       "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400|5|0.9|top",
-      "at": 1792184051797,
+      "at": 1792186744261,
       "trigger": "plan",
       "source": "panel",
       "force": false,

@@ -4,12 +4,12 @@
   "screenshots": [],
   "staleKey": "e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
   "staleMutations": {
-    "p3At": 1792184078189,
-    "p4At": 1792184078357
+    "p3At": 1792186713617,
+    "p4At": 1792186713785
   },
   "fastSpeak": {
-    "at": "2026-10-16T20:54:38.514Z",
-    "atEpochMs": 1792184078514,
+    "at": "2026-10-16T21:38:33.942Z",
+    "atEpochMs": 1792186713942,
     "kind": "speak",
     "text": "Knight to g5",
     "san": "Ng5",
@@ -30,8 +30,8 @@
   "staleDiscardsAfter": 1,
   "speaksForFastKey": 1,
   "lastSpeak": {
-    "at": "2026-10-16T20:54:38.514Z",
-    "atEpochMs": 1792184078514,
+    "at": "2026-10-16T21:38:33.942Z",
+    "atEpochMs": 1792186713942,
     "kind": "speak",
     "text": "Knight to g5",
     "san": "Ng5",

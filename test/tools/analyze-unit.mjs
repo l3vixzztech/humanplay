@@ -211,11 +211,10 @@ await test("analyze: HTTP 400 -> invalid_input, detail shown, NEVER retried", as
   ok(/illegal move in history/.test(result.error.detail), "detail from the server body");
 });
 
-await test("analyze: HTTP 422 -> invalid_input, HTTP 500 -> http, HTTP 503 -> engine_unavailable", async () => {
+await test("analyze: HTTP 422 -> invalid_input, HTTP 500 -> http (never retried)", async () => {
   const statuses = [
     [422, ERROR_CLASSES.INVALID_INPUT],
     [500, ERROR_CLASSES.HTTP],
-    [503, ERROR_CLASSES.ENGINE_UNAVAILABLE],
   ];
   const seen = {};
   for (const [status, expected] of statuses) {
@@ -233,6 +232,50 @@ await test("analyze: HTTP 422 -> invalid_input, HTTP 500 -> http, HTTP 503 -> en
     seen[status] = result.errorClass;
   }
   return seen;
+});
+
+await test("analyze: HTTP 503 -> exactly ONE retry after a short backoff (cold model load)", async () => {
+  const delays = [];
+  let calls = 0;
+  const result = await analyze({
+    ...REQUEST,
+    retry503DelayMs: 300,
+    delayImpl: async (ms) => { delays.push(ms); },
+    fetchImpl: async () => {
+      calls += 1;
+      return calls === 1
+        ? jsonResponse(503, { detail: "engine unavailable: model is loading" })
+        : jsonResponse(200, canned());
+    },
+  });
+  eq(calls, 2, "fetch calls");
+  eq(result.ok, true, "ok after the retry");
+  eq(result.attempts, 2, "attempts");
+  eq(delays, [300], "one backoff of 300 ms");
+  eq(result.attemptLog.map((entry) => entry.outcome), ["engine-503", "ok"], "attempt log");
+  eq(result.data.moves[0].uci, "b1c3", "the second attempt's body is the result");
+  return { delays, attemptLog: result.attemptLog };
+});
+
+await test("analyze: persistent 503 -> engine_unavailable after exactly one retry (never more, never on 4xx)", async () => {
+  const delays = [];
+  let calls = 0;
+  const result = await analyze({
+    ...REQUEST,
+    delayImpl: async (ms) => { delays.push(ms); },
+    fetchImpl: async () => {
+      calls += 1;
+      return jsonResponse(503, { detail: "engine unavailable: model failed to load" });
+    },
+  });
+  eq(calls, 2, "fetch calls (1 + exactly 1 retry)");
+  eq(result.ok, false, "ok");
+  eq(result.errorClass, ERROR_CLASSES.ENGINE_UNAVAILABLE, "class");
+  eq(result.status, 503, "status");
+  eq(result.attempts, 2, "attempts");
+  eq(delays.length, 1, "backoff slept once");
+  ok(result.error.detail.includes("model failed to load"), "server detail kept");
+  return { attempts: result.attempts, errorClass: result.errorClass };
 });
 
 await test("analyze: 2xx with a malformed body -> bad_response (no retry)", async () => {

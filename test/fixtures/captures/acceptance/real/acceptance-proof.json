@@ -1,0 +1,3541 @@
+{
+  "tool": "acceptance-proof.mjs",
+  "milestone": "M9",
+  "mode": "real",
+  "generatedAt": "2026-10-16T21:35:45.043Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "extension": "/home/l3vixzz/Desktop/humanplay/extension",
+  "checks": {
+    "staticServer": {
+      "origin": "http://127.0.0.1:40323",
+      "root": "test/fixtures"
+    },
+    "analysisServer": {
+      "mode": "real",
+      "health": {
+        "status": "ok",
+        "model": "maia3-5m",
+        "version": "1.0.0",
+        "uptime_s": 13.06
+      }
+    },
+    "manifest": {
+      "path": "extension/manifest.json",
+      "sha256": "15ebe08b85c698952e25e54ca49d03c9b386691b4a5c9b04f9c6740443eebabb",
+      "version": "1.0.0",
+      "permissions": [
+        "activeTab",
+        "storage",
+        "sidePanel",
+        "downloads",
+        "tts"
+      ],
+      "host_permissions": [
+        "http://127.0.0.1:8765/*"
+      ],
+      "hasAllUrls": false
+    },
+    "manifestVariant": {
+      "addedContentScriptMatch": "http://127.0.0.1:40323/*",
+      "codeFilesCompared": 29,
+      "codeFileMismatches": [],
+      "codeIdentical": true
+    },
+    "extensionId": "hamejdkengnniliaddodahofbnjchabp",
+    "browser": {
+      "version": "Chrome/155.0.8059.84",
+      "protocolVersion": "1.3"
+    },
+    "serviceWorkerUrl": "chrome-extension://hamejdkengnniliaddodahofbnjchabp/src/background/service-worker.js",
+    "ttsEnabled": true,
+    "groundTruthSquares": 64
+  },
+  "segments": {
+    "adapter": {
+      "pass": true,
+      "failures": [],
+      "state": {
+        "panelKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+        "ccFen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "ccMoves": "0 moves · startpos",
+        "ccTurn": "white to move",
+        "ccColor": "white (player-bottom-clock)",
+        "ccHint": "source: position piece-square-class · history move-list-empty · strategy piece-square-class · adapter m3.1"
+      },
+      "canvas": {
+        "canvasExists": true,
+        "canvasCount": 1
+      },
+      "warning": "warnings: panel setting says you play black but the bottom player is white · seeing these repeatedly? fast-fix protocol: press “Record chess.com snapshot” in the panel, drop the JSON into test/fixtures/chesscom-snapshots/ and replay it (test/fixtures/chesscom/README.md)",
+      "screenshot": "test/fixtures/captures/acceptance/real/01-adapter-startpos.png"
+    },
+    "replay": {
+      "pass": true,
+      "failures": [],
+      "plies": [
+        {
+          "ply": 1,
+          "san": "e4",
+          "ourTurn": false,
+          "checks": {
+            "honestNull": true
+          },
+          "timingsMs": 295,
+          "premove": {
+            "status": "no-safe-premove",
+            "recommended": null,
+            "reason": "no safe premove: the best reply Nf3 covers only 64% of their considered moves (safe 64%, required 90%)",
+            "cardCriterion": "—",
+            "cardSafety": "—",
+            "opponent": [
+              {
+                "san": "c5",
+                "prob": "0.43896698772665643",
+                "terminal": null
+              },
+              {
+                "san": "e5",
+                "prob": "0.2006519555152767",
+                "terminal": null
+              },
+              {
+                "san": "c6",
+                "prob": "0.15058205295733484",
+                "terminal": null
+              }
+            ]
+          },
+          "commentary": {
+            "ply": 1,
+            "san": "e4",
+            "by": "white",
+            "chip": "main line",
+            "playerLabel": "you",
+            "text": "e4 — the most common move at 2400 (46%)."
+          }
+        },
+        {
+          "ply": 2,
+          "san": "e5",
+          "ourTurn": true,
+          "checks": {},
+          "timingsMs": 228,
+          "spotCheck": {
+            "tool": "curl /analyze",
+            "ok": true,
+            "wallMs": 23,
+            "serverTop3": [
+              {
+                "san": "Nf3",
+                "uci": "g1f3",
+                "prob": 0.783514
+              },
+              {
+                "san": "Nc3",
+                "uci": "b1c3",
+                "prob": 0.082608
+              },
+              {
+                "san": "f4",
+                "uci": "f2f4",
+                "prob": 0.050448
+              }
+            ],
+            "panelTop3": [
+              {
+                "uci": "g1f3",
+                "prob": "78.4%"
+              },
+              {
+                "uci": "b1c3",
+                "prob": "8.3%"
+              },
+              {
+                "uci": "f2f4",
+                "prob": "5.0%"
+              }
+            ],
+            "equal": true
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "g1f3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "g1f3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400|3",
+            "text": "Knight to f3",
+            "engine": "chrome.tts"
+          },
+          "dedupe": {
+            "speakCountBefore": 2,
+            "speakCountAfter": 2,
+            "lastDecision": "duplicate",
+            "duplicateDecision": true
+          },
+          "commentary": {
+            "ply": 2,
+            "san": "e5",
+            "by": "black",
+            "chip": "common",
+            "playerLabel": "opponent",
+            "text": "e5 — a common choice at 2400 (17%); Maia's pick was c5 (37%)."
+          }
+        },
+        {
+          "ply": 3,
+          "san": "Nf3",
+          "ourTurn": false,
+          "checks": {},
+          "timingsMs": 313,
+          "premove": {
+            "status": "ready",
+            "recommended": {
+              "san": "exd5",
+              "uci": "e4d5",
+              "criterion": "safe_vs_all",
+              "safety": 1
+            },
+            "reason": null,
+            "cardCriterion": "safe vs all replies",
+            "cardSafety": "100.0%",
+            "opponent": [
+              {
+                "san": "Nc6",
+                "prob": "0.7947097606868412",
+                "terminal": null
+              },
+              {
+                "san": "Nf6",
+                "prob": "0.129640461451262",
+                "terminal": null
+              },
+              {
+                "san": "d6",
+                "prob": "0.04007143856696006",
+                "terminal": null
+              }
+            ],
+            "dashedStyle": "dashed"
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "e4d5",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "e4d5",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3|2400|2400|5|0.9|top",
+            "text": "premove e-pawn takes d5"
+          },
+          "dedupe": {
+            "speakCountBefore": 3,
+            "speakCountAfter": 3,
+            "duplicateDecision": true
+          },
+          "commentary": {
+            "ply": 3,
+            "san": "Nf3",
+            "by": "white",
+            "chip": "main line",
+            "playerLabel": "you",
+            "text": "Nf3 — the most common move at 2400 (78%)."
+          }
+        },
+        {
+          "ply": 4,
+          "san": "Nc6",
+          "ourTurn": true,
+          "checks": {},
+          "timingsMs": 220,
+          "spotCheck": {
+            "tool": "curl /analyze",
+            "ok": true,
+            "wallMs": 44,
+            "serverTop3": [
+              {
+                "san": "Bb5",
+                "uci": "f1b5",
+                "prob": 0.433423
+              },
+              {
+                "san": "Bc4",
+                "uci": "f1c4",
+                "prob": 0.32033
+              },
+              {
+                "san": "d4",
+                "uci": "d2d4",
+                "prob": 0.134536
+              }
+            ],
+            "panelTop3": [
+              {
+                "uci": "f1b5",
+                "prob": "43.3%"
+              },
+              {
+                "uci": "f1c4",
+                "prob": "32.0%"
+              },
+              {
+                "uci": "d2d4",
+                "prob": "13.5%"
+              }
+            ],
+            "equal": true
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "f1b5",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "f1b5",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400|3",
+            "text": "Bishop to b5",
+            "engine": "chrome.tts"
+          },
+          "commentary": {
+            "ply": 4,
+            "san": "Nc6",
+            "by": "black",
+            "chip": "main line",
+            "playerLabel": "opponent",
+            "text": "Nc6 — the most common move at 2400 (79%)."
+          }
+        },
+        {
+          "ply": 5,
+          "san": "Bc4",
+          "ourTurn": false,
+          "checks": {
+            "honestNull": true
+          },
+          "timingsMs": 298,
+          "premove": {
+            "status": "no-safe-premove",
+            "recommended": null,
+            "reason": "no safe premove: the best reply d3 covers only 48% of their considered moves (safe 48%, required 90%)",
+            "cardCriterion": "—",
+            "cardSafety": "—",
+            "opponent": [
+              {
+                "san": "Nf6",
+                "prob": "0.4793461408556163",
+                "terminal": null
+              },
+              {
+                "san": "Bc5",
+                "prob": "0.4562751026487237",
+                "terminal": null
+              },
+              {
+                "san": "Be7",
+                "prob": "0.0378487920208675",
+                "terminal": null
+              }
+            ]
+          },
+          "commentary": {
+            "ply": 5,
+            "san": "Bc4",
+            "by": "white",
+            "chip": "common",
+            "playerLabel": "you",
+            "text": "Bc4 — a common choice at 2400 (32%); Maia's pick was Bb5 (43%)."
+          }
+        },
+        {
+          "ply": 6,
+          "san": "Bc5",
+          "ourTurn": true,
+          "checks": {},
+          "timingsMs": 227,
+          "spotCheck": {
+            "tool": "curl /analyze",
+            "ok": true,
+            "wallMs": 24,
+            "serverTop3": [
+              {
+                "san": "c3",
+                "uci": "c2c3",
+                "prob": 0.387351
+              },
+              {
+                "san": "O-O",
+                "uci": "e1g1",
+                "prob": 0.224414
+              },
+              {
+                "san": "d3",
+                "uci": "d2d3",
+                "prob": 0.20589
+              }
+            ],
+            "panelTop3": [
+              {
+                "uci": "c2c3",
+                "prob": "38.7%"
+              },
+              {
+                "uci": "e1g1",
+                "prob": "22.4%"
+              },
+              {
+                "uci": "d2d3",
+                "prob": "20.6%"
+              }
+            ],
+            "equal": true
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400|3",
+            "text": "c-pawn to c3",
+            "engine": "chrome.tts"
+          },
+          "commentary": {
+            "ply": 6,
+            "san": "Bc5",
+            "by": "black",
+            "chip": "common",
+            "playerLabel": "opponent",
+            "text": "Bc5 — a common choice at 2400 (45%); Maia's pick was Nf6 (47%)."
+          }
+        },
+        {
+          "ply": 7,
+          "san": "O-O",
+          "ourTurn": false,
+          "checks": {
+            "honestNull": true
+          },
+          "timingsMs": 297,
+          "premove": {
+            "status": "no-safe-premove",
+            "recommended": null,
+            "reason": "no safe premove: the best reply d3 covers only 79% of their considered moves (safe 79%, required 90%)",
+            "cardCriterion": "—",
+            "cardSafety": "—",
+            "opponent": [
+              {
+                "san": "Nf6",
+                "prob": "0.7905559832858905",
+                "terminal": null
+              },
+              {
+                "san": "d6",
+                "prob": "0.1890982917582811",
+                "terminal": null
+              },
+              {
+                "san": "Nge7",
+                "prob": "0.009433724277738366",
+                "terminal": null
+              }
+            ]
+          },
+          "commentary": {
+            "ply": 7,
+            "san": "O-O",
+            "by": "white",
+            "chip": "common",
+            "playerLabel": "you",
+            "text": "O-O — castling kingside; a common choice at 2400 (22%); Maia's pick was c3 (39%)."
+          }
+        },
+        {
+          "ply": 8,
+          "san": "Nf6",
+          "ourTurn": true,
+          "checks": {},
+          "timingsMs": 219,
+          "spotCheck": {
+            "tool": "curl /analyze",
+            "ok": true,
+            "wallMs": 28,
+            "serverTop3": [
+              {
+                "san": "d3",
+                "uci": "d2d3",
+                "prob": 0.416865
+              },
+              {
+                "san": "d4",
+                "uci": "d2d4",
+                "prob": 0.402343
+              },
+              {
+                "san": "c3",
+                "uci": "c2c3",
+                "prob": 0.086015
+              }
+            ],
+            "panelTop3": [
+              {
+                "uci": "d2d3",
+                "prob": "41.7%"
+              },
+              {
+                "uci": "d2d4",
+                "prob": "40.2%"
+              },
+              {
+                "uci": "c2c3",
+                "prob": "8.6%"
+              }
+            ],
+            "equal": true
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "d2d3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "d2d3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6|2400|2400|3",
+            "text": "d-pawn to d3",
+            "engine": "chrome.tts"
+          },
+          "commentary": {
+            "ply": 8,
+            "san": "Nf6",
+            "by": "black",
+            "chip": "main line",
+            "playerLabel": "opponent",
+            "text": "Nf6 — the most common move at 2400 (78%)."
+          }
+        },
+        {
+          "ply": 9,
+          "san": "d3",
+          "ourTurn": false,
+          "checks": {},
+          "timingsMs": 302,
+          "premove": {
+            "status": "ready",
+            "recommended": {
+              "san": "c3",
+              "uci": "c2c3",
+              "criterion": "safe_vs_all",
+              "safety": 1
+            },
+            "reason": null,
+            "cardCriterion": "safe vs all replies",
+            "cardSafety": "100.0%",
+            "opponent": [
+              {
+                "san": "d6",
+                "prob": "0.631190017549324",
+                "terminal": null
+              },
+              {
+                "san": "O-O",
+                "prob": "0.21783438719998063",
+                "terminal": null
+              },
+              {
+                "san": "h6",
+                "prob": "0.0777603393339724",
+                "terminal": null
+              }
+            ],
+            "dashedStyle": "dashed"
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3|2400|2400|5|0.9|top",
+            "text": "premove c-pawn to c3"
+          },
+          "commentary": {
+            "ply": 9,
+            "san": "d3",
+            "by": "white",
+            "chip": "main line",
+            "playerLabel": "you",
+            "text": "d3 — the most common move at 2400 (42%)."
+          }
+        },
+        {
+          "ply": 10,
+          "san": "d6",
+          "ourTurn": true,
+          "checks": {},
+          "timingsMs": 224,
+          "spotCheck": {
+            "tool": "curl /analyze",
+            "ok": true,
+            "wallMs": 26,
+            "serverTop3": [
+              {
+                "san": "c3",
+                "uci": "c2c3",
+                "prob": 0.48707
+              },
+              {
+                "san": "h3",
+                "uci": "h2h3",
+                "prob": 0.187593
+              },
+              {
+                "san": "a4",
+                "uci": "a2a4",
+                "prob": 0.085354
+              }
+            ],
+            "panelTop3": [
+              {
+                "uci": "c2c3",
+                "prob": "48.7%"
+              },
+              {
+                "uci": "h2h3",
+                "prob": "18.8%"
+              },
+              {
+                "uci": "a2a4",
+                "prob": "8.5%"
+              }
+            ],
+            "equal": true
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6|2400|2400|3",
+            "text": "c-pawn to c3",
+            "engine": "chrome.tts"
+          },
+          "commentary": {
+            "ply": 10,
+            "san": "d6",
+            "by": "black",
+            "chip": "main line",
+            "playerLabel": "opponent",
+            "text": "d6 — the most common move at 2400 (63%)."
+          }
+        },
+        {
+          "ply": 11,
+          "san": "Bg5",
+          "ourTurn": false,
+          "checks": {
+            "honestNull": true
+          },
+          "timingsMs": 296,
+          "premove": {
+            "status": "no-safe-premove",
+            "recommended": null,
+            "reason": "no safe premove: the best reply Bh4 covers only 84% of their considered moves (safe 84%, required 90%)",
+            "cardCriterion": "—",
+            "cardSafety": "—",
+            "opponent": [
+              {
+                "san": "h6",
+                "prob": "0.8379166787009568",
+                "terminal": null
+              },
+              {
+                "san": "Bg4",
+                "prob": "0.06691718620416483",
+                "terminal": null
+              },
+              {
+                "san": "Be6",
+                "prob": "0.0341739456930307",
+                "terminal": null
+              }
+            ]
+          },
+          "commentary": {
+            "ply": 11,
+            "san": "Bg5",
+            "by": "white",
+            "chip": "uncommon",
+            "playerLabel": "you",
+            "text": "Bg5 — uncommon at 2400 (8%); Maia's pick was c3 (49%)."
+          }
+        },
+        {
+          "ply": 12,
+          "san": "O-O",
+          "ourTurn": true,
+          "checks": {},
+          "timingsMs": 233,
+          "spotCheck": {
+            "tool": "curl /analyze",
+            "ok": true,
+            "wallMs": 25,
+            "serverTop3": [
+              {
+                "san": "Nc3",
+                "uci": "b1c3",
+                "prob": 0.433965
+              },
+              {
+                "san": "c3",
+                "uci": "c2c3",
+                "prob": 0.257085
+              },
+              {
+                "san": "h3",
+                "uci": "h2h3",
+                "prob": 0.147975
+              }
+            ],
+            "panelTop3": [
+              {
+                "uci": "b1c3",
+                "prob": "43.4%"
+              },
+              {
+                "uci": "c2c3",
+                "prob": "25.7%"
+              },
+              {
+                "uci": "h2h3",
+                "prob": "14.8%"
+              }
+            ],
+            "equal": true
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "b1c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "b1c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8|2400|2400|3",
+            "text": "Knight to c3",
+            "engine": "chrome.tts"
+          },
+          "commentary": {
+            "ply": 12,
+            "san": "O-O",
+            "by": "black",
+            "chip": "rare",
+            "playerLabel": "opponent",
+            "text": "O-O — castling kingside; only 3% play this; Maia's pick was h6 (81%)."
+          }
+        },
+        {
+          "ply": 13,
+          "san": "Bxf6",
+          "ourTurn": false,
+          "checks": {},
+          "timingsMs": 328,
+          "premove": {
+            "status": "ready",
+            "recommended": {
+              "san": "Bxd8",
+              "uci": "f6d8",
+              "criterion": "robust",
+              "safety": 0.999965
+            },
+            "reason": null,
+            "cardCriterion": "robust vs 100%",
+            "cardSafety": "100.0%",
+            "opponent": [
+              {
+                "san": "Qxf6",
+                "prob": "0.992604134683758",
+                "terminal": null
+              },
+              {
+                "san": "gxf6",
+                "prob": "0.0072518484662705525",
+                "terminal": null
+              },
+              {
+                "san": "h6",
+                "prob": "0.00007000819095834211",
+                "terminal": null
+              }
+            ],
+            "dashedStyle": "dashed"
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "f6d8",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "f6d8",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6|2400|2400|5|0.9|top",
+            "text": "premove bishop takes d8"
+          },
+          "commentary": {
+            "ply": 13,
+            "san": "Bxf6",
+            "by": "white",
+            "chip": "rare",
+            "playerLabel": "you",
+            "text": "Bxf6 — a capture on f6; only 0.2% play this; Maia's pick was Nc3 (43%)."
+          }
+        },
+        {
+          "ply": 14,
+          "san": "Qxf6",
+          "ourTurn": true,
+          "checks": {},
+          "timingsMs": 235,
+          "spotCheck": {
+            "tool": "curl /analyze",
+            "ok": true,
+            "wallMs": 26,
+            "serverTop3": [
+              {
+                "san": "Nc3",
+                "uci": "b1c3",
+                "prob": 0.585868
+              },
+              {
+                "san": "h3",
+                "uci": "h2h3",
+                "prob": 0.16039
+              },
+              {
+                "san": "c3",
+                "uci": "c2c3",
+                "prob": 0.129875
+              }
+            ],
+            "panelTop3": [
+              {
+                "uci": "b1c3",
+                "prob": "58.6%"
+              },
+              {
+                "uci": "h2h3",
+                "prob": "16.0%"
+              },
+              {
+                "uci": "c2c3",
+                "prob": "13.0%"
+              }
+            ],
+            "equal": true
+          },
+          "geometry": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "b1c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "arrow": {
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "b1c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          "tts": {
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3",
+            "text": "Knight to c3",
+            "engine": "chrome.tts"
+          },
+          "dedupe": {
+            "speakCountBefore": 11,
+            "speakCountAfter": 11,
+            "lastDecision": "duplicate",
+            "duplicateDecision": true
+          },
+          "commentary": {
+            "ply": 14,
+            "san": "Qxf6",
+            "by": "black",
+            "chip": "main line",
+            "playerLabel": "opponent",
+            "text": "Qxf6 — a recapture; 99% of 2400s take back."
+          }
+        }
+      ],
+      "screenshots": [
+        "test/fixtures/captures/acceptance/real/02-replay-final-board.png",
+        "test/fixtures/captures/acceptance/real/02-replay-panel.png"
+      ],
+      "speaks": {
+        "suggestion": 7,
+        "premove": 3,
+        "dedupes": 3
+      },
+      "spotChecks": [
+        {
+          "ply": 2,
+          "equal": true,
+          "tool": "curl /analyze",
+          "top1": "g1f3"
+        },
+        {
+          "ply": 4,
+          "equal": true,
+          "tool": "curl /analyze",
+          "top1": "f1b5"
+        },
+        {
+          "ply": 6,
+          "equal": true,
+          "tool": "curl /analyze",
+          "top1": "c2c3"
+        },
+        {
+          "ply": 8,
+          "equal": true,
+          "tool": "curl /analyze",
+          "top1": "d2d3"
+        },
+        {
+          "ply": 10,
+          "equal": true,
+          "tool": "curl /analyze",
+          "top1": "c2c3"
+        },
+        {
+          "ply": 12,
+          "equal": true,
+          "tool": "curl /analyze",
+          "top1": "b1c3"
+        },
+        {
+          "ply": 14,
+          "equal": true,
+          "tool": "curl /analyze",
+          "top1": "b1c3"
+        }
+      ],
+      "arrows": {
+        "suggestion": [
+          {
+            "ply": 2,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "g1f3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 4,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "f1b5",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 6,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 8,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "d2d3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 10,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 12,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "b1c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 14,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "b1c3",
+                "premove": false,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          }
+        ],
+        "premove": [
+          {
+            "ply": 3,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "e4d5",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 9,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "c2c3",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          },
+          {
+            "ply": 13,
+            "count": 1,
+            "maxEndpointErrorPx": 0,
+            "arrows": [
+              {
+                "uci": "f6d8",
+                "premove": true,
+                "fromErrorPx": 0,
+                "tipErrorPx": 0
+              }
+            ]
+          }
+        ]
+      },
+      "commentary": {
+        "feedSize": 14,
+        "feedStats": {
+          "observed": 25,
+          "requested": 14,
+          "seeded": 1,
+          "reset": 0,
+          "skipped": 0,
+          "deduped": 0,
+          "suppressed": 0,
+          "noHistory": 0,
+          "capEvictions": 0
+        },
+        "order": [
+          14,
+          13,
+          12,
+          11,
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1
+        ]
+      },
+      "timings": {
+        "mutationToRenderMs": [
+          295,
+          228,
+          313,
+          220,
+          298,
+          227,
+          297,
+          219,
+          302,
+          224,
+          296,
+          233,
+          328,
+          235
+        ]
+      },
+      "finalFen": "r1b2rk1/ppp2ppp/2np1q2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 w - - 0 8",
+      "finalArrow": {
+        "uci": "b1c3",
+        "state": "shown",
+        "canvasCount": 1
+      }
+    },
+    "rematch": {
+      "pass": true,
+      "failures": [],
+      "before": {
+        "arrows": 1,
+        "feed": 14,
+        "spokenKeys": 11,
+        "analyzeCache": 8,
+        "premoveCache": 7,
+        "explainCache": 14,
+        "resetCount": 0,
+        "seq": null
+      },
+      "resetRecord": {
+        "at": 1792186552768,
+        "seq": 1,
+        "source": "analysis",
+        "cleared": {
+          "analyzeCache": 8,
+          "premoveCache": 7,
+          "explainCache": 14,
+          "spokenKeys": 11,
+          "premovePlan": 1,
+          "commentaryEntry": 1
+        }
+      },
+      "after": {
+        "seq": 1,
+        "cleared": {
+          "analyzeCache": 8,
+          "premoveCache": 7,
+          "explainCache": 14,
+          "spokenKeys": 11,
+          "premovePlan": 1,
+          "commentaryEntry": 1
+        },
+        "sessionResets": 1,
+        "live": {
+          "mx": "analyzing…",
+          "analyzeCache": 0,
+          "premoveStatus": "idle"
+        }
+      },
+      "transient": {
+        "sampleCount": 28,
+        "resetIndex": 6,
+        "firstAfterReset": {
+          "mxMessage": "analyzing — board position…",
+          "overlayClearReason": "analyzing",
+          "premoveClearReason": "your-turn",
+          "overlayMessages": 41,
+          "premoveMessages": 29,
+          "spokenKeys": 0,
+          "feed": 0,
+          "analyzeCache": 0,
+          "premoveCache": 0,
+          "explainCache": 0,
+          "premovePlan": null,
+          "resetCount": 1
+        },
+        "overlayMessagesBefore": 39,
+        "premoveMessagesBefore": 27,
+        "messagesAfter": {
+          "overlay": 41,
+          "premove": 29
+        }
+      },
+      "live": {
+        "premovePlan": "ready",
+        "commentaryEntry": "e4"
+      },
+      "screenshot": "test/fixtures/captures/acceptance/real/03-rematch-reset.png"
+    },
+    "offlineUx": {
+      "pass": true,
+      "failures": [],
+      "status": "skipped (needs the stub /debug routes)"
+    },
+    "soak": {
+      "pass": true,
+      "failures": [],
+      "plies": 104,
+      "canvasChecks": [
+        {
+          "ply": 10,
+          "canvasCount": 1
+        },
+        {
+          "ply": 20,
+          "canvasCount": 1
+        },
+        {
+          "ply": 30,
+          "canvasCount": 1
+        },
+        {
+          "ply": 40,
+          "canvasCount": 1
+        },
+        {
+          "ply": 50,
+          "canvasCount": 1
+        },
+        {
+          "ply": 60,
+          "canvasCount": 1
+        },
+        {
+          "ply": 70,
+          "canvasCount": 1
+        },
+        {
+          "ply": 80,
+          "canvasCount": 1
+        },
+        {
+          "ply": 90,
+          "canvasCount": 1
+        },
+        {
+          "ply": 100,
+          "canvasCount": 1
+        },
+        {
+          "ply": 104,
+          "canvasCount": 1
+        }
+      ],
+      "startedAt": 1792186554875,
+      "endedAt": 1792186576848,
+      "durationMs": 21973,
+      "feed": {
+        "size": 50,
+        "domCount": 50,
+        "newestPly": 104,
+        "oldestPly": 55,
+        "capEvictions": 54,
+        "feedMeta": "50 of the last 50 plies explained · phrasing templates"
+      },
+      "caches": {
+        "analyze": 24,
+        "premove": 24,
+        "explain": 24,
+        "spokenKeys": 1,
+        "analyzeStats": {
+          "requests": 62,
+          "retries": 0,
+          "cacheHits": 8,
+          "dedupes": 0,
+          "staleDiscards": 0,
+          "sessionResets": 2
+        }
+      },
+      "canvasFinal": {
+        "count": 1,
+        "exists": true
+      },
+      "commentaryErrors": {
+        "before": 0,
+        "after": 0,
+        "delta": 0
+      },
+      "speaks": {
+        "before": 13,
+        "after": 13,
+        "delta": 0
+      },
+      "screenshot": "test/fixtures/captures/acceptance/real/05-soak-feed-capped.png",
+      "boardScreenshot": "test/fixtures/captures/acceptance/real/05-soak-board.png"
+    },
+    "realPage": {
+      "pass": true,
+      "status": "passed",
+      "failures": [],
+      "attempts": [
+        {
+          "attempt": 1,
+          "ok": true,
+          "error": null,
+          "state": {
+            "fen": "2r5/8/8/7k/8/5N2/6P1/5nK1 w - - 0 72",
+            "url": "https://www.chess.com/game/live/186394589423"
+          },
+          "routed": {
+            "ok": true,
+            "response": {
+              "ok": true,
+              "accepted": 1,
+              "topN": 1,
+              "key": "acceptance-real-page-e2e4"
+            }
+          }
+        }
+      ],
+      "url": "https://www.chess.com/game/live/186394589423",
+      "dataset": {
+        "key": "acceptance-real-page-e2e4",
+        "flipped": false,
+        "canvasCount": 1
+      },
+      "geometry": {
+        "count": 1,
+        "maxEndpointErrorPx": 0,
+        "arrows": [
+          {
+            "uci": "e2e4",
+            "premove": false,
+            "fromErrorPx": 0,
+            "tipErrorPx": 0
+          }
+        ]
+      },
+      "screenshot": "test/fixtures/captures/acceptance/real/06-real-chesscom-arrow.png"
+    }
+  },
+  "failures": [],
+  "console": {
+    "panel": [],
+    "serviceWorker": [],
+    "pages": [
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=13"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay premove key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8 g1f3|2400|2400|5|0.9|top uci=f3g1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=0 premove=f3g1 arrows=1 flipped=false rect=[18,58,560,560] reason=premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=14"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8 g1f3 g8f6 f3g1 f6g8 g1f3 g8f6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=15"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=16"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=17"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=18"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=19"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=20"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=21"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=22"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=23"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=24"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=25"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=26"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=27"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=28"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=29"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=30"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=31"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=32"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=33"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=34"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=35"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=36"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=37"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=38"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=39"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=40"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=41"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=42"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=43"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=44"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=45"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=46"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=47"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=48"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=49"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=50"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=51"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=52"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=53"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=54"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=55"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=56"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=57"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=58"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=59"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=60"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=61"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=62"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=63"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=64"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=65"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=66"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=67"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=68"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=69"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=70"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=71"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=72"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=73"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=74"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=75"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=76"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=77"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=78"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=79"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=80"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=81"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=82"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=83"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=84"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=85"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=86"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=87"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=88"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=89"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=90"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=91"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=92"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=93"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=94"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=95"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=96"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=97"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=98"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=99"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=100"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=101"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=102"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=103"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:planning"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-premove"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=104"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "Version: 2026.10.6 / 1.189.0"
+      },
+      {
+        "bucket": "warning",
+        "source": "other",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio (https://www.chess.com/r2/client-packages/play/2026.10.6/shared.1b389bca.Cs3nNEcfwC.chunk.js)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "%craven%c Raven v1.25.2-sydwjj background-color:#000;margin-left:1px;padding:1px 3px;font-size:0.75em;color:#ffffff; font-size:0.9em;"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (https://www.chess.com/game/live/186394589423)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m7.0 loaded (https://www.chess.com/game/live/186394589423)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] no state: board found but neither its position nor a move list could be read"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:no-state"
+      },
+      {
+        "bucket": "warning",
+        "source": "other",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio (https://www.chess.com/r2/client-packages/play/2026.10.6/shared.eager.DztlwE07CH.chunk.js)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "CHESSBOARD VERSION: 1.189.0"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 451 () (https://api.rlcdn.com/api/identity/envelope?pid=14262)"
+      },
+      {
+        "bucket": "warning",
+        "source": "other",
+        "text": "The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. https://developer.chrome.com/blog/autoplay/#web_audio (https://www.chess.com/bundles/app/vite/client.318a1d4a.CidwVQ3_-H.chunk.js)"
+      },
+      {
+        "bucket": "warning",
+        "source": "console",
+        "text": "[GPT] Slot.updateTargetingFromMap is deprecated, use Slot.setConfig({targeting: ...}) instead.\nhttps://goo.gle/gpt-message#171"
+      },
+      {
+        "bucket": "warning",
+        "source": "console",
+        "text": "canModifyExistingMovesOnMainLine is not an editable option in this mode."
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=142"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:new-game"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:new-game"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:your-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|d2d4 g8f6 g1f3 e7e6 c1f4 f8d6 f4g3 d6g3 h2g3 b7b6 b1d2 c8b7 e2e3 d7d6 f1d3 b8d7 d1e2 a7a6 e3e4 e6e5 d4d5 c7c6 c2c4 e8g8 e1g1 a6a5 f1d1 d7c5 a1c1 a8c8 d2b1 g7g6 b1c3 d8e7 b2b3 h7h5 d3c2 c6d5 c4d5 b7a6 e2d2 f6g4 a2a3 c8c7 b3b4 c5d7 c2a4 a5b4 a3b4 b6b5 c3b5 c7c1 d1c1 d7f6 b5c3 f8b8 c1b1 e7a7 b4b5 a6c8 a4c2 a7c5 c2d3 g4f2 c3a4 f2e4 a4c5 e4d2 f3d2 d6c5 d5d6 f6e8 d2e4 c8f5 d6d7 f5d7 e4c5 d7g4 b5b6 e8d6 b6b7 g8g7 d3a6 g4f5 b1b6 d6e4 c5b3 e4g3 b3a5 f5e4 b6b4 e4b7 a6b7 g3e2 g1f2 e2d4 b4b2 b8e8 a5c4 d4f5 b7e4 f5d4 b2b7 e8d8 c4e5 d8e8 b7f7 g7h6 e5g6 e8e4 g6f8 h6g5 f8h7 g5g6 f7a7 e4e2 f2f1 e2e8 a7d7 d4f5 f1f2 f5g7 h7g5 g7f5 g5f3 h5h4 d7d5 f5e3 d5d1 e3g4 f2g1 h4h3 d1f1 h3h2 f3h2 g4e3 h2f3 e8c8 f3h4 g6h5 h4f3 e3f1|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[223,66,624,624] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[223,66,624,624] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=acceptance-real-page-e2e4 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw suggestion=1 premove=- arrows=1 flipped=false rect=[223,66,624,624] reason=suggestion"
+      }
+    ],
+    "panelErrors": [],
+    "serviceWorkerErrors": [],
+    "pageErrors": []
+  },
+  "segmentsSummary": {
+    "adapter": {
+      "pass": true,
+      "status": "passed"
+    },
+    "replay": {
+      "pass": true,
+      "status": "passed"
+    },
+    "rematch": {
+      "pass": true,
+      "status": "passed"
+    },
+    "offlineUx": {
+      "pass": true,
+      "status": "skipped (needs the stub /debug routes)"
+    },
+    "soak": {
+      "pass": true,
+      "status": "passed"
+    },
+    "realPage": {
+      "pass": true,
+      "status": "passed"
+    }
+  },
+  "pass": true,
+  "fixtureServerLogTail": []
+}

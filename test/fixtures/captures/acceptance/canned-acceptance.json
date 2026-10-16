@@ -1,0 +1,1728 @@
+{
+  "analyze": {
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3": {
+      "elapsed_ms": 12.7,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.585868,
+          "san": "Nc3",
+          "uci": "b1c3"
+        },
+        {
+          "prob": 0.16039,
+          "san": "h3",
+          "uci": "h2h3"
+        },
+        {
+          "prob": 0.129875,
+          "san": "c3",
+          "uci": "c2c3"
+        }
+      ],
+      "wdl": {
+        "draw": 0.073429,
+        "loss": 0.540358,
+        "win": 0.386213
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8|2400|2400|3": {
+      "elapsed_ms": 10.18,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.433965,
+          "san": "Nc3",
+          "uci": "b1c3"
+        },
+        {
+          "prob": 0.257085,
+          "san": "c3",
+          "uci": "c2c3"
+        },
+        {
+          "prob": 0.147975,
+          "san": "h3",
+          "uci": "h2h3"
+        }
+      ],
+      "wdl": {
+        "draw": 0.072136,
+        "loss": 0.451028,
+        "win": 0.476836
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6|2400|2400|3": {
+      "elapsed_ms": 13.09,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.48707,
+          "san": "c3",
+          "uci": "c2c3"
+        },
+        {
+          "prob": 0.187593,
+          "san": "h3",
+          "uci": "h2h3"
+        },
+        {
+          "prob": 0.085354,
+          "san": "a4",
+          "uci": "a2a4"
+        }
+      ],
+      "wdl": {
+        "draw": 0.06919,
+        "loss": 0.45914,
+        "win": 0.47167
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6|2400|2400|3": {
+      "elapsed_ms": 10.14,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.416865,
+          "san": "d3",
+          "uci": "d2d3"
+        },
+        {
+          "prob": 0.402343,
+          "san": "d4",
+          "uci": "d2d4"
+        },
+        {
+          "prob": 0.086015,
+          "san": "c3",
+          "uci": "c2c3"
+        }
+      ],
+      "wdl": {
+        "draw": 0.061186,
+        "loss": 0.472225,
+        "win": 0.466588
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400|3": {
+      "elapsed_ms": 10.27,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.387351,
+          "san": "c3",
+          "uci": "c2c3"
+        },
+        {
+          "prob": 0.224414,
+          "san": "O-O",
+          "uci": "e1g1"
+        },
+        {
+          "prob": 0.20589,
+          "san": "d3",
+          "uci": "d2d3"
+        }
+      ],
+      "wdl": {
+        "draw": 0.05606,
+        "loss": 0.465397,
+        "win": 0.478543
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400|3": {
+      "elapsed_ms": 9.54,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.433423,
+          "san": "Bb5",
+          "uci": "f1b5"
+        },
+        {
+          "prob": 0.32033,
+          "san": "Bc4",
+          "uci": "f1c4"
+        },
+        {
+          "prob": 0.134536,
+          "san": "d4",
+          "uci": "d2d4"
+        }
+      ],
+      "wdl": {
+        "draw": 0.069245,
+        "loss": 0.453647,
+        "win": 0.477108
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400|3": {
+      "elapsed_ms": 11.21,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.783514,
+          "san": "Nf3",
+          "uci": "g1f3"
+        },
+        {
+          "prob": 0.082608,
+          "san": "Nc3",
+          "uci": "b1c3"
+        },
+        {
+          "prob": 0.050448,
+          "san": "f4",
+          "uci": "f2f4"
+        }
+      ],
+      "wdl": {
+        "draw": 0.070189,
+        "loss": 0.450382,
+        "win": 0.479429
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3": {
+      "elapsed_ms": 14.4,
+      "model": "maia3-5m",
+      "moves": [
+        {
+          "prob": 0.464864,
+          "san": "e4",
+          "uci": "e2e4"
+        },
+        {
+          "prob": 0.339048,
+          "san": "d4",
+          "uci": "d2d4"
+        },
+        {
+          "prob": 0.081763,
+          "san": "Nf3",
+          "uci": "g1f3"
+        }
+      ],
+      "wdl": {
+        "draw": 0.067579,
+        "loss": 0.456007,
+        "win": 0.476414
+      }
+    }
+  },
+  "explain": {
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400": {
+      "classification": "mainline",
+      "elapsed_ms": 30.289879,
+      "flags": {
+        "capture": true,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": true
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.992488,
+        "rank": 1,
+        "top": [
+          {
+            "prob": 0.992488,
+            "san": "Qxf6",
+            "uci": "d8f6"
+          },
+          {
+            "prob": 0.007251,
+            "san": "gxf6",
+            "uci": "g7f6"
+          },
+          {
+            "prob": 7e-05,
+            "san": "h6",
+            "uci": "h7h6"
+          }
+        ],
+        "totalLegal": 33
+      },
+      "material": {
+        "captured": {
+          "piece": "bishop",
+          "square": "f6",
+          "value": 3
+        },
+        "delta": 3
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "black",
+        "moveNumber": 7,
+        "ply": 14,
+        "san": "Qxf6",
+        "uci": "d8f6"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.073429,
+          "loss": 0.386213,
+          "win": 0.540358
+        },
+        "before": {
+          "draw": 0.069125,
+          "loss": 0.474381,
+          "win": 0.456494
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6|2400|2400": {
+      "classification": "rare",
+      "elapsed_ms": 23.186548,
+      "flags": {
+        "capture": true,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.001926,
+        "rank": 10,
+        "top": [
+          {
+            "prob": 0.433965,
+            "san": "Nc3",
+            "uci": "b1c3"
+          },
+          {
+            "prob": 0.257085,
+            "san": "c3",
+            "uci": "c2c3"
+          },
+          {
+            "prob": 0.147975,
+            "san": "h3",
+            "uci": "h2h3"
+          }
+        ],
+        "totalLegal": 37
+      },
+      "material": {
+        "captured": {
+          "piece": "knight",
+          "square": "f6",
+          "value": 3
+        },
+        "delta": 3
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "white",
+        "moveNumber": 7,
+        "ply": 13,
+        "san": "Bxf6",
+        "uci": "g5f6"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.069125,
+          "loss": 0.456494,
+          "win": 0.474381
+        },
+        "before": {
+          "draw": 0.072136,
+          "loss": 0.451028,
+          "win": 0.476836
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8|2400|2400": {
+      "classification": "rare",
+      "elapsed_ms": 25.1571,
+      "flags": {
+        "capture": false,
+        "castle": "kingside",
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.026258,
+        "rank": 5,
+        "top": [
+          {
+            "prob": 0.81232,
+            "san": "h6",
+            "uci": "h7h6"
+          },
+          {
+            "prob": 0.064873,
+            "san": "Bg4",
+            "uci": "c8g4"
+          },
+          {
+            "prob": 0.03313,
+            "san": "Be6",
+            "uci": "c8e6"
+          }
+        ],
+        "totalLegal": 39
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "black",
+        "moveNumber": 6,
+        "ply": 12,
+        "san": "O-O",
+        "uci": "e8g8"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.072136,
+          "loss": 0.476836,
+          "win": 0.451028
+        },
+        "before": {
+          "draw": 0.069496,
+          "loss": 0.480211,
+          "win": 0.450294
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5|2400|2400": {
+      "classification": "uncommon",
+      "elapsed_ms": 22.720787,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.078825,
+        "rank": 4,
+        "top": [
+          {
+            "prob": 0.48707,
+            "san": "c3",
+            "uci": "c2c3"
+          },
+          {
+            "prob": 0.187593,
+            "san": "h3",
+            "uci": "h2h3"
+          },
+          {
+            "prob": 0.085354,
+            "san": "a4",
+            "uci": "a2a4"
+          }
+        ],
+        "totalLegal": 35
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "white",
+        "moveNumber": 6,
+        "ply": 11,
+        "san": "Bg5",
+        "uci": "c1g5"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.069496,
+          "loss": 0.450294,
+          "win": 0.480211
+        },
+        "before": {
+          "draw": 0.06919,
+          "loss": 0.45914,
+          "win": 0.47167
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6|2400|2400": {
+      "classification": "mainline",
+      "elapsed_ms": 28.288812,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.626179,
+        "rank": 1,
+        "top": [
+          {
+            "prob": 0.626179,
+            "san": "d6",
+            "uci": "d7d6"
+          },
+          {
+            "prob": 0.216105,
+            "san": "O-O",
+            "uci": "e8g8"
+          },
+          {
+            "prob": 0.077143,
+            "san": "h6",
+            "uci": "h7h6"
+          }
+        ],
+        "totalLegal": 36
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "black",
+        "moveNumber": 5,
+        "ply": 10,
+        "san": "d6",
+        "uci": "d7d6"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.06919,
+          "loss": 0.47167,
+          "win": 0.45914
+        },
+        "before": {
+          "draw": 0.073142,
+          "loss": 0.477725,
+          "win": 0.449133
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3|2400|2400": {
+      "classification": "mainline",
+      "elapsed_ms": 24.047596,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.416865,
+        "rank": 1,
+        "top": [
+          {
+            "prob": 0.416865,
+            "san": "d3",
+            "uci": "d2d3"
+          },
+          {
+            "prob": 0.402343,
+            "san": "d4",
+            "uci": "d2d4"
+          },
+          {
+            "prob": 0.086015,
+            "san": "c3",
+            "uci": "c2c3"
+          }
+        ],
+        "totalLegal": 30
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "white",
+        "moveNumber": 5,
+        "ply": 9,
+        "san": "d3",
+        "uci": "d2d3"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.073142,
+          "loss": 0.449133,
+          "win": 0.477725
+        },
+        "before": {
+          "draw": 0.061186,
+          "loss": 0.472225,
+          "win": 0.466588
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6|2400|2400": {
+      "classification": "mainline",
+      "elapsed_ms": 25.103899,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.783456,
+        "rank": 1,
+        "top": [
+          {
+            "prob": 0.783456,
+            "san": "Nf6",
+            "uci": "g8f6"
+          },
+          {
+            "prob": 0.1874,
+            "san": "d6",
+            "uci": "d7d6"
+          },
+          {
+            "prob": 0.009349,
+            "san": "Nge7",
+            "uci": "g8e7"
+          }
+        ],
+        "totalLegal": 36
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "black",
+        "moveNumber": 4,
+        "ply": 8,
+        "san": "Nf6",
+        "uci": "g8f6"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.061186,
+          "loss": 0.466588,
+          "win": 0.472225
+        },
+        "before": {
+          "draw": 0.065992,
+          "loss": 0.51426,
+          "win": 0.419748
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1|2400|2400": {
+      "classification": "common",
+      "elapsed_ms": 27.275983,
+      "flags": {
+        "capture": false,
+        "castle": "kingside",
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.224414,
+        "rank": 2,
+        "top": [
+          {
+            "prob": 0.387351,
+            "san": "c3",
+            "uci": "c2c3"
+          },
+          {
+            "prob": 0.224414,
+            "san": "O-O",
+            "uci": "e1g1"
+          },
+          {
+            "prob": 0.20589,
+            "san": "d3",
+            "uci": "d2d3"
+          }
+        ],
+        "totalLegal": 33
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "white",
+        "moveNumber": 4,
+        "ply": 7,
+        "san": "O-O",
+        "uci": "e1g1"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.065992,
+          "loss": 0.419748,
+          "win": 0.51426
+        },
+        "before": {
+          "draw": 0.05606,
+          "loss": 0.465397,
+          "win": 0.478543
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5|2400|2400": {
+      "classification": "common",
+      "elapsed_ms": 22.251131,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.448502,
+        "rank": 2,
+        "top": [
+          {
+            "prob": 0.47118,
+            "san": "Nf6",
+            "uci": "g8f6"
+          },
+          {
+            "prob": 0.448502,
+            "san": "Bc5",
+            "uci": "f8c5"
+          },
+          {
+            "prob": 0.037204,
+            "san": "Be7",
+            "uci": "f8e7"
+          }
+        ],
+        "totalLegal": 31
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "black",
+        "moveNumber": 3,
+        "ply": 6,
+        "san": "Bc5",
+        "uci": "f8c5"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game: Giuoco Piano"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.05606,
+          "loss": 0.478543,
+          "win": 0.465397
+        },
+        "before": {
+          "draw": 0.068238,
+          "loss": 0.507633,
+          "win": 0.424128
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4|2400|2400": {
+      "classification": "common",
+      "elapsed_ms": 20.878261,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.32033,
+        "rank": 2,
+        "top": [
+          {
+            "prob": 0.433423,
+            "san": "Bb5",
+            "uci": "f1b5"
+          },
+          {
+            "prob": 0.32033,
+            "san": "Bc4",
+            "uci": "f1c4"
+          },
+          {
+            "prob": 0.134536,
+            "san": "d4",
+            "uci": "d2d4"
+          }
+        ],
+        "totalLegal": 27
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "white",
+        "moveNumber": 3,
+        "ply": 5,
+        "san": "Bc4",
+        "uci": "f1c4"
+      },
+      "opening": {
+        "eco": "C50",
+        "name": "Italian Game"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.068238,
+          "loss": 0.424128,
+          "win": 0.507633
+        },
+        "before": {
+          "draw": 0.069245,
+          "loss": 0.453647,
+          "win": 0.477108
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6|2400|2400": {
+      "classification": "mainline",
+      "elapsed_ms": 35.656028,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.789386,
+        "rank": 1,
+        "top": [
+          {
+            "prob": 0.789386,
+            "san": "Nc6",
+            "uci": "b8c6"
+          },
+          {
+            "prob": 0.128772,
+            "san": "Nf6",
+            "uci": "g8f6"
+          },
+          {
+            "prob": 0.039803,
+            "san": "d6",
+            "uci": "d7d6"
+          }
+        ],
+        "totalLegal": 29
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "black",
+        "moveNumber": 2,
+        "ply": 4,
+        "san": "Nc6",
+        "uci": "b8c6"
+      },
+      "opening": {
+        "eco": "C44",
+        "name": "King's Knight Opening: Normal Variation"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.069245,
+          "loss": 0.477108,
+          "win": 0.453647
+        },
+        "before": {
+          "draw": 0.068684,
+          "loss": 0.506782,
+          "win": 0.424534
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3|2400|2400": {
+      "classification": "mainline",
+      "elapsed_ms": 92.920007,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.783514,
+        "rank": 1,
+        "top": [
+          {
+            "prob": 0.783514,
+            "san": "Nf3",
+            "uci": "g1f3"
+          },
+          {
+            "prob": 0.082608,
+            "san": "Nc3",
+            "uci": "b1c3"
+          },
+          {
+            "prob": 0.050448,
+            "san": "f4",
+            "uci": "f2f4"
+          }
+        ],
+        "totalLegal": 29
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "white",
+        "moveNumber": 2,
+        "ply": 3,
+        "san": "Nf3",
+        "uci": "g1f3"
+      },
+      "opening": {
+        "eco": "C40",
+        "name": "King's Knight Opening"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.068684,
+          "loss": 0.424534,
+          "win": 0.506782
+        },
+        "before": {
+          "draw": 0.070189,
+          "loss": 0.450382,
+          "win": 0.479429
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5|2400|2400": {
+      "classification": "common",
+      "elapsed_ms": 52.548719,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.171366,
+        "rank": 2,
+        "top": [
+          {
+            "prob": 0.374898,
+            "san": "c5",
+            "uci": "c7c5"
+          },
+          {
+            "prob": 0.171366,
+            "san": "e5",
+            "uci": "e7e5"
+          },
+          {
+            "prob": 0.128604,
+            "san": "c6",
+            "uci": "c7c6"
+          }
+        ],
+        "totalLegal": 20
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "black",
+        "moveNumber": 1,
+        "ply": 2,
+        "san": "e5",
+        "uci": "e7e5"
+      },
+      "opening": {
+        "eco": "C20",
+        "name": "King's Pawn Game"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.070189,
+          "loss": 0.479429,
+          "win": 0.450382
+        },
+        "before": {
+          "draw": 0.064554,
+          "loss": 0.51594,
+          "win": 0.419506
+        }
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400": {
+      "classification": "mainline",
+      "elapsed_ms": 21.775988,
+      "flags": {
+        "capture": false,
+        "castle": null,
+        "check": false,
+        "enPassant": false,
+        "mate": false,
+        "promotion": null,
+        "recapture": false
+      },
+      "maia": {
+        "moverElo": 2400,
+        "playedProb": 0.464864,
+        "rank": 1,
+        "top": [
+          {
+            "prob": 0.464864,
+            "san": "e4",
+            "uci": "e2e4"
+          },
+          {
+            "prob": 0.339048,
+            "san": "d4",
+            "uci": "d2d4"
+          },
+          {
+            "prob": 0.081763,
+            "san": "Nf3",
+            "uci": "g1f3"
+          }
+        ],
+        "totalLegal": 20
+      },
+      "material": {
+        "captured": null,
+        "delta": 0
+      },
+      "model": "maia3-5m",
+      "move": {
+        "by": "white",
+        "moveNumber": 1,
+        "ply": 1,
+        "san": "e4",
+        "uci": "e2e4"
+      },
+      "opening": {
+        "eco": "B00",
+        "name": "King's Pawn Game"
+      },
+      "wdl": {
+        "after": {
+          "draw": 0.064554,
+          "loss": 0.419506,
+          "win": 0.51594
+        },
+        "before": {
+          "draw": 0.067579,
+          "loss": 0.456007,
+          "win": 0.476414
+        }
+      }
+    }
+  },
+  "game": {
+    "plies": 14,
+    "san": [
+      "e4",
+      "e5",
+      "Nf3",
+      "Nc6",
+      "Bc4",
+      "Bc5",
+      "O-O",
+      "Nf6",
+      "d3",
+      "d6",
+      "Bg5",
+      "O-O",
+      "Bxf6",
+      "Qxf6"
+    ],
+    "uci": [
+      "e2e4",
+      "e7e5",
+      "g1f3",
+      "b8c6",
+      "f1c4",
+      "f8c5",
+      "e1g1",
+      "g8f6",
+      "d2d3",
+      "d7d6",
+      "c1g5",
+      "e8g8",
+      "g5f6",
+      "d8f6"
+    ]
+  },
+  "generatedAt": "2026-10-16T21:07:04Z",
+  "premove": {
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6|2400|2400|5|0.9|top": {
+      "candidates": [
+        {
+          "guard_mass": 0.999856,
+          "min_response_prob": 0.902216,
+          "safe_mass": 0.000109,
+          "san": "Bxd8",
+          "uci": "f6d8",
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 0%, guard mass 100%; min response prob 90% >= 15%"
+        },
+        {
+          "guard_mass": 0.999856,
+          "min_response_prob": 0.600027,
+          "safe_mass": 3.5e-05,
+          "san": "Bh4",
+          "uci": "f6h4",
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 0%, guard mass 100%; min response prob 60% >= 15%"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.585868,
+          "safe_mass": 0.992604,
+          "san": "Nc3",
+          "uci": "b1c3",
+          "verdict": "recommended",
+          "why": "safety 99% >= 90%; safe mass 99%, guard mass 0%; min response prob 59% >= 15%"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.595611,
+          "safe_mass": 0.007252,
+          "san": "Nh4",
+          "uci": "f3h4",
+          "verdict": "not_safe",
+          "why": "safety 1% < required 90% (safe 1% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "elapsed_ms": 69.031641,
+      "excluded": [],
+      "fen": "r1bq1rk1/ppp2ppp/2np1B2/2b1p3/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 b - - 0 7",
+      "model": "maia3-5m",
+      "opponent": [
+        {
+          "prob": 0.992604134683758,
+          "san": "Qxf6",
+          "uci": "d8f6"
+        },
+        {
+          "prob": 0.0072518484662705525,
+          "san": "gxf6",
+          "uci": "g7f6"
+        },
+        {
+          "prob": 7.000819095834211e-05,
+          "san": "h6",
+          "uci": "h7h6"
+        },
+        {
+          "prob": 3.900456353393347e-05,
+          "san": "g6",
+          "uci": "g7g6"
+        },
+        {
+          "prob": 3.500409547917106e-05,
+          "san": "Qe8",
+          "uci": "d8e8"
+        }
+      ],
+      "params": {
+        "elo_oppo": 2400,
+        "elo_self": 2400,
+        "min_response_prob": 0.15,
+        "min_safety": 0.9,
+        "mode": "top",
+        "top_n": 5
+      },
+      "reason": null,
+      "recommended": {
+        "criterion": "robust",
+        "detail": "2/5 considered replies are met by Bxd8 (safe mass 0%); 100% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 90%",
+        "min_response_prob": 0.902216,
+        "safety": 0.999965,
+        "san": "Bxd8",
+        "uci": "f6d8"
+      },
+      "side_to_move": "black",
+      "timings_ms": {
+        "responses": 57.122356,
+        "root": 10.215386,
+        "total": 69.031641
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5|2400|2400|5|0.9|top": {
+      "candidates": [
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.83301,
+          "safe_mass": 0.837917,
+          "san": "Bh4",
+          "uci": "g5h4",
+          "verdict": "not_safe",
+          "why": "safety 84% < required 90% (safe 84% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.425469,
+          "safe_mass": 0.066917,
+          "san": "h3",
+          "uci": "h2h3",
+          "verdict": "not_safe",
+          "why": "safety 7% < required 90% (safe 7% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.386267,
+          "safe_mass": 0.034174,
+          "san": "Nbd2",
+          "uci": "b1d2",
+          "verdict": "not_safe",
+          "why": "safety 3% < required 90% (safe 3% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.311513,
+          "safe_mass": 0.033907,
+          "san": "c3",
+          "uci": "c2c3",
+          "verdict": "not_safe",
+          "why": "safety 3% < required 90% (safe 3% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.433965,
+          "safe_mass": 0.027085,
+          "san": "Nc3",
+          "uci": "b1c3",
+          "verdict": "not_safe",
+          "why": "safety 3% < required 90% (safe 3% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "elapsed_ms": 75.628209,
+      "excluded": [],
+      "fen": "r1bqk2r/ppp2ppp/2np1n2/2b1p1B1/2B1P3/3P1N2/PPP2PPP/RN1Q1RK1 b kq - 1 6",
+      "model": "maia3-5m",
+      "opponent": [
+        {
+          "prob": 0.8379166787009568,
+          "san": "h6",
+          "uci": "h7h6"
+        },
+        {
+          "prob": 0.06691718620416483,
+          "san": "Bg4",
+          "uci": "c8g4"
+        },
+        {
+          "prob": 0.0341739456930307,
+          "san": "Be6",
+          "uci": "c8e6"
+        },
+        {
+          "prob": 0.033906784451422034,
+          "san": "a6",
+          "uci": "a7a6"
+        },
+        {
+          "prob": 0.0270854049504256,
+          "san": "O-O",
+          "uci": "e8g8"
+        }
+      ],
+      "params": {
+        "elo_oppo": 2400,
+        "elo_self": 2400,
+        "min_response_prob": 0.15,
+        "min_safety": 0.9,
+        "mode": "top",
+        "top_n": 5
+      },
+      "reason": "no safe premove: the best reply Bh4 covers only 84% of their considered moves (safe 84%, required 90%)",
+      "recommended": null,
+      "side_to_move": "black",
+      "timings_ms": {
+        "responses": 59.77014,
+        "root": 14.328724,
+        "total": 75.628209
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3|2400|2400|5|0.9|top": {
+      "candidates": [
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.321341,
+          "safe_mass": 1.0,
+          "san": "c3",
+          "uci": "c2c3",
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 100%, guard mass 0%; min response prob 32% >= 15%"
+        }
+      ],
+      "elapsed_ms": 66.296055,
+      "excluded": [],
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/3P1N2/PPP2PPP/RNBQ1RK1 b kq - 0 5",
+      "model": "maia3-5m",
+      "opponent": [
+        {
+          "prob": 0.631190017549324,
+          "san": "d6",
+          "uci": "d7d6"
+        },
+        {
+          "prob": 0.21783438719998063,
+          "san": "O-O",
+          "uci": "e8g8"
+        },
+        {
+          "prob": 0.0777603393339724,
+          "san": "h6",
+          "uci": "h7h6"
+        },
+        {
+          "prob": 0.0682407634207977,
+          "san": "a6",
+          "uci": "a7a6"
+        },
+        {
+          "prob": 0.0049744924959251495,
+          "san": "a5",
+          "uci": "a7a5"
+        }
+      ],
+      "params": {
+        "elo_oppo": 2400,
+        "elo_self": 2400,
+        "min_response_prob": 0.15,
+        "min_safety": 0.9,
+        "mode": "top",
+        "top_n": 5
+      },
+      "reason": null,
+      "recommended": {
+        "criterion": "safe_vs_all",
+        "detail": "5/5 considered replies are met by c3 (safe mass 100%); 0% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 32%",
+        "min_response_prob": 0.321341,
+        "safety": 1.0,
+        "san": "c3",
+        "uci": "c2c3"
+      },
+      "side_to_move": "black",
+      "timings_ms": {
+        "responses": 54.654028,
+        "root": 10.39904,
+        "total": 66.296055
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1|2400|2400|5|0.9|top": {
+      "candidates": [
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.416865,
+          "safe_mass": 0.790556,
+          "san": "d3",
+          "uci": "d2d3",
+          "verdict": "not_safe",
+          "why": "safety 79% < required 90% (safe 79% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.551633,
+          "safe_mass": 0.209444,
+          "san": "c3",
+          "uci": "c2c3",
+          "verdict": "not_safe",
+          "why": "safety 21% < required 90% (safe 21% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "elapsed_ms": 73.503697,
+      "excluded": [],
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQ1RK1 b kq - 5 4",
+      "model": "maia3-5m",
+      "opponent": [
+        {
+          "prob": 0.7905559832858905,
+          "san": "Nf6",
+          "uci": "g8f6"
+        },
+        {
+          "prob": 0.1890982917582811,
+          "san": "d6",
+          "uci": "d7d6"
+        },
+        {
+          "prob": 0.009433724277738366,
+          "san": "Nge7",
+          "uci": "g8e7"
+        },
+        {
+          "prob": 0.006228942129262909,
+          "san": "Qf6",
+          "uci": "d8f6"
+        },
+        {
+          "prob": 0.0046830585488270154,
+          "san": "h6",
+          "uci": "h7h6"
+        }
+      ],
+      "params": {
+        "elo_oppo": 2400,
+        "elo_self": 2400,
+        "min_response_prob": 0.15,
+        "min_safety": 0.9,
+        "mode": "top",
+        "top_n": 5
+      },
+      "reason": "no safe premove: the best reply d3 covers only 79% of their considered moves (safe 79%, required 90%)",
+      "recommended": null,
+      "side_to_move": "black",
+      "timings_ms": {
+        "responses": 61.393072,
+        "root": 11.038083,
+        "total": 73.503697
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4|2400|2400|5|0.9|top": {
+      "candidates": [
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.575534,
+          "safe_mass": 0.479346,
+          "san": "d3",
+          "uci": "d2d3",
+          "verdict": "not_safe",
+          "why": "safety 48% < required 90% (safe 48% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.387351,
+          "safe_mass": 0.456275,
+          "san": "c3",
+          "uci": "c2c3",
+          "verdict": "not_safe",
+          "why": "safety 46% < required 90% (safe 46% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.325577,
+          "safe_mass": 0.064379,
+          "san": "d4",
+          "uci": "d2d4",
+          "verdict": "not_safe",
+          "why": "safety 6% < required 90% (safe 6% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "elapsed_ms": 82.503468,
+      "excluded": [],
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "model": "maia3-5m",
+      "opponent": [
+        {
+          "prob": 0.4793461408556163,
+          "san": "Nf6",
+          "uci": "g8f6"
+        },
+        {
+          "prob": 0.4562751026487237,
+          "san": "Bc5",
+          "uci": "f8c5"
+        },
+        {
+          "prob": 0.0378487920208675,
+          "san": "Be7",
+          "uci": "f8e7"
+        },
+        {
+          "prob": 0.01921840474320525,
+          "san": "d6",
+          "uci": "d7d6"
+        },
+        {
+          "prob": 0.0073115597315873216,
+          "san": "g6",
+          "uci": "g7g6"
+        }
+      ],
+      "params": {
+        "elo_oppo": 2400,
+        "elo_self": 2400,
+        "min_response_prob": 0.15,
+        "min_safety": 0.9,
+        "mode": "top",
+        "top_n": 5
+      },
+      "reason": "no safe premove: the best reply d3 covers only 48% of their considered moves (safe 48%, required 90%)",
+      "recommended": null,
+      "side_to_move": "black",
+      "timings_ms": {
+        "responses": 70.490233,
+        "root": 11.165623,
+        "total": 82.503468
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3|2400|2400|5|0.9|top": {
+      "candidates": [
+        {
+          "guard_mass": 0.97583,
+          "min_response_prob": 0.413086,
+          "safe_mass": 0.02417,
+          "san": "exd5",
+          "uci": "e4d5",
+          "verdict": "recommended",
+          "why": "safety 100% >= 90%; safe mass 2%, guard mass 98%; min response prob 41% >= 15%"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.433423,
+          "safe_mass": 0.79471,
+          "san": "Bb5",
+          "uci": "f1b5",
+          "verdict": "not_safe",
+          "why": "safety 79% < required 90% (safe 79% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.50275,
+          "safe_mass": 0.141049,
+          "san": "Nxe5",
+          "uci": "f3e5",
+          "verdict": "not_safe",
+          "why": "safety 14% < required 90% (safe 14% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.700661,
+          "safe_mass": 0.040071,
+          "san": "d4",
+          "uci": "d2d4",
+          "verdict": "not_safe",
+          "why": "safety 4% < required 90% (safe 4% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "elapsed_ms": 67.08571,
+      "excluded": [],
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2",
+      "model": "maia3-5m",
+      "opponent": [
+        {
+          "prob": 0.7947097606868412,
+          "san": "Nc6",
+          "uci": "b8c6"
+        },
+        {
+          "prob": 0.129640461451262,
+          "san": "Nf6",
+          "uci": "g8f6"
+        },
+        {
+          "prob": 0.04007143856696006,
+          "san": "d6",
+          "uci": "d7d6"
+        },
+        {
+          "prob": 0.024169914255598255,
+          "san": "d5",
+          "uci": "d7d5"
+        },
+        {
+          "prob": 0.011408425039338529,
+          "san": "f5",
+          "uci": "f7f5"
+        }
+      ],
+      "params": {
+        "elo_oppo": 2400,
+        "elo_self": 2400,
+        "min_response_prob": 0.15,
+        "min_safety": 0.9,
+        "mode": "top",
+        "top_n": 5
+      },
+      "reason": null,
+      "recommended": {
+        "criterion": "safe_vs_all",
+        "detail": "1/5 considered replies are met by exd5 (safe mass 2%); 98% of their mass cannot fire the premove (illegal after their move -> safe by inaction); overall safety 100%; min best-response probability 41%",
+        "min_response_prob": 0.413086,
+        "safety": 1.0,
+        "san": "exd5",
+        "uci": "e4d5"
+      },
+      "side_to_move": "black",
+      "timings_ms": {
+        "responses": 54.244279,
+        "root": 11.364567,
+        "total": 67.08571
+      }
+    },
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4|2400|2400|5|0.9|top": {
+      "candidates": [
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.669597,
+          "safe_mass": 0.639619,
+          "san": "Nf3",
+          "uci": "g1f3",
+          "verdict": "not_safe",
+          "why": "safety 64% < required 90% (safe 64% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        },
+        {
+          "guard_mass": 0.0,
+          "min_response_prob": 0.682793,
+          "safe_mass": 0.360381,
+          "san": "d4",
+          "uci": "d2d4",
+          "verdict": "not_safe",
+          "why": "safety 36% < required 90% (safe 36% + guard 0%) \u2014 a mispredicted reply would leave the premove firing while it is not our best move"
+        }
+      ],
+      "elapsed_ms": 76.996386,
+      "excluded": [],
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "model": "maia3-5m",
+      "opponent": [
+        {
+          "prob": 0.43896698772665643,
+          "san": "c5",
+          "uci": "c7c5"
+        },
+        {
+          "prob": 0.2006519555152767,
+          "san": "e5",
+          "uci": "e7e5"
+        },
+        {
+          "prob": 0.15058205295733484,
+          "san": "c6",
+          "uci": "c7c6"
+        },
+        {
+          "prob": 0.14729768654147435,
+          "san": "e6",
+          "uci": "e7e6"
+        },
+        {
+          "prob": 0.0625013172592577,
+          "san": "d6",
+          "uci": "d7d6"
+        }
+      ],
+      "params": {
+        "elo_oppo": 2400,
+        "elo_self": 2400,
+        "min_response_prob": 0.15,
+        "min_safety": 0.9,
+        "mode": "top",
+        "top_n": 5
+      },
+      "reason": "no safe premove: the best reply Nf3 covers only 64% of their considered moves (safe 64%, required 90%)",
+      "recommended": null,
+      "side_to_move": "black",
+      "timings_ms": {
+        "responses": 57.645186,
+        "root": 18.855093,
+        "total": 76.996386
+      }
+    }
+  },
+  "schema": "humanplay-acceptance-canned/1",
+  "server": {
+    "model": "maia3-5m",
+    "version": "1.0.0"
+  }
+}

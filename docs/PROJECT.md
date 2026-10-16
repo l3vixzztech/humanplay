@@ -1,5 +1,10 @@
 # humanplay — Project
 
+**Status: v1.0.0 (personal build).** The initial scope is complete: milestones
+1–9 shipped, all endpoint contracts frozen, the acceptance proof green. See
+`docs/RELEASE-NOTES.md` for the feature/evidence map and "Future ideas" at the
+bottom of this file for what is deliberately parked.
+
 Human-like chess move assistant: a Chrome MV3 extension that reads the live
 **chess.com** game state from the page DOM and asks a **local** Maia-3 helper
 server for the move a strong human (~2400 Elo) would play. Not Stockfish, not
@@ -98,7 +103,7 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 | 6 | TTS | `chrome.tts` announcements (Piper-ready interface), "just the move" — service-worker speaker, dedupe + stale guard, toggle/hotkey/rate/badge, actionable no-voice note, CDP proof incl. the panel-closed case | ✅ done |
 | 7 | Premove planner | `POST /premove` criteria engine (opponent candidates from Maia, our reply must be safe or illegal), "Premove" panel card, dashed blue arrow, "premove …" speech, unit + stub/real CDP proofs | ✅ done |
 | 8 | Live commentary / explain mode | `POST /explain` facts engine (rules flags + Maia distribution + ECO names), the panel's commentary feed (both colours, per-ply trigger, templates), the optional free-API LLM rephrasing layer (Groq/Gemini, optional host permissions, key local-only), unit + stub/real CDP proofs | ✅ done |
-| 9 | Continuous mode + robustness + polish + packaging | state-driven auto-analysis loop, failure recovery (page variants), UX, store-ready packaging | ⬜ |
+| 9 | Release hardening | one HTTP-503 retry with backoff in all three clients, one actionable offline state + "Copy start command" on every card + auto-recovery, a full rematch reset (caches, dedupe keys, arrows, feed), the 104-ply soak, `scripts/` (setup/run/package) + a verified `dist/humanplay-1.0.0.zip`, README + USER-GUIDE + RELEASE-NOTES, the **acceptance proof** (one end-to-end run: replay, overlay endpoints, TTS, premove, commentary, rematch, soak, offline recovery, real-page best effort), v1.0.0 | ✅ done |
 
 ## The GameState protocol (M3)
 
@@ -170,11 +175,15 @@ on top of it (`position fen <base> moves …` semantics). So:
 | always | `elo_self`/`elo_oppo` (settings, 0–5000, default 2400, clamped), `top_k: 3` |
 
 **Fetch semantics.** 4 s timeout via `AbortController`; **exactly one retry on
-a network failure** (connection refused/dropped); never a retry on 4xx/5xx or on
-a timeout. Every outcome is a result object
+a network failure** (connection refused/dropped) and **exactly one retry on
+HTTP 503 after a short backoff** (`RETRY_503_DELAY_MS = 300`, the cold model
+load case; M9); never a retry on 4xx/5xx (other than that single 503) or on a
+timeout. Every outcome is a result object
 `{ok, status, data, roundTripMs, error, errorClass, attempts, attemptLog}` with
 the error classes `offline` / `timeout` / `invalid_input` (400, 422) /
-`engine_unavailable` (503) / `http` / `bad_response`.
+`engine_unavailable` (503) / `http` / `bad_response`. The 503 retry is visible
+in `attemptLog` (`outcome: "engine-503"`), and the acceptance proof proves it
+end-to-end with the fixture server's arrival counters (= 2 per request).
 
 **Cache + stale guard.** Position key =
 `fen|moves|elo_self|elo_oppo|top_k`. Identical keys are answered from a small
@@ -381,9 +390,10 @@ move". Excluded (mating) candidates are marked in the list.
 **Client** (`src/analysis/premove-client.js`): the M4 analyze-client patterns —
 position key `fen|moves|elo_self|elo_oppo|top_n|min_safety|mode`, LRU(24) +
 in-flight dedupe, stale guard (`expectKey`/`stale`, the new position always
-wins), 4–5 s timeout, exactly one retry on a network failure, injectable
-`fetch`, the same error classes; the request mapping (replayed history →
-startpos + UCI, mismatch → board FEN) is shared with `/analyze`.
+wins), 4–5 s timeout, exactly one retry on a network failure (plus the M9
+HTTP-503 retry), injectable `fetch`, the same error classes; the request mapping
+(replayed history → startpos + UCI, mismatch → board FEN) is shared with
+`/analyze`.
 
 **Trigger**: after our move lands (the opponent's turn begins) the panel plans;
 a plan is ready ≤ ~600 ms (real mode: engine 87 ms, round-trip 91 ms,
@@ -464,8 +474,8 @@ engine level → **400**; a missing/shape-broken `moves` list → **422** (pydan
 - **Client**: the M4/M7 patterns — key `fen|moves|elo_self|elo_oppo`, LRU(24),
   in-flight dedupe, stale guard (`expectKey`/`stale`; an article whose key is no
   longer current is discarded silently, so the feed can never show an
-  out-of-order entry), 4 s timeout, exactly one retry on a network failure,
-  injectable `fetch`, the same error classes.
+  out-of-order entry), 4 s timeout, exactly one retry on a network failure (plus
+  the M9 HTTP-503 retry), injectable `fetch`, the same error classes.
 - **Template phrasing** (`phrase.js`, pure, zero-dep, unit-tested):
   `<SAN> — <event clause>; <maia clause>.` The event clause is built from the
   rules flags (recapture/capture on `<square>`, castling side, promotion piece,
@@ -527,12 +537,82 @@ every entry against hand-verified facts **and** that the last entry equals a
 direct `curl /explain` phrased by the panel's own module. Evidence:
 `test/fixtures/captures/commentary/`.
 
+## Robustness, release and the acceptance proof (M9)
+
+**Client robustness.** All three HTTP clients (`analyze`, `premove`, `explain`)
+share the same retry policy — one network retry, one HTTP-503 retry after a
+short injectable backoff (`RETRY_503_DELAY_MS = 300` ms, declared once in
+`analyze-client.js`) — and never retry a 4xx, a 5xx other than 503, or a
+timeout. The clients also stay independently cached, stale-guarded and
+bounded.
+
+**One offline UX.** Every card (`Maia suggestion`, `Premove`, `Commentary`)
+renders the same actionable message through `offlineCardMessage()`: the exact
+URL that failed, the retry count, and the start command — the panel's Server
+card carries a **Copy start command** button (`navigator.clipboard` with an
+`execCommand` fallback; the click is recorded in `__humanplayAnalysis.clipboard`
+for the proof). Whenever a card lands in the offline state,
+`scheduleServerRecovery()` starts ONE bounded `/health` poll (3 s interval, 60
+attempts max); when the server answers again the poll stops and the current
+position is re-run through all three policies — failures are never cached, so
+real requests go out. `/health` gained `version` + `uptime_s` (additive, M9);
+the panel shows `online · <model> · v<version>`.
+
+**The rematch reset.** A new game (`sessionSeq` change) now resets *every*
+layer, not just the analysis cache: each client drops its cache through
+`noteSessionSeq`, and `resetLayersForNewGame()` (one idempotent call per new
+sequence, executed by whichever policy sees it first) clears the **TTS spoken
+key store**, the card-level `premove.lastPlan` / `commentary.lastResult`
+snapshots, and sends `clear-suggestion` + `clear-premove` with the reason
+`new-game`; the commentary feed clears itself in the driver's `reset` action.
+The fresh game re-analyzes its first position normally (that is the point of a
+rematch). The proof samples the reset from Node (a hidden panel tab has its
+timers coalesced) and asserts the **reset record** (exact cleared counts per
+layer), the overlay/premove **message counters** and the first post-reset
+snapshot (feed 0, plan null) — the visible card message is replaced by the
+fresh analysis in the same event-loop turn, so it is not asserted.
+
+**The soak.** A ≥100-ply replay must not leak. Measured per run: exactly one
+overlay canvas, the commentary feed pinned at its 50-entry cap (newest 50, cap
+evictions counted), the three client caches ≤ 24 entries, the spoken-key store
+≤ 64 entries, zero commentary errors, and zero TTS speaks (the soak is
+deliberately silent — 100+ spoken knight shuffles would flood the speech
+backend; the dedupe bound is unit-tested and re-verified by the rematch reset).
+Not asserted headlessly: long-run *memory* (a DevTools memory profile over a
+real session) — documented, not claimed.
+
+**Adapter warnings → fast-fix.** Whenever the adapter emits any warning it
+appends one line pointing at the snapshot protocol: repeated warnings mean the
+site markup changed, and **Record chess.com snapshot** + the replay test is the
+reproducible way to fix it (see `test/fixtures/chesscom/README.md`). The
+acceptance proof forces a real warning (wrong fallback colour) and asserts the
+line reaches the panel.
+
+**Packaging.** `scripts/setup-server.sh` (idempotent: uv venv 3.12 → CPU torch
+→ pinned maia3 + server deps → `maia3-cache` prefetch), `scripts/run-server.sh`,
+and `scripts/package-extension.sh` → `dist/humanplay-<version>.zip`. The
+package script then **verifies the zip**: it unpacks into a temp dir, checks
+that every file is byte-identical to `extension/`, loads it in Chrome for
+Testing and asserts the MV3 service worker registers
+(`test/tools/package-verify.mjs` → `test/fixtures/captures/package/`).
+
+**The acceptance proof** (`test/tools/acceptance-proof.mjs`) is the capstone:
+one run, real browser, real extension, one fixture game replayed ply by ply via
+DOM mutations, asserting adapter FEN, per-turn suggestions equal to a direct
+server request (`curl` in `--real`), arrow endpoints ≤ 2 px vs DOM ground
+truth, TTS speaks for suggestions **and** premoves with dedupe on re-emits,
+premove cards with criteria or the honest refusal, one commentary entry per ply
+for both colours, the rematch reset, the 104-ply soak, the 503/offline/recovery
+flow, and clean consoles — plus a best-effort real chess.com page segment.
+Evidence: `test/fixtures/captures/acceptance/`.
+
 ## Repository layout
 
 ```
 server/     FastAPI helper + Maia-3 engine wrapper + tests  (this repo's engine lives here)
 extension/  Chrome MV3 extension (content script, capture source, service worker, side panel, vendor/)
-docs/       PROJECT.md (this file), HANDOFF.md (state log)
+scripts/    setup-server.sh · run-server.sh · package-extension.sh
+docs/       PROJECT.md (this file), USER-GUIDE.md, RELEASE-NOTES.md, HANDOFF.md (state log)
 test/       offline fixtures (test/fixtures/) + dev/test tools (test/tools/)
 parked/     stopped work kept for revival (parked/image-recognition/)
 ```
@@ -563,7 +643,8 @@ lichess chess-openings, CC0-1.0 — see `server/data/README.md`); the generator 
   model, elapsed_ms}` — the fact engine documented in "Live commentary (M8)"
   above and in `server/explain_engine.py`. Elos clamp; invalid FEN / illegal or
   unparseable moves / empty `moves` (engine level) are 400.
-- `GET /health` → `{status, model}`.
+- `GET /health` → `{status, model, version, uptime_s}` (`version`/`uptime_s`
+  additive since M9; the panel shows the version next to the model).
 
 Details, semantics (history planes, temperature, WDL perspective, the premove
 criteria) and exact commands: `server/README.md`. Extension-side details
@@ -581,3 +662,33 @@ proofs): `extension/README.md`. Test tooling (fixture server with canned
 - The extension vendors exactly one third-party runtime file: chess.js
   (BSD-2-Clause, pinned 1.4.0) for rules-accurate SAN replay — see
   `extension/vendor/README.md`.
+
+## Future ideas
+
+Deliberately out of scope for v1.0.0 (nothing here is scheduled; the API
+contracts stay frozen):
+
+- **Piper voice upgrade** — replace the `chrome.tts` speaker behind the
+  existing `createSpeaker()` seam (`src/tts/speaker.js`) with a local Piper
+  model for human-sounding speech; the policy/dedupe layers stay untouched.
+- **Commentary TTS** — read the commentary sentence aloud (the M6 speaker only
+  speaks suggestion/premove today; a queue policy would be needed).
+- **Desktop-capture revival** — the `DesktopCaptureSource` stub
+  (`src/capture/capture-source.js`) was never implemented; it would decouple
+  the debug capture from `activeTab` grants.
+- **Parked pixel recognition** — `parked/image-recognition/` (board locator +
+  classifier sketch) stays revivable if a non-DOM site ever matters; the DOM
+  adapter strictly dominates it on chess.com.
+- **Custom LLM endpoints** — the LLM layer is fixed to Groq/Gemini; a
+  user-supplied OpenAI-compatible URL + model would need a new optional host
+  permission and a settings affordance.
+- **Premove `mode=all` tuning** — the planner ships `mode="top"`; the tuning
+  note in the M7 log (a minimum useful `safe_mass`, guard-only premoves) is the
+  obvious knob to revisit.
+- **Opening transpositions** — the commentary's ECO lookup recognizes move-
+  sequence prefixes only; a transposition table would recognize more openings
+  (needs a different data structure than the CC0 prefix list).
+- **Packaging for distribution** — the zip/`Load unpacked` flow is personal;
+  a Chrome Web Store or enterprise-policy bundle would need artwork, a privacy
+  policy, and a permission review (the current permission set is deliberately
+  minimal).

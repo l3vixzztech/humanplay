@@ -13,6 +13,9 @@ Everything here is **offline and self-contained** (no network, no CDN).
 | `pages-png/*.png` | headless screenshots of those pages | parked locator |
 | `captures/*.png` + `*.json` | frames captured **through the extension** (M2) and the machine-readable proofs | evidence |
 | `captures/adapter/` | M3 adapter proof JSONs, panel screenshots, recorded snapshot evidence | evidence |
+| `captures/analyze/`, `captures/overlay/`, `captures/premove/`, `captures/commentary/`, `captures/tts/` | per-milestone proof JSONs + screenshots | evidence |
+| `captures/acceptance/` | **M9 capstone**: `stub/` + `real/` acceptance reports and screenshots + the recorded `canned-acceptance.json` | `test/tools/acceptance-proof.mjs` |
+| `captures/package/` | M9 packaging verification (`package-verify.json`) | `scripts/package-extension.sh` |
 | `generate.py`, `render_pages.sh` | regenerate `pages/` and `pages-png/` | — |
 
 Ground truth is **test-only**: the runtime adapter reads the visible chess.com

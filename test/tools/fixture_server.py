@@ -12,7 +12,9 @@ side panel's status chip show "online" without the Maia server.
 Routes
 ------
 
-    GET  /health                     -> {"status": "ok", "model": "<--model>"}
+    GET  /health                     -> {"status": "ok", "model": "<--model>",
+                                         "version": "fixture-1.0.0", "uptime_s": …}
+                                         (M9: mirrors the real server's additive fields)
     POST /snapshot                   -> writes test/fixtures/chesscom-snapshots/<name>
                                         (the panel's "Record chess.com snapshot")
 
@@ -75,7 +77,8 @@ proof harnesses use them):
                                      -> register a canned response for an exact key
                                         at runtime (used when a key is only known
                                         once the test mutated the page, e.g. the
-                                        52-ply commentary cap replay)
+                                        52-ply commentary cap replay and the M9
+                                        acceptance proof's replay + 104-ply soak)
 
 The real Maia server uses the same port, so run only one of them at a time.
 
@@ -521,7 +524,8 @@ class FixtureHandler(SimpleHTTPRequestHandler):
     def do_GET(self):  # noqa: N802 (http.server API)
         path = self.path.split("?")[0]
         if path == "/health":
-            self._send_json({"status": "ok", "model": self.model})
+            # M9: version + uptime mirror the real server's additive fields.
+            self._send_json({"status": "ok", "model": self.model, "version": "fixture-1.0.0", "uptime_s": round(time.time() - self.server.started_at, 3)})
             return
         if path == "/debug/stats":
             with self.control["lock"]:
@@ -936,6 +940,7 @@ def main() -> None:
     handler = functools.partial(FixtureHandler, directory=str(FIXTURES_DIR), model=args.model)
     server = ThreadingHTTPServer((args.host, args.port), handler)
     server.daemon_threads = True
+    server.started_at = time.time()  # type: ignore[attr-defined]
     server.control = {  # type: ignore[attr-defined]
         "lock": threading.Lock(),
         "mode": "ok",

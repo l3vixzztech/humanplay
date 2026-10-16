@@ -23,7 +23,7 @@
       "model": "llama-3.1-8b-instant",
       "errorClass": "timeout",
       "error": "no answer within 2500 ms",
-      "latencyMs": 3360
+      "latencyMs": 2885
     },
     "meta": "engine template · llm timeout: fallback to template · engine 24.0 ms · round-trip 2.0 ms · C50 Italian Game: Giuoco Piano · ply 11"
   },

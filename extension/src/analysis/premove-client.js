@@ -25,8 +25,10 @@
  * What this module provides:
  *
  *   premove({…})                  one request (AbortController timeout,
- *                                 **exactly one retry on a network failure**,
- *                                 never on 4xx/5xx or a timeout) -> result object
+ *                                 **exactly one retry on a network failure**
+ *                                 and **exactly one retry on HTTP 503** after
+ *                                 a short backoff; never on 4xx/5xx or a
+ *                                 timeout) -> result object
  *                                 {ok, status, data, roundTripMs, error,
  *                                  errorClass, attempts, attemptLog}
  *   createPremoveClient({…})      stateful wrapper: premove position-key LRU
@@ -43,7 +45,12 @@
  * timeout / invalid_input / engine_unavailable / http / bad_response.
  */
 
-import { ERROR_CLASSES, buildAnalyzeRequest } from "./analyze-client.js";
+import {
+  ERROR_CLASSES,
+  RETRY_503_DELAY_MS,
+  buildAnalyzeRequest,
+  defaultDelay,
+} from "./analyze-client.js";
 
 /** Must match `host_permissions` in manifest.json. */
 export const PREMOVE_URL = "http://127.0.0.1:8765/premove";
@@ -178,7 +185,8 @@ function isPremoveResponse(parsed) {
 }
 
 /**
- * One /premove request (with the exactly-once network retry, same as M4).
+ * One /premove request (with the exactly-once network retry and the
+ * exactly-once HTTP-503 retry after a short backoff, same as M4).
  * Never throws for transport/server problems — everything becomes a result
  * object, so the panel and the tests handle one shape only.
  */
@@ -191,6 +199,8 @@ export async function premove({
   min_safety = PREMOVE_DEFAULT_MIN_SAFETY,
   mode = PREMOVE_DEFAULT_MODE,
   timeoutMs = PREMOVE_DEFAULT_TIMEOUT_MS,
+  retry503DelayMs = RETRY_503_DELAY_MS,
+  delayImpl = defaultDelay,
   fetchImpl = globalThis.fetch,
   url = PREMOVE_URL,
   now = () => Date.now(),
@@ -223,7 +233,12 @@ export async function premove({
       } catch {
         parsed = null;
       }
-      attemptLog.push({ attempt, outcome: response.ok ? "ok" : "http", status: response.status, durationMs: now() - startedAt });
+      attemptLog.push({
+        attempt,
+        outcome: response.ok ? "ok" : response.status === 503 && attempt === 1 ? "engine-503" : "http",
+        status: response.status,
+        durationMs: now() - startedAt,
+      });
     } catch (error) {
       const aborted = error?.name === "AbortError";
       attemptLog.push({
@@ -274,6 +289,20 @@ export async function premove({
     const detail =
       (parsed && typeof parsed.detail === "string" && parsed.detail) ||
       (parsed && parsed.detail !== undefined ? JSON.stringify(parsed.detail) : null);
+
+    if (response.status === 503 && attempt === 1) {
+      // Cold model load: one retry after a short backoff, exactly like /analyze.
+      lastError = {
+        class: ERROR_CLASSES.ENGINE_UNAVAILABLE,
+        message: `HTTP ${response.status}`,
+        detail,
+        status: response.status,
+      };
+      attemptLog[attemptLog.length - 1].backoffMs = retry503DelayMs;
+      await delayImpl(retry503DelayMs);
+      continue; // exactly one retry, only for 503
+    }
+
     lastError = {
       class: classifyHttpError(response.status),
       message: `HTTP ${response.status}`,
@@ -312,6 +341,8 @@ export function createPremoveClient({
   fetchImpl = globalThis.fetch,
   url = PREMOVE_URL,
   timeoutMs = PREMOVE_DEFAULT_TIMEOUT_MS,
+  retry503DelayMs = RETRY_503_DELAY_MS,
+  delayImpl = defaultDelay,
   maxCacheEntries = PREMOVE_DEFAULT_MAX_CACHE_ENTRIES,
   now = () => Date.now(),
 } = {}) {
@@ -359,7 +390,7 @@ export function createPremoveClient({
 
     const requestedAt = now();
     stats.requests += 1;
-    const promise = premove({ ...payload, timeoutMs, fetchImpl, url, now }).then((result) => ({
+    const promise = premove({ ...payload, timeoutMs, retry503DelayMs, delayImpl, fetchImpl, url, now }).then((result) => ({
       ...result,
       resolvedAt: now(),
     }));

@@ -1,0 +1,57 @@
+{
+  "tool": "package-verify.mjs",
+  "generatedAt": "2026-10-16T21:43:46.761Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "zip": "dist/humanplay-1.0.0.zip",
+  "checks": {
+    "manifest": {
+      "version": "1.0.0",
+      "name": "humanplay",
+      "minimum_chrome_version": "116",
+      "permissions": [
+        "activeTab",
+        "storage",
+        "sidePanel",
+        "downloads",
+        "tts"
+      ],
+      "host_permissions": [
+        "http://127.0.0.1:8765/*"
+      ],
+      "optional_host_permissions": [
+        "https://api.groq.com/*",
+        "https://generativelanguage.googleapis.com/*"
+      ],
+      "content_script_matches": [
+        "https://www.chess.com/*",
+        "https://chess.com/*"
+      ],
+      "service_worker": "src/background/service-worker.js",
+      "hasAllUrls": false
+    },
+    "contents": {
+      "sourceFiles": 29,
+      "zipFiles": 29,
+      "identical": 29,
+      "missing": [],
+      "mismatches": [],
+      "extraInZip": []
+    },
+    "browser": {
+      "version": "Chrome/155.0.8059.84",
+      "protocolVersion": "1.3"
+    },
+    "serviceWorker": {
+      "registered": true,
+      "url": "chrome-extension://bicohoihhhcajgdnhmdfhjaoededhgbg/src/background/service-worker.js",
+      "extensionId": "bicohoihhhcajgdnhmdfhjaoededhgbg",
+      "title": "Service Worker chrome-extension://bicohoihhhcajgdnhmdfhjaoededhgbg/src/background/service-worker.js"
+    },
+    "sidePanelDocument": {
+      "path": "src/ui/sidepanel.html",
+      "existsInZip": true
+    }
+  },
+  "failures": [],
+  "pass": true
+}

@@ -2,6 +2,179 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Session 9 — Milestone 9: robustness, docs, packaging, v1.0.0 ✅ (final milestone of the initial scope)
+
+**What works**
+- **`extension/` 1.0.0**, server `/health` v1.0.0 (additive `version` + `uptime_s`;
+  the panel shows `online · maia3-5m · v1.0.0`). No new permissions anywhere
+  (`activeTab`, `storage`, `sidePanel`, `downloads`, `tts` + the two optional LLM
+  origins); no `<all_urls>`; endpoint contracts unchanged except the additive
+  `/health` fields.
+- **Robustness (deliverable 1)**
+  - all three clients (`analyze-client.js`, `premove-client.js`,
+    `explain-client.js`) now retry **once on HTTP 503 after a 300 ms backoff**
+    (`RETRY_503_DELAY_MS`, injectable `delayImpl`, `attemptLog` outcome
+    `engine-503`) in addition to the existing single network retry; never on 4xx,
+    never a third attempt, never on a timeout. Unit-tested in all three suites and
+    proven end-to-end (fixture-server arrival counters = 2/request).
+  - **one offline UX**: `offlineCardMessage()` is the single wording every card
+    uses (exact URL + retry count + start command) and the Server card has a
+    **Copy start command** button (`navigator.clipboard` with an
+    `execCommand` fallback; the click is recorded in
+    `__humanplayAnalysis.clipboard`). **Auto-recovery**:
+    `scheduleServerRecovery()` polls `/health` (3 s, ≤60 attempts) whenever a card
+    is offline and re-runs all three policies for the current position when the
+    server returns (failures are never cached).
+  - **the rematch reset** is complete and proven: `resetLayersForNewGame()` runs
+    once per new `sessionSeq` (idempotent, called by whichever policy sees it
+    first) and the record `gameReset.last.cleared` documents exactly what was
+    cleared — caches (analyze/premove/explain), **spoken TTS keys**, the premove
+    plan, the commentary entry snapshot — plus `clear-suggestion`/`clear-premove`
+    with reason `new-game`. The fresh game then re-analyzes normally.
+  - the **soak** (104 plies) runs silent (TTS off on purpose) and asserts:
+    exactly one overlay canvas, feed pinned at 50/50 (newest = last ply,
+    evictions counted), caches ≤ 24/24/24, spoken keys ≤ 64, **zero new**
+    commentary errors (delta — the offline segment's earlier errors stay
+    counted), zero speaks.
+  - adapter warnings now append the **fast-fix snapshot protocol** line
+    ("Record chess.com snapshot" + the replay README); the acceptance proof
+    forces a real warning and asserts the line reaches the panel.
+- **Packaging (deliverable 2)**: `scripts/setup-server.sh` (idempotent; verified
+  by re-running it against the existing venv), `scripts/run-server.sh`,
+  `scripts/package-extension.sh` → `dist/humanplay-1.0.0.zip`
+  (159085 bytes, sha256 `5d3f7c6c…`) which is then **verified**: unzipped into a
+  temp dir (all 29 code files hash-identical to `extension/`), loaded in Chrome
+  for Testing, **MV3 service worker registered** — `test/tools/package-verify.mjs`
+  → `test/fixtures/captures/package/package-verify.json`.
+- **Docs (deliverables 3+5)**: top-level `README.md` (what/quick start/features/
+  controls/troubleshooting/fair-play/l licensing/evidence), `docs/USER-GUIDE.md`
+  (plain language: install → first run → controls → settings reference →
+  troubleshooting incl. the Linux speech flag and the snapshot fast-fix → FAQ),
+  `docs/RELEASE-NOTES.md` (feature→evidence map), `docs/PROJECT.md` M9 section +
+  "Status: v1.0.0 (personal build)" + **Future ideas**.
+- **The acceptance proof (`test/tools/acceptance-proof.mjs`)** — one run, real
+  browser, real extension, one fixture game replayed ply by ply via DOM
+  mutations; one machine-readable report (`acceptance/stub|real/`):
+  adapter FEN + warning fast-fix line; per-user-turn suggestions **equal to a
+  direct server request** (`curl /analyze` in real mode); arrow endpoints ≤ 2 px
+  vs DOM ground truth; **TTS speaks recorded for suggestions AND premoves**
+  (7+3) with 3 re-emit dedupes; premove cards with criteria / honest refusals;
+  one commentary entry per ply (both colours, `you`/`opponent`); the rematch
+  reset (record equality per layer); the **104-ply soak**; the **503 retry +
+  offline cards + Copy button + auto-recovery** (stub); clean consoles; plus a
+  best-effort real chess.com page segment (routed e2e4 arrow + screenshot).
+
+**Results (evidence: `test/fixtures/captures/acceptance/`, `package/`)**
+- `server` **`106 passed`** (79 + 27 explain + the M9 health fields test updated;
+  `/analyze` + `/premove` untouched).
+- units: `adapter-unit` **22**, `analyze-unit` **22** (+2: 503 retry matrix),
+  `overlay-unit` **13**, `tts-unit` **12**, `premove-unit` **13** (+1),
+  `commentary-unit` **18** (+1) — **100 unit tests**, all green.
+- **acceptance --stub: ALL ACCEPTANCE CASES PASSED** — adapter ✓ (card FEN +
+  the forced warning carrying the fast-fix line), replay ✓ (14 plies, 7/7
+  spot-checks equal, endpoints 0.00 px, 7 suggestion + 3 premove speaks,
+  3 re-emit dedupes), rematch ✓ (cleared analyze 8 / premove 7 / explain 14 /
+  spoken keys 11 / premove plan 1; feed 0; fresh game live), offline ✓ (503
+  arrivals 2/2; every card actionable; copy ok; recovered after 1 health check),
+  soak ✓ (104 plies in **103.4 s**, feed **50/50**, caches **24/24/24**, spoken
+  keys 1, **1 canvas**, 0 new errors, 0 speaks).
+- **acceptance --real --real-page: ALL ACCEPTANCE CASES PASSED** — real Maia
+  server (`version 1.0.0`), every user turn cross-checked against real
+  `curl /analyze` (7/7 equal), same rematch + soak (104 plies in **22.0 s**,
+  feed 50/50, caches 24/24/24, 1 canvas), and the **real chess.com page segment
+  PASSED**: one suggestion routed through the real SW → content-script path onto
+  a live game page (`2r5/8/8/7k/8/5N2/6P1/5nK1 w - - 0 1`), arrow endpoints
+  **≤ 0.00 px** vs the page's painted pieces, screenshot
+  `real/06-real-chesscom-arrow.png`.
+- regressions all green: `adapter-proof` ALL PASSED, `analyze-proof --stub` ALL
+  PASSED, `overlay-proof` ALL PASSED, `tts-proof` ALL PASSED (all 9 cases;
+  14805 voices), `premove-proof --stub` ALL PASSED, `commentary-proof --stub`
+  ALL PASSED, plus the M2 `capture-proof` exit 0.
+- M9 screenshots: `stub/01-adapter-startpos.png` … `stub/05-soak-feed-capped.png`
+  (including `04-offline-cards.png` + `04-recovered.png`), `real/…` and
+  `06-real-chesscom-arrow.png`.
+
+**Exact commands**
+```bash
+CHROME="$HOME/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome"
+
+# server + units
+cd server && .venv/bin/python -m pytest tests -q            # 106 passed
+node test/tools/adapter-unit.mjs                            # 22 passed
+node test/tools/analyze-unit.mjs                            # 22 passed
+node test/tools/overlay-unit.mjs                            # 13 passed
+node test/tools/tts-unit.mjs                                # 12 passed
+node test/tools/premove-unit.mjs                            # 13 passed
+node test/tools/commentary-unit.mjs                         # 18 passed
+
+# M9 capstone (stub spawns the fixture server; --real needs the Maia server)
+server/.venv/bin/python test/tools/collect-acceptance-canned.py      # re-record canned bodies
+node test/tools/acceptance-proof.mjs --chrome "$CHROME" --stub --out-dir test/fixtures/captures/acceptance/stub
+server/.venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765 --app-dir server
+node test/tools/acceptance-proof.mjs --chrome "$CHROME" --real --real-page --out-dir test/fixtures/captures/acceptance/real
+
+# packaging (builds + verifies dist/humanplay-1.0.0.zip in Chrome)
+scripts/package-extension.sh
+scripts/setup-server.sh          # idempotent (verified by re-running)
+
+# regressions (stub modes; each spawns its own stub)
+node test/tools/adapter-proof.mjs    --chrome "$CHROME"
+node test/tools/analyze-proof.mjs    --chrome "$CHROME"
+node test/tools/overlay-proof.mjs    --chrome "$CHROME"
+node test/tools/tts-proof.mjs        --chrome "$CHROME"
+node test/tools/premove-proof.mjs    --chrome "$CHROME"
+node test/tools/commentary-proof.mjs --chrome "$CHROME"
+# M2 capture regression (fixture server up):
+python3 test/tools/fixture_server.py & \
+node test/tools/capture-proof.mjs --chrome "$CHROME" --extension extension --manifest-all-urls \
+  --page-url http://127.0.0.1:8765/pages/startpos.html --expect-chip online
+```
+
+**MANUAL CHECKLIST (the point of M9 — state honestly what only a human can verify)**
+1. **Fresh install following ONLY `docs/USER-GUIDE.md`** on a clean profile:
+   `scripts/setup-server.sh` → Load unpacked → bot game → suggestion + arrow.
+   Report any step the guide does not cover.
+2. **Real game with everything on**: arrow + Voice (TTS) + premove + commentary
+   in one live bot game; check the arrow aligns with the board, speech is
+   intelligible ("Knight to f3" / "premove …"), the premove card appears on
+   their turn, and every move gets a commentary sentence within ~1 s.
+3. **Rematch**: the feed clears, the arrows go, the first move of the new game
+   starts a fresh suggestion/premove/entry (the panel message is brief by
+   design: the fresh analysis replaces it immediately).
+4. **Kill the server mid-game** (Ctrl+C in the server terminal): all cards show
+   the offline state with the start command within ~1 s; restart it with
+   **Copy start command** → within a few seconds the cards recover by
+   themselves (no clicking).
+5. **TTS audio with `--enable-speech-dispatcher` in a real Chrome** (not
+   Chrome for Testing): audibility/quality on this box's espeak-ng; the
+   automated proof only asserts the speak *path* + recorded calls.
+
+**Deviations / notes**
+- the proof's soak is **silent by design** (TTS off; the earlier draft spoke 50+
+  synthetic "premove knight…"/"knight to c3" lines out loud — poor UX, changed):
+  the TTS dedupe bound is covered by `tts-unit.mjs` and the rematch-reset record.
+- the soak's canned bodies are **deterministic synthetic** (leak-freedom, not
+  fact correctness); the replay's bodies are real-server recordings.
+- the rematch reset's transient UI (message / clear reasons) is overwritten in
+  the same event-loop turn by the fresh analysis, so the proof asserts the
+  **reset record** (exact cleared counts per layer) + the message counters +
+  the sampler's first post-reset snapshot (feed 0, plan null) instead.
+- the **real-page** segment is best-effort: it collects the state in the panel
+  filtered by `chess.com` sender URL and re-installs its main-world helper after
+  SPA navigations; a blocked attempt is recorded, not failed.
+- **memory** over a long session is not measured headlessly (documented; use a
+  DevTools memory profile manually).
+- the fixture server now mirrors the additive `/health` fields
+  (`version: "fixture-1.0.0"`, `uptime_s`).
+- `collect-acceptance-canned.py` records exactly the panel's request keys
+  (8 analyze + 7 premove + 14 explain for the 14-ply acceptance game).
+
+**Next (if this project continues)** — see "Future ideas" in `docs/PROJECT.md`:
+Piper voice upgrade, commentary TTS, desktop-capture revival, parked pixel
+recognition, custom LLM endpoints, premove `mode=all` tuning, opening
+transpositions, distribution packaging. The M9 scope is complete; nothing is
+blocked.
+
 ## Session 8 — Milestone 8: live commentary (facts engine + templates + optional LLM phrasing) ✅
 
 **What works**

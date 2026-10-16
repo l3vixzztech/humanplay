@@ -232,6 +232,9 @@ const els = {
   cmLlmStatus: document.getElementById("cm-llm-status"),
   cmPrivacy: document.getElementById("cm-privacy"),
   cmMeta: document.getElementById("cm-meta"),
+  /** M9: the shared "copy start command" affordance (Server card). */
+  copyStart: document.getElementById("copy-start-command"),
+  serverCopied: document.getElementById("server-copied"),
 };
 
 /** Last frame, in memory only (never persisted — see header comment). */
@@ -278,6 +281,35 @@ const tts = {
 const TTS_DECISION_HISTORY = 40;
 /** Position keys already spoken — the dedupe (bounded, see tts-policy). */
 const spokenKeys = createSpokenKeyStore();
+
+/**
+ * M9: consistent offline UX.
+ *
+ *  - `offlineCardMessage()` is the ONE wording every card uses when the local
+ *    server is unreachable (the actionable command + where the copy button is);
+ *  - the "Copy start command" button copies `SERVER_START_COMMAND`;
+ *  - `recovery` auto-rechecks `/health` while any card is offline and re-runs
+ *    the three policies for the position on the board as soon as it is back
+ *    (failures are never cached, so real requests go out again).
+ */
+const clipboardState = { count: 0, last: null, command: SERVER_START_COMMAND };
+const recovery = {
+  active: false,
+  attempts: 0,
+  startedAt: null,
+  lastReason: null,
+  lastCheck: null,
+  recoveredAt: null,
+  timer: null,
+};
+const RECOVERY_INTERVAL_MS = 3000;
+const RECOVERY_MAX_ATTEMPTS = 60; // bounded: ~3 minutes of polling per episode
+
+/** M9: what the last full new-game reset cleared (proof + diagnostics). */
+const gameReset = { lastSeq: null, count: 0, last: null };
+
+/** Last /health outcome ("online"/"offline") for recovery + diagnostics. */
+let healthState = { online: null, at: null, health: null, error: null };
 
 /**
  * M7 premove state: settings, policy decisions, the last plan, and the overlay
@@ -385,6 +417,12 @@ const analysisDebug = {
   commentary,
   commentaryFeed,
   commentaryTest,
+  /** M9: the TTS dedupe store, the offline recovery, the clipboard button + resets. */
+  spokenKeyStore: spokenKeys,
+  recovery,
+  clipboard: clipboardState,
+  gameReset,
+  getHealth: () => healthState,
 };
 globalThis.__humanplayAnalysis = analysisDebug;
 
@@ -401,6 +439,7 @@ async function init() {
   els.capture.addEventListener("click", onCaptureClicked);
   els.record.addEventListener("click", onRecordClicked);
   els.refresh.addEventListener("click", refreshHealth);
+  els.copyStart.addEventListener("click", onCopyStartCommand);
   els.preview.addEventListener("error", () => showError("preview image failed to render"));
   els.ccRefresh.addEventListener("click", () => refreshChesscomState({ announce: true }));
   els.ccSnapshot.addEventListener("click", onRecordSnapshot);
@@ -896,8 +935,16 @@ async function speakCurrentSuggestion({ force = false, reason = "manual", source
  */
 async function onPremovePolicy(state) {
   if (state?.ok) {
-    // New game? Same rule as M4: the cached plans are void.
-    premoveClient.noteSessionSeq(state.sessionSeq ?? 0);
+    // New game? Same rule as M4 (the reset itself happens in whichever policy
+    // sees the new sessionSeq first — resetLayersForNewGame is idempotent).
+    const seq = premoveClient.noteSessionSeq(state.sessionSeq ?? 0);
+    if (seq.changed) {
+      resetLayersForNewGame({
+        seq: state.sessionSeq ?? 0,
+        source: "premove",
+        cleared: { premoveCache: seq.cleared },
+      });
+    }
   }
 
   const gate = premoveGate(state, { assistantEnabled: els.toggle.checked });
@@ -1143,7 +1190,7 @@ function renderPremoveError(result) {
   els.pmMessage.className = "mx-message is-error";
   els.pmMessage.textContent =
     result.errorClass === "offline"
-      ? `premove planner offline — could not reach ${premoveClient.url}${attempts}. Start it: ${SERVER_START_COMMAND}`
+      ? offlineCardMessage("premove planning", premoveClient.url, attempts)
       : result.errorClass === "invalid_input"
         ? `invalid input (HTTP ${result.status}): ${error.detail ?? "the server rejected this position"}${attempts}`
         : `premove planning failed: ${error.message ?? result.errorClass}${error.detail ? ` — ${error.detail}` : ""}${attempts}`;
@@ -1154,6 +1201,7 @@ function renderPremoveError(result) {
   hidePremoveCaveat();
   els.pmMeta.hidden = true;
   clearPremoveOverlay(`error:${result.errorClass}`);
+  if (result.errorClass === "offline") scheduleServerRecovery("premove");
 }
 
 function hidePremoveRecommendation() {
@@ -1318,7 +1366,14 @@ async function speakCurrentPremove({ force = false, reason = "manual", source = 
  */
 async function onCommentary(state) {
   if (state?.ok) {
-    explainClient.noteSessionSeq(state.sessionSeq ?? 0);
+    const seq = explainClient.noteSessionSeq(state.sessionSeq ?? 0);
+    if (seq.changed) {
+      resetLayersForNewGame({
+        seq: state.sessionSeq ?? 0,
+        source: "commentary",
+        cleared: { explainCache: seq.cleared },
+      });
+    }
   }
   const observation = commentaryFeed.observe(state, {
     eloSelf: elo.self,
@@ -1585,13 +1640,14 @@ function renderCommentaryError(result) {
   setCmStatus(result.errorClass === "offline" ? "server offline" : "error", "chip-offline");
   setCommentaryMessage(
     result.errorClass === "offline"
-      ? `commentary needs the local server — could not reach ${explainClient.url}${attempts}. Start it: ${SERVER_START_COMMAND}`
+      ? offlineCardMessage("commentary", explainClient.url, attempts)
       : result.errorClass === "invalid_input"
         ? `commentary input rejected (HTTP ${result.status}): ${error.detail ?? "the server rejected this position"}${attempts}`
         : `commentary failed: ${error.message ?? result.errorClass}${error.detail ? ` — ${error.detail}` : ""}${attempts}`,
     "mx-message is-error",
   );
   renderCommentaryMeta();
+  if (result.errorClass === "offline") scheduleServerRecovery("commentary");
 }
 
 /** The LLM status line: engine · model · key/permission state (never the key). */
@@ -1842,12 +1898,21 @@ async function onGameStateAnalysis(state) {
   analysisState = { stateReceivedAt: performance.now() };
 
   if (state?.ok) {
-    // New game? The whole cache (previous game's positions) is void — and so
-    // are the spoken position keys (M6 dedupe).
+    // New game? Every layer resets (analysis/premove/explain caches, the TTS
+    // dedupe keys, the cards, the arrows, the commentary feed) — see
+    // resetLayersForNewGame().
     const seq = analyzeClient.noteSessionSeq(state.sessionSeq ?? 0);
     if (seq.changed) {
-      spokenKeys.clear();
-      renderSuggestionIdle(`new game detected — analysis cache cleared (${seq.cleared} entries)`);
+      const reset = resetLayersForNewGame({
+        seq: state.sessionSeq ?? 0,
+        source: "analysis",
+        cleared: { analyzeCache: seq.cleared },
+      });
+      renderSuggestionIdle(
+        `new game detected — all layers reset (analysis cache ${seq.cleared} entries, ` +
+          `${reset?.cleared.spokenKeys ?? 0} spoken keys cleared)`,
+        "new-game",
+      );
     }
   }
 
@@ -2142,9 +2207,7 @@ function renderAnalysisError(result, request) {
     case "offline":
       setMxStatus("server offline", "chip-offline");
       className = "mx-message is-error";
-      message =
-        `server offline — could not reach ${analyzeClient.url}${attempts}. ` +
-        `Start it: ${SERVER_START_COMMAND}`;
+      message = offlineCardMessage("the suggestion", analyzeClient.url, attempts);
       break;
     case "timeout":
       setMxStatus("timeout", "chip-offline");
@@ -2185,6 +2248,7 @@ function renderAnalysisError(result, request) {
   hideWdl();
   els.mxMeta.hidden = true;
   clearOverlay(`error:${result.errorClass}`);
+  if (result.errorClass === "offline") scheduleServerRecovery("analyze");
   void request;
 }
 
@@ -2342,9 +2406,13 @@ function timestampSlug(date) {
 
 /* ------------------------------------------------------------ server health */
 
-async function refreshHealth() {
-  clearError();
-  setChip("checking…", "chip-checking");
+/**
+ * One /health check. `quiet` skips the chip flicker (used by the recovery
+ * poll). @returns {{online: boolean, health?: object, reason?: string}}
+ */
+async function refreshHealth({ quiet = false } = {}) {
+  if (!quiet) clearError();
+  if (!quiet) setChip("checking…", "chip-checking");
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), HEALTH_TIMEOUT_MS);
   try {
@@ -2354,16 +2422,161 @@ async function refreshHealth() {
     }
     const health = await response.json();
     const model = health?.model || "unknown model";
-    const label = health?.status === "ok" ? `online · ${model}` : `online · ${model} (loading)`;
+    const version = typeof health?.version === "string" && health.version ? ` · v${health.version}` : "";
+    const label = health?.status === "ok" ? `online · ${model}${version}` : `online · ${model}${version} (loading)`;
     setChip(label, "chip-online");
     els.chip.title = JSON.stringify(health);
+    healthState = { online: true, at: Date.now(), health, error: null };
+    return { online: true, health };
   } catch (error) {
     const reason = error?.name === "AbortError" ? "timeout" : (error?.message ?? error);
     setChip("server offline", "chip-offline");
     els.chip.title = `GET ${HEALTH_URL} failed: ${reason}`;
+    healthState = { online: false, at: Date.now(), health: null, error: String(reason) };
+    return { online: false, reason: String(reason) };
   } finally {
     clearTimeout(timer);
   }
+}
+
+/** M9: the single offline wording shared by the suggestion/premove/commentary cards. */
+function offlineCardMessage(label, url, attempts = "") {
+  return (
+    `server offline — ${label} needs the local Maia-3 server: could not reach ${url}${attempts}. ` +
+    `Press “Copy start command” (Server card), paste it into a terminal, and this card recovers ` +
+    `on its own: ${SERVER_START_COMMAND}`
+  );
+}
+
+/**
+ * M9: auto-recovery. Called whenever a card lands in the "server offline"
+ * state; one interval polls /health (bounded, one episode at a time). When the
+ * server answers again the current position is re-run through all three
+ * policies — failures are never cached, so fresh requests go out.
+ */
+function scheduleServerRecovery(reason) {
+  recovery.lastReason = reason;
+  if (recovery.active) return;
+  recovery.active = true;
+  recovery.attempts = 0;
+  recovery.startedAt = Date.now();
+  recovery.recoveredAt = null;
+  recovery.timer = setInterval(() => {
+    recovery.attempts += 1;
+    refreshHealth({ quiet: true }).then((result) => {
+      recovery.lastCheck = { at: Date.now(), online: result.online, attempts: recovery.attempts };
+      if (result.online) {
+        stopServerRecovery();
+        recovery.recoveredAt = Date.now();
+        if (lastChesscomState) {
+          onGameState(lastChesscomState).catch((error) => showError(`recovery failed: ${error?.message ?? error}`));
+        }
+      } else if (recovery.attempts >= RECOVERY_MAX_ATTEMPTS) {
+        stopServerRecovery();
+      }
+    });
+  }, RECOVERY_INTERVAL_MS);
+}
+
+function stopServerRecovery() {
+  if (recovery.timer) clearInterval(recovery.timer);
+  recovery.timer = null;
+  recovery.active = false;
+}
+
+/** M9: the "Copy start command" button (Server card). */
+async function onCopyStartCommand() {
+  clearError();
+  const record = { at: Date.now(), command: SERVER_START_COMMAND, ok: false, error: null, method: null };
+  const legacyCopy = () => {
+    // Fallback for a clipboard-less / permission-denied context: a temporary
+    // textarea + execCommand("copy").
+    const area = document.createElement("textarea");
+    area.value = SERVER_START_COMMAND;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.append(area);
+    area.select();
+    const copied = document.execCommand("copy");
+    area.remove();
+    return copied;
+  };
+  try {
+    if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(SERVER_START_COMMAND);
+        record.method = "navigator.clipboard";
+      } catch (error) {
+        if (!legacyCopy()) throw error;
+        record.method = "execCommand-fallback";
+      }
+    } else {
+      if (!legacyCopy()) throw new Error("no clipboard API available");
+      record.method = "execCommand-fallback";
+    }
+    record.ok = true;
+    clipboardState.count += 1;
+    clipboardState.last = record;
+    els.copyStart.textContent = "Copied ✓";
+    els.serverCopied.hidden = false;
+    els.serverCopied.textContent = `copied: ${SERVER_START_COMMAND}`;
+    setTimeout(() => {
+      els.copyStart.textContent = "Copy start command";
+    }, 1500);
+  } catch (error) {
+    record.error = error?.message ?? String(error);
+    clipboardState.count += 1;
+    clipboardState.last = record;
+    showError(`could not copy the start command: ${record.error}`);
+  }
+  return record;
+}
+
+/* ------------------------------------------------- M9: the new-game reset */
+
+/**
+ * A rematch/new game must reset EVERY layer, not just the analysis cache:
+ * adapter state arrives with a new `sessionSeq`; each client drops its cache
+ * via `noteSessionSeq`; this helper clears what the clients do not own — the
+ * spoken-key dedupe (so a fresh game may speak the same positions again), the
+ * card-level plan/result snapshots, the arrows, and bookkeeping. The
+ * commentary feed clears itself in the feed driver's `reset` action.
+ *
+ * Idempotent per session sequence: whichever policy notices the change first
+ * performs the reset; the others merge their cleared-cache counts into the
+ * same record.
+ */
+function resetLayersForNewGame({ seq, source, cleared = {} }) {
+  if (gameReset.lastSeq === seq && gameReset.last) {
+    Object.assign(gameReset.last.cleared, cleared);
+    return gameReset.last;
+  }
+  const record = {
+    at: Date.now(),
+    seq,
+    source,
+    cleared: {
+      analyzeCache: 0,
+      premoveCache: 0,
+      explainCache: 0,
+      spokenKeys: spokenKeys.clear(),
+      premovePlan: premove.lastPlan ? 1 : 0,
+      commentaryEntry: commentary.lastEntry ? 1 : 0,
+      ...cleared,
+    },
+  };
+  // Never let the new session show the previous game's layers.
+  premove.lastPlan = null;
+  premove.status = "idle";
+  commentary.lastResult = null;
+  commentary.lastEntry = null;
+  clearOverlay("new-game");
+  clearPremoveOverlay("new-game");
+  gameReset.lastSeq = seq;
+  gameReset.count += 1;
+  gameReset.last = record;
+  return record;
 }
 
 function setChip(text, className) {

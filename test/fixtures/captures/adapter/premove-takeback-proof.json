@@ -1,6 +1,6 @@
 {
   "slug": "premove-takeback",
-  "url": "http://127.0.0.1:43063/chesscom/premove-takeback.html",
+  "url": "http://127.0.0.1:37651/chesscom/premove-takeback.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -24,9 +24,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:43063/chesscom/premove-takeback.html",
+    "gameUrl": "http://127.0.0.1:37651/chesscom/premove-takeback.html",
     "gameId": null,
-    "ts": "2026-10-16T20:55:15.026Z",
+    "ts": "2026-10-16T21:36:37.037Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,

@@ -27,8 +27,10 @@
  * What this module provides:
  *
  *   explain({…})                 one request (AbortController timeout,
- *                                **exactly one retry on a network failure**,
- *                                never on 4xx/5xx or a timeout) -> result object
+ *                                **exactly one retry on a network failure**
+ *                                and **exactly one retry on HTTP 503** after a
+ *                                short backoff; never on 4xx/5xx or a timeout)
+ *                                -> result object
  *                                {ok, status, data, roundTripMs, error,
  *                                 errorClass, attempts, attemptLog}
  *   createExplainClient({…})     stateful wrapper: explain-key LRU cache +
@@ -48,7 +50,7 @@
  * offline / timeout / invalid_input / engine_unavailable / http / bad_response.
  */
 
-import { ERROR_CLASSES, STARTPOS_FEN } from "./analyze-client.js";
+import { ERROR_CLASSES, RETRY_503_DELAY_MS, STARTPOS_FEN, defaultDelay } from "./analyze-client.js";
 
 /** Must match `host_permissions` in manifest.json. */
 export const EXPLAIN_URL = "http://127.0.0.1:8765/explain";
@@ -138,7 +140,8 @@ function isExplainResponse(parsed) {
 }
 
 /**
- * One /explain request (with the exactly-once network retry, like M4/M7).
+ * One /explain request (with the exactly-once network retry and the
+ * exactly-once HTTP-503 retry after a short backoff, like M4/M7).
  * Never throws for transport/server problems — everything becomes a result
  * object, so the panel and the tests handle one shape only.
  */
@@ -148,6 +151,8 @@ export async function explain({
   elo_self = 2400,
   elo_oppo = 2400,
   timeoutMs = EXPLAIN_DEFAULT_TIMEOUT_MS,
+  retry503DelayMs = RETRY_503_DELAY_MS,
+  delayImpl = defaultDelay,
   fetchImpl = globalThis.fetch,
   url = EXPLAIN_URL,
   now = () => Date.now(),
@@ -182,7 +187,7 @@ export async function explain({
       }
       attemptLog.push({
         attempt,
-        outcome: response.ok ? "ok" : "http",
+        outcome: response.ok ? "ok" : response.status === 503 && attempt === 1 ? "engine-503" : "http",
         status: response.status,
         durationMs: now() - startedAt,
       });
@@ -236,6 +241,20 @@ export async function explain({
     const detail =
       (parsed && typeof parsed.detail === "string" && parsed.detail) ||
       (parsed && parsed.detail !== undefined ? JSON.stringify(parsed.detail) : null);
+
+    if (response.status === 503 && attempt === 1) {
+      // Cold model load: one retry after a short backoff, exactly like /analyze.
+      lastError = {
+        class: ERROR_CLASSES.ENGINE_UNAVAILABLE,
+        message: `HTTP ${response.status}`,
+        detail,
+        status: response.status,
+      };
+      attemptLog[attemptLog.length - 1].backoffMs = retry503DelayMs;
+      await delayImpl(retry503DelayMs);
+      continue; // exactly one retry, only for 503
+    }
+
     lastError = {
       class: classifyHttpError(response.status),
       message: `HTTP ${response.status}`,
@@ -275,6 +294,8 @@ export function createExplainClient({
   fetchImpl = globalThis.fetch,
   url = EXPLAIN_URL,
   timeoutMs = EXPLAIN_DEFAULT_TIMEOUT_MS,
+  retry503DelayMs = RETRY_503_DELAY_MS,
+  delayImpl = defaultDelay,
   maxCacheEntries = EXPLAIN_DEFAULT_MAX_CACHE_ENTRIES,
   now = () => Date.now(),
 } = {}) {
@@ -322,7 +343,7 @@ export function createExplainClient({
 
     const requestedAt = now();
     stats.requests += 1;
-    const promise = explain({ ...payload, timeoutMs, fetchImpl, url, now }).then((result) => ({
+    const promise = explain({ ...payload, timeoutMs, retry503DelayMs, delayImpl, fetchImpl, url, now }).then((result) => ({
       ...result,
       resolvedAt: now(),
     }));

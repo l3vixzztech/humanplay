@@ -1,6 +1,6 @@
 # humanplay — Chrome extension (MV3)
 
-Milestone 8: **live commentary ("explain mode")**. The content script reads the
+**v1.0.0** (milestones 1–9 complete). The content script reads the
 live chess.com game state (M3 DOM adapter), the side panel sends it to the local
 Maia-3 server (`POST /analyze`, M4), renders the **top-3 human moves** with
 probabilities and Maia's **human outcome prediction** (WDL), conditioned on an
@@ -12,6 +12,10 @@ worker** (M6), — while the opponent thinks — plans **one safe premove**
 (`POST /explain`, M8): one factual sentence from Maia's own probabilities +
 the rules, with an **optional free-API LLM rephrasing layer** (Groq/Gemini)
 that can only rephrase those facts — templates work with no key and no network.
+M9 hardened the edges: one retry on a cold-load HTTP 503, one actionable
+offline state + a **Copy start command** button on every card with automatic
+recovery, a full rematch reset (caches, dedupe keys, arrows, feed), and the
+acceptance proof (see `../test/tools/acceptance-proof.mjs`).
 Pixel recognition is parked
 (`../parked/image-recognition/`); the capture-source abstraction and the PNG
 recorder remain as **debug tools**.
@@ -56,7 +60,7 @@ recorder remain as **debug tools**.
 ## Structure
 
 ```
-manifest.json                    MV3 0.7.0: tts permission + toggle-tts command,
+manifest.json                    MV3 1.0.0: tts permission + toggle-tts command,
                                  optional_host_permissions for the two LLM
                                  providers (Groq/Gemini; requested at enable-time,
                                  never required), content_scripts + WAR for

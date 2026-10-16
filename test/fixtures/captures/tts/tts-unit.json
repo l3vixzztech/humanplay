@@ -1,6 +1,6 @@
 {
   "tool": "tts-unit.mjs",
-  "generatedAt": "2026-10-16T19:23:13.869Z",
+  "generatedAt": "2026-10-16T21:23:28.168Z",
   "node": "v22.22.0",
   "modules": [
     "extension/src/tts/move-speech.js",

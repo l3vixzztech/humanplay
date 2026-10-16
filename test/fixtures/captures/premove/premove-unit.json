@@ -1,15 +1,15 @@
 {
   "tool": "premove-unit.mjs",
-  "generatedAt": "2026-10-16T20:15:22.040Z",
+  "generatedAt": "2026-10-16T21:03:34.461Z",
   "node": "v22.22.0",
   "modules": [
     "extension/src/analysis/premove-client.js",
     "extension/src/tts/move-speech.js (premoveSpeech)",
     "extension/src/tts/tts-policy.js (premoveSpeakDecision)"
   ],
-  "passed": 12,
+  "passed": 13,
   "failed": 0,
-  "total": 12,
+  "total": 13,
   "cases": [
     {
       "name": "premove: success -> {ok, status, data, roundTripMs} (1 attempt, exact payload)",
@@ -33,6 +33,16 @@
           "engine_unavailable",
           "http",
           "bad_response"
+        ]
+      }
+    },
+    {
+      "name": "premove: HTTP 503 -> exactly ONE retry after a short backoff (cold model load)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "retried": [
+          250
         ]
       }
     },

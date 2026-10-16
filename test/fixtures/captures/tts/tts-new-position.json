@@ -15,15 +15,15 @@
   "mutationToSpeakMs": 858,
   "delayMs": 700,
   "stopBeforeSpeak": {
-    "at": "2026-10-16T20:54:36.766Z",
-    "atEpochMs": 1792184076766,
+    "at": "2026-10-16T21:38:32.202Z",
+    "atEpochMs": 1792186712202,
     "kind": "stop",
     "reason": "before-speak",
     "source": "panel",
     "engine": "chrome.tts",
     "ok": true,
     "error": null,
-    "stoppedAt": 1792184076766
+    "stoppedAt": 1792186712202
   },
   "speaksForNewKey": 1
 }

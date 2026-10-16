@@ -250,12 +250,45 @@ await test("explain: error classes (422 invalid, 503 engine, 500 http, 2xx bad b
   ];
   const seen = [];
   for (const [status, body, expected] of cases) {
-    const result = await explain({ ...EXPLAIN_REQUEST, fetchImpl: async () => jsonResponse(status, body) });
+    const result = await explain({
+      ...EXPLAIN_REQUEST,
+      delayImpl: async () => {}, // 503 is retried once — keep the test instant
+      fetchImpl: async () => jsonResponse(status, body),
+    });
     eq(result.errorClass, expected, `status ${status}`);
     eq(result.ok, false, `status ${status} ok`);
     seen.push(result.errorClass);
   }
   return { seen };
+});
+
+await test("explain: HTTP 503 -> exactly ONE retry after a short backoff (cold model load)", async () => {
+  const delays = [];
+  let calls = 0;
+  const result = await explain({
+    ...EXPLAIN_REQUEST,
+    retry503DelayMs: 300,
+    delayImpl: async (ms) => { delays.push(ms); },
+    fetchImpl: async () => {
+      calls += 1;
+      return calls === 1 ? jsonResponse(503, { detail: "loading" }) : jsonResponse(200, explainBody());
+    },
+  });
+  eq(calls, 2, "fetch calls");
+  eq(result.ok, true, "ok");
+  eq(result.attempts, 2, "attempts");
+  eq(delays, [300], "one backoff");
+  eq(result.attemptLog.map((entry) => entry.outcome), ["engine-503", "ok"], "attempt log");
+
+  let persistent = 0;
+  const failed = await explain({
+    ...EXPLAIN_REQUEST,
+    delayImpl: async () => {},
+    fetchImpl: async () => { persistent += 1; return jsonResponse(503, { detail: "engine unavailable" }); },
+  });
+  eq(persistent, 2, "persistent 503 -> one retry, never more");
+  eq(failed.errorClass, ERROR_CLASSES.ENGINE_UNAVAILABLE, "class");
+  return { delays };
 });
 
 await test("explainPositionKey: fen|moves|elos (every input matters)", () => {

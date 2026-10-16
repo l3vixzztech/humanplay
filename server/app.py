@@ -2,7 +2,7 @@
 
 Endpoints
 ---------
-GET  /health   -> {"status", "model"}
+GET  /health   -> {"status", "model", "version", "uptime_s"}
 POST /analyze  -> {"moves": [{"uci", "san", "prob"}], "wdl": {"win", "draw", "loss"},
                    "model", "elapsed_ms"}
 POST /premove  -> {"opponent": [...], "recommended": null | {...}, "candidates": [...],
@@ -59,6 +59,10 @@ from explain_engine import (  # M8: live commentary facts (additive; /analyze + 
 )
 
 log = logging.getLogger("humanplay.server")
+
+# M9: reported by GET /health (the panel shows it next to the model name).
+SERVER_VERSION = "1.0.0"
+_STARTED_AT = time.time()
 
 
 class AnalyzeRequest(BaseModel):
@@ -121,6 +125,8 @@ class AnalyzeResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str
     model: str
+    version: str
+    uptime_s: float
 
 
 # --------------------------------------------------------------- M7 /premove
@@ -357,7 +363,7 @@ async def lifespan(_app: FastAPI):
 app = FastAPI(
     title="humanplay Maia-3 helper",
     description="Local Maia-3 (human-move model) helper for the humanplay Chrome extension.",
-    version="0.1.0",
+    version=SERVER_VERSION,
     lifespan=lifespan,
 )
 
@@ -377,6 +383,8 @@ def health() -> HealthResponse:
     return HealthResponse(
         status="ok" if engine.is_loaded else "not_loaded",
         model=engine.model_alias,
+        version=SERVER_VERSION,
+        uptime_s=round(time.time() - _STARTED_AT, 3),
     )
 
 

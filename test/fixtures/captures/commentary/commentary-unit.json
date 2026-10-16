@@ -1,15 +1,15 @@
 {
   "tool": "commentary-unit.mjs",
-  "generatedAt": "2026-10-16T20:56:12.571Z",
+  "generatedAt": "2026-10-16T21:03:35.218Z",
   "node": "v22.22.0",
   "modules": [
     "extension/src/analysis/explain-client.js",
     "extension/src/commentary/phrase.js",
     "extension/src/commentary/llm.js"
   ],
-  "passed": 17,
+  "passed": 18,
   "failed": 0,
-  "total": 17,
+  "total": 18,
   "cases": [
     {
       "name": "explain: success -> {ok, status, data, roundTripMs} (1 attempt, exact payload)",
@@ -33,6 +33,16 @@
           "engine_unavailable",
           "http",
           "bad_response"
+        ]
+      }
+    },
+    {
+      "name": "explain: HTTP 503 -> exactly ONE retry after a short backoff (cold model load)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "delays": [
+          300
         ]
       }
     },

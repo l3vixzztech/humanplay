@@ -228,12 +228,47 @@ await test("premove: error classes (422 invalid, 503 engine, 500 http, 2xx bad b
   ];
   const seen = [];
   for (const [status, body, expected] of cases) {
-    const result = await premove({ ...REQUEST, fetchImpl: async () => jsonResponse(status, body) });
+    const result = await premove({
+      ...REQUEST,
+      delayImpl: async () => {}, // 503 is retried once — keep the test instant
+      fetchImpl: async () => jsonResponse(status, body),
+    });
     eq(result.errorClass, expected, `status ${status}`);
     eq(result.ok, false, `status ${status} ok`);
     seen.push(result.errorClass);
   }
   return { seen };
+});
+
+await test("premove: HTTP 503 -> exactly ONE retry after a short backoff (cold model load)", async () => {
+  const delays = [];
+  let calls = 0;
+  const result = await premove({
+    ...REQUEST,
+    retry503DelayMs: 250,
+    delayImpl: async (ms) => { delays.push(ms); },
+    fetchImpl: async () => {
+      calls += 1;
+      return calls === 1
+        ? jsonResponse(503, { detail: "engine unavailable: loading" })
+        : jsonResponse(200, cannedPlan());
+    },
+  });
+  eq(calls, 2, "fetch calls");
+  eq(result.ok, true, "ok after the retry");
+  eq(result.attempts, 2, "attempts");
+  eq(delays, [250], "one backoff");
+  eq(result.attemptLog.map((entry) => entry.outcome), ["engine-503", "ok"], "attempt log");
+
+  let persistent = 0;
+  const failed = await premove({
+    ...REQUEST,
+    delayImpl: async () => {},
+    fetchImpl: async () => { persistent += 1; return jsonResponse(503, { detail: "engine unavailable" }); },
+  });
+  eq(persistent, 2, "persistent 503 -> one retry, never more");
+  eq(failed.errorClass, ERROR_CLASSES.ENGINE_UNAVAILABLE, "class");
+  return { retried: delays };
 });
 
 await test("clamps + mode normalization (server clamps again)", () => {

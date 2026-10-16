@@ -30,7 +30,7 @@
       "ok": true,
       "provider": "gemini",
       "model": "gemini-2.0-flash",
-      "latencyMs": 43
+      "latencyMs": 42
     }
   },
   "screenshot": "test/fixtures/captures/commentary/stub-llm-rephrasing.png",

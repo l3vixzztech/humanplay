@@ -14,7 +14,15 @@ process/venv; its code is never copied into the extension.
 
 ## Setup (already done in this repo; reproducible from scratch)
 
-Requires `uv` and Python 3.12 (system Python 3.14 is intentionally unused).
+The one-command path (idempotent — safe to re-run):
+
+```bash
+scripts/setup-server.sh    # venv + CPU torch + maia3 (+ pre-fetch the checkpoint)
+scripts/run-server.sh      # serve 127.0.0.1:8765
+```
+
+The same steps by hand — requires `uv` and Python 3.12 (system Python 3.14 is
+intentionally unused):
 
 ```bash
 cd server
@@ -54,10 +62,13 @@ Alternative (same thing): `.venv/bin/python app.py`.
 
 ```bash
 curl -s http://127.0.0.1:8765/health
-# {"status":"ok","model":"maia3-5m"}
+# {"status":"ok","model":"maia3-5m","version":"1.0.0","uptime_s":11.047}
 ```
 
 `status` is `"ok"` once the model is loaded, `"not_loaded"` otherwise.
+`version` and `uptime_s` were added in M9 (additive): the extension's panel
+shows the version in its server chip and uses repeated `/health` polls for its
+offline auto-recovery.
 
 ### `POST /analyze`
 

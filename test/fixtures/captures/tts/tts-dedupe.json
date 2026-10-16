@@ -2,20 +2,20 @@
   "pass": true,
   "failures": [],
   "screenshots": [],
-  "renderCountBefore": 2,
-  "renderCountAfter": 8,
+  "renderCountBefore": 3,
+  "renderCountAfter": 9,
   "speaksForStartpos": 1,
   "speakCount": 1,
   "lastDecision": {
     "speak": false,
     "reason": "duplicate",
     "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
-    "at": 1792184075486,
+    "at": 1792186710946,
     "trigger": "suggestion",
     "source": "panel",
     "force": false,
     "move": "e4",
     "text": null
   },
-  "duplicateDecisions": 7
+  "duplicateDecisions": 8
 }

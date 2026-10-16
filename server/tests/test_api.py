@@ -19,7 +19,12 @@ def client():
 def test_health(client):
     response = client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok", "model": "maia3-5m"}
+    body = response.json()
+    # M9: version + uptime are additive (the extension shows version).
+    assert body["status"] == "ok"
+    assert body["model"] == "maia3-5m"
+    assert body["version"] == "1.0.0"
+    assert isinstance(body["uptime_s"], (int, float)) and body["uptime_s"] >= 0
 
 
 def test_analyze_contract(client):

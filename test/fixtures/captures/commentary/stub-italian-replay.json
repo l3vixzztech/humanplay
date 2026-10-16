@@ -16,8 +16,8 @@
         "name": "King's Pawn Game"
       },
       "engineMs": 33.45064,
-      "roundTripMs": 2,
-      "mutationToEntryMs": 158
+      "roundTripMs": 44,
+      "mutationToEntryMs": 202
     },
     {
       "ply": 2,
@@ -68,7 +68,7 @@
       },
       "engineMs": 21.33167,
       "roundTripMs": 2,
-      "mutationToEntryMs": 156
+      "mutationToEntryMs": 155
     },
     {
       "ply": 5,
@@ -101,8 +101,8 @@
         "name": "Italian Game: Giuoco Piano"
       },
       "engineMs": 24.553115,
-      "roundTripMs": 1,
-      "mutationToEntryMs": 154
+      "roundTripMs": 2,
+      "mutationToEntryMs": 155
     },
     {
       "ply": 7,
@@ -118,8 +118,8 @@
         "name": "Italian Game: Giuoco Piano"
       },
       "engineMs": 29.450549,
-      "roundTripMs": 2,
-      "mutationToEntryMs": 156
+      "roundTripMs": 1,
+      "mutationToEntryMs": 157
     }
   ],
   "requests": {

@@ -1,11 +1,11 @@
 {
   "tool": "analyze-unit.mjs",
-  "generatedAt": "2026-10-16T18:50:19.583Z",
+  "generatedAt": "2026-10-16T21:03:33.730Z",
   "node": "v22.22.0",
   "module": "extension/src/analysis/analyze-client.js",
-  "passed": 20,
+  "passed": 22,
   "failed": 0,
-  "total": 20,
+  "total": 22,
   "cases": [
     {
       "name": "analyze: success -> {ok, status, data, roundTripMs} (1 attempt)",
@@ -49,13 +49,46 @@
       "details": null
     },
     {
-      "name": "analyze: HTTP 422 -> invalid_input, HTTP 500 -> http, HTTP 503 -> engine_unavailable",
+      "name": "analyze: HTTP 422 -> invalid_input, HTTP 500 -> http (never retried)",
       "pass": true,
       "message": null,
       "details": {
         "422": "invalid_input",
-        "500": "http",
-        "503": "engine_unavailable"
+        "500": "http"
+      }
+    },
+    {
+      "name": "analyze: HTTP 503 -> exactly ONE retry after a short backoff (cold model load)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "delays": [
+          300
+        ],
+        "attemptLog": [
+          {
+            "attempt": 1,
+            "outcome": "engine-503",
+            "status": 503,
+            "durationMs": 0,
+            "backoffMs": 300
+          },
+          {
+            "attempt": 2,
+            "outcome": "ok",
+            "status": 200,
+            "durationMs": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "analyze: persistent 503 -> engine_unavailable after exactly one retry (never more, never on 4xx)",
+      "pass": true,
+      "message": null,
+      "details": {
+        "attempts": 2,
+        "errorClass": "engine_unavailable"
       }
     },
     {

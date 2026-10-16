@@ -1,6 +1,6 @@
 {
   "tool": "overlay-unit.mjs",
-  "generatedAt": "2026-10-16T18:51:43.792Z",
+  "generatedAt": "2026-10-16T21:23:28.142Z",
   "module": "extension/src/content/overlay-geometry.js",
   "passed": 13,
   "failed": 0,
