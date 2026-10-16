@@ -1,0 +1,100 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [
+    "test/fixtures/captures/tts/no-backend/tts-card-off-hotkey.png"
+  ],
+  "note": "The toolbar badge is browser UI: CDP cannot screenshot it and this machine has no screen-capture tool (GNOME screenshot D-Bus is denied, no import/xwd/ffmpeg). Badge state is asserted through chrome.action.getBadgeText/getBadgeBackgroundColor/getBadgeTextColor and left as a manual check (a green \"TTS\" chip on the toolbar icon). Real Ctrl+Shift+Y key presses cannot be dispatched through CDP either — the handler (__humanplayTtsTest.invokeToggle, the exact function chrome.commands.onCommand calls) is invoked instead; pressing the physical shortcut is a manual check.",
+  "commands": [
+    {
+      "description": "",
+      "name": "_execute_action",
+      "shortcut": ""
+    },
+    {
+      "description": "Toggle TTS move announcements (speak the suggested move)",
+      "name": "toggle-tts",
+      "shortcut": "Ctrl+Shift+Y"
+    }
+  ],
+  "command": {
+    "description": "Toggle TTS move announcements (speak the suggested move)",
+    "name": "toggle-tts",
+    "shortcut": "Ctrl+Shift+Y"
+  },
+  "badgeWhileOn": {
+    "text": "TTS",
+    "background": [
+      47,
+      111,
+      79,
+      255
+    ],
+    "textColor": [
+      255,
+      255,
+      255,
+      255
+    ]
+  },
+  "toggleOff": {
+    "handler": {
+      "enabled": false,
+      "rate": 1
+    },
+    "settings": {
+      "assistantEnabled": true,
+      "ttsEnabled": false
+    },
+    "badgeText": "",
+    "panel": {
+      "enabled": false,
+      "checkbox": false,
+      "statusChip": "off",
+      "decision": {
+        "speak": false,
+        "reason": "tts-off",
+        "trigger": "toggle-off",
+        "source": "hotkey",
+        "force": false,
+        "key": null
+      }
+    }
+  },
+  "toggleOn": {
+    "handler": {
+      "enabled": true,
+      "rate": 1
+    },
+    "settings": {
+      "assistantEnabled": true,
+      "ttsEnabled": true
+    },
+    "badgeText": "TTS",
+    "hotkeySpeak": {
+      "at": "2026-10-16T19:18:40.071Z",
+      "atEpochMs": 1792178320071,
+      "kind": "speak",
+      "text": "Queen to d2",
+      "san": "Qd2",
+      "uci": "e2d2",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3",
+      "reason": "toggle-on",
+      "source": "hotkey",
+      "engine": "chrome.tts",
+      "options": {
+        "enqueue": false,
+        "rate": 1
+      },
+      "ok": true,
+      "error": null
+    }
+  },
+  "badge": {
+    "text": "TTS",
+    "backgroundColor": "#2f6f4f",
+    "textColor": "#ffffff",
+    "updatedAt": "2026-10-16T19:18:40.070Z",
+    "error": null
+  }
+}

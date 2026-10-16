@@ -10,7 +10,7 @@
     <header class="app-header">
       <div class="app-title">
         <h1>humanplay</h1>
-        <span class="version">M5</span>
+        <span class="version">M6</span>
       </div>
       <p class="tagline">human-like move assistant for chess.com · local Maia-3</p>
     </header>
@@ -71,6 +71,40 @@
           an engine best move. Top-3 with probabilities + Maia's human outcome
           prediction. Opponent prediction arrives in M7. The top move is drawn as
           an arrow on the real board; alternatives are thinner and off by default.
+        </p>
+      </section>
+
+      <section class="card" id="tts-card">
+        <div class="row card-head">
+          <h2>Voice (TTS)</h2>
+          <span id="tts-status" class="chip chip-idle">off</span>
+        </div>
+
+        <label class="setting-row" for="tts-enabled">
+          <span>Speak suggestion <span class="muted">(just the move)</span></span>
+          <input id="tts-enabled" type="checkbox" />
+        </label>
+        <label class="setting-row" for="tts-rate">
+          <span>rate <span class="muted">(chrome.tts)</span></span>
+          <select id="tts-rate">
+            <option value="0.8">0.8 slow</option>
+            <option value="1" selected>1.0</option>
+            <option value="1.2">1.2 fast</option>
+          </select>
+        </label>
+
+        <div class="row">
+          <button id="tts-test" type="button">Speak test</button>
+          <span id="tts-voices" class="hint-inline">voices: checking…</span>
+        </div>
+        <p id="tts-note" class="hint" hidden></p>
+
+        <p class="hint" id="tts-hint">
+          Reads the suggested move aloud on your turn — "just the move"
+          (<em>"Knight to f3"</em>), no probabilities. Speech runs in the
+          <strong>service worker</strong>, so it keeps working while this panel is
+          closed. <strong>Ctrl+Shift+Y</strong> toggles TTS; the toolbar badge shows
+          <code>TTS</code> while it is on. Default: off.
         </p>
       </section>
 

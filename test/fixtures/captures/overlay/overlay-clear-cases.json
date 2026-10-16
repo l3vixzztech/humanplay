@@ -10,8 +10,8 @@
   "gameOver": {
     "cardStatus": "game over",
     "message": "game over — checkmate — black is mated. Rules-decided outcome (you): win 0.0% · draw 0.0% · loss 100.0%",
-    "overlayState": "idle",
-    "reason": "resize",
+    "overlayState": "cleared",
+    "reason": "panel:game-over",
     "arrows": 0,
     "clearReason": "game-over"
   },

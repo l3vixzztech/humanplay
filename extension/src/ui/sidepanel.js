@@ -1,6 +1,6 @@
 /**
- * humanplay side panel (M4 + M5): game state card + Maia suggestion + Elo +
- * board overlay controls.
+ * humanplay side panel (M4 + M5 + M6): game state card + Maia suggestion +
+ * Elo + board overlay controls + voice (TTS).
  *
  * What it does:
  * - listens for `humanplay:chesscom-state` messages broadcast by the content
@@ -23,6 +23,17 @@
  *   "Show alternatives" (default OFF) persist in settings and re-render/clear
  *   immediately. The panel also waits for the content script's acknowledgement
  *   only asynchronously — the UI never blocks on it;
+ * - **M6: voice (TTS).** The panel decides *when* and *what* to say
+ *   (`src/tts/move-speech.js`, `src/tts/tts-policy.js`) and the **service
+ *   worker** performs it (`src/tts/tts-service.js`, `chrome.tts`) — the panel
+ *   only sends `humanplay:tts-speak` / `:tts-stop` / `:tts-voices`, so speech
+ *   does not depend on this document being open. Speak iff: TTS enabled +
+ *   assistant on + it is your turn + a non-stale suggestion is ready for the
+ *   *current* position key + that key was not spoken before (dedupe). Enabling
+ *   TTS (checkbox or the Ctrl+Shift+Y hotkey, which arrives via
+ *   `chrome.storage.onChanged`) speaks the current suggestion once; disabling
+ *   sends an immediate stop. The "Speak test" button speaks "Knight to f3"
+ *   regardless of the toggle (it tests the voice, not the policy);
  * - keeps the M2 debug features: one-frame capture through the locked
  *   capture-source abstraction and PNG fixture recording (pixel recognition is
  *   parked — see docs/PROJECT.md).
@@ -44,8 +55,10 @@
  *   shows the outcome instead of move rows.
  *
  * Test hook: `globalThis.__humanplayAnalysis` mirrors the analysis state
- * (gate/status/keys/counters/latency) for test/tools/analyze-proof.mjs. It is
- * read-only diagnostics — nothing in the panel reads it back.
+ * (gate/status/keys/counters/latency + `tts`, the M6 policy view) for
+ * test/tools/analyze-proof.mjs and test/tools/tts-proof.mjs. It is read-only
+ * diagnostics — nothing in the panel reads it back (the speak policy reads its
+ * own state, not the hook).
  *
  * Persistence rules (docs/PROJECT.md):
  * - settings (assistant on/off, fallback user color, Elo pair) live in
@@ -63,6 +76,14 @@ import {
   clampElo,
   createAnalyzeClient,
 } from "../analysis/analyze-client.js";
+import { moveToSpeech } from "../tts/move-speech.js";
+import {
+  DEFAULT_TTS_RATE,
+  TTS_RATES,
+  clampRate,
+  createSpokenKeyStore,
+  speakDecision,
+} from "../tts/tts-policy.js";
 
 const HEALTH_URL = "http://127.0.0.1:8765/health";
 const HEALTH_TIMEOUT_MS = 2500;
@@ -75,6 +96,12 @@ const MSG_RECORD_SNAPSHOT = "humanplay:record-snapshot";
 /** M5: routed to the content script through the service worker. */
 const MSG_SUGGESTION = "humanplay:suggestion";
 const MSG_CLEAR_SUGGESTION = "humanplay:clear-suggestion";
+/** M6: voice — routed to the service worker, which owns chrome.tts. */
+const MSG_TTS_SPEAK = "humanplay:tts-speak";
+const MSG_TTS_STOP = "humanplay:tts-stop";
+const MSG_TTS_VOICES = "humanplay:tts-voices";
+/** The "Speak test" button text — the M6 canonical example phrasing. */
+const TTS_TEST_TEXT = "Knight to f3";
 const OVERLAY_ALTERNATIVES_MAX = 3;
 /** The "listening" chip drops back to idle after this long without a state. */
 const LISTENING_STALE_MS = 6000;
@@ -121,6 +148,12 @@ const els = {
   eloReset: document.getElementById("elo-reset"),
   ovArrows: document.getElementById("ov-arrows"),
   ovAlternatives: document.getElementById("ov-alternatives"),
+  ttsEnabled: document.getElementById("tts-enabled"),
+  ttsRate: document.getElementById("tts-rate"),
+  ttsTest: document.getElementById("tts-test"),
+  ttsVoices: document.getElementById("tts-voices"),
+  ttsNote: document.getElementById("tts-note"),
+  ttsStatus: document.getElementById("tts-status"),
 };
 
 /** Last frame, in memory only (never persisted — see header comment). */
@@ -150,8 +183,27 @@ const overlay = {
 };
 
 /**
- * Read-only diagnostics for test/tools/analyze-proof.mjs (see header).
- * Never read back by the panel itself.
+ * M6 voice (TTS) state. The panel owns *what* to say and *when*; the service
+ * worker owns the actual chrome.tts call (see `src/tts/tts-service.js`).
+ */
+const tts = {
+  enabled: false, // settings.ttsEnabled (default OFF)
+  rate: DEFAULT_TTS_RATE,
+  decision: null, // last speakDecision() outcome (why/why not)
+  decisions: [], // bounded history of decisions (proof: "duplicate" etc. do not get lost)
+  lastRequest: null, // last humanplay:tts-speak we sent
+  lastStop: null, // last humanplay:tts-stop we sent
+  voices: null, // last humanplay:tts-voices answer
+  errors: 0,
+  lastError: null,
+};
+const TTS_DECISION_HISTORY = 40;
+/** Position keys already spoken — the dedupe (bounded, see tts-policy). */
+const spokenKeys = createSpokenKeyStore();
+
+/**
+ * Read-only diagnostics for test/tools/analyze-proof.mjs and
+ * test/tools/tts-proof.mjs (see header). Never read back by the panel itself.
  */
 const analysisDebug = {
   gate: "idle",
@@ -170,6 +222,8 @@ const analysisDebug = {
   client: null,
   /** M5: live view of the overlay policy/messages (read-only for the proof). */
   overlay,
+  /** M6: live view of the TTS policy (read-only for the proof). */
+  tts,
 };
 globalThis.__humanplayAnalysis = analysisDebug;
 
@@ -193,8 +247,14 @@ async function init() {
   els.eloReset.addEventListener("click", onEloReset);
   els.ovArrows.addEventListener("change", onOverlaySettingChanged);
   els.ovAlternatives.addEventListener("change", onOverlaySettingChanged);
+  els.ttsEnabled.addEventListener("change", () => onTtsEnabledChanged({ source: "panel" }));
+  els.ttsRate.addEventListener("change", onTtsRateChanged);
+  els.ttsTest.addEventListener("click", onTtsTestClicked);
 
   chrome.runtime.onMessage.addListener(onRuntimeMessage);
+  // The Ctrl+Shift+Y hotkey is handled by the service worker; it flips
+  // settings.ttsEnabled there, so the panel syncs through storage changes.
+  chrome.storage.onChanged.addListener(onSettingsChanged);
   setInterval(renderChesscomChip, 2000);
 
   const settings = await loadSettings();
@@ -208,8 +268,14 @@ async function init() {
   overlay.showAlternatives = settings.showAlternatives;
   els.ovArrows.checked = settings.showArrows;
   els.ovAlternatives.checked = settings.showAlternatives;
+  tts.enabled = settings.ttsEnabled;
+  tts.rate = TTS_RATES.includes(settings.ttsRate) ? settings.ttsRate : DEFAULT_TTS_RATE;
+  els.ttsEnabled.checked = settings.ttsEnabled;
+  els.ttsRate.value = String(tts.rate);
+  renderTtsStatus();
 
   await refreshHealth();
+  refreshTtsVoices(); // async, never blocks the panel
   // The content script emits on load; panel-initiated refresh covers the case
   // where the panel opened after the game page finished loading.
   await refreshChesscomState();
@@ -228,6 +294,8 @@ async function loadSettings() {
       eloOppo: clampElo(settings.eloOppo, DEFAULT_ELO),
       showArrows: settings.showArrows !== false, // default ON
       showAlternatives: settings.showAlternatives === true, // default OFF
+      ttsEnabled: settings.ttsEnabled === true, // default OFF (M6)
+      ttsRate: clampRate(settings.ttsRate, DEFAULT_TTS_RATE),
     };
   } catch {
     return {
@@ -237,6 +305,8 @@ async function loadSettings() {
       eloOppo: DEFAULT_ELO,
       showArrows: true,
       showAlternatives: false,
+      ttsEnabled: false,
+      ttsRate: DEFAULT_TTS_RATE,
     };
   }
 }
@@ -383,6 +453,198 @@ function overlaySend(message) {
   }
 }
 
+/* -------------------------------------------------------------- voice (M6) */
+
+function renderTtsStatus() {
+  els.ttsStatus.textContent = tts.enabled ? "on" : "off";
+  els.ttsStatus.className = `chip ${tts.enabled ? "chip-online" : "chip-idle"}`;
+}
+
+/** Keep the last N decisions (the proof asserts on history, not just the last). */
+function recordTtsDecision(decision) {
+  tts.decision = decision;
+  tts.decisions.push(decision);
+  while (tts.decisions.length > TTS_DECISION_HISTORY) tts.decisions.shift();
+  return decision;
+}
+
+/**
+ * `chrome.storage.onChanged`: the service worker's Ctrl+Shift+Y handler writes
+ * settings.ttsEnabled; this keeps the checkbox + side effects in sync without
+ * writing the setting back.
+ */
+function onSettingsChanged(changes, area) {
+  if (area !== "local" || !changes.settings) return;
+  const next = changes.settings.newValue ?? {};
+  const enabled = next.ttsEnabled === true;
+  if (enabled !== tts.enabled) {
+    onTtsEnabledChanged({ source: "hotkey", persist: false }).catch((error) =>
+      showError(`TTS toggle failed: ${error?.message ?? error}`),
+    );
+  }
+  const rate = clampRate(next.ttsRate, DEFAULT_TTS_RATE);
+  if (rate !== tts.rate) {
+    tts.rate = rate;
+    els.ttsRate.value = String(rate);
+  }
+}
+
+async function onTtsEnabledChanged({ source = "panel", persist = true } = {}) {
+  clearError();
+  const enabled = persist ? els.ttsEnabled.checked : !tts.enabled;
+  tts.enabled = enabled;
+  els.ttsEnabled.checked = enabled;
+  renderTtsStatus();
+  if (persist) await saveSettings({ ttsEnabled: enabled });
+
+  if (!enabled) {
+    // Toggling TTS off stops mid-sentence, and nothing may be spoken until it
+    // is switched on again.
+    recordTtsDecision({ speak: false, reason: "tts-off", trigger: "toggle-off", source, force: false, key: null });
+    await requestTtsStop("toggle-off", source);
+    return;
+  }
+  // Toggling on speaks the suggestion that is already on the card (if it is
+  // still the current position and it is your turn) — otherwise nothing is
+  // spoken until the next suggestion arrives.
+  await speakCurrentSuggestion({ force: true, reason: "toggle-on", source });
+}
+
+async function onTtsRateChanged() {
+  clearError();
+  tts.rate = clampRate(els.ttsRate.value, DEFAULT_TTS_RATE);
+  els.ttsRate.value = String(tts.rate);
+  await saveSettings({ ttsRate: tts.rate });
+}
+
+async function onTtsTestClicked() {
+  clearError();
+  // Tests the voice, not the policy: speaks regardless of the toggle state.
+  await ttsSend({ type: MSG_TTS_SPEAK, text: TTS_TEST_TEXT, reason: "test", source: "panel-test", options: { rate: tts.rate } });
+  refreshTtsVoices();
+}
+
+async function refreshTtsVoices({ retry = true } = {}) {
+  try {
+    const response = await chrome.runtime.sendMessage({ type: MSG_TTS_VOICES });
+    tts.voices = response ?? null;
+  } catch (error) {
+    tts.voices = { ok: false, count: null, error: error?.message ?? String(error) };
+  }
+  renderTtsVoices();
+  // Chrome enumerates the speech voices asynchronously: the very first
+  // getVoices() after a cold start can be empty even though a backend exists
+  // (observed on this machine: 0 -> 14805 espeak-ng voices). One delayed retry
+  // avoids showing the "no voices" note spuriously.
+  if (retry && tts.voices?.count === 0) {
+    setTimeout(() => refreshTtsVoices({ retry: false }), 2000);
+  }
+}
+
+function renderTtsVoices() {
+  const info = tts.voices;
+  if (!info) {
+    els.ttsVoices.textContent = "voices: —";
+    return;
+  }
+  const count = Number.isFinite(info.count) ? info.count : "?";
+  els.ttsVoices.textContent = `voices: ${count} · ${info.engine ?? "?"}`;
+  if (info.note) {
+    els.ttsNote.hidden = false;
+    els.ttsNote.textContent = info.note;
+  } else {
+    els.ttsNote.hidden = true;
+    els.ttsNote.textContent = "";
+  }
+}
+
+function requestTtsStop(reason, source) {
+  return ttsSend({ type: MSG_TTS_STOP, reason, source });
+}
+
+/** One runtime message to the service worker + the panel-side record. */
+async function ttsSend(message) {
+  try {
+    const response = await chrome.runtime.sendMessage(message);
+    if (message.type === MSG_TTS_SPEAK) tts.lastRequest = { ...message, response: response ?? null, at: Date.now() };
+    if (message.type === MSG_TTS_STOP) tts.lastStop = { ...message, response: response ?? null, at: Date.now() };
+    if (message?.type === MSG_TTS_SPEAK && response?.ok === false) {
+      tts.errors += 1;
+      tts.lastError = response.error ?? "speak failed";
+      showError(`TTS: ${tts.lastError}`);
+    }
+    return response;
+  } catch (error) {
+    tts.errors += 1;
+    tts.lastError = error?.message ?? String(error);
+    showError(`TTS request failed: ${tts.lastError}`);
+    return null;
+  }
+}
+
+/**
+ * The single place that decides + sends a spoken suggestion. Called for every
+ * non-stale suggestion render, and from the toggle-on paths with `force`
+ * (explicit user intent: `force` bypasses only the dedupe — the other gates
+ * still apply, so enabling TTS on the opponent's turn says nothing).
+ */
+async function speakSuggestion({ state, key, moves, force = false, trigger = "suggestion", source = "panel" }) {
+  const decision = speakDecision({
+    ttsEnabled: tts.enabled,
+    assistantEnabled: els.toggle.checked,
+    state,
+    suggestion: { key, moves },
+    currentKey: analyzeClient.getCurrentKey(),
+    spokenKeys,
+    ignoreDuplicate: force,
+  });
+  recordTtsDecision({
+    ...decision,
+    at: Date.now(),
+    trigger,
+    source,
+    force: Boolean(force),
+    key: key ?? null,
+    move: moves?.[0]?.san ?? moves?.[0]?.uci ?? null,
+    text: null,
+  });
+  if (!decision.speak) return { spoke: false, ...decision };
+
+  const move = moves[0];
+  const text = moveToSpeech(move); // SAN phrasing, UCI fallback ("move e2 to e4")
+  if (!text) {
+    recordTtsDecision({ ...tts.decision, speak: false, reason: "unparseable" });
+    return { spoke: false, reason: "unparseable" };
+  }
+  spokenKeys.mark(key); // dedupe before the send: one attempt per position key
+  recordTtsDecision({ ...tts.decision, text });
+  await ttsSend({
+    type: MSG_TTS_SPEAK,
+    text,
+    key,
+    san: move?.san ?? null,
+    uci: move?.uci ?? null,
+    reason: trigger,
+    source,
+    options: { rate: tts.rate },
+  });
+  return { spoke: true, text, key, reason: decision.reason };
+}
+
+/** Speak whatever the card currently shows (only when it is still current). */
+async function speakCurrentSuggestion({ force = false, reason = "manual", source = "panel" } = {}) {
+  const last = analysisDebug.lastResult;
+  if (!last || !last.key || !Array.isArray(last.moves) || last.moves.length === 0) {
+    recordTtsDecision({ speak: false, reason: "no-suggestion", at: Date.now(), trigger: reason, source, force: Boolean(force), key: null });
+    return { spoke: false, reason: "no-suggestion" };
+  }
+  if (!analyzeClient.isCurrent(last.key)) {
+    recordTtsDecision({ speak: false, reason: "stale", at: Date.now(), trigger: reason, source, force: Boolean(force), key: last.key });
+    return { spoke: false, reason: "stale" };
+  }
+  return speakSuggestion({ state: lastChesscomState, key: last.key, moves: last.moves, force, trigger: reason, source });
+}
+
 /* ------------------------------------------------ chess.com game state card */
 
 function onRuntimeMessage(message, sender) {
@@ -508,9 +770,11 @@ async function onGameState(state) {
   analysisState = { stateReceivedAt: performance.now() };
 
   if (state?.ok) {
-    // New game? The whole cache (previous game's positions) is void.
+    // New game? The whole cache (previous game's positions) is void — and so
+    // are the spoken position keys (M6 dedupe).
     const seq = analyzeClient.noteSessionSeq(state.sessionSeq ?? 0);
     if (seq.changed) {
+      spokenKeys.clear();
       renderSuggestionIdle(`new game detected — analysis cache cleared (${seq.cleared} entries)`);
     }
   }
@@ -659,6 +923,11 @@ function renderSuggestion(result, request, state, latencyMs) {
     // alternatives only when enabled).
     publishOverlaySuggestion(result, moves);
   }
+  // M6: speak the suggestion (the decision records why/why not — game over and
+  // every other non-speak case end up in `analysisDebug.tts.decision`).
+  speakSuggestion({ state, key: result.key, moves, trigger: "suggestion", source: "panel" }).catch((error) =>
+    showError(`TTS: ${error?.message ?? error}`),
+  );
 
   const parts = [
     `model ${data.model ?? "?"}`,

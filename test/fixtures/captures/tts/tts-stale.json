@@ -1,0 +1,51 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [],
+  "staleKey": "e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
+  "staleMutations": {
+    "p3At": 1792178297185,
+    "p4At": 1792178297354
+  },
+  "fastSpeak": {
+    "at": "2026-10-16T19:18:17.511Z",
+    "atEpochMs": 1792178297511,
+    "kind": "speak",
+    "text": "Knight to g5",
+    "san": "Ng5",
+    "uci": "f3g5",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3",
+    "reason": "suggestion",
+    "source": "panel",
+    "engine": "chrome.tts",
+    "options": {
+      "enqueue": false,
+      "rate": 1
+    },
+    "ok": true,
+    "error": null
+  },
+  "speaksForStaleKey": 0,
+  "staleDiscardsBefore": 0,
+  "staleDiscardsAfter": 1,
+  "speaksForFastKey": 1,
+  "lastSpeak": {
+    "at": "2026-10-16T19:18:17.511Z",
+    "atEpochMs": 1792178297511,
+    "kind": "speak",
+    "text": "Knight to g5",
+    "san": "Ng5",
+    "uci": "f3g5",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3",
+    "reason": "suggestion",
+    "source": "panel",
+    "engine": "chrome.tts",
+    "options": {
+      "enqueue": false,
+      "rate": 1
+    },
+    "ok": true,
+    "error": null
+  },
+  "fastLatencyMs": 157
+}

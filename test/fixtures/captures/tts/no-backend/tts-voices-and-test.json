@@ -1,0 +1,40 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [
+    "test/fixtures/captures/tts/no-backend/tts-voices.png"
+  ],
+  "voices": {
+    "engine": "chrome.tts",
+    "count": 0,
+    "voices": [],
+    "note": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend.",
+    "ok": true,
+    "at": "2026-10-16T19:18:31.613Z",
+    "lastError": null
+  },
+  "panelVoices": {
+    "line": "voices: 0 · chrome.tts",
+    "noteVisible": true,
+    "noteText": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend."
+  },
+  "actionableNote": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend.",
+  "testSpeak": {
+    "at": "2026-10-16T19:18:40.684Z",
+    "atEpochMs": 1792178320684,
+    "kind": "speak",
+    "text": "Knight to f3",
+    "san": null,
+    "uci": null,
+    "key": null,
+    "reason": "test",
+    "source": "panel-test",
+    "engine": "chrome.tts",
+    "options": {
+      "enqueue": false,
+      "rate": 1
+    },
+    "ok": true,
+    "error": null
+  }
+}

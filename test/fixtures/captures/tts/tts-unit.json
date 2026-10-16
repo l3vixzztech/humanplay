@@ -1,0 +1,123 @@
+{
+  "tool": "tts-unit.mjs",
+  "generatedAt": "2026-10-16T19:18:44.006Z",
+  "node": "v22.22.0",
+  "modules": [
+    "extension/src/tts/move-speech.js",
+    "extension/src/tts/tts-policy.js"
+  ],
+  "passed": 12,
+  "failed": 0,
+  "total": 12,
+  "cases": [
+    {
+      "name": "formatter: the M6 spec matrix",
+      "pass": true,
+      "message": null,
+      "details": [
+        [
+          "Nf3",
+          "Knight to f3"
+        ],
+        [
+          "exd5",
+          "e-pawn takes d5"
+        ],
+        [
+          "O-O",
+          "Castle kingside"
+        ],
+        [
+          "O-O-O",
+          "Castle queenside"
+        ],
+        [
+          "e8=Q+",
+          "Promote to queen on e8, check"
+        ],
+        [
+          "gxh8=N#",
+          "g-pawn takes h8, promote to knight, mate"
+        ],
+        [
+          "Nbd2",
+          "b-knight to d2"
+        ],
+        [
+          "R1e2",
+          "rook one to e2"
+        ],
+        [
+          "Bxh7+",
+          "Bishop takes h7, check"
+        ]
+      ]
+    },
+    {
+      "name": "formatter: every piece, quiet and capturing",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "formatter: check/mate suffixes and annotations",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "formatter: promotions (quiet, capture, checks) and en passant",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "formatter: empty/invalid input -> null (never speak garbage)",
+      "pass": true,
+      "message": null,
+      "details": 22
+    },
+    {
+      "name": "uciToSpeech: fallback phrasing + promotion + invalid",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "moveToSpeech: string / object forms and fallback precedence",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "clampRate: 0.5..2, 2 decimals, fallback on garbage",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "createSpokenKeyStore: dedupe with bounded LRU eviction",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "speakDecision: speak iff enabled + assistant + your turn + current key + new key",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "speakDecision: the never-speak cases",
+      "pass": true,
+      "message": null,
+      "details": true
+    },
+    {
+      "name": "normalizeTtsSettings: defaults + clamping",
+      "pass": true,
+      "message": null,
+      "details": true
+    }
+  ]
+}

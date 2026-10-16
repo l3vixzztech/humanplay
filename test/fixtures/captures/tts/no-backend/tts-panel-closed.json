@@ -1,0 +1,88 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [
+    "test/fixtures/captures/tts/no-backend/tts-panel-closed-board.png"
+  ],
+  "note": "With the side panel closed the extension has no analysis loop (M4 lives in the panel document), so no NEW suggestion can be produced — that is why no automatic speak may appear after the panel closes. What this case proves — the architecture-critical property — is that the speak EXECUTION path (service worker + chrome.tts + the debug record + the badge) is fully independent of the panel document: the SW still tracks the GameState stream, and a speak routed through the production runtime-message path (sent from the content-script isolated world, the only remaining sender with the panel gone) is performed and recorded.",
+  "contextsBefore": [
+    {
+      "type": "BACKGROUND"
+    },
+    {
+      "type": "TAB",
+      "url": "chrome-extension://jciakbemknlkdfkfobnikdmnbgpcibpd/src/ui/sidepanel.html"
+    }
+  ],
+  "contextsAfterClose": [
+    {
+      "type": "BACKGROUND"
+    }
+  ],
+  "stateWithPanelClosed": {
+    "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+    "ok": true,
+    "turn": "b",
+    "moves": 1,
+    "tabId": 1741320808,
+    "at": "2026-10-16T19:18:42.459Z",
+    "atEpochMs": 1792178322459
+  },
+  "speaksWhilePanelClosed": 0,
+  "panelClosedSpeak": {
+    "response": {
+      "ok": true,
+      "engine": "chrome.tts",
+      "text": "Knight to f3",
+      "issuedAt": "2026-10-16T19:18:42.513Z",
+      "issuedAtEpochMs": 1792178322513,
+      "stopBefore": {
+        "ok": true,
+        "stoppedAt": "2026-10-16T19:18:42.512Z",
+        "reason": "before-speak"
+      },
+      "error": null
+    },
+    "call": {
+      "at": "2026-10-16T19:18:42.513Z",
+      "atEpochMs": 1792178322513,
+      "kind": "speak",
+      "text": "Knight to f3",
+      "san": "Nf3",
+      "uci": "g1f3",
+      "key": "panel-closed-proof",
+      "reason": "panel-closed-proof",
+      "source": "content-script",
+      "engine": "chrome.tts",
+      "options": {
+        "enqueue": false,
+        "rate": 1.2
+      },
+      "ok": true,
+      "error": null
+    }
+  },
+  "stopAfterPanelClosed": {
+    "at": "2026-10-16T19:18:42.512Z",
+    "atEpochMs": 1792178322512,
+    "kind": "stop",
+    "reason": "before-speak",
+    "source": "content-script",
+    "engine": "chrome.tts",
+    "ok": true,
+    "error": null,
+    "stoppedAt": 1792178322512
+  },
+  "hotkeyWithPanelClosed": {
+    "off": {
+      "enabled": false,
+      "rate": 1
+    },
+    "badgeOff": "",
+    "on": {
+      "enabled": true,
+      "rate": 1
+    },
+    "badgeOn": "TTS"
+  }
+}

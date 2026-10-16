@@ -1,0 +1,53 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [
+    "test/fixtures/captures/tts/no-backend/tts-card-off.png",
+    "test/fixtures/captures/tts/no-backend/tts-middlegame-on-again.png"
+  ],
+  "toggleOffStop": {
+    "at": "2026-10-16T19:18:32.034Z",
+    "atEpochMs": 1792178312034,
+    "kind": "stop",
+    "reason": "toggle-off",
+    "source": "panel",
+    "engine": "chrome.tts",
+    "ok": true,
+    "error": null,
+    "stoppedAt": 1792178312034
+  },
+  "toggleOnSpeak": {
+    "at": "2026-10-16T19:18:32.541Z",
+    "atEpochMs": 1792178312541,
+    "kind": "speak",
+    "text": "Knight to d5",
+    "san": "Nd5",
+    "uci": "c3d5",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
+    "reason": "toggle-on",
+    "source": "panel",
+    "engine": "chrome.tts",
+    "options": {
+      "enqueue": false,
+      "rate": 1
+    },
+    "ok": true,
+    "error": null
+  },
+  "panelAfterOn": {
+    "decision": {
+      "speak": true,
+      "reason": "forced",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
+      "at": 1792178312540,
+      "trigger": "toggle-on",
+      "source": "panel",
+      "force": true,
+      "move": "Nd5",
+      "text": "Knight to d5"
+    },
+    "statusChip": "on",
+    "enabled": true
+  },
+  "speakCountDelta": 1
+}

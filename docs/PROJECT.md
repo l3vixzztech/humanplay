@@ -18,7 +18,8 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 │     → GameState message       │ ◄───── │  maia_engine.py                      │
 │ side panel: suggestion card   │        │   └─ Maia3-5M (torch, CPU)           │
 │  (M4: top-3 + WDL + Elo)      │        │        AGPL-3.0, separate venv       │
-│ arrow overlay (M5) · TTS (M6) │        │                                      │
+│ arrow overlay (M5)            │        │                                      │
+│ voice "just the move" (M6)    │        │                                      │
 │ debug: capture + PNG recorder │        │                                      │
 └───────────────────────────────┘        └──────────────────────────────────────┘
      DOM only (chess.com only)                 separate process / venv boundary
@@ -57,14 +58,16 @@ any top engine — the point is to play like (and be predicted by) a strong huma
   `content_scripts`/`web_accessible_resources` match only chess.com; the only
   host permission is `http://127.0.0.1:8765/*` (`/health`, later `/analyze`);
   tab capture stays on `activeTab` (the toolbar click is what grants it —
-  Chromium `CanCaptureVisiblePage`, `kActiveTabOrAllUrls`).
+  Chromium `CanCaptureVisiblePage`, `kActiveTabOrAllUrls`). M6 added exactly
+  two things: the `tts` permission and the `toggle-tts` command (Ctrl+Shift+Y).
 - **Vendored chess.js** (BSD-2-Clause, pinned **1.4.0**,
   `extension/vendor/chess.js`) — the only third-party runtime dependency, used
   for SAN → UCI/Castling/En-passant replay. See `extension/vendor/README.md`.
 - **UI**: the top-1 move is drawn as an **arrow on the real board** (M5; top-3
   alternatives optional, thinner) next to the side panel's top-3 moves and
-  probabilities; TTS via `chrome.tts` (Piper-ready interface) announcing "just
-  the move" (M6, roadmap).
+  probabilities; the suggested move is **spoken** ("just the move", M6) through
+  `chrome.tts` from the **service worker** (Piper-ready speaker interface) — see
+  "The voice announcements (M6)".
 - **Fair play**: the user accepts the ban risk for live play. We do **not**
   build any anti-detection features.
 - **No Stockfish / top engines anywhere** in this project.
@@ -78,7 +81,7 @@ any top engine — the point is to play like (and be predicted by) a strong huma
 | 3 | chess.com DOM adapter + state protocol + fixtures | content script (board detection, multi-strategy position reading, move-list SAN → UCI replay, flip/color detection, mismatch policy), GameState protocol, panel state card, snapshot recorder, adapter proof harness + unit tests | ✅ done |
 | 4 | End-to-end analysis loop | `src/analysis/analyze-client.js` (timeout, single network retry, position-key LRU cache + dedupe, stale guard, request builder, gating), panel "Maia suggestion" card (top-3 + bar + % + WDL + perspective + meta) and "Elo" card, canned `/analyze` in the fixture server, unit tests + stub/real CDP proofs | ✅ done |
 | 5 | Arrow overlay on the real board | `src/content/board-overlay.js` (one fixed, click-transparent, DPR-crisp canvas) + `overlay-geometry.js` (pure: square centres normal/flipped, shaft + arrowhead, thickness scaling) + the shared `board-locate.js`; panel→SW→content routing (`humanplay:suggestion`/`clear-suggestion`) keyed by the M4 position key; "Show arrows" / "Show alternatives" settings; unit tests + CDP proof incl. a real chess.com page | ✅ done |
-| 6 | TTS | `chrome.tts` announcements (Piper-ready interface), "just the move" | ⬜ |
+| 6 | TTS | `chrome.tts` announcements (Piper-ready interface), "just the move" — service-worker speaker, dedupe + stale guard, toggle/hotkey/rate/badge, actionable no-voice note, CDP proof incl. the panel-closed case | ✅ done |
 | 7 | Premove planner | precompute replies for the opponent's likely moves (from Maia's distribution) while they think | ⬜ |
 | 8 | Live commentary / explain mode | short natural-language "why this move" from the model's probabilities | ⬜ |
 | 9 | Continuous mode + robustness + polish + packaging | state-driven auto-analysis loop, failure recovery (page variants), UX, store-ready packaging | ⬜ |
@@ -231,6 +234,74 @@ geometry is viewport CSS pixels); no rAF loop — rendering is on demand.
   clear cases, multi-tab routing, board disappears/returns — plus the
   best-effort `--real-page` case on a real chess.com game. Evidence:
   `test/fixtures/captures/overlay/`.
+
+## The voice announcements (M6)
+
+The suggested move is spoken — **"just the move"**, no probabilities:
+`Nf3` → "Knight to f3", `exd5` → "e-pawn takes d5", `O-O` → "Castle kingside",
+`e8=Q+` → "Promote to queen on e8, check", `gxh8=N#` → "g-pawn takes h8,
+promote to knight, mate", `Nbd2` → "b-knight to d2", `R1e2` → "rook one to
+e2", `Bxh7+` → "Bishop takes h7, check". Anything unparseable falls back to the
+UCI style ("move e2 to e4"). The formatter lives in
+`extension/src/tts/move-speech.js` (pure, zero-dep, unit-tested).
+
+**Wording and policy vs execution.** The side panel owns *what* to say (the
+formatter) and *when* (`src/tts/tts-policy.js`); the **service worker** owns the
+actual speech (`src/tts/speaker.js` + `src/tts/tts-service.js`). The panel sends
+`humanplay:tts-speak` / `:tts-stop` / `:tts-voices`; the speaker never lives in
+the panel document, so speech keeps working when the panel is closed
+(architecture-critical; proven by the panel-closed proof case).
+
+**Why the service worker won the speaker** (empirically verified on Chrome for
+Testing 155.0.8059.84, see `test/fixtures/captures/tts/`): `chrome.tts` **is**
+exposed in an MV3 service worker (speak/stop/getVoices/isSpeaking/onEvent all
+present, events fire, audio synthesizes) — no offscreen document is needed, and
+the manifest stays at one new permission (`tts`). An offscreen document does
+**not** even expose `chrome.tts` (only the Web Speech `speechSynthesis`), and
+the `offscreen` permission is not in the M6 budget; the fallback is therefore
+recorded as unnecessary, not shipped. On Linux Chrome only synthesizes when it
+has a speech backend and was started with `--enable-speech-dispatcher`
+(speech-dispatcher + espeak-ng installed); without it every utterance ends in a
+`{type:"error"}` event — the speak *path* still executes and is recorded.
+
+**Speak iff, all of:** TTS enabled (default OFF) + assistant on + adapter state
+ok and your color known + it is **your** turn + a suggestion is ready for the
+**current** position key (the M4 stale guard runs first) + that key was not
+spoken before (dedupe; a re-emitted state never repeats). Never on: the
+opponent's turn (auto or manual), assistant off, errors (offline / invalid
+input / any error class), game over, stale results. Enabling TTS (checkbox or
+hotkey) speaks the current suggestion once; disabling stops mid-sentence.
+Interruption: the worker calls `stop()` before **every** `speak(enqueue:false)`,
+so a new position interrupts the old sentence by construction.
+
+**Controls.** "Voice (TTS)" card: **Speak suggestion** (default OFF, persisted
+in `settings`), **rate** (0.8 / 1.0 / 1.2 · clamped 0.5–2), **Speak test**
+(always speaks "Knight to f3" — it tests the voice, not the policy) and a
+**voices** availability line: `chrome.tts.getVoices()` plus — when it reports
+none — an actionable note (install speech-dispatcher + start Chrome with
+`--enable-speech-dispatcher`). The voice list loads asynchronously on Linux (0
+right after a cold start, then thousands of espeak-ng voices), so the panel
+retries once and the worker listens to `chrome.tts.onVoicesChanged`.
+**Ctrl+Shift+Y** (`commands.toggle-tts`) toggles TTS from the worker (panel
+closed included) and flips the toolbar badge: **"TTS"** on a green
+(`#2f6f4f`) background while on, cleared while off (3 characters is the legible
+maximum for a Chrome badge; documented and API-asserted).
+
+**Recording.** `globalThis.__humanplayTts` (service worker) records every
+speak/stop call — text, options (`enqueue:false`, rate), engine, SAN/UCI, reason,
+source, key, timestamps — plus `chrome.tts` lifecycle events
+(start/end/error/interrupted), counters, the last GameState the worker saw and
+the badge state, mirrored to `chrome.storage.session` so it survives MV3 worker
+restarts. `__humanplayTtsTest` is the documented callable seam the proof uses
+for the hotkey handler (real key presses cannot be dispatched through CDP).
+
+**Proving it.** `test/tools/tts-unit.mjs` (zero-dep: the formatter matrix +
+policy/dedupe/rate helpers) and `test/tools/tts-proof.mjs` (CDP, manifest
+variant, stub server): exactly 1 speak per position, dedupe on re-emit,
+stop-then-speak on a position change, toggle off/on mid-flow, stale/assistant-off/
+server-error/game-over silence, hotkey + badge, voices note, and the
+panel-closed case (the SW tracks the new position and still performs + records a
+speak with no panel document). Evidence: `test/fixtures/captures/tts/`.
 
 ## Repository layout
 

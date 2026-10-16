@@ -1,0 +1,75 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [
+    "test/fixtures/captures/tts/tts-opponent-turn.png",
+    "test/fixtures/captures/tts/tts-gameover.png"
+  ],
+  "opponentTurn": {
+    "gate": "waiting",
+    "speaksForFlippedKey": 0
+  },
+  "manualOnTheirTurn": {
+    "speaksForFlippedKey": 0,
+    "decision": {
+      "speak": false,
+      "reason": "not-your-turn",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3",
+      "at": 1792178299602,
+      "trigger": "suggestion",
+      "source": "panel",
+      "force": false,
+      "move": "d4",
+      "text": null
+    }
+  },
+  "assistantOff": {
+    "requestedKeys": {
+      "before": {
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3": 1
+      },
+      "after": {
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3": 1,
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3": 1
+      }
+    },
+    "speaksForP5Key": 0
+  },
+  "assistantOnRecovery": {
+    "text": "a-rook to d1",
+    "reason": "suggestion",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6|2400|2400|3"
+  },
+  "serverError": {
+    "speaksForP6Key": 0,
+    "cardMessage": "invalid input (HTTP 400): fixture server (test mode): simulated invalid input — the FEN was rejected"
+  },
+  "serverErrorRecovery": {
+    "text": "Queen to d2",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3"
+  },
+  "gameOver": {
+    "cardMessage": "game over — checkmate — black is mated. Rules-decided outcome (you): win 0.0% · draw 0.0% · loss 100.0%",
+    "speaksForGameoverKey": 0,
+    "decision": {
+      "speak": false,
+      "reason": "no-suggestion",
+      "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 f1c4 b8c6 d1h5 g8f6 h5f7|2400|2400|3",
+      "at": 1792178302452,
+      "trigger": "suggestion",
+      "source": "panel",
+      "force": false,
+      "move": null,
+      "text": null
+    }
+  }
+}

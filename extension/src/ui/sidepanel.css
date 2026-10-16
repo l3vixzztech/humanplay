@@ -1,4 +1,5 @@
-/* humanplay side panel — minimal dev UI (M2). No board/overlay/TTS yet. */
+/* humanplay side panel — minimal dev UI. M2 skeleton, M3 state card, M4
+   suggestion + Elo, M5 overlay toggles, M6 voice (TTS) card. */
 
 :root {
   color-scheme: light dark;
@@ -167,6 +168,13 @@ button.primary {
 
 .hint code {
   font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+/* Inline status line (e.g. "voices: 0 · chrome.tts") next to a button. */
+.hint-inline {
+  color: var(--muted);
+  font-size: 11.5px;
   overflow-wrap: anywhere;
 }
 

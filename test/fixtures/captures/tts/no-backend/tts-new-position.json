@@ -1,0 +1,29 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [
+    "test/fixtures/captures/tts/no-backend/tts-middlegame-on.png"
+  ],
+  "initial": {
+    "text": "Knight to c3",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3"
+  },
+  "afterMove": {
+    "text": "Knight to d5",
+    "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3"
+  },
+  "mutationToSpeakMs": 858,
+  "delayMs": 700,
+  "stopBeforeSpeak": {
+    "at": "2026-10-16T19:18:31.608Z",
+    "atEpochMs": 1792178311608,
+    "kind": "stop",
+    "reason": "before-speak",
+    "source": "panel",
+    "engine": "chrome.tts",
+    "ok": true,
+    "error": null,
+    "stoppedAt": 1792178311608
+  },
+  "speaksForNewKey": 1
+}

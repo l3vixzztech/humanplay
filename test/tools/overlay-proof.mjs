@@ -1327,12 +1327,35 @@ async function main() {
       await closeTarget(gameover.targetId);
 
       // (c) server error (stub mode: 400) on the middlegame tab.
-      await cdp.send("Target.activateTarget", { targetId: middlegame.targetId });
-      await evaluateInPanel('document.getElementById("cc-refresh").click(), true');
+      // Deterministic precondition: wait for the CARD to actually show the
+      // middlegame position (the previous episode ended on the gameover tab, so
+      // the overlay may still show stale arrows — trusting those would let the
+      // case proceed without the panel having picked the middlegame state up).
+      await refreshPanelState(middlegame.targetId, "r1b2rk1/ppp2pp1/2np1q1p/2b1p3/2B1P3/2NP1N2/PPP2PPP/R2Q1RK1 w - - 0 9", "middlegame before the error case");
       const arrowsBefore = await waitForArrows(middlegame.session, "board-play-computer", { count: 1, description: "the middlegame arrows before the error case" });
       await setMode("bad_request");
       await evaluateInPanel('document.getElementById("mx-analyze").click(), true');
-      const errorSuggestion = await waitForSuggestion((s) => /invalid input/.test(s.message ?? ""), "the 400 error message");
+      let errorSuggestion;
+      try {
+        errorSuggestion = await waitForSuggestion((s) => /invalid input/.test(s.message ?? ""), "the 400 error message");
+      } catch (error) {
+        // Diagnostic: capture the panel at the moment the wait gave up.
+        o7.errorTimeoutDump = {
+          suggestion: await readSuggestion(),
+          panelStatus: await evaluateInPanel('document.getElementById("mx-status").textContent'),
+          messageHidden: await evaluateInPanel('document.getElementById("mx-message").hidden'),
+          message: await evaluateInPanel('document.getElementById("mx-message").textContent'),
+          assistantChecked: await evaluateInPanel('document.getElementById("assistant-toggle").checked'),
+          fenOnCard: await evaluateInPanel('document.getElementById("cc-fen").textContent'),
+          ccChip: await evaluateInPanel('document.getElementById("cc-chip").textContent'),
+          errorBanner: await evaluateInPanel('document.getElementById("error").hidden ? null : document.getElementById("error").textContent'),
+          isCurrent: await evaluateInPanel("globalThis.__humanplayAnalysis?.client?.getCurrentKey?.() ?? null"),
+          lastResult: await evaluateInPanel("globalThis.__humanplayAnalysis?.lastResult ?? null"),
+          stub: await serverStats(),
+          tts: await evaluateInPanel("JSON.stringify(globalThis.__humanplayAnalysis?.tts?.decision ?? null)"),
+        };
+        throw error;
+      }
       const errorOverlay = await waitForCleared(middlegame.session, "board-play-computer", { description: "no arrows on the server error" });
       o7.serverError = {
         cardMessage: errorSuggestion.message,

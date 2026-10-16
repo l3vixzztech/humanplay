@@ -1,0 +1,152 @@
+{
+  "pass": true,
+  "failures": [],
+  "screenshots": [
+    "test/fixtures/captures/tts/tts-voices.png"
+  ],
+  "voices": {
+    "engine": "chrome.tts",
+    "count": 14805,
+    "voices": [
+      {
+        "name": "Afrikaans espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      },
+      {
+        "name": "Afrikaans+Adam espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      },
+      {
+        "name": "Afrikaans+Alex espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      },
+      {
+        "name": "Afrikaans+Alicia espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      },
+      {
+        "name": "Afrikaans+Andrea espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      },
+      {
+        "name": "Afrikaans+Andy espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      },
+      {
+        "name": "Afrikaans+Annie espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      },
+      {
+        "name": "Afrikaans+Antonio espeak-ng",
+        "lang": "af",
+        "remote": false,
+        "gender": null,
+        "eventTypes": [
+          "start",
+          "end",
+          "marker",
+          "cancelled",
+          "pause",
+          "resume"
+        ]
+      }
+    ],
+    "note": null,
+    "ok": true,
+    "at": "2026-10-16T19:18:15.740Z",
+    "lastError": null
+  },
+  "panelVoices": {
+    "line": "voices: 14805 · chrome.tts",
+    "noteVisible": false,
+    "noteText": ""
+  },
+  "testSpeak": {
+    "at": "2026-10-16T19:18:24.921Z",
+    "atEpochMs": 1792178304921,
+    "kind": "speak",
+    "text": "Knight to f3",
+    "san": null,
+    "uci": null,
+    "key": null,
+    "reason": "test",
+    "source": "panel-test",
+    "engine": "chrome.tts",
+    "options": {
+      "enqueue": false,
+      "rate": 1
+    },
+    "ok": true,
+    "error": null
+  }
+}

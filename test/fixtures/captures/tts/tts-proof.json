@@ -1,0 +1,2101 @@
+{
+  "tool": "tts-proof.mjs",
+  "generatedAt": "2026-10-16T19:18:12.377Z",
+  "chrome": "/home/l3vixzz/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome",
+  "extension": "/home/l3vixzz/Desktop/humanplay/extension",
+  "launch": {
+    "headless": true,
+    "speechBackendFlag": "--enable-speech-dispatcher"
+  },
+  "checks": {
+    "staticServer": {
+      "origin": "http://127.0.0.1:35943",
+      "root": "/home/l3vixzz/Desktop/humanplay/test/fixtures"
+    },
+    "analysisServer": {
+      "mode": "stub (already running)",
+      "health": {
+        "status": "ok",
+        "model": "fixture-static-server"
+      }
+    },
+    "manifest": {
+      "path": "extension/manifest.json",
+      "sha256": "e45ab49c8c80c0a3a45efbde8c47bb35b23bd20b515bc7c611694111ebb54d0e",
+      "version": "0.5.0",
+      "permissions": [
+        "activeTab",
+        "storage",
+        "sidePanel",
+        "downloads",
+        "tts"
+      ],
+      "host_permissions": [
+        "http://127.0.0.1:8765/*"
+      ],
+      "commands": {
+        "toggle-tts": {
+          "suggested_key": {
+            "default": "Ctrl+Shift+Y"
+          },
+          "description": "Toggle TTS move announcements (speak the suggested move)"
+        }
+      },
+      "hasAllUrls": false
+    },
+    "ttsFiles": {
+      "src/tts/move-speech.js": "990ecc3b657dc5392e18404c1d9b00f620ec6e1fcc1708e30d3e9395c6a38076",
+      "src/tts/tts-policy.js": "39832fdca603c2353ea0bf833346a7646a5907e3a1c589d228a623e90ddbc54f",
+      "src/tts/speaker.js": "7452d6839e3de01a794113b1452753f27572761aabf33cda693bb6b44ef7a473",
+      "src/tts/tts-service.js": "9bf50990ca9fb7a114b4f00991b64afa528f7bbd722af548b639e54af2c92ca9",
+      "src/background/service-worker.js": "62755fb09bc236454cc2a6ebfbfd3da8b6f312fc418d73d8c09fc21aa4aefdd4",
+      "src/ui/sidepanel.js": "6401f7d8684deef007aecde118cd0e03060a5660449fcbe479d97de2c0f5e262",
+      "src/ui/sidepanel.html": "efea8fe29ce7c986ea01028cd8497e6fc78b221e885406fa4509c9f708c187f8"
+    },
+    "manifestVariant": {
+      "enabled": true,
+      "addedContentScriptMatch": "http://127.0.0.1:35943/*",
+      "addedWebAccessibleMatch": "http://127.0.0.1:35943/*",
+      "codeFilesCompared": 25,
+      "codeFileMismatches": [],
+      "codeIdentical": true
+    },
+    "extensionId": "idofkddohdkpaoaipnkankcdndoodgol",
+    "browser": {
+      "version": "Chrome/155.0.8059.84",
+      "protocolVersion": "1.3"
+    },
+    "serviceWorkerUrl": "chrome-extension://idofkddohdkpaoaipnkankcdndoodgol/src/background/service-worker.js",
+    "panelUi": {
+      "elements": {
+        "tts-enabled": true,
+        "tts-rate": true,
+        "tts-test": true,
+        "tts-voices": true,
+        "tts-note": true,
+        "tts-status": true
+      },
+      "enabledDefaultChecked": false,
+      "rateOptions": [
+        "0.8",
+        "1",
+        "1.2"
+      ],
+      "inlineScripts": 0
+    },
+    "ttsTestApiPresent": true,
+    "extensionConsoleClean": true,
+    "expectedNetworkErrors": [
+      "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:35943/favicon.ico)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)",
+      "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+    ],
+    "synthesisBackend": {
+      "flag": "--enable-speech-dispatcher",
+      "eventTypes": [
+        "start",
+        "end",
+        "interrupted"
+      ],
+      "synthesized": true,
+      "voices": {
+        "engine": "chrome.tts",
+        "count": 14805,
+        "voices": [
+          {
+            "name": "Afrikaans espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Adam espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Alex espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Alicia espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Andrea espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Andy espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Annie espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Antonio espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          }
+        ],
+        "note": null,
+        "ok": true,
+        "at": "2026-10-16T19:18:25.113Z",
+        "lastError": null
+      },
+      "note": "start/end events mean Chrome reached a speech backend; without one every utterance reports {type:\"error\"} and the record is still written (assertions do not depend on audio)."
+    },
+    "finalTtsHook": {
+      "engine": "chrome.tts",
+      "scope": "service-worker",
+      "speakCount": 10,
+      "stopCount": 12,
+      "speakFailCount": 0,
+      "calls": [
+        {
+          "at": "2026-10-16T19:18:13.049Z",
+          "atEpochMs": 1792178293049,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178293048
+        },
+        {
+          "at": "2026-10-16T19:18:13.049Z",
+          "atEpochMs": 1792178293049,
+          "kind": "speak",
+          "text": "e-pawn to e4",
+          "san": "e4",
+          "uci": "e2e4",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+          "reason": "suggestion",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:14.769Z",
+          "atEpochMs": 1792178294769,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178294769
+        },
+        {
+          "at": "2026-10-16T19:18:14.769Z",
+          "atEpochMs": 1792178294769,
+          "kind": "speak",
+          "text": "Knight to c3",
+          "san": "Nc3",
+          "uci": "b1c3",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3",
+          "reason": "suggestion",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:15.743Z",
+          "atEpochMs": 1792178295743,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178295743
+        },
+        {
+          "at": "2026-10-16T19:18:15.743Z",
+          "atEpochMs": 1792178295743,
+          "kind": "speak",
+          "text": "Knight to d5",
+          "san": "Nd5",
+          "uci": "c3d5",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
+          "reason": "suggestion",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:16.217Z",
+          "atEpochMs": 1792178296217,
+          "kind": "stop",
+          "reason": "toggle-off",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178296217
+        },
+        {
+          "at": "2026-10-16T19:18:16.698Z",
+          "atEpochMs": 1792178296698,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178296698
+        },
+        {
+          "at": "2026-10-16T19:18:16.699Z",
+          "atEpochMs": 1792178296699,
+          "kind": "speak",
+          "text": "Knight to d5",
+          "san": "Nd5",
+          "uci": "c3d5",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
+          "reason": "toggle-on",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:17.511Z",
+          "atEpochMs": 1792178297511,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178297511
+        },
+        {
+          "at": "2026-10-16T19:18:17.511Z",
+          "atEpochMs": 1792178297511,
+          "kind": "speak",
+          "text": "Knight to g5",
+          "san": "Ng5",
+          "uci": "f3g5",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3",
+          "reason": "suggestion",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:21.553Z",
+          "atEpochMs": 1792178301553,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178301553
+        },
+        {
+          "at": "2026-10-16T19:18:21.553Z",
+          "atEpochMs": 1792178301553,
+          "kind": "speak",
+          "text": "a-rook to d1",
+          "san": "Rad1",
+          "uci": "a1d1",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6|2400|2400|3",
+          "reason": "suggestion",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:22.328Z",
+          "atEpochMs": 1792178302328,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178302328
+        },
+        {
+          "at": "2026-10-16T19:18:22.328Z",
+          "atEpochMs": 1792178302328,
+          "kind": "speak",
+          "text": "Queen to d2",
+          "san": "Qd2",
+          "uci": "e2d2",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3",
+          "reason": "suggestion",
+          "source": "panel",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:23.471Z",
+          "atEpochMs": 1792178303471,
+          "kind": "stop",
+          "reason": "toggle-off",
+          "source": "hotkey",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178303471
+        },
+        {
+          "at": "2026-10-16T19:18:24.266Z",
+          "atEpochMs": 1792178304266,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "hotkey",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178304266
+        },
+        {
+          "at": "2026-10-16T19:18:24.266Z",
+          "atEpochMs": 1792178304266,
+          "kind": "speak",
+          "text": "Queen to d2",
+          "san": "Qd2",
+          "uci": "e2d2",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3",
+          "reason": "toggle-on",
+          "source": "hotkey",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:24.921Z",
+          "atEpochMs": 1792178304921,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "panel-test",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178304921
+        },
+        {
+          "at": "2026-10-16T19:18:24.921Z",
+          "atEpochMs": 1792178304921,
+          "kind": "speak",
+          "text": "Knight to f3",
+          "san": null,
+          "uci": null,
+          "key": null,
+          "reason": "test",
+          "source": "panel-test",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        },
+        {
+          "at": "2026-10-16T19:18:26.913Z",
+          "atEpochMs": 1792178306913,
+          "kind": "stop",
+          "reason": "before-speak",
+          "source": "content-script",
+          "engine": "chrome.tts",
+          "ok": true,
+          "error": null,
+          "stoppedAt": 1792178306913
+        },
+        {
+          "at": "2026-10-16T19:18:26.913Z",
+          "atEpochMs": 1792178306913,
+          "kind": "speak",
+          "text": "Knight to f3",
+          "san": "Nf3",
+          "uci": "g1f3",
+          "key": "panel-closed-proof",
+          "reason": "panel-closed-proof",
+          "source": "content-script",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1.2
+          },
+          "ok": true,
+          "error": null
+        }
+      ]
+    }
+  },
+  "cases": {
+    "tts-startpos-speak": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [
+        "test/fixtures/captures/tts/tts-card-on.png",
+        "test/fixtures/captures/tts/tts-startpos-suggestion.png"
+      ],
+      "beforeSuggestion": {
+        "enabled": true,
+        "rate": 1,
+        "decision": {
+          "speak": false,
+          "reason": "no-suggestion",
+          "at": 1792178292834,
+          "trigger": "toggle-on",
+          "source": "panel",
+          "force": true,
+          "key": null
+        },
+        "decisions": [
+          {
+            "speak": false,
+            "reason": "no-suggestion",
+            "at": 1792178292834,
+            "trigger": "toggle-on",
+            "source": "panel",
+            "force": true,
+            "key": null
+          }
+        ],
+        "lastRequest": null,
+        "lastStop": null,
+        "voices": {
+          "ok": true,
+          "engine": "chrome.tts",
+          "count": 0,
+          "note": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend."
+        },
+        "errors": 0,
+        "lastError": null,
+        "checkbox": true,
+        "statusChip": "on",
+        "rateValue": "1",
+        "voicesLine": "voices: 0 · chrome.tts",
+        "noteVisible": true,
+        "noteText": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend.",
+        "staleDiscardCount": 0,
+        "renderCount": 0,
+        "status": "idle",
+        "gate": "idle",
+        "lastRenderKey": null,
+        "lastResult": null
+      },
+      "suggestion": {
+        "san": "e4",
+        "uci": "e2e4",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3"
+      },
+      "speak": {
+        "at": "2026-10-16T19:18:13.049Z",
+        "atEpochMs": 1792178293049,
+        "kind": "speak",
+        "text": "e-pawn to e4",
+        "san": "e4",
+        "uci": "e2e4",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+        "reason": "suggestion",
+        "source": "panel",
+        "engine": "chrome.tts",
+        "options": {
+          "enqueue": false,
+          "rate": 1
+        },
+        "ok": true,
+        "error": null
+      },
+      "panel": {
+        "enabled": true,
+        "rate": 1,
+        "decision": {
+          "speak": false,
+          "reason": "duplicate",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+          "at": 1792178293049,
+          "trigger": "suggestion",
+          "source": "panel",
+          "force": false,
+          "move": "e4",
+          "text": null
+        },
+        "decisions": [
+          {
+            "speak": false,
+            "reason": "no-suggestion",
+            "at": 1792178292834,
+            "trigger": "toggle-on",
+            "source": "panel",
+            "force": true,
+            "key": null
+          },
+          {
+            "speak": true,
+            "reason": "speak",
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+            "at": 1792178293047,
+            "trigger": "suggestion",
+            "source": "panel",
+            "force": false,
+            "move": "e4",
+            "text": null
+          },
+          {
+            "speak": true,
+            "reason": "speak",
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+            "at": 1792178293047,
+            "trigger": "suggestion",
+            "source": "panel",
+            "force": false,
+            "move": "e4",
+            "text": "e-pawn to e4"
+          },
+          {
+            "speak": false,
+            "reason": "duplicate",
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+            "at": 1792178293047,
+            "trigger": "suggestion",
+            "source": "panel",
+            "force": false,
+            "move": "e4",
+            "text": null
+          },
+          {
+            "speak": false,
+            "reason": "duplicate",
+            "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+            "at": 1792178293049,
+            "trigger": "suggestion",
+            "source": "panel",
+            "force": false,
+            "move": "e4",
+            "text": null
+          }
+        ],
+        "lastRequest": {
+          "text": "e-pawn to e4",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+          "reason": "suggestion",
+          "source": "panel",
+          "options": {
+            "rate": 1
+          },
+          "response": {
+            "ok": true,
+            "engine": "chrome.tts",
+            "text": "e-pawn to e4",
+            "issuedAt": "2026-10-16T19:18:13.049Z",
+            "issuedAtEpochMs": 1792178293049,
+            "stopBefore": {
+              "ok": true,
+              "stoppedAt": "2026-10-16T19:18:13.049Z",
+              "reason": "before-speak"
+            },
+            "error": null
+          }
+        },
+        "lastStop": null,
+        "voices": {
+          "ok": true,
+          "engine": "chrome.tts",
+          "count": 0,
+          "note": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend."
+        },
+        "errors": 0,
+        "lastError": null,
+        "checkbox": true,
+        "statusChip": "on",
+        "rateValue": "1",
+        "voicesLine": "voices: 0 · chrome.tts",
+        "noteVisible": true,
+        "noteText": "chrome.tts reports no voices on this system. On Linux, Chrome speaks through speech-dispatcher: install it (sudo apt install speech-dispatcher) and start Chrome with --enable-speech-dispatcher. The speak path still executes — audio needs a voice backend.",
+        "staleDiscardCount": 0,
+        "renderCount": 3,
+        "status": "ready",
+        "gate": "auto",
+        "lastRenderKey": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+        "lastResult": {
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+          "mode": "board-only",
+          "historyUsed": 0,
+          "model": "maia3-5m",
+          "elapsed_ms": 15.36,
+          "roundTripMs": 4,
+          "attempts": 1,
+          "fromCache": true,
+          "moves": [
+            {
+              "uci": "e2e4",
+              "san": "e4",
+              "prob": 0.464864
+            },
+            {
+              "uci": "d2d4",
+              "san": "d4",
+              "prob": 0.339048
+            },
+            {
+              "uci": "g1f3",
+              "san": "Nf3",
+              "prob": 0.081763
+            }
+          ],
+          "wdl": {
+            "draw": 0.067579,
+            "loss": 0.456007,
+            "win": 0.476414
+          },
+          "opponentPerspective": false
+        }
+      },
+      "voices": {
+        "engine": "chrome.tts",
+        "count": 14805,
+        "voices": [
+          {
+            "name": "Afrikaans espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Adam espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Alex espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Alicia espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Andrea espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Andy espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Annie espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Antonio espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          }
+        ],
+        "note": null,
+        "ok": true,
+        "at": "2026-10-16T19:18:13.045Z",
+        "lastError": null
+      },
+      "stopBeforeSpeak": {
+        "at": "2026-10-16T19:18:13.049Z",
+        "atEpochMs": 1792178293049,
+        "kind": "stop",
+        "reason": "before-speak",
+        "source": "panel",
+        "engine": "chrome.tts",
+        "ok": true,
+        "error": null,
+        "stoppedAt": 1792178293048
+      },
+      "panelDecision": {
+        "speak": false,
+        "reason": "duplicate",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+        "at": 1792178293049,
+        "trigger": "suggestion",
+        "source": "panel",
+        "force": false,
+        "move": "e4",
+        "text": null
+      },
+      "panelSpeakDecisions": 1,
+      "ttsEvents": [
+        {
+          "type": "start",
+          "at": "2026-10-16T19:18:13.092Z",
+          "atEpochMs": 1792178293092,
+          "text": "e-pawn to e4",
+          "errorMessage": null
+        }
+      ]
+    },
+    "tts-dedupe": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [],
+      "renderCountBefore": 3,
+      "renderCountAfter": 9,
+      "speaksForStartpos": 1,
+      "speakCount": 1,
+      "lastDecision": {
+        "speak": false,
+        "reason": "duplicate",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3",
+        "at": 1792178294453,
+        "trigger": "suggestion",
+        "source": "panel",
+        "force": false,
+        "move": "e4",
+        "text": null
+      },
+      "duplicateDecisions": 8
+    },
+    "tts-new-position": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [
+        "test/fixtures/captures/tts/tts-middlegame-on.png"
+      ],
+      "initial": {
+        "text": "Knight to c3",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3"
+      },
+      "afterMove": {
+        "text": "Knight to d5",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3"
+      },
+      "mutationToSpeakMs": 881,
+      "delayMs": 700,
+      "stopBeforeSpeak": {
+        "at": "2026-10-16T19:18:15.743Z",
+        "atEpochMs": 1792178295743,
+        "kind": "stop",
+        "reason": "before-speak",
+        "source": "panel",
+        "engine": "chrome.tts",
+        "ok": true,
+        "error": null,
+        "stoppedAt": 1792178295743
+      },
+      "speaksForNewKey": 1
+    },
+    "tts-toggle-midflow": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [
+        "test/fixtures/captures/tts/tts-card-off.png",
+        "test/fixtures/captures/tts/tts-middlegame-on-again.png"
+      ],
+      "toggleOffStop": {
+        "at": "2026-10-16T19:18:16.217Z",
+        "atEpochMs": 1792178296217,
+        "kind": "stop",
+        "reason": "toggle-off",
+        "source": "panel",
+        "engine": "chrome.tts",
+        "ok": true,
+        "error": null,
+        "stoppedAt": 1792178296217
+      },
+      "toggleOnSpeak": {
+        "at": "2026-10-16T19:18:16.699Z",
+        "atEpochMs": 1792178296699,
+        "kind": "speak",
+        "text": "Knight to d5",
+        "san": "Nd5",
+        "uci": "c3d5",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
+        "reason": "toggle-on",
+        "source": "panel",
+        "engine": "chrome.tts",
+        "options": {
+          "enqueue": false,
+          "rate": 1
+        },
+        "ok": true,
+        "error": null
+      },
+      "panelAfterOn": {
+        "decision": {
+          "speak": true,
+          "reason": "forced",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3",
+          "at": 1792178296698,
+          "trigger": "toggle-on",
+          "source": "panel",
+          "force": true,
+          "move": "Nd5",
+          "text": "Knight to d5"
+        },
+        "statusChip": "on",
+        "enabled": true
+      },
+      "speakCountDelta": 1
+    },
+    "tts-stale": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [],
+      "staleKey": "e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3",
+      "staleMutations": {
+        "p3At": 1792178297185,
+        "p4At": 1792178297354
+      },
+      "fastSpeak": {
+        "at": "2026-10-16T19:18:17.511Z",
+        "atEpochMs": 1792178297511,
+        "kind": "speak",
+        "text": "Knight to g5",
+        "san": "Ng5",
+        "uci": "f3g5",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3",
+        "reason": "suggestion",
+        "source": "panel",
+        "engine": "chrome.tts",
+        "options": {
+          "enqueue": false,
+          "rate": 1
+        },
+        "ok": true,
+        "error": null
+      },
+      "speaksForStaleKey": 0,
+      "staleDiscardsBefore": 0,
+      "staleDiscardsAfter": 1,
+      "speaksForFastKey": 1,
+      "lastSpeak": {
+        "at": "2026-10-16T19:18:17.511Z",
+        "atEpochMs": 1792178297511,
+        "kind": "speak",
+        "text": "Knight to g5",
+        "san": "Ng5",
+        "uci": "f3g5",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3",
+        "reason": "suggestion",
+        "source": "panel",
+        "engine": "chrome.tts",
+        "options": {
+          "enqueue": false,
+          "rate": 1
+        },
+        "ok": true,
+        "error": null
+      },
+      "fastLatencyMs": 157
+    },
+    "tts-clear-cases": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [
+        "test/fixtures/captures/tts/tts-opponent-turn.png",
+        "test/fixtures/captures/tts/tts-gameover.png"
+      ],
+      "opponentTurn": {
+        "gate": "waiting",
+        "speaksForFlippedKey": 0
+      },
+      "manualOnTheirTurn": {
+        "speaksForFlippedKey": 0,
+        "decision": {
+          "speak": false,
+          "reason": "not-your-turn",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3",
+          "at": 1792178299602,
+          "trigger": "suggestion",
+          "source": "panel",
+          "force": false,
+          "move": "d4",
+          "text": null
+        }
+      },
+      "assistantOff": {
+        "requestedKeys": {
+          "before": {
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3": 1
+          },
+          "after": {
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8|2400|2400|3": 1,
+            "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3": 1
+          }
+        },
+        "speaksForP5Key": 0
+      },
+      "assistantOnRecovery": {
+        "text": "a-rook to d1",
+        "reason": "suggestion",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6|2400|2400|3"
+      },
+      "serverError": {
+        "speaksForP6Key": 0,
+        "cardMessage": "invalid input (HTTP 400): fixture server (test mode): simulated invalid input — the FEN was rejected"
+      },
+      "serverErrorRecovery": {
+        "text": "Queen to d2",
+        "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3"
+      },
+      "gameOver": {
+        "cardMessage": "game over — checkmate — black is mated. Rules-decided outcome (you): win 0.0% · draw 0.0% · loss 100.0%",
+        "speaksForGameoverKey": 0,
+        "decision": {
+          "speak": false,
+          "reason": "no-suggestion",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 f1c4 b8c6 d1h5 g8f6 h5f7|2400|2400|3",
+          "at": 1792178302452,
+          "trigger": "suggestion",
+          "source": "panel",
+          "force": false,
+          "move": null,
+          "text": null
+        }
+      }
+    },
+    "tts-hotkey-and-badge": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [
+        "test/fixtures/captures/tts/tts-card-off-hotkey.png"
+      ],
+      "note": "The toolbar badge is browser UI: CDP cannot screenshot it and this machine has no screen-capture tool (GNOME screenshot D-Bus is denied, no import/xwd/ffmpeg). Badge state is asserted through chrome.action.getBadgeText/getBadgeBackgroundColor/getBadgeTextColor and left as a manual check (a green \"TTS\" chip on the toolbar icon). Real Ctrl+Shift+Y key presses cannot be dispatched through CDP either — the handler (__humanplayTtsTest.invokeToggle, the exact function chrome.commands.onCommand calls) is invoked instead; pressing the physical shortcut is a manual check.",
+      "commands": [
+        {
+          "description": "",
+          "name": "_execute_action",
+          "shortcut": ""
+        },
+        {
+          "description": "Toggle TTS move announcements (speak the suggested move)",
+          "name": "toggle-tts",
+          "shortcut": "Ctrl+Shift+Y"
+        }
+      ],
+      "command": {
+        "description": "Toggle TTS move announcements (speak the suggested move)",
+        "name": "toggle-tts",
+        "shortcut": "Ctrl+Shift+Y"
+      },
+      "badgeWhileOn": {
+        "text": "TTS",
+        "background": [
+          47,
+          111,
+          79,
+          255
+        ],
+        "textColor": [
+          255,
+          255,
+          255,
+          255
+        ]
+      },
+      "toggleOff": {
+        "handler": {
+          "enabled": false,
+          "rate": 1
+        },
+        "settings": {
+          "assistantEnabled": true,
+          "ttsEnabled": false
+        },
+        "badgeText": "",
+        "panel": {
+          "enabled": false,
+          "checkbox": false,
+          "statusChip": "off",
+          "decision": {
+            "speak": false,
+            "reason": "tts-off",
+            "trigger": "toggle-off",
+            "source": "hotkey",
+            "force": false,
+            "key": null
+          }
+        }
+      },
+      "toggleOn": {
+        "handler": {
+          "enabled": true,
+          "rate": 1
+        },
+        "settings": {
+          "assistantEnabled": true,
+          "ttsEnabled": true
+        },
+        "badgeText": "TTS",
+        "hotkeySpeak": {
+          "at": "2026-10-16T19:18:24.266Z",
+          "atEpochMs": 1792178304266,
+          "kind": "speak",
+          "text": "Queen to d2",
+          "san": "Qd2",
+          "uci": "e2d2",
+          "key": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3",
+          "reason": "toggle-on",
+          "source": "hotkey",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1
+          },
+          "ok": true,
+          "error": null
+        }
+      },
+      "badge": {
+        "text": "TTS",
+        "backgroundColor": "#2f6f4f",
+        "textColor": "#ffffff",
+        "updatedAt": "2026-10-16T19:18:24.265Z",
+        "error": null
+      }
+    },
+    "tts-voices-and-test": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [
+        "test/fixtures/captures/tts/tts-voices.png"
+      ],
+      "voices": {
+        "engine": "chrome.tts",
+        "count": 14805,
+        "voices": [
+          {
+            "name": "Afrikaans espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Adam espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Alex espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Alicia espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Andrea espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Andy espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Annie espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          },
+          {
+            "name": "Afrikaans+Antonio espeak-ng",
+            "lang": "af",
+            "remote": false,
+            "gender": null,
+            "eventTypes": [
+              "start",
+              "end",
+              "marker",
+              "cancelled",
+              "pause",
+              "resume"
+            ]
+          }
+        ],
+        "note": null,
+        "ok": true,
+        "at": "2026-10-16T19:18:15.740Z",
+        "lastError": null
+      },
+      "panelVoices": {
+        "line": "voices: 14805 · chrome.tts",
+        "noteVisible": false,
+        "noteText": ""
+      },
+      "testSpeak": {
+        "at": "2026-10-16T19:18:24.921Z",
+        "atEpochMs": 1792178304921,
+        "kind": "speak",
+        "text": "Knight to f3",
+        "san": null,
+        "uci": null,
+        "key": null,
+        "reason": "test",
+        "source": "panel-test",
+        "engine": "chrome.tts",
+        "options": {
+          "enqueue": false,
+          "rate": 1
+        },
+        "ok": true,
+        "error": null
+      }
+    },
+    "tts-panel-closed": {
+      "pass": true,
+      "failures": [],
+      "screenshots": [
+        "test/fixtures/captures/tts/tts-panel-closed-board.png"
+      ],
+      "note": "With the side panel closed the extension has no analysis loop (M4 lives in the panel document), so no NEW suggestion can be produced — that is why no automatic speak may appear after the panel closes. What this case proves — the architecture-critical property — is that the speak EXECUTION path (service worker + chrome.tts + the debug record + the badge) is fully independent of the panel document: the SW still tracks the GameState stream, and a speak routed through the production runtime-message path (sent from the content-script isolated world, the only remaining sender with the panel gone) is performed and recorded.",
+      "contextsBefore": [
+        {
+          "type": "BACKGROUND"
+        },
+        {
+          "type": "TAB",
+          "url": "chrome-extension://idofkddohdkpaoaipnkankcdndoodgol/src/ui/sidepanel.html"
+        }
+      ],
+      "contextsAfterClose": [
+        {
+          "type": "BACKGROUND"
+        }
+      ],
+      "stateWithPanelClosed": {
+        "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+        "ok": true,
+        "turn": "b",
+        "moves": 1,
+        "tabId": 36742485,
+        "at": "2026-10-16T19:18:26.857Z",
+        "atEpochMs": 1792178306857
+      },
+      "speaksWhilePanelClosed": 0,
+      "panelClosedSpeak": {
+        "response": {
+          "ok": true,
+          "engine": "chrome.tts",
+          "text": "Knight to f3",
+          "issuedAt": "2026-10-16T19:18:26.913Z",
+          "issuedAtEpochMs": 1792178306913,
+          "stopBefore": {
+            "ok": true,
+            "stoppedAt": "2026-10-16T19:18:26.913Z",
+            "reason": "before-speak"
+          },
+          "error": null
+        },
+        "call": {
+          "at": "2026-10-16T19:18:26.913Z",
+          "atEpochMs": 1792178306913,
+          "kind": "speak",
+          "text": "Knight to f3",
+          "san": "Nf3",
+          "uci": "g1f3",
+          "key": "panel-closed-proof",
+          "reason": "panel-closed-proof",
+          "source": "content-script",
+          "engine": "chrome.tts",
+          "options": {
+            "enqueue": false,
+            "rate": 1.2
+          },
+          "ok": true,
+          "error": null
+        }
+      },
+      "stopAfterPanelClosed": {
+        "at": "2026-10-16T19:18:26.913Z",
+        "atEpochMs": 1792178306913,
+        "kind": "stop",
+        "reason": "before-speak",
+        "source": "content-script",
+        "engine": "chrome.tts",
+        "ok": true,
+        "error": null,
+        "stoppedAt": 1792178306913
+      },
+      "hotkeyWithPanelClosed": {
+        "off": {
+          "enabled": false,
+          "rate": 1
+        },
+        "badgeOff": "",
+        "on": {
+          "enabled": true,
+          "rate": 1
+        },
+        "badgeOn": "TTS"
+      }
+    }
+  },
+  "failures": [],
+  "console": {
+    "panel": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      }
+    ],
+    "serviceWorker": [],
+    "pages": [
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/startpos.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:35943/favicon.ico)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list-empty (startpos) board=#board-single moves=0"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/middlegame-castling.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=14"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=16"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=18"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=20"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:stale"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/flipped-black.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/flipped-black.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=4"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:opponent-turn"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 c7c5 g1f3 d7d6|2400|2400|3 arrows=1 flipped=true rect=[18,58,560,560] reason=board-resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:assistant-off"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=22"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-play-computer moves=24"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:error:invalid_input"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] chess.com adapter m3.1 loaded (http://127.0.0.1:35943/chesscom/gameover-checkmate.html)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay board overlay m5.0 loaded (http://127.0.0.1:35943/chesscom/gameover-checkmate.html)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=7"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:game-over"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1|e2e4 e7e5 g1f3 b8c6 f1c4 f8c5 e1g1 g8f6 d2d3 d7d6 c1g5 e8g8 g5f6 d8f6 b1c3 h7h6 h2h3 f8e8 a2a4 c8e6 d1e2 a7a6 a1d1 g8h8|2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=state"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=panel:analyzing"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay suggestion key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 moves=1 topN=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=suggestion"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay draw key=rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1||2400|2400|3 arrows=1 flipped=false rect=[18,58,560,560] reason=resize"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] position=piece-square-class history=move-list (replayed) board=#board-single moves=1"
+      },
+      {
+        "bucket": "info",
+        "source": "console",
+        "text": "[humanplay] overlay clear reason=position-changed"
+      }
+    ],
+    "panelErrors": [],
+    "serviceWorkerErrors": [],
+    "pageErrors": [],
+    "networkErrors": [
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 400 (Bad Request) (http://127.0.0.1:8765/analyze)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: the server responded with a status of 404 (Not Found) (http://127.0.0.1:35943/favicon.ico)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      },
+      {
+        "bucket": "error",
+        "source": "network",
+        "text": "Failed to load resource: net::ERR_UNKNOWN_URL_SCHEME (about:blank)"
+      }
+    ]
+  },
+  "ok": true
+}

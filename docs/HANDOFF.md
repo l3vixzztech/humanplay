@@ -2,6 +2,154 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Session 6 — Milestone 6: TTS move announcements (chrome.tts, toggle + hotkey + dedupe) ✅
+
+**What works**
+- `extension/` **0.5.0** (adapter m3.1, overlay m5.0 unchanged). New manifest
+  bits: permission **`tts`** + command **`toggle-tts`** (Ctrl+Shift+Y) — no
+  other new permissions, no `<all_urls>` (checked by the proof).
+- **`src/tts/move-speech.js` (new, pure)**: SAN/UCI → spoken text: `Nf3` →
+  "Knight to f3", `exd5` → "e-pawn takes d5", `O-O` → "Castle kingside",
+  `O-O-O` → "Castle queenside", `e8=Q+` → "Promote to queen on e8, check",
+  `gxh8=N#` → "g-pawn takes h8, promote to knight, mate", `Nbd2` →
+  "b-knight to d2", `R1e2` → "rook one to e2", `Bxh7+` → "Bishop takes h7,
+  check"; unparseable SAN → UCI fallback "move e2 to e4" (+ ", promote to
+  queen"); `null` when nothing parses (callers stay silent).
+- **`src/tts/tts-policy.js` (new, pure)**: `speakDecision` (the never-speak
+  matrix), `createSpokenKeyStore` (bounded dedupe), `clampRate` (0.5–2,
+  `TTS_RATES` 0.8/1.0/1.2), `normalizeTtsSettings` (default OFF).
+- **`src/tts/speaker.js` + `src/tts/tts-service.js` (new)**: the speaker seam
+  (`speak(text,{rate})`, `stop()`, `available()`) with `createSpeaker()` as the
+  single construction point (Piper/cloud would slot in there); the service runs
+  in the **service worker** and records every call in `__humanplayTts`
+  (text/options/engine/timestamp/reason/source/key + chrome.tts events +
+  counters + last GameState + badge, mirrored to `storage.session` so MV3
+  restarts keep it). `__humanplayTtsTest.invokeToggle/speak/stop` is the
+  documented callable test seam.
+- **Panel "Voice (TTS)" card**: Speak suggestion (default OFF, persisted), rate
+  select, **Speak test** ("Knight to f3"), voices line + actionable note,
+  Ctrl+Shift+Y/badge hint; panel debug view `__humanplayAnalysis.tts`
+  (decision + decision history). Policy: speak iff TTS on + assistant on +
+  your turn + non-stale suggestion for the current key + key not spoken yet;
+  enabling speaks the current suggestion once, disabling stops mid-sentence;
+  never on errors/game over/opponent/assistant-off/stale. Interruption: the SW
+  stops before **every** `speak(enqueue:false)`.
+- **Badge**: "TTS" on green `#2f6f4f` while on (white text), cleared while off —
+  set by the service worker from `settings` (works with the panel closed).
+
+**Which TTS path won (verified empirically, Chrome for Testing 155.0.8059.84)**
+- **`chrome.tts` from the MV3 service worker** — no offscreen document.
+  `speak/stop/getVoices/isSpeaking/onEvent/onVoicesChanged` are all present in
+  the SW, calls execute and events fire. The offscreen fallback was **not
+  needed** and is not viable: an offscreen document does **not** expose
+  `chrome.tts` (only Web Speech `speechSynthesis`), and the `offscreen`
+  permission was out of budget anyway. The SW also never dies with the panel —
+  that is what the panel-closed proof case asserts.
+- **Speech backend on this machine**: speech-dispatcher + espeak-ng are
+  installed. Chrome only synthesizes with `--enable-speech-dispatcher`: then
+  `chrome.tts.getVoices()` enumerates **14805 espeak-ng voices** (asynchronously
+  — 0 right after a cold SW start; the panel retries once, the SW listens to
+  `onVoicesChanged`) and utterances fire start/end/interrupted. Without the flag:
+  0 voices and every utterance ends in `{type:"error", errorMessage:""}` — the
+  speak path still executes and is recorded (secondary evidence run:
+  `captures/tts/no-backend/`). Real Chrome (not CfT) needs that flag or a
+  speech backend too — worth confirming by hand.
+
+**Results (evidence: `test/fixtures/captures/tts/` — 21 files main + 20 no-backend)**
+- `tts-unit.mjs`: **12/12 passed** — full formatter matrix (incl. disambiguation,
+  promotions, en passant marker, annotations, castling, invalid/empty input),
+  UCI fallback, rate clamp, dedupe-store LRU, the entire `speakDecision` matrix.
+- `tts-proof.mjs` (CDP, stub server, manifest variant `codeIdentical: true`,
+  `--enable-speech-dispatcher`, 9 cases): **ALL TTS CASES PASSED**
+  - **1 speak** per position with the exact text ("e-pawn to e4"), engine
+    chrome.tts, `{enqueue:false, rate:1}`, stop("before-speak") recorded first;
+  - re-emit → renderCount 3→9, **still 1 speak** (decision "duplicate" ×3+);
+  - new position → **stop + new speak** ("Knight to d5") **858–881 ms** after the
+    mutation (700 ms artificial delay included, across runs);
+  - toggle off → stop("toggle-off") + a whole new position analyzed silently;
+    toggle on → speaks the current suggestion ("toggle-on" forced);
+  - **stale**: delayed response superseded → `staleDiscards 0→1`, never spoken;
+  - opponent's turn (auto + manual "Analyze now"), assistant off (+recovery
+    "a-rook to d1"), 400 error (+recovery "Queen to d2"), game over → 0 speaks;
+  - hotkey: `toggle-tts` registered with **Ctrl+Shift+Y**; handler flips
+    storage + badge "TTS" ↔ "" + panel checkbox (storage.onChanged) + speaks;
+  - voices: 14805 recorded, line "voices: 14805 · chrome.tts", no note; the
+    no-backend run asserts the note text + the speak path still executes;
+  - **PANEL CLOSED**: panel target closed (contexts left: only BACKGROUND), SW
+    still tracked the new FEN (`1.e4`), a speak routed through the production
+    runtime-message path (sent from the content-script isolated world, the only
+    sender left) was performed + recorded (`chrome.tts`, rate 1.2), badge still
+    flapped. Analysis-loop caveat documented in the case: no new suggestions
+    exist without the panel (M4 lives there) — the *execution* path is what is
+    guaranteed panel-independent.
+- Regressions all green: `overlay-proof` ALL OVERLAY CASES PASSED,
+  `adapter-proof` ALL ADAPTER CASES PASSED, `analyze-proof --stub` 10/10 PASSED,
+  `tts-unit` 12, server **`55 passed`** (server untouched).
+- Screenshots: `tts-card-on.png`, `tts-card-off.png`, `tts-card-off-hotkey.png`,
+  `tts-middlegame-on.png`, `tts-middlegame-on-again.png`,
+  `tts-startpos-suggestion.png`, `tts-opponent-turn.png`, `tts-gameover.png`,
+  `tts-voices.png` (14805 voices visible), `tts-panel-closed-board.png`.
+  **The toolbar badge is NOT screenshot-able** (browser UI; no CDP path, and
+  this machine has no screen-capture tool — GNOME screenshot D-Bus is denied,
+  no import/xwd/ffmpeg/grim). Asserted via `chrome.action.getBadgeText/
+  getBadgeBackgroundColor/getBadgeTextColor`; **verify the green "TTS" chip by
+  eye**.
+
+**Exact commands**
+```bash
+CHROME="$HOME/.cache/humanplay-chrome/chrome/linux-155.0.8059.84/chrome-linux64/chrome"
+node test/tools/tts-unit.mjs                               # 12 passed
+node test/tools/tts-proof.mjs --chrome "$CHROME"           # 9 cases, ALL PASSED
+node test/tools/tts-proof.mjs --chrome "$CHROME" --no-speech-backend \
+  --out-dir test/fixtures/captures/tts/no-backend          # no-voice branch evidence
+node test/tools/overlay-proof.mjs --chrome "$CHROME"       # M5 regression
+node test/tools/adapter-proof.mjs --chrome "$CHROME"       # M3 regression
+node test/tools/analyze-proof.mjs --chrome "$CHROME"       # M4 stub regression
+cd server && .venv/bin/python -m pytest tests -q           # 55 passed (server untouched)
+```
+
+**MANUAL CHECKLIST (what only a human can verify — the point of M6)**
+1. **Real game with sound**: load unpacked 0.5.0, start uvicorn, open a
+   chess.com bot game, click the icon, tick **Speak suggestion** → you must HEAR
+   "Knight to f3"-style text **within ~1.5 s** of the suggestion appearing
+   (automated: 858–881 ms with a 700 ms artificial stub delay; the real engine
+   is ~20 ms). If Chrome is silent, start it with `--enable-speech-dispatcher`
+   (the panel's voices line will say either way).
+2. **Hotkey**: press **Ctrl+Shift+Y** → TTS toggles, the toolbar badge shows a
+   green **"TTS"** while on (cleared while off), and the panel checkbox follows.
+3. **Toggle off mid-sentence** → speech must stop immediately (the SW stop is
+   recorded; hear it).
+4. **Rate**: switch 0.8 / 1.2 → the next announcement is clearly slower/faster
+   (persisted across reloads).
+5. **Voice quality**: Ubuntu espeak-ng via speech-dispatcher is **robotic** —
+   judge whether it is usable in a real game. If not, the planned optional
+   upgrade is a Piper speaker behind the existing `createSpeaker()` seam.
+6. Badge/chip visibility by eye (see the screenshot note above).
+
+**Deviations / notes**
+- The voice list loads **asynchronously**: Chrome reports 0 voices for the
+  first moment after a cold start even with a backend (then 14805 espeak-ng
+  voices on this box); the panel retries once (2 s) and the SW refreshes on
+  `chrome.tts.onVoicesChanged`, so the actionable note is not shown spuriously.
+- `overlay-proof.mjs` O7(c) had an intermittent harness flake (its precondition
+  re-activated the middlegame tab and trusted arrows that could still be shown
+  from an earlier episode, so the error step could run before the panel had
+  picked the middlegame state up). Fixed by waiting for the CARD's FEN
+  (`refreshPanelState`) first; the assertions are unchanged, plus a diagnostic
+  dump on failure. Verified 5 consecutive clean runs.
+- The offscreen speaker from the M6 sketch was **dropped** (SW path works;
+  offscreen documents don't get `chrome.tts`; `offscreen` permission not
+  allowed by the brief) — documented in `src/tts/speaker.js`.
+- `npm`-free as always; the proof still spawns the stub itself and leaves the
+  shipped manifest chess.com-only (test-only variant, hash-compared).
+- Adapter/overlay/analysis behaviour unchanged; the answer to "what would be
+  spoken" is machine-readable in `tts-proof.json` (`.checks.finalTtsHook`).
+
+**Next — Milestone 7**: premove planner (precompute replies for the opponent's
+likely moves from Maia's distribution while they think). M8: commentary.
+
+---
+
 ## Session 5 — Milestone 5: board arrow overlay (top-1 suggestion on the real board) ✅
 
 **What works**
