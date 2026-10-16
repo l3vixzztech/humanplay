@@ -128,6 +128,26 @@ function start() {
     childList: true,
     characterData: true,
   });
+
+  // M9.3: chess.com moves pieces by changing their CLASS/STYLE attributes —
+  // no childList mutation at all in long games (the move list is a sliver that
+  // does not repaint), so the page-level observer above missed real moves and
+  // the panel went stale until a manual Refresh. Watch the board element's
+  // attributes too (attached per refresh; re-attached when the board changes).
+  let boardObserver = null;
+  let boardObserverTarget = null;
+  function watchBoardAttributes(boardEl) {
+    if (!boardEl || boardObserverTarget === boardEl) return;
+    boardObserver?.disconnect();
+    boardObserverTarget = boardEl;
+    boardObserver = new MutationObserver(() => schedule("board-attribute"));
+    boardObserver.observe(boardEl, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["class", "style"],
+    });
+  }
   window.addEventListener("resize", () => schedule("resize"), { passive: true });
   window.addEventListener("scroll", () => schedule("scroll"), { passive: true, capture: true });
 
@@ -257,6 +277,7 @@ function start() {
     if (!board) {
       return { ok: false, reason: "no visible chess.com board found on this page", ...base };
     }
+    watchBoardAttributes(board.el);
 
     const boardRect = modules.boardLocate.rectOf(board.el);
     const boardState = readBoardState(board.el, modules);
@@ -359,13 +380,26 @@ function start() {
     // to come from elsewhere (clock indicator / history parity) and castling /
     // en-passant / move counters stay unknown.
     let sideToMove = { turn: "w", source: "default" };
+    /**
+     * Plies played per the best history candidate: absolute node indices when
+     * available (a sliver list still reports them — M9.3), else token count.
+     */
+    const playedPlies = () => {
+      if (typeof history.lastPly === "number") return history.lastPly;
+      if (Array.isArray(history.sans)) return history.sans.length;
+      return null;
+    };
     const inferSideToMove = () => {
       const fromClock = detectSideToMoveFromClock();
       if (fromClock) return fromClock;
       const fromHighlight = detectSideToMoveFromHighlight(board.el, modules);
       if (fromHighlight) return fromHighlight;
-      if (history.sans) {
-        return { turn: modules.history.sideToMoveFromPly(history.sans.length), source: "history-parity" };
+      const plies = playedPlies();
+      if (plies !== null) {
+        return {
+          turn: modules.history.sideToMoveFromPly(plies),
+          source: typeof history.lastPly === "number" ? "history-ply" : "history-parity",
+        };
       }
       return { turn: "w", source: "default" };
     };
@@ -378,9 +412,7 @@ function start() {
       } else {
         warnings.push(`side to move inferred from ${sideToMove.source}; castling/en-passant/move counters unknown`);
       }
-      const fullmove = history.sans
-        ? modules.history.fullmoveFromPly(history.sans.length)
-        : modules.history.fullmoveFromPly(0);
+      const fullmove = modules.history.fullmoveFromPly(playedPlies() ?? 0);
       return modules.history.buildFen({ board: positionField ?? "8/8/8/8/8/8/8/8", turn: sideToMove.turn, fullmove });
     };
 
@@ -455,7 +487,13 @@ function start() {
     // pipeline live (suggestions/premove/commentary work from the tracked FEN)
     // even when chess.com renders only a sliver of the move list (long games).
     if (!chosen && positionField) {
-      const trackedState = continueTracking(modules, positionField, position.fen ?? boardState.fen ?? null, sideToMove.turn);
+      const trackedState = continueTracking(
+        modules,
+        positionField,
+        position.fen ?? boardState.fen ?? null,
+        sideToMove.turn,
+        modules.history.fullmoveFromPly(playedPlies() ?? 0),
+      );
       if (trackedState) {
         const trackedTurn = modules.history.fenFields(trackedState.fen).turn;
         const seeded = trackedState.moves === 0;
@@ -465,6 +503,8 @@ function start() {
             ? { turn: trackedTurn, source: sideToMove.source }
             : { turn: trackedTurn, source: "board-tracking" };
         historyStatus = "tracked";
+        const staleSideWarning = warnings.findIndex((entry) => entry.startsWith("side to move inferred from"));
+        if (staleSideWarning >= 0) warnings.splice(staleSideWarning, 1);
         warnings.push(
           "move list unreliable here — tracking moves from the board (suggestions stay live; Maia history planes unavailable)",
         );
@@ -724,14 +764,16 @@ function start() {
           : [el.textContent ?? ""];
         const sans = modules.history.sanTokensFromNodeTexts(texts);
         if (nodes.length > 0 || sans.length > 0) {
-          candidates.push({ source: "move-list", sans, container: selector, nodeCount: nodes.length });
+          const plies = nodes.map(nodePly).filter((ply) => ply !== null);
+          const lastPly = plies.length > 0 ? Math.max(...plies) + 1 : null;
+          candidates.push({ source: "move-list", sans, container: selector, nodeCount: nodes.length, lastPly });
         }
       }
     }
     if (boardState.sanHistory) {
       const sans = modules.history.sanTokensFromNodeTexts(boardState.sanHistory);
       if (sans.length > 0) {
-        candidates.push({ source: "board-state", sans, container: null, nodeCount: sans.length });
+        candidates.push({ source: "board-state", sans, container: null, nodeCount: sans.length, lastPly: sans.length });
       }
     }
     if (candidates.length === 0) {
@@ -907,14 +949,14 @@ function start() {
    * castling-rights heuristic (counters are cosmetic; clients send this FEN
    * alone or replay tracked UCI on top of it).
    */
-  function seedTrackingFen(exactFen, positionField, modules, fallbackTurn = "w") {
+  function seedTrackingFen(exactFen, positionField, modules, fallbackTurn = "w", fallbackFullmove = "1") {
     if (exactFen) return exactFen;
     const turn = fallbackTurn === "b" ? "b" : "w";
     return modules.history.buildFen({
       board: positionField,
       turn,
       castling: modules.history.seedCastlingRights(positionField),
-      fullmove: "1",
+      fullmove: fallbackFullmove,
     });
   }
 
@@ -926,10 +968,10 @@ function start() {
    * en-passant surprises against a heuristic seed re-seed the tracker at the
    * observed position — the turn stays correct via the highlight ladder.
    */
-  function continueTracking(modules, positionField, exactFen, fallbackTurn = "w") {
+  function continueTracking(modules, positionField, exactFen, fallbackTurn = "w", fallbackFullmove = "1") {
     let tracking = runtime.tracking;
     if (!tracking?.fen) {
-      tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn), movesUci: [] };
+      tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn, fallbackFullmove), movesUci: [] };
     } else if (modules.history.fenBoardField(tracking.fen) !== positionField) {
       const matches = modules.history.findMovesToBoardField(tracking.fen, positionField);
       if (matches && matches.length === 1) {
@@ -941,10 +983,10 @@ function start() {
             tracking.movesUci.splice(0, tracking.movesUci.length - 400);
           }
         } else {
-          tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn), movesUci: [] };
+          tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn, fallbackFullmove), movesUci: [] };
         }
       } else {
-        tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn), movesUci: [] };
+        tracking = { fen: seedTrackingFen(exactFen, positionField, modules, fallbackTurn, fallbackFullmove), movesUci: [] };
       }
     }
     runtime.tracking = tracking;

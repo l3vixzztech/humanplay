@@ -1847,7 +1847,9 @@ function renderChesscomState(state, tabId) {
       if (mismatch.sanCount !== undefined) text += ` (move list had ${mismatch.sanCount} moves)`;
       if (mismatch.container) text += ` [list: ${mismatch.container}]`;
       els.ccMismatch.hidden = false;
-      els.ccMismatch.textContent = `${text}. Board kept as the source of truth; history dropped for this update.`;
+      els.ccMismatch.textContent = state.historyTracking?.active
+        ? `${text}. Move tracking from the board is active, so suggestions keep working.`
+        : `${text}. Board kept as the source of truth; history dropped for this update.`;
     } else {
       els.ccMismatch.hidden = true;
     }

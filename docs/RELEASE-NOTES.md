@@ -1,5 +1,19 @@
 # humanplay — Release Notes
 
+## v1.0.3 — 2026-10-17 — long games: automatic updates + true turn from the sliver list
+
+- **No more manual refreshing**: piece moves change element attributes (class/style) which the
+  observer previously ignored — in long games nothing triggered a re-read, so the panel went stale.
+  A board-scoped attribute observer now catches every move automatically.
+- **True ply count from the rendered move list**: chess.com's recent-move rows carry absolute
+  `data-node` indices, so even a 2-node sliver reveals the real side to move (`history-ply`) and the
+  correct fullmove number for the tracked FEN.
+- When tracking is active the mismatch banner says "move tracking from the board is active, so
+  suggestions keep working" instead of the alarm text, and the stale "inferred from parity" warning
+  is dropped.
+- Evidence: `adapter-unit` **32 tests**; `adapter-proof` **ALL PASSED** (new `sliver-turn` case; the
+  `board-tracking` case now proves attribute-only auto-refresh); acceptance re-run all passed.
+
 ## v1.0.2 — 2026-10-17 — long-game fix: board tracking + highlight turn
 
 - **Fixes the long-game lockout**: chess.com renders only a sliver of the move list in long games,

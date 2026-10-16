@@ -226,6 +226,28 @@ def reference_positions() -> list[dict]:
             "bottom_player": "humanplay-session-user",
             "moves_san": ("e4", "e5"),
         },
+        {
+            # M9.3: a LONG game — chess.com renders only the recent ROW of the
+            # move list (verified live: 2 nodes). The absolute `data-node` ply
+            # indices (9, 10) are what keeps the true side to move recoverable
+            # without clock or highlight ("history-ply"), and board tracking
+            # keeps the game exact afterwards.
+            "slug": "sliver-list",
+            "title": "chess.com fixture — sliver move list with absolute ply indices (M9.3)",
+            "board_id": "board-single",
+            "no_highlight": True,
+            "user_color": "white",
+            "flipped": False,
+            "top_color": "black",
+            "bottom_color": "white",
+            "top_player": "MaiaBot-2400",
+            "bottom_player": "humanplay-session-user",
+            "moves_san": (
+                "e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "O-O", "Nf6",
+                "d3", "d6", "Bg5",
+            ),
+            "sliver_rows": ((9, "d6"), (10, "Bg5")),
+        },
     ]
 
 
@@ -296,9 +318,10 @@ def move_list_markup(
     board_id: str,
     stray_moves: tuple[tuple[int, str], ...] = (),
     decoy_lists: tuple[tuple[str, ...], ...] = (),
+    sliver_rows: tuple[tuple[int, str], ...] = (),
     decoy: bool = False,
 ) -> str:
-    """The real 2026 move-list markup, plus two deliberate M9.1 traps:
+    """The real 2026 move-list markup, plus deliberate trap modes:
 
     * ``stray_moves`` — ``(after_index, san)`` pairs insert an EXTRA node whose
       token is SAN-shaped but illegal at replay time (a duplicated node). The
@@ -306,41 +329,61 @@ def move_list_markup(
     * ``decoy_lists`` — extra *complete* move lists rendered BEFORE the real
       one (a different but fully legal game). "First list wins" used to pick the
       decoy; reconciliation against the board must pick the real list.
+    * ``sliver_rows`` — render ONLY the given ``(absolute_ply_index, san)``
+      nodes (what chess.com does in long games: just the recent rows). The
+      absolute indices keep the true side to move recoverable (M9.3).
     """
     strays_by_index: dict[int, list[str]] = {}
     for after_index, san in stray_moves:
         strays_by_index.setdefault(int(after_index), []).append(san)
 
     rows = []
-    for ply in range(0, len(moves_san), 2):
-        whole_move = ply // 2 + 1
-        row_class = "light-row" if whole_move % 2 == 1 else "dark-row"
-        nodes = []
-        timestamps = []
-        for offset, player in ((0, "white-move"), (1, "black-move")):
-            index = ply + offset
-            if index >= len(moves_san):
-                continue
-            san = html.escape(moves_san[index])
-            nodes.append(
-                f'<div data-node="0-{index}" class="node {player} main-line-ply">'
-                f' <span class="node-highlight-content offset-for-annotation-icon">{san} </span></div>'
+    if sliver_rows:
+        grouped: dict[int, list[tuple[int, str]]] = {}
+        for index, san in sliver_rows:
+            grouped.setdefault(int(index) // 2 + 1, []).append((int(index), san))
+        for whole_move in sorted(grouped):
+            row_class = "light-row" if whole_move % 2 == 1 else "dark-row"
+            nodes = "".join(
+                f'<div data-node="0-{index}" class="node '
+                f'{"white-move" if index % 2 == 0 else "black-move"} main-line-ply">'
+                f' <span class="node-highlight-content offset-for-annotation-icon">{html.escape(san)} </span></div>'
+                for index, san in grouped[whole_move]
             )
-            for stray in strays_by_index.get(index, []):
+            rows.append(
+                f'<div class="main-line-row move-list-row {row_class}" data-whole-move-number="{whole_move}">'
+                f'{whole_move}.  {nodes}</div>'
+            )
+    else:
+        for ply in range(0, len(moves_san), 2):
+            whole_move = ply // 2 + 1
+            row_class = "light-row" if whole_move % 2 == 1 else "dark-row"
+            nodes = []
+            timestamps = []
+            for offset, player in ((0, "white-move"), (1, "black-move")):
+                index = ply + offset
+                if index >= len(moves_san):
+                    continue
+                san = html.escape(moves_san[index])
                 nodes.append(
                     f'<div data-node="0-{index}" class="node {player} main-line-ply">'
-                    f' <span class="node-highlight-content offset-for-annotation-icon">{html.escape(stray)} </span></div>'
+                    f' <span class="node-highlight-content offset-for-annotation-icon">{san} </span></div>'
                 )
-            stamp = TIMESTAMP_PATTERN[index % len(TIMESTAMP_PATTERN)]
-            time_class = "time-white" if offset == 0 else "time-black"
-            timestamps.append(
-                f'<div data-move-list-el="timestamp" data-ply="{index + 1}" '
-                f'class="{time_class}">{stamp}</div>'
+                for stray in strays_by_index.get(index, []):
+                    nodes.append(
+                        f'<div data-node="0-{index}" class="node {player} main-line-ply">'
+                        f' <span class="node-highlight-content offset-for-annotation-icon">{html.escape(stray)} </span></div>'
+                    )
+                stamp = TIMESTAMP_PATTERN[index % len(TIMESTAMP_PATTERN)]
+                time_class = "time-white" if offset == 0 else "time-black"
+                timestamps.append(
+                    f'<div data-move-list-el="timestamp" data-ply="{index + 1}" '
+                    f'class="{time_class}">{stamp}</div>'
+                )
+            rows.append(
+                f'<div class="main-line-row move-list-row {row_class}" data-whole-move-number="{whole_move}">'
+                f'{whole_move}.  {"  ".join(nodes)}  {"".join(timestamps)}</div>'
             )
-        rows.append(
-            f'<div class="main-line-row move-list-row {row_class}" data-whole-move-number="{whole_move}">'
-            f'{whole_move}.  {"  ".join(nodes)}  {"".join(timestamps)}</div>'
-        )
     body = "\n        ".join(rows)
     extra_class = " move-list-decoy" if decoy else ""
     markup = f"""      <wc-simple-move-list class="move-list{extra_class} chessboard-pkg-move-list-component" board-id="{board_id}">
@@ -515,12 +558,13 @@ def render_page(spec: dict, board: chess.Board, uci: list[str], last_move: chess
         top_player=player_strip("top", spec["top_color"], spec["top_player"]),
         bottom_player=player_strip("bottom", spec["bottom_color"], spec["bottom_player"]),
         legacy_board=LEGACY_BOARD_TRAP,
-        board=board_markup(board, spec["board_id"], spec["flipped"], last_move),
+        board=board_markup(board, spec["board_id"], spec["flipped"], None if spec.get("no_highlight") else last_move),
         move_list="" if spec.get("no_move_list") else move_list_markup(
             spec["moves_san"],
             spec["board_id"],
             stray_moves=spec.get("stray_moves_san", ()),
             decoy_lists=(spec["decoy_moves_san"],) if spec.get("decoy_moves_san") else (),
+            sliver_rows=spec.get("sliver_rows", ()),
         ),
         fen=board.fen(),
         moves=" ".join(uci),

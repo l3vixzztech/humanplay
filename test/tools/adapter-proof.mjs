@@ -504,7 +504,8 @@ async function main() {
           file.endsWith(".html") &&
           file !== "index.html" &&
           file !== "replay.html" &&
-          file !== "highlight-turn.html", // degraded-mode fixture: dedicated board-tracking case below
+          file !== "highlight-turn.html" && // degraded-mode fixture: dedicated board-tracking case below
+          file !== "sliver-list.html", // degraded-mode fixture: dedicated sliver-turn case below
       )
       .sort();
 
@@ -767,13 +768,11 @@ async function main() {
            knight.classList.add("square-63");
            knight.style.left = "62.5%";
            knight.style.top = "62.5%";
-           // The observer watches childList, not attributes: nudge it (and the
-           // panel Refresh) so the adapter re-reads the mutated board.
-           board.appendChild(document.createElement("div"));
+           // M9.3: no childList nudge and no panel Refresh — the board-attribute
+           // observer must pick the class/style mutation up on its own.
            return true;
          })()`,
       );
-      await evaluateInPanel('document.getElementById("cc-refresh")?.click(); true');
 
       const expectedFen = "rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 1";
       const after = await latestStateFor("/chesscom/highlight-turn.html", { minIndex: before, expectedFen });
@@ -803,6 +802,69 @@ async function main() {
       trackingCase.failures.push(String(error?.message ?? error));
     }
     if (!trackingCase.pass) for (const failure of trackingCase.failures) fail(failure, "board-tracking");
+
+    /* ------------------------------------------------ sliver list (M9.3) */
+
+    const sliverCase = { pass: true, failures: [], state: null, groundTruth: null };
+    summary.cases["sliver-turn"] = sliverCase;
+    try {
+      const url = `${origin}/chesscom/sliver-list.html`;
+      const before = await stateCount();
+      const { session } = await openPage(url);
+      await waitFor("sliver-list page load", () => evaluateInPage(session, 'document.readyState === "complete"'), {
+        timeoutMs: args.timeoutMs,
+      });
+      sliverCase.groundTruth = await evaluateInPage(
+        session,
+        `(() => {
+           const truth = document.getElementById("fen");
+           return { fen: truth.dataset.fen, boardField: truth.dataset.fen.split(" ")[0] };
+         })()`,
+      );
+      const expectedBoard = sliverCase.groundTruth.boardField;
+      const state = await waitFor(
+        "sliver-list state",
+        async () => {
+          const states = await evaluateInPanel("globalThis.__humanplayProof.states");
+          return (
+            states
+              .slice(before)
+              .filter((entry) => entry.senderUrl.includes("/chesscom/sliver-list.html"))
+              .map((entry) => entry.state)
+              .filter((entry) => entry?.ok && entry.fen?.startsWith(`${expectedBoard} b `))
+              .at(-1) ?? null
+          );
+        },
+        { timeoutMs: args.timeoutMs },
+      );
+      const stage = (condition, message) => {
+        if (!condition) sliverCase.failures.push(message);
+      };
+      const fields = String(state.fen).split(" ");
+      stage(state.turn === "b", `turn ${state.turn}`);
+      stage(state.sideToMoveSource === "history-ply", `sideToMoveSource ${state.sideToMoveSource}`);
+      stage(state.historyStatus === "tracked", `historyStatus ${state.historyStatus}`);
+      stage(fields[5] === "6", `fullmove ${fields[5]}`);
+      stage(state.mismatch?.kind === "history-unreliable", `mismatch ${JSON.stringify(state.mismatch ?? null)}`);
+      stage(state.historyTracking?.active === true, `historyTracking ${JSON.stringify(state.historyTracking ?? null)}`);
+      sliverCase.state = {
+        fen: state.fen,
+        turn: state.turn,
+        sideToMoveSource: state.sideToMoveSource,
+        historyStatus: state.historyStatus,
+        mismatchKind: state.mismatch?.kind ?? null,
+      };
+      sliverCase.pass = sliverCase.failures.length === 0;
+      console.log(
+        sliverCase.pass
+          ? `PASS sliver-turn: ${sliverCase.state.fen} (${sliverCase.state.sideToMoveSource}, ${sliverCase.state.historyStatus})`
+          : `FAIL sliver-turn: ${sliverCase.failures.join("; ")}`,
+      );
+    } catch (error) {
+      sliverCase.pass = false;
+      sliverCase.failures.push(String(error?.message ?? error));
+    }
+    if (!sliverCase.pass) for (const failure of sliverCase.failures) fail(failure, "sliver-turn");
 
     /* ------------------------------------------------ snapshot recorder */
 

@@ -1,6 +1,6 @@
 {
   "slug": "gameover-checkmate",
-  "url": "http://127.0.0.1:46185/chesscom/gameover-checkmate.html",
+  "url": "http://127.0.0.1:40293/chesscom/gameover-checkmate.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -24,9 +24,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:46185/chesscom/gameover-checkmate.html",
+    "gameUrl": "http://127.0.0.1:40293/chesscom/gameover-checkmate.html",
     "gameId": null,
-    "ts": "2026-10-16T22:13:45.026Z",
+    "ts": "2026-10-16T22:20:11.038Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,

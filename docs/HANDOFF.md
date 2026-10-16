@@ -2,6 +2,31 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Hotfix v1.0.3 — M9.3: auto-refresh on attribute changes + absolute-ply turn (long games) 🚑
+
+**Reported live (after v1.0.2):** the panel only updated after pressing **Refresh state**, and a
+sliver list (2 nodes) still produced `side to move inferred from history-parity` with the
+disagreement banner. Two root causes, both fixed and regression-trapped:
+
+1. **The observer missed real moves.** Piece moves mutate CLASS/STYLE attributes; the page-level
+   observer only watched childList/characterData. In normal games the move-list repaint masked this —
+   in long games the list does not repaint, so nothing triggered a re-read (hence the manual
+   Refreshes). Fix: a second, board-scoped MutationObserver with
+   `attributes: true, attributeFilter: ["class","style"]`, re-attached whenever the board element
+   changes.
+2. **Parity used the sliver's token count.** The rendered rows carry ABSOLUTE `data-node` indices
+   (`0-9`, `0-10`…), so the true ply count is `max(index)+1` even for two rendered nodes.
+   `readHistoryCandidates` records `lastPly` per candidate; the degraded ladder uses it
+   (`side to move inferred from history-ply`) and the tracking seed gets the correct fullmove. The
+   stale "inferred from …" warning is dropped once tracking takes over, and the banner now says
+   "Move tracking from the board is active, so suggestions keep working" when tracked.
+
+**Verified:** adapter-unit **32/32**; adapter-proof **ALL PASSED** — the `board-tracking` case now
+relies on the attribute observer alone (no DOM nudge, no Refresh click), and the new `sliver-turn`
+case (fixture `sliver-list`: 2 nodes with absolute indices, no highlight, no active clock) asserts
+turn `b`, `history-ply`, fullmove 6, `tracked`; acceptance `--real` against the live server
+**ALL PASSED**. **Extension reload required; server unchanged.**
+
 ## Hotfix v1.0.2 — M9.2: board-diff move tracking + highlight turn (long-game lockout) 🚑
 
 **Reported live (after v1.0.1):** in a long bot game the card showed `0 moves · dropped`, a

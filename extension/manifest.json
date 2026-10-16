@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "humanplay",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Human-like chess move assistant for chess.com: reads the game state from the DOM, asks a local Maia-3 helper server, draws the suggested move on the board, speaks it (just the move), plans one safe premove and explains every move it sees (optional LLM rephrasing).",
   "minimum_chrome_version": "116",
   "icons": {

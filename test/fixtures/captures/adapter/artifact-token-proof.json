@@ -1,6 +1,6 @@
 {
   "slug": "artifact-token",
-  "url": "http://127.0.0.1:46185/chesscom/artifact-token.html",
+  "url": "http://127.0.0.1:40293/chesscom/artifact-token.html",
   "pass": true,
   "failures": [],
   "state": {
@@ -31,9 +31,9 @@
       "h": 560
     },
     "devicePixelRatio": 1,
-    "gameUrl": "http://127.0.0.1:46185/chesscom/artifact-token.html",
+    "gameUrl": "http://127.0.0.1:40293/chesscom/artifact-token.html",
     "gameId": null,
-    "ts": "2026-10-16T22:13:42.152Z",
+    "ts": "2026-10-16T22:20:08.935Z",
     "boardId": "board-single",
     "boardTag": "wc-chess-board",
     "boardInViewport": true,
