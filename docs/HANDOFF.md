@@ -2,6 +2,19 @@
 
 > Update at the end of every session. Keep under one page. Newest entry on top.
 
+## Post-release audit — 2026-10-17 (reviewing session, outside the session loop)
+
+- Full regression rerun on `a8460bf` (+ the README screenshot commit): **package-verify,
+  capture-proof, adapter-proof, analyze-proof, tts-proof, premove-proof, commentary-proof,
+  acceptance stub + acceptance real (+real-page) all PASSED**; pytest **106** + **100** unit
+  tests green; zip sha256 `5d3f7c6c…` re-verified by loading the unzipped package in Chrome.
+- `overlay-proof.mjs` flaked ONCE inside the long sequential batch (`overlay-startpos`: SW routed
+  to tab `undefined` — tab-id race under load) and **PASSED 9/9 when rerun standalone** →
+  harness flake, not a product regression. If it flakes again, rerun it standalone before
+  investigating the adapter/SW.
+- Release: v1.0.0 published on GitHub with `dist/humanplay-1.0.0.zip` attached; repo pushed
+  (private) at github.com/l3vixzztech/humanplay.
+
 ## Session 9 — Milestone 9: robustness, docs, packaging, v1.0.0 ✅ (final milestone of the initial scope)
 
 **What works**
