@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+"""Regenerate the offline fixture pages in test/fixtures/pages/.
+
+Each page renders a known position from a FEN with python-chess' SVG board
+renderer, embedded directly in the HTML: no network, no CDN, no external files.
+Every page also exposes its ground truth in a hidden element:
+
+    <div id="fen" data-fen="..." data-moves="..." data-name="..." hidden></div>
+
+Ground truth is for TESTS ONLY (assertions in M3+ harnesses). The runtime
+pipeline is pixel-based and must never read the DOM of a real site
+(docs/PROJECT.md, locked decisions).
+
+The pages are intentionally deterministic (fixed page background, fixed board
+size, no animations) so headless screenshots are stable across runs.
+
+Run (python-chess comes from the server venv):
+
+    server/.venv/bin/python test/fixtures/generate.py
+    server/.venv/bin/python test/fixtures/generate.py --size 512
+
+Then optionally rasterize them (see render_pages.sh / README.md):
+
+    test/fixtures/render_pages.sh /path/to/chrome
+"""
+
+from __future__ import annotations
+
+import argparse
+import html
+import sys
+from pathlib import Path
+
+try:
+    import chess
+    import chess.svg
+except ImportError:  # pragma: no cover - guidance, not logic
+    sys.exit(
+        "python-chess is required: run with the server venv, e.g.\n"
+        "    server/.venv/bin/python test/fixtures/generate.py"
+    )
+
+FIXTURES_DIR = Path(__file__).resolve().parent
+DEFAULT_OUT = FIXTURES_DIR / "pages"
+DEFAULT_SIZE = 480
+
+# FENs mirror server/tests/positions.py so fixtures and model tests describe the
+# same positions. Keep in sync if either side changes.
+POSITIONS = (
+    {
+        "slug": "startpos",
+        "title": "Start position",
+        "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+        "moves": None,
+        "note": "Standard initial position, White to move.",
+    },
+    {
+        "slug": "middlegame",
+        "title": "Middlegame (Najdorf)",
+        "fen": "rnbqkb1r/1p2pppp/p2p1n2/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+        "moves": ["e2e4", "c7c5", "g1f3", "d7d6", "d2d4", "c5d4", "f3d4", "g8f6", "b1c3", "a7a6"],
+        "note": "Sicilian Najdorf after 5...a6, White to move. Busy position: 32 pieces, many legal moves.",
+    },
+    {
+        "slug": "castling-black-to-move",
+        "title": "Black to move — castling rights",
+        "fen": "r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R b KQkq - 0 1",
+        "moves": None,
+        "note": "Both sides can castle either way; Black to move. Same FEN as the 'black castling' golden case.",
+    },
+    {
+        "slug": "promotion",
+        "title": "Pawn promotion",
+        "fen": "6k1/1P6/8/8/8/8/8/6K1 w - - 0 1",
+        "moves": None,
+        "note": "White pawn on b7 can promote on b8 (Q/R/B/N); White to move.",
+    },
+)
+
+PAGE_TEMPLATE = """<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="humanplay-fixture" content="{slug}" />
+    <title>humanplay fixture — {title}</title>
+    <style>
+      /* Deliberately fixed colors (no prefers-color-scheme) so screenshots are
+         deterministic. Page background differs from both board square colors. */
+      html, body {{ margin: 0; padding: 0; background: #cbd2dc; }}
+      body {{
+        font-family: sans-serif;
+        color: #1b1f27;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 16px 40px;
+      }}
+      h1 {{ font-size: 20px; margin: 0 0 4px; }}
+      .note {{ font-size: 13px; color: #4a5261; margin: 0 0 18px; max-width: 40em; text-align: center; }}
+      .board {{
+        background: #ffffff;
+        padding: 12px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(20, 24, 32, 0.25);
+      }}
+      .board svg {{ display: block; width: {size}px; height: {size}px; }}
+      .fen-label {{ font-size: 11px; color: #4a5261; margin: 16px 0 0; }}
+      code {{ font-size: 11px; overflow-wrap: anywhere; }}
+    </style>
+  </head>
+  <body>
+    <h1>{title}</h1>
+    <p class="note">{note}</p>
+
+    <div class="board">
+{svg}
+    </div>
+
+    <p class="fen-label">{fen}</p>
+
+    <!-- Test ground truth only: never read by the runtime pipeline. -->
+    <div
+      id="fen"
+      data-fen="{fen}"
+      data-moves="{moves}"
+      data-name="{slug}"
+      hidden
+    ></div>
+  </body>
+</html>
+"""
+
+INDEX_TEMPLATE = """<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="humanplay-fixture" content="index" />
+    <title>humanplay offline fixtures</title>
+    <style>
+      body {{ font-family: sans-serif; margin: 24px; background: #f6f7f9; color: #1b1f27; }}
+      li {{ margin: 6px 0; }}
+      code {{ background: #e6e9ee; padding: 1px 4px; border-radius: 4px; font-size: 12px; }}
+    </style>
+  </head>
+  <body>
+    <h1>humanplay offline fixtures</h1>
+    <p>
+      Generated by <code>test/fixtures/generate.py</code> — self-contained, no network.
+      Ground-truth FENs live in a hidden <code>#fen</code> element on each page (tests only).
+    </p>
+    <ul>
+{items}
+    </ul>
+  </body>
+</html>
+"""
+
+
+def render_page(position: dict, size: int) -> str:
+    board = chess.Board(position["fen"])
+    svg = chess.svg.board(board, size=size, coordinates=True)
+    assert "url(" not in svg and 'href="http' not in svg, "SVG is not self-contained"
+    indented_svg = "\n".join(f"      {line}" for line in svg.splitlines())
+    return PAGE_TEMPLATE.format(
+        slug=position["slug"],
+        title=html.escape(position["title"]),
+        note=html.escape(position["note"]),
+        fen=position["fen"],
+        moves=" ".join(position["moves"] or []),
+        size=size,
+        svg=indented_svg,
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help=f"output dir (default {DEFAULT_OUT})")
+    parser.add_argument("--size", type=int, default=DEFAULT_SIZE, help=f"board size in px (default {DEFAULT_SIZE})")
+    args = parser.parse_args()
+
+    args.out.mkdir(parents=True, exist_ok=True)
+    items = []
+    for position in POSITIONS:
+        target = args.out / f"{position['slug']}.html"
+        target.write_text(render_page(position, args.size), encoding="utf-8")
+        print(f"wrote {target} ({target.stat().st_size} bytes)")
+        items.append(
+            f'      <li><a href="{position["slug"]}.html">{html.escape(position["title"])}</a>'
+            f' — <code>{position["fen"]}</code></li>'
+        )
+
+    index = args.out / "index.html"
+    index.write_text(INDEX_TEMPLATE.format(items="\n".join(items)), encoding="utf-8")
+    print(f"wrote {index} ({index.stat().st_size} bytes)")
+
+
+if __name__ == "__main__":
+    main()

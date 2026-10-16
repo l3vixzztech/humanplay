@@ -38,6 +38,12 @@ engine — the point is to play like (and be predicted by) a strong human.
 - **Server**: FastAPI on `127.0.0.1:8765`; the extension talks to it over HTTP.
 - **Default Elo**: self 2400, opponent 2400 ("strong human" preset), adjustable
   0–5000 (Maia-3's Elo range).
+- **Capture permission**: `chrome.tabs.captureVisibleTab` needs the `activeTab`
+  grant (user clicks the toolbar icon on the tab) **or** `<all_urls>`; a narrow
+  host permission is not enough (Chromium `CanCaptureVisiblePage`,
+  `kActiveTabOrAllUrls`). The extension therefore stays on `activeTab` and asks
+  for no broad host permissions — only `http://127.0.0.1:8765/*` for `/health`
+  and `/analyze`.
 - **UI** (later milestones): arrow overlay on the board + side panel with top-3
   moves and their probabilities; TTS via `chrome.tts` (Piper-ready interface)
   announcing "just the move".
@@ -50,7 +56,7 @@ engine — the point is to play like (and be predicted by) a strong human.
 | # | Milestone | Content | Status |
 |---|-----------|---------|--------|
 | 1 | Scaffold + Maia-3 helper server | repo scaffold, docs, venv, `maia_engine.predict`, FastAPI `/analyze` + `/health`, tests incl. `maia3-uci` golden check | ✅ done |
-| 2 | Extension skeleton + tab capture + offline fixtures | MV3 manifest, capture-source interface, browser-tab capture, record fixtures into `test/` | ⬜ |
+| 2 | Extension skeleton + tab capture + offline fixtures | MV3 manifest, capture-source interface (locked), browser-tab capture, side panel (toggle/capture/recorder/chip), offline fixture pages + captured PNG evidence | ✅ done |
 | 3 | Board locator | find the 8×8 board in the screenshot, site-agnostic | ⬜ |
 | 4 | Piece classifier → FEN | pixels → piece placement → FEN | ⬜ |
 | 5 | Game tracker | legal-move matching, FEN + move history, orientation, side-to-move | ⬜ |
@@ -63,9 +69,9 @@ engine — the point is to play like (and be predicted by) a strong human.
 
 ```
 server/     FastAPI helper + Maia-3 engine wrapper + tests  (this repo's engine lives here)
-extension/  Chrome MV3 extension (placeholder; Milestone 2+)
+extension/  Chrome MV3 extension (M2+: capture source, service worker, side panel)
 docs/       PROJECT.md (this file), HANDOFF.md (state log)
-test/       offline fixtures shared across milestones (placeholder)
+test/       offline fixtures (test/fixtures/) + dev/test tools (test/tools/)
 ```
 
 ## Key interfaces

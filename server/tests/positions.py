@@ -61,4 +61,17 @@ GOLDEN_CASES = (
     {"name": "endgame", "fen": ENDGAME, "moves": None},
     {"name": "middlegame", "fen": MIDDLEGAME, "moves": None},
     {"name": "history: startpos + e2e4 e7e5", "fen": None, "moves": ["e2e4", "e7e5"]},
+    # Black-to-move coverage (M2). Externally verified to match maia3-uci
+    # (c7c5 / a7a6 / e8c8); the golden test re-checks top-1 + top-3 ordering.
+    {"name": "black-to-move after 1.e4", "fen": None, "moves": ["e2e4"]},
+    {
+        "name": "black-to-move Ruy Lopez",
+        "fen": None,
+        "moves": ["e2e4", "e7e5", "g1f3", "b8c6", "f1b5"],
+    },
+    {
+        "name": "black castling",
+        "fen": "r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R b KQkq - 0 1",
+        "moves": None,
+    },
 )

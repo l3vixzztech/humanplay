@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>humanplay</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="app-title">
+        <h1>humanplay</h1>
+        <span class="version">M2</span>
+      </div>
+      <p class="tagline">human-like move assistant · local Maia-3</p>
+    </header>
+
+    <main>
+      <section class="card">
+        <label class="toggle" for="assistant-toggle">
+          <input type="checkbox" id="assistant-toggle" />
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="toggle-label">Assistant <strong id="toggle-state">off</strong></span>
+        </label>
+        <p class="hint" id="toggle-hint">
+          Stored in <code>chrome.storage.local</code>. The continuous capture loop
+          arrives in M9; until then captures are manual.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="row">
+          <button id="capture-button" class="primary" type="button">Capture now</button>
+          <button id="record-button" type="button" disabled>Record fixture (PNG)</button>
+        </div>
+        <p class="hint">
+          Captures the visible tab through the capture-source abstraction and
+          downloads it for the fixture corpus (<code>test/fixtures/</code>).
+        </p>
+        <div id="frame-meta" class="meta" hidden></div>
+        <figure id="frame-preview-wrap" class="preview" hidden>
+          <img id="frame-preview" alt="Last captured frame" />
+        </figure>
+      </section>
+
+      <section class="card">
+        <div class="row chip-row">
+          <span id="server-chip" class="chip chip-checking">checking…</span>
+          <button id="refresh-health" type="button">Refresh</button>
+        </div>
+        <p class="hint">
+          Local helper server <code>http://127.0.0.1:8765</code> —
+          <code>cd server &amp;&amp; .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8765</code>
+        </p>
+      </section>
+
+      <p id="error" class="error" role="alert" hidden></p>
+    </main>
+
+    <script type="module" src="sidepanel.js"></script>
+  </body>
+</html>
